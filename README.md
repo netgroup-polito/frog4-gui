@@ -1,2 +1,2 @@
-# Forwording Graph GUI
+# Forwarding Graph GUI
 
