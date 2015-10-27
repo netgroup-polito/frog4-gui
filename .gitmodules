@@ -1,0 +1,6 @@
+[submodule "vnf-template-library"]
+	path = vnf_template_library
+	url = https://github.com/netgroup-polito/vnf-template-library.git
+[submodule "nffg-library"]
+	path = nffg_library
+	url = https://github.com/netgroup-polito/nffg-library.git
