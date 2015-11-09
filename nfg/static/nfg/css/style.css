@@ -1,0 +1,158 @@
+.navbar-static-top {
+  margin-bottom:20px;
+  padding-top: 5px;
+  padding-left: 5px;
+  padding-bottom: 5px;
+}
+
+i {
+  font-size:16px;
+}
+
+
+
+body{
+  background: #FFF url("../img/frog-background.jpg") no-repeat scroll center center / cover;
+}
+
+hr{
+ border: 0;
+  height: 3px;
+  color: #80A926;
+  background-color: #80A926;
+}
+
+.col-sm-3{
+  background-color: rgba(255, 255, 255, 0.65);
+  
+}
+
+.navbar-collapse{
+  background-color: #80A926;
+  
+
+}
+.navbar-inverse{
+  background-color: #80A926;
+  border-color: #80A926;
+}
+
+.navbar-inverse .navbar-nav > li > a{
+  color: #FFF;
+}
+.navbar-inverse .navbar-nav > .open > a, .navbar-inverse .navbar-nav > .open > 
+a:focus, .navbar-inverse .navbar-nav > .open > a:hover {
+    color: #FFF;
+    background-color: rgba(140, 185, 44, 0.87);
+}
+
+.navbar-brand{
+  font-family: Arial,Helvetica,sans-serif;
+  font-size: 25px;
+ 
+}
+
+.navbar-inverse .navbar-brand{
+  color: #FFF;
+}
+
+.panel-default{
+  border-color: #337AB7;
+}
+
+.panel-default > .panel-heading{
+  background-color: #337AB7;
+  border-color: #337AB7;
+  color: #FFF;
+  
+}
+
+.panel{
+  margin-top: 20px;
+  margin-bottom: 30px;
+  
+}
+
+.nav > li > a:focus, .nav > li > a:hover {
+    text-decoration: none;
+    background-color: rgba(51, 122, 183, 0.64);
+}
+
+
+.nav > li > a {
+  color:#414141;
+}
+
+
+
+.internal_box{
+  
+  border-radius: 6px;
+  padding-right: 60px;
+  padding-left: 60px;
+  
+  color: inherit;
+  background-color: #C4C3C3;
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-size: 14px;
+  line-height: 1.42857;
+}
+
+.external_box{
+  border: 2px solid #80A926;
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
+  padding: 8px;
+  margin-top: 0px;
+  margin-bottom: 30px;
+  color: inherit;
+  background-color: #FFF;
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-size: 14px;
+  line-height: 1.42857;
+}
+
+
+.my_canvas{
+  border: 2px solid #80A926;
+  border-radius: 6px;
+  background: #FFF;
+}
+
+
+
+  
+footer {
+  
+
+  position: absolute;
+  bottom: 0;
+  margin-top: 20px;
+  padding-top:20px;
+  padding-bottom:20px;
+  width: 100%;  
+  height: 60px;
+  background-color: #C0C0C0;
+
+}
+
+/* count indicator near icons */
+.nav>li .count {
+  position: absolute;
+  bottom: 12px;
+  right: 6px;
+  font-size: 9px;
+  background: rgba(51,200,51,0.55);
+  color: rgba(255,255,255,0.9);
+  line-height: 1em;
+  padding: 2px 4px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+  border-radius: 10px;
+}
+
+.title_menu{
+  color: #337AB7;
+}

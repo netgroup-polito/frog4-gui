@@ -1,0 +1,206 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+		<meta charset="utf-8">
+        <style>
+
+    .nf{
+        fill: #80A926;
+        stroke: #000;
+        stroke-width: 2px;
+    }
+
+    .nf-select{
+        fill: #ED571C;
+        stroke: #000;
+        stroke-width: 2px;
+
+    }
+
+    .interface{
+        fill: #337AB7;
+        stroke: #000;       
+    }
+
+    .end-points{
+        fill:#013E72;
+        stroke: #000;
+        stroke-width: 2px;
+    }
+    
+    .end-points-select{
+        fill: #ED571C;
+        stroke: #000;
+        stroke-width: 2px;
+    }
+
+
+    </style>
+		<title>NF-FG</title>
+        <link rel="icon" href="{% static "/img/logo_poli.ico" %}" />
+		<meta name="generator" content="Bootply" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
+		<!--[if lt IE 9]>
+			<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+		<![endif]-->
+        
+		<link href="{% static "nfg/css/style.css" %}" rel="stylesheet">
+        <script type="text/javascript" src="{% static "nfg/js/scripts.js" %}"></script>
+        <script type="text/javascript" src="{% static "nfg/js/forwarding_graph2.js" %}"></script>
+        <!--<script type="text/javascript" src="{% static "nfg/js/script_d3.js" %}"></script>-->
+        
+	</head>
+	<body>
+<!-- header -->
+<div id="top-nav" class="navbar navbar-inverse navbar-static-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">NF-FG</a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a class="dropdown-toggle" role="button" data-toggle="dropdown" href="#"><i class="glyphicon glyphicon-user"></i> Admin <span class="caret"></span></a>
+                    <ul id="g-account-menu" class="dropdown-menu" role="menu">
+                        <li><a href="#">Welcome {{ username }}</a></li>
+                    </ul>
+                </li>
+                <li><a href="../nfg/logout/"><i class="glyphicon glyphicon-lock"></i> Logout</a></li>
+            </ul>
+        </div>
+    </div>
+    <!-- /container -->
+</div>
+<!-- /Header -->
+
+<!-- Main -->
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-3">
+            <!-- Left column -->
+            <br>
+            <a href="#"><strong><i class="glyphicon glyphicon-wrench"></i> Settings</strong></a>
+
+            <hr>
+
+            <ul class="nav nav-stacked">
+                <li class="nav-header"> <a href="#" data-toggle="collapse" data-target="#userMenu">Settings <i class="glyphicon glyphicon-chevron-right"></i></a>
+                    <ul class="nav nav-stacked collapse " id="userMenu">
+                        <li class="active"> <a href="#"><i class="glyphicon glyphicon-home"></i> Home</a></li>
+                        
+                        <li><a href="#" onclick="showMenuDrow();"><i class="glyphicon glyphicon-cog"></i> DrawBar</a></li>
+                        <li><a href="#"><i class="glyphicon glyphicon-comment"></i> Shoutbox</a></li>
+                        <li><a href="#"><i class="glyphicon glyphicon-user"></i> Staff List</a></li>
+                        <li><a href="#"><i class="glyphicon glyphicon-flag"></i> Transactions</a></li>
+                        <li><a href="#"><i class="glyphicon glyphicon-exclamation-sign"></i> Rules</a></li>
+                        <li><a href="#"><i class="glyphicon glyphicon-off"></i> Logout</a></li>
+                         <hr>                            
+                    </ul>
+                </li>
+
+                <li class="nav-header"> <a href="#" data-toggle="collapse" data-target="#menu-model">Model <i class="glyphicon glyphicon-chevron-right"></i></a>
+                    <ul class="nav nav-stacked collapse" id="menu-model">
+                        <li class="active"> <a href="#"><i class="glyphicon glyphicon-cog"></i> NF-FG network</a></li>
+                        
+                        <li><a href="#"><i class="glyphicon glyphicon-cog"></i> OpenFlow network</a></li>
+                        
+                         <hr>                            
+                    </ul>
+                </li>
+
+                <li class="nav-header"> <a href="#" data-toggle="collapse" data-target="#menu2"> Topologies-FG <i class="glyphicon glyphicon-chevron-right"></i></a>
+
+                    <ul class="nav nav-stacked collapse" id="menu2">
+                        <li class="active"> <a href="#"><i class="glyphicon glyphicon-cog"></i> auth_lip6</a></li>
+                        <li class="active"> <a href="#"><i class="glyphicon glyphicon-cog"></i> sics</a></li>
+                        <li class="active"> <a href="#"><i class="glyphicon glyphicon-cog"></i> monitoring</a></li>
+                        <li class="active"> <a href="#"><i class="glyphicon glyphicon-cog"></i> authentication</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <hr>
+
+            
+        </div>
+        <!-- /col-3 -->
+        <div class="col-sm-9">
+            <div class="row">
+                <div class="col-md-12" >
+                   <div class="external_box">
+                        <div class="internal_box">
+                            <br>
+                            <br>
+                            <br>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12" >
+                    <div class="my_canvas"> </div>
+                </div>
+
+            </div>
+            
+        </div>
+        <!--/col-span-9-->
+    </div>
+</div>
+<!-- /Main -->
+
+<div class="modal" id="addWidgetModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">Add Widget</h4>
+            </div>
+            <div class="modal-body">
+                <p>Add a widget stuff here..</p>
+            </div>
+            <div class="modal-footer">
+                <a href="#" data-dismiss="modal" class="btn">Close</a>
+                <a href="#" class="btn btn-primary">Save changes</a>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dalog -->
+</div>
+<!-- /.modal -->
+	<!-- script references -->
+        
+		
+
+        <script>
+            $(document).ready(function(){
+                //console.log("ciao");
+                $(".external_box").hide();
+                ajaxGetData();
+
+            });
+
+            function showMenuDrow(){
+                $('.external_box').slideToggle("slow");
+                
+            }
+        </script>
+
+
+	</body>
+
+</html>
+        
+
+
+
+

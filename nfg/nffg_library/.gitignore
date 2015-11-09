@@ -1,0 +1,10 @@
+*.pyc
+*.log
+*.conf
+*.project
+*.pydevproject
+*.DS_Store
+.DS_Store
+libreria.db
+
+Orchestrator/.metadata/
