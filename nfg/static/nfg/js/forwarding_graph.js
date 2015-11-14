@@ -207,6 +207,11 @@ function drawVNFInfo(vnf,id){
 	
 }
 
+<<<<<<< HEAD
+
+
+=======
+>>>>>>> cae28063ecd684fd78f87e5c458ee7fefdf44112
 function getVNFInfoById(fg,id){
 	var vnf;
 	fg["forwarding-graph"]["VNFs"].forEach(function(e){
@@ -225,6 +230,19 @@ function getEndPointInfoById(fg,id){
 	return endpoint;
 }
 
+<<<<<<< HEAD
+function getFlowRulesInfoById(fg,id){
+  var flowrule;
+  fg["forwarding-graph"]["flow-rules"].forEach(function(e){
+    if(e.id == id){ flowrule=e; }
+  });  
+  return flowrule;
+}
+
+
+
+=======
+>>>>>>> cae28063ecd684fd78f87e5c458ee7fefdf44112
 
 function ajaxGetData(){
 	//var p_id = $('#forwarding_graph_selector').val();
