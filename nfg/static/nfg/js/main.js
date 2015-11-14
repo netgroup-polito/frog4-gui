@@ -76,22 +76,8 @@ function DrawForwardingGraph(fg){
 
 
     drawNF();
-    
-
-
-
-        
-
     drawEP();
-    drawBIGSWITCH();
-
-        
-
-        
-    
-        
-
-       
+    drawBIGSWITCH();        
     drawLINE();
 
         
@@ -490,9 +476,7 @@ function drawLINE(){
            //aggiungo l'info da chi parte a chi arriva
                 .attr("start",function(d){return d.match.port_in;})
                 .attr("end",function(d){return d.action[0].output;})
-                .attr("fullduplex",function(d){return d.full_duplex;});
-                
-}
+                .attr("fullduplex",function(d){return d.full_duplex;});}
 
 /* Oggetti */
 
@@ -561,8 +545,7 @@ function setInitialNFPositions(NFS_nodes){
         NFS_nodes[i].x=parseInt(300*Math.cos(alfa*(i))+svg_width/2-NF_width/2-NF_offset_x/2);
         NFS_nodes[i].y=parseInt(300*Math.sin(alfa*(i))+svg_height/2-NF_height/2-NF_offset_y/2);
         
-    }
-}
+    }}
 function setInitialEPPositions(EPS_nodes){
     var n=EPS_nodes.length;
     var alfa=2*Math.PI/2;
@@ -570,9 +553,7 @@ function setInitialEPPositions(EPS_nodes){
         EPS_nodes[i].x=parseInt(200*Math.cos(alfa*(i)+Math.PI/2)+svg_width/2);
         EPS_nodes[i].y=parseInt(200*Math.sin(alfa*(i)+Math.PI/2)+svg_height/2);
         
-    }
-
-}    
+    }}    
 function getLinkEndPositionById(id,svg){
         //dato un id, devo ricavarmi la posizione di tale interfaccia
         console.log(id);
@@ -582,7 +563,8 @@ function getLinkEndPositionById(id,svg){
 
         if(data[0]==="vnf"){
             var id_mod=id.replace(/:/g,"\\:");
-            //console.log("id_mod: "+id_mod);
+            console.log("id_mod: "+id_mod);
+            console.log("qui");
             var NF_interface=svg.select("#"+id_mod);
             var x=parseInt(NF_interface.attr("cx"))+parseInt(NF_interface.attr("parent_NF_position_x"));
             var y=parseInt(NF_interface.attr("cy"))+parseInt(NF_interface.attr("parent_NF_position_y"));
@@ -600,7 +582,6 @@ function getLinkEndPositionById(id,svg){
 
                 return {x:x,y:y};
             }
-        }
-}
+        }}
 
 

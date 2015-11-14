@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 var svg_width = 960,svg_height = 500, NF_width=120,NF_height=50,NF_offset_x=10,NF_offset_y=10,
     r_interface=8,r_endpoint=15,BIG_SWITCH_width=200,BIG_SWITCH_height=130;
 
@@ -7,34 +7,29 @@ function Draw(fg){
     
 
     var svg = d3.select(".my_canvas").append("svg:svg")
-=======
+
 function Draw(fg){
 //definizione delle costanti:
     var svg_width = 960,svg_height = 500, NF_width=120,NF_height=50,NF_offset_x=10,NF_offset_y=10,
     r_interface=8,r_endpoint=15;
 
     var svg = d3.select(".my_canvas").append("svg")
->>>>>>> cae28063ecd684fd78f87e5c458ee7fefdf44112
             .attr("width", svg_width)
             .attr("height", svg_height);
     //per debug creo un contorno attorno al mio svg così vedo il posizionamento del canvas
 
-<<<<<<< HEAD
-    
-=======
     svg.append("rect")
             .attr("x","0")
             .attr("y","0")
             .attr("width",svg_width)
             .attr("height",svg_height)
             .attr("stroke","black").style("fill","none");
->>>>>>> cae28063ecd684fd78f87e5c458ee7fefdf44112
 
     //drag and drop dell'intero NF
     var drag_NF = d3.behavior.drag()
             .on("drag",function(d) {
                 //al drag riporto il centro dell'oggetto NF alle coordinate del mouse (trovate con d3.event.x/.y)
-<<<<<<< HEAD
+
                var x=parseInt(d3.event.x)-NF_width/2-NF_offset_x,y=parseInt(d3.event.y)-NF_height/2-NF_offset_y;
             d3.select(this).attr("transform","translate("+x+","+y+")")
                 .attr("x",x+NF_offset_x).attr("y",y+NF_offset_y);
@@ -61,11 +56,10 @@ function Draw(fg){
                 //console.log(d3.selectAll("[end="+pos+"]").attr("x1"));
                 //var line
             });
-=======
+
                 var x=parseInt(d3.event.x)-NF_width/2-NF_offset_x,y=parseInt(d3.event.y)-NF_height/2-NF_offset_y;
                 d3.select(this).attr("transform","translate("+x+","+y+")")
                         .attr("x",x+NF_offset_x).attr("y",y+NF_offset_y);
->>>>>>> cae28063ecd684fd78f87e5c458ee7fefdf44112
 
             })
             .on("dragstart",function(d){
@@ -84,7 +78,7 @@ function Draw(fg){
     var drag_inteface = d3.behavior.drag()
             .on("drag",function(d){
                 var x=d3.event.x,y=d3.event.y;
-<<<<<<< HEAD
+
                 var interface = d3.select(this);
                 var pos=interface.attr("id").replace(/:/g,"\\:");
                 var link1=svg.selectAll("[start="+pos+"]");
@@ -176,14 +170,14 @@ function Draw(fg){
 //                        d3.select(this).attr("cx",d3.event.x);
                     if(d3.event.x<NF_offset_x){ d3.select(this).attr("cx",NF_offset_x);}
                     else if(d3.event.x>NF_width+NF_offset_x){ d3.select(this).attr("cx",NF_width+NF_offset_x);}
->>>>>>> cae28063ecd684fd78f87e5c458ee7fefdf44112
+
                     else d3.select(this).attr("cx",d3.event.x);
                 }
 
             })
             .on("dragend",function(d){
                 console.log("lalalal");console.log(this);
-<<<<<<< HEAD
+
                 if(this.getAttribute("cx")==NF_offset_x  || this.getAttribute("cx")==NF_offset_x+BIG_SWITCH_width){
                     if(this.getAttribute("cy")<NF_offset_y) d3.select(this).attr("cy",NF_offset_y);
                     if(this.getAttribute("cy")>BIG_SWITCH_height+NF_offset_y) d3.select(this).attr("cy",BIG_SWITCH_height+NF_offset_y);
@@ -191,7 +185,7 @@ function Draw(fg){
                 if(this.getAttribute("cy")==NF_offset_y || this.getAttribute("cy")==NF_offset_y+BIG_SWITCH_height){
                     if(this.getAttribute("cx")<NF_offset_x) d3.select(this).attr("cx",NF_offset_x);
                     if(this.getAttribute("cx")>BIG_SWITCH_width+NF_offset_x) d3.select(this).attr("cx",BIG_SWITCH_width+NF_offset_x);
-=======
+
                 if(this.getAttribute("cx")==NF_offset_x  || this.getAttribute("cx")==NF_offset_x+NF_width){
                     if(this.getAttribute("cy")<NF_offset_y) d3.select(this).attr("cy",NF_offset_y);
                     if(this.getAttribute("cy")>NF_height+NF_offset_y) d3.select(this).attr("cy",NF_height+NF_offset_y);
@@ -199,7 +193,7 @@ function Draw(fg){
                 if(this.getAttribute("cy")==NF_offset_y || this.getAttribute("cy")==NF_offset_y+NF_height){
                     if(this.getAttribute("cx")<NF_offset_x) d3.select(this).attr("cx",NF_offset_x);
                     if(this.getAttribute("cx")>NF_width+NF_offset_x) d3.select(this).attr("cx",NF_width+NF_offset_x);
->>>>>>> cae28063ecd684fd78f87e5c458ee7fefdf44112
+
                 }
             })
             .on("dragstart",function(d){
@@ -212,7 +206,7 @@ function Draw(fg){
     console.log(fg["forwarding-graph"]["VNFs"]);
     var NFS_list2 = fg["forwarding-graph"]["VNFs"];
 
-<<<<<<< HEAD
+
     setInitialNodesPositions(NFS_list2);
 
     var EP_list = fg["forwarding-graph"]["end-points"];
@@ -221,22 +215,20 @@ function Draw(fg){
     var big_switch = fg["forwarding-graph"]["big-switch"];
     console.log(fg["forwarding-graph"]["big-switch"]);
 
-=======
+
     var EP_list = fg["forwarding-graph"]["end-points"];
     console.log(fg["forwarding-graph"]["end-points"]);
 
->>>>>>> cae28063ecd684fd78f87e5c458ee7fefdf44112
+
     //sto definendo un nuovo oggetto grafico-> il L'NF voglio che sia rettangolare e con certi parametri
 
     var NF = svg.append("defs").append("g").attr("id","NF_node");
     var NF_select = svg.append("defs").append("g").attr("id","NF_select");
 
-<<<<<<< HEAD
+
     var BIG_SWITCH = svg.append("defs").append("g").attr("id","BIG_SWITCH_node");
     var BIG_SWITCH_select = svg.append("defs").append("g").attr("id","BIG_SWITCH_select");
 
-=======
->>>>>>> cae28063ecd684fd78f87e5c458ee7fefdf44112
     NF_select.append("rect")
     		.attr("x",NF_offset_x)
             .attr("y",NF_offset_y)
@@ -250,7 +242,7 @@ function Draw(fg){
             .attr("width",NF_width)
             .attr("height",NF_height)
             .attr("class","nf");
-<<<<<<< HEAD
+
 
     BIG_SWITCH.append("rect")
     		.attr("x",NF_offset_x)
@@ -267,19 +259,15 @@ function Draw(fg){
             .attr("height",BIG_SWITCH_height)
             .attr("class","big-switch-select");;
             //.attr("class","nf-select");
-=======
->>>>>>> cae28063ecd684fd78f87e5c458ee7fefdf44112
-            
+
        
     NFS_list2.forEach(function(ele,index){
         var group = svg.append("g");
         group.append("use").attr("xlink:href","#NF_node") //ogni NF ha un NF_node centrale e attorno tutte le interfacce
-<<<<<<< HEAD
         				   .attr("id","nfv"+ele.id)
         				   .attr("class","use_NF");
-=======
         				   .attr("id","nfv"+ele.id);
->>>>>>> cae28063ecd684fd78f87e5c458ee7fefdf44112
+
 
         //disegnamo le interfacce
         group.selectAll(".interface")
@@ -290,7 +278,6 @@ function Draw(fg){
                 .attr("cx",function(){return Math.random()*NF_width+10;})
                 .attr("cy","10")
                 .attr("r",r_interface)
-<<<<<<< HEAD
                 .attr("parent_NF_position_x",NFS_list2[index].x)
                 .attr("parent_NF_position_y",NFS_list2[index].y)
                 .attr("id",function(e){return "vnf:"+NFS_list2[index].id+":"+e.id;})
@@ -305,14 +292,12 @@ function Draw(fg){
         	d3.selectAll(".end-points-select").attr("class","end-points");
             d3.selectAll(".use_BIG").attr("xlink:href","#BIG_SWITCH_node");
         	d3.selectAll(".use_NF").attr("xlink:href","#NF_node");
-=======
                 .call(drag_inteface);
         group.attr("transform","translate("+110*index+",0)");
         group.attr("x",30).attr("y",30); //coordinate iniziali degli oggetti grafici NF_element (gli ho messi con un offset di 10 e 10)
         group.on("click",function(){
         	console.log("ciao");
         	d3.selectAll("use").attr("xlink:href","#NF_node");
->>>>>>> cae28063ecd684fd78f87e5c458ee7fefdf44112
         	d3.select("#nfv"+ele.id).attr("xlink:href","#NF_select");
 
         	var vnf = getVNFInfoById(fg,ele.id);
@@ -322,7 +307,6 @@ function Draw(fg){
         group.call(drag_NF);
     });
 
-<<<<<<< HEAD
 		var interfaces = new Array();;
 
 		EP_list.forEach(function(ele,index){
@@ -432,7 +416,7 @@ function Draw(fg){
         'placement': 'top'
     	});
 	});
-=======
+
 	
 		//console.log(ele);
 		svg.selectAll(".end-points")
@@ -453,9 +437,6 @@ function Draw(fg){
 		   		drawEndPointInfo(ep,d.id);	
 		   })
 		   .call(drag_EP);
->>>>>>> cae28063ecd684fd78f87e5c458ee7fefdf44112
-
-
 
 
 
@@ -487,28 +468,22 @@ function drawForwardingGraph(json_data){
 
 function drawEndPointInfo(endpoint,id){
 	$('.info').empty();
-<<<<<<< HEAD
 	$('.info').append('<a href="#"><i class="glyphicon glyphicon-exclamation-sign"></i><strong> Node Info</strong></a><div class="panel panel-default"><div class="panel-heading">Node Id: '+endpoint.id+' </div><div id="end'+endpoint.id+'"class="panel-body"><p><b>Name:</b> '+endpoint.name+'</p><p><b>Type:</b> '+endpoint.type+'</p></div></div>');
-=======
 	$('.col-sm-3').append('<div class="info"><a href="#"><i class="glyphicon glyphicon-exclamation-sign"></i><strong> Node Info</strong></a><div class="panel panel-default"><div class="panel-heading">Node Id: '+endpoint.id+' </div><div id="end'+endpoint.id+'"class="panel-body"><p><b>Name:</b> '+endpoint.name+'</p><p><b>Type:</b> '+endpoint.type+'</p></div></div></div>');
->>>>>>> cae28063ecd684fd78f87e5c458ee7fefdf44112
 	$('#end'+endpoint.id).append('<div class="panel panel-default"><div class="panel-body"><p><b>Inteface: </b>'+endpoint.interface.interface+'</p><p><b>Node: </b>'+endpoint.interface.node+'</p></div></div>');
 }
 
 function drawVNFInfo(vnf,id){
 
 	$('.info').empty();
-<<<<<<< HEAD
 	$('.info').append('<a href="#"><i class="glyphicon glyphicon-exclamation-sign"></i><strong> VNF Info</strong></a><div class="panel panel-default"><div class="panel-heading">VNF Id: '+vnf.id+' </div><div id="vnf'+vnf.id+'"class="panel-body"><p><b>Name:</b> '+vnf.name+'</p></div><div>');
-=======
 	$('.col-sm-3').append('<div class="info"><a href="#"><i class="glyphicon glyphicon-exclamation-sign"></i><strong> VNF Info</strong></a><div class="panel panel-default"><div class="panel-heading">VNF Id: '+vnf.id+' </div><div id="vnf'+vnf.id+'"class="panel-body"><p><b>Name:</b> '+vnf.name+'</p></div></div><div>');
->>>>>>> cae28063ecd684fd78f87e5c458ee7fefdf44112
 
 	$('#vnf'+vnf.id).append('<div class="panel panel-default"><div class="panel-body"><p><b>Port: </b>'+vnf.ports[0].id+'</p><p><b>Node: </b>'+vnf.ports[0].name+'</p></div></div>');
 	$('#vnf'+vnf.id).append('<div class="panel panel-default"><div class="panel-body"><p><b>Port: </b>'+vnf.ports[1].id+'</p><p><b>Node: </b>'+vnf.ports[1].name+'</p></div></div>')
 	
 }
-<<<<<<< HEAD
+
 function drawBigSwitchInfo(fg){
   $('.info').empty();
   $('.info').append('<a href="#"><i class="glyphicon glyphicon-exclamation-sign"></i><strong> BigSwitch Info</strong></a>');
@@ -538,9 +513,6 @@ function drawBigSwitchInfo(fg){
 
 }
 
-=======
->>>>>>> cae28063ecd684fd78f87e5c458ee7fefdf44112
-
 function getVNFInfoById(fg,id){
 	var vnf;
 	fg["forwarding-graph"]["VNFs"].forEach(function(e){
@@ -559,7 +531,7 @@ function getEndPointInfoById(fg,id){
 	return endpoint;
 }
 
-<<<<<<< HEAD
+
 function getFlowRulesInfoById(fg,id){
   var flowrule;
   fg["forwarding-graph"]["big-switch"]["flow-rules"].forEach(function(e){
@@ -644,8 +616,6 @@ function getLinkEndPositionById(id,svg){
         
     }
 
-=======
->>>>>>> cae28063ecd684fd78f87e5c458ee7fefdf44112
 
 function ajaxGetData(){
 	//var p_id = $('#forwarding_graph_selector').val();
@@ -672,9 +642,3 @@ function ajaxGetData(){
 	});
 }
 
-<<<<<<< HEAD
-
-
-
-=======
->>>>>>> cae28063ecd684fd78f87e5c458ee7fefdf44112

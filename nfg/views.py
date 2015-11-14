@@ -66,15 +66,9 @@ def ajax_data_request(request):
     "name": "Forwarding graph",
     "VNFs": [
       {
-<<<<<<< HEAD
         "vnf_template": "firewall80.json",
         "id": "00000001",
         "name": "Web Firewall",
-=======
-        "vnf_template": "firewall.json",
-        "id": "00000001",
-        "name": "Firewall",
->>>>>>> cae28063ecd684fd78f87e5c458ee7fefdf44112
         "ports": [
           {
             "id": "User:0",
@@ -85,18 +79,11 @@ def ajax_data_request(request):
             "name": "WAN side interface"
           }
         ]
-<<<<<<< HEAD
       },
       {
         "vnf_template": "firewall.json",
         "id": "00000002",
         "name": "Non-Web Firewall",
-=======
-      },{
-        "vnf_template": "switch.json",
-        "id": "00000002",
-        "name": "Switch",
->>>>>>> cae28063ecd684fd78f87e5c458ee7fefdf44112
         "ports": [
           {
             "id": "User:0",
@@ -133,7 +120,6 @@ def ajax_data_request(request):
       "flow-rules": [
         {
           "id": "000000001",
-<<<<<<< HEAD
           "priority": 100,
           "match": {
             "ether_type": "0x0800",
@@ -144,15 +130,6 @@ def ajax_data_request(request):
           "action": [{
             "output": "vnf:00000001:User:0"
           }]
-=======
-          "priority": 1,
-          "match": {
-            "port_in": "endpoint:00000001"
-          },
-          "action": {
-            "output": "vnf:00000001:User:0"
-          }
->>>>>>> cae28063ecd684fd78f87e5c458ee7fefdf44112
         },
         {
           "id": "000000002",
@@ -160,23 +137,14 @@ def ajax_data_request(request):
           "match": {
             "port_in": "vnf:00000001:User:0"
           },
-<<<<<<< HEAD
           "action": [{
             "output": "endpoint:00000001"
-          },{
-            "controller": "true"
           }]
-=======
-          "action": {
-            "output": "endpoint:00000001"
-          }
->>>>>>> cae28063ecd684fd78f87e5c458ee7fefdf44112
         },
         {
           "id": "000000003",
           "priority": 1,
           "match": {
-<<<<<<< HEAD
             "port_in": "endpoint:00000001"
           },
           "action": [{
@@ -222,34 +190,15 @@ def ajax_data_request(request):
           "action": [{
             "output": "vnf:00000002:User:0"
           }]
-=======
-            "port_in": "vnf:00000001:WAN:0"
-          },
-          "action": {
-            "output": "endpoint:00000001"
-          }
-        },
-        {
-          "id": "000000004",
-          "priority": 1,
-          "match": {
-            "port_in": "endpoint:00000001"
-          },
-          "action": {
-            "output": "vnf:00000001:WAN:0"
-          }
->>>>>>> cae28063ecd684fd78f87e5c458ee7fefdf44112
         }
       ]
     }
   }
 }
 
-<<<<<<< HEAD
 
+  
 
-=======
->>>>>>> cae28063ecd684fd78f87e5c458ee7fefdf44112
 	'''nffg_dict_2 = {"forwarding-graph":{"VNFs":[{"ports":[{"id":"L2Port:0","name":"data-lan"},{"id":"L2Port:1","name":"data-lan"},{"id":"L2Port:2","name":"data-lan"},{"id":"L2Port:3","name":"data-lan"}],"vnf_template":"switch.json","id":"00000001","groups":["isp-function"],"name":"switch-data"},{"ports":[{"id":"inout:0","name":"data-port"}],"vnf_template":"dhcp.json","id":"00000002","groups":["isp-function"],"name":"dhcp"},{"ports":[{"id":"inout:0","name":"data-port"}],"vnf_template":"dhcp.json","id":"00000005","groups":["isp-function"],"name":"dhcp"},{"ports":[{"id":"L2Port:0"},{"id":"L2Port:1"}],"vnf_template":"switch.json","id":"00000006","name":"firewall"},{"ports":[{"id":"User:0"}],"vnf_template":"nat.json","id":"00000004","groups":["isp-function"],"name":"router-nat"}],"end-points":[{"interface":{"node":"130.192.225.193","interface":"to-br-usr"},"type":"interface","id":"00000001","name":"ingress"}],"big-switch":{"flow-rules":[{"priority":1,"actions":[{"output":"vnf:00000001:L2Port:0"}],"id":"000000001","match":{"port_in":"endpoint:00000001"}},{"priority":1,"actions":[{"output":"endpoint:00000001"}],"id":"000000002","match":{"port_in":"vnf:00000001:L2Port:0"}},{"priority":1,"actions":[{"output":"vnf:00000001:L2Port:1"}],"id":"000000003","match":{"port_in":"vnf:00000002:inout:0"}},{"priority":1,"actions":[{"output":"vnf:00000002:inout:0"}],"id":"000000004","match":{"port_in":"vnf:00000001:L2Port:1"}},{"priority":1,"actions":[{"output":"vnf:00000001:L2Port:2"}],"id":"000000005","match":{"port_in":"vnf:00000006:L2Port:0"}},{"priority":1,"actions":[{"output":"vnf:00000006:L2Port:0"}],"id":"000000006","match":{"port_in":"vnf:00000001:L2Port:2"}},{"priority":1,"actions":[{"output":"vnf:00000004:User:0"}],"id":"000000007","match":{"port_in":"vnf:00000006:L2Port:1"}},{"priority":1,"actions":[{"output":"vnf:00000006:L2Port:1"}],"id":"000000008","match":{"port_in":"vnf:00000004:User:0"}},{"priority":1,"actions":[{"output":"vnf:00000001:L2Port:3"}],"id":"000000011","match":{"port_in":"vnf:00000005:inout:0"}},{"priority":1,"actions":[{"output":"vnf:00000005:inout:0"}],"id":"000000012","match":{"port_in":"vnf:00000001:L2Port:3"}}]},"id":"00000001","name":"Protected access to the internet"}}
 
 	nffg_1 = NF_FG()
