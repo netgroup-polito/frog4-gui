@@ -75,12 +75,20 @@ function elaborateFlowRules(){
 function setInitialNFPositions(){
     var n=NF_list.length;
     var alfa=2*Math.PI/n;
+    var x,y;
     for(var i=0;i<n;i++){
-        NF_list[i].x=parseInt(300*Math.cos(alfa*(i))+svg_width/2-NF_width/2-NF_offset_x/2);
-        NF_list[i].y=parseInt(300*Math.sin(alfa*(i))+svg_height/2-NF_height/2-NF_offset_y/2);
+        x=parseInt(300*Math.cos(alfa*(i))+svg_width/2-NF_width/2-NF_offset_x/2);
+        NF_list[i].x=x;
+        y=parseInt(300*Math.sin(alfa*(i))+svg_height/2-NF_height/2-NF_offset_y/2);
+        NF_list[i].y=y;
         NF_list[i].ports.forEach(function(e){
+            //da aggiustare se si vogliono mettere equidistribuite attorno all'NF
             e.x=parseInt(Math.random()*NF_width);
             e.y=0;
+
+            e.parent_NF_x=x;
+            e.parent_NF_y=y;
+            e.parent_NF_id=NF_list[i].id;
         })
     }
 }

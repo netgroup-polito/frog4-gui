@@ -4,47 +4,57 @@
  **/
 
 function drawNF() {
-    NF_list.forEach(function (ele, index) {
+    //NF_list.forEach(function (ele, index) {
 
-        group[index] = svg.append("g")
-            .attr("id", ele.id)
-            .attr("class", "VNF");
+        //group[index] = svg.append("g")
+        //    .attr("id", ele.id)
+        //    .attr("class", "VNF");
 
-        group[index].append("use").attr("xlink:href", "#NF_node")
-            .attr("id", "nfv" + ele.id).attr("class", "use_NF"); //ogni NF ha un NF_node centrale e attorno tutte le interfacce
-        group[index].attr("x",NF_list[index].x);
-        group[index].attr("y",NF_list[index].y);
-        group[index].attr("transform","translate("+NF_list[index].x+","+NF_list[index].y+")");
-        group[index].on("click",function(){
+        svg.selectAll(".NetworkFunction")
+            .data(NF_list)
+            .enter()
+            .append("use").attr("xlink:href", "#NF_node")
+            .attr("id", function(d){return d.id;})
+            .attr("class", "NetworkFunction") //ogni NF ha un NF_node centrale e attorno tutte le interfacce
+        //group[index]
+            .attr("x",function(d){return d.x;})
+            .attr("y",function(d){return d.y;})
+            //.attr("transform","translate("+NF_list[index].x+","+NF_list[index].y+")")
+            .call(drag_NF)
+            .on("click",function(d){ //da sistemare!
+                console.log(d3.select(d));
             /* funzioni per selezionare questo oggetto e deselezionare gli altri */
-            d3.selectAll(".end-points-select").attr("class","end-points");
-            d3.selectAll(".use_BIG").attr("xlink:href","#BIG_SWITCH_node");
-            d3.selectAll(".use_NF").attr("xlink:href","#NF_node");
-            d3.select("#nfv"+ele.id).attr("xlink:href","#NF_select");
-            /* funzioni per visualizzare le informazioni sulla sinistra */
-            var vnf = getVNFById(ele.id);
-            drawVNFInfo(vnf,ele.id);
-        });
+                d3.selectAll(".end-points-select").attr("class","end-points");
+                //d3.selectAll(".BigSwitch").attr("xlink:href","#BIG_SWITCH_node");
+                d3.selectAll(".NetworkFunction").attr("xlink:href","#NF_node");
+                d3.select(d).attr("xlink:href","#NF_select");
+                /* funzioni per visualizzare le informazioni sulla sinistra */
+                var vnf = getVNFById(d.id);
+                drawVNFInfo(vnf,d.id);
+             });
 
-        group[index].call(drag_NF);
-    });
+        //group[index].call(drag_NF);
+    //});
 }
 function drawVNF_interfaces(){
         //disegnamo le interfacce
-    NF_list.forEach(function(ele,index){
-        group[index].selectAll(".interface")
-            .data(ele.ports)
+    //NF_list.forEach(function(ele,index){
+        var interfaces=[];
+        NF_list.forEach(function(d){d.ports.forEach(function(e){interfaces.push(e)});});
+        svg.selectAll(".interface")
+            .data(interfaces)
             .enter()
             .append("circle")
             .attr("class","interface")
-            .attr("cx",function(d){return d.x;})
-            .attr("cy",function(d){return d.y;})
+            .attr("cx",function(d){return parseInt(d.x)+parseInt(d.parent_NF_x);})
+            .attr("cy",function(d){return parseInt(d.y)+parseInt(d.parent_NF_y);})
             .attr("r",r_interface)
-            .attr("parent_NF_position_x",NF_list[index].x)
-            .attr("parent_NF_position_y",NF_list[index].y)
-            .attr("id",function(e){return "vnf:"+NF_list[index].id+":"+e.id;})
+            .attr("parent_NF_position_x",function(d){return d.parent_NF_x;})
+            .attr("parent_NF_position_y",function(d){return d.parent_NF_y;})
+            .attr("parent",function(d){return "vnf"+d.parent_NF_id;})
+            .attr("id",function(d){return "vnf:"+ d.parent_NF_id+":"+d.id;})
             .call(drag_INTERFACE);
-    });
+    //});
 }
 
 function drawEP(){
