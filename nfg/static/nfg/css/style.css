@@ -24,6 +24,8 @@ hr{
 
 .col-sm-3{
   background-color: rgba(255, 255, 255, 0.65);
+  overflow: scroll;
+  height: 600px;
   
 }
 
@@ -65,6 +67,10 @@ a:focus, .navbar-inverse .navbar-nav > .open > a:hover {
   border-color: #337AB7;
   color: #FFF;
   
+}
+
+.panel-default > .panel-heading > a{
+  color: #FFF;
 }
 
 .panel{
@@ -113,10 +119,24 @@ a:focus, .navbar-inverse .navbar-nav > .open > a:hover {
 }
 
 
-.my_canvas{
+#my_canvas{
   border: 2px solid #80A926;
   border-radius: 6px;
   background: #FFF;
+}
+
+#draw_menu{
+  border: 2px solid #80A926;
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
+  padding: 8px;
+  margin-top: 0px;
+  margin-bottom: 30px;
+  color: inherit;
+  background-color: #FFF;
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-size: 14px;
+  line-height: 1.42857;
 }
 
 
