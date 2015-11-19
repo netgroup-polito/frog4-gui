@@ -22,12 +22,13 @@ function drawNF() {
             //.attr("transform","translate("+NF_list[index].x+","+NF_list[index].y+")")
             .call(drag_NF)
             .on("click",function(d){ //da sistemare!
-                console.log(d3.select(d));
+                console.log(this);
             /* funzioni per selezionare questo oggetto e deselezionare gli altri */
                 d3.selectAll(".end-points-select").attr("class","end-points");
                 //d3.selectAll(".BigSwitch").attr("xlink:href","#BIG_SWITCH_node");
                 d3.selectAll(".NetworkFunction").attr("xlink:href","#NF_node");
-                d3.select(d).attr("xlink:href","#NF_select");
+                $(this).attr("href","#NF_select");
+               // d3.select(d).attr("xlink:href","#NF_select");
                 /* funzioni per visualizzare le informazioni sulla sinistra */
                 var vnf = getVNFById(d.id);
                 drawVNFInfo(vnf,d.id);
