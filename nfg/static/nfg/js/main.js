@@ -33,17 +33,18 @@ var fg;
 $(document).ready(function(){
 
     $(".external_box").hide();
-    // /* Richiesta Json */
-    //$.ajax({ type: "GET",url: "/nfg/ajax_data_request",
-    //    success: function(data) {
-    //        //console.log(data);
-    //        data = data.replace(/'/g,'"');
-    //        /* definisco oggetto fg */
-    //        fg=JSON.parse(data);
-    //        DrawMenuBar();
-    //        DrawForwardingGraph(fg);
-    //    }
-    //});
+    /* Richiesta Json */
+    $.ajax({ type: "GET",url: "/nfg/ajax_data_request",
+       success: function(data) {
+           //console.log(data);
+           data = data.replace(/'/g,'"');
+           /* definisco oggetto fg */
+           fg=JSON.parse(data);
+           DrawMenuBar();
+           DrawForwardingGraph(fg);
+       }
+    });
+	/* per debug senza python!
     fg={
         "forwarding-graph": {
             "id": "00000001",
@@ -181,6 +182,7 @@ $(document).ready(function(){
     };
     DrawMenuBar();
     DrawForwardingGraph(fg);
+	*/
 
 });
 

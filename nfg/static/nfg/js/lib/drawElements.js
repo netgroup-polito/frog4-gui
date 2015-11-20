@@ -37,7 +37,7 @@ function drawNF() {
         //group[index].call(drag_NF);
     //});
 }
-
+//NOTA BENE ORA LE INTERFACCE DEL BS SI CHIAMANO BS_INTERFACE...
 function drawBIGSWITCH(){
 
     var data=[big_switch];

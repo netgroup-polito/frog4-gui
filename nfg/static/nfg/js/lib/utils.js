@@ -105,7 +105,7 @@ function setInitialEPPositions(){
 
     }
 }
-
+//funzione che ho aggiunto per poter settare la posizione di ogni interfaccia del bs
 function setInitialBSPositions(){
     var bs_interfaces=[];
     var bs_x=300,bs_y=200;

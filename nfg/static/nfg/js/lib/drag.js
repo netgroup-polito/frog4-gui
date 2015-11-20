@@ -54,6 +54,7 @@ function dragNF(){
 
     return drag_NF;
 }
+//domani posto la versione con i link dei bs...
 function dragBIGSWITCH(){
     var drag_BIGSWITCH = d3.behavior.drag()
         .on("drag",function(d) {
