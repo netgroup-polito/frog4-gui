@@ -37,6 +37,44 @@ function drawNF() {
         //group[index].call(drag_NF);
     //});
 }
+
+function drawBIGSWITCH(){
+
+    var data=[big_switch];
+    var big_s=svg.selectAll(".big").data(data).enter()
+        .append("use").attr("xlink:href","#BIG_SWITCH_node")
+        .attr("class","use_BIG")
+        .style("stroke-dasharray", ("8, 4"))
+        .attr("x",big_switch.x)
+        .attr("y",big_switch.y);
+
+    svg.selectAll(".BS_interface").data(big_switch.interfaces)
+        .enter()
+        .append("circle")
+        .attr("class","BS_interface interface")
+        .attr("cx",function(d){return big_switch.x+d.x;})
+        .attr("cy",function(d){return big_switch.y+d.y;})
+        .attr("id",function(d){return d.id;})
+        .attr("r",r_interface)
+        .attr("title",function(d){
+            if(d.type=="endpoint")
+                return "bs:"+d.type+":"+d.id;
+            else if(d.type=="vnf")
+                return "bs:"+d.type+":"+d.id_vnf+":"+d.id;
+        })
+        .call(drag_INTERFACEBIGSWITCH);
+
+
+    big_s.on("click",function(){
+        d3.selectAll(".end-points-select").attr("class","end-points");
+        d3.selectAll(".use_NF").attr("xlink:href","#NF_node");
+        d3.select(".use_BIG").attr("xlink:href","#BIG_SWITCH_select");
+        drawBigSwitchInfo(fg);
+
+    });
+    big_s.call(drag_BIGSWITCH);
+}
+
 function drawVNF_interfaces(){
         //disegnamo le interfacce
     //NF_list.forEach(function(ele,index){
@@ -85,52 +123,7 @@ function drawEP(){
         .call(drag_EP);
 }
 
-function drawBIGSWITCH(){
-    var interfaces = [];
 
-    EP_list.forEach(function(ele,index){
-        ele["type"] = "endpoint";
-        interfaces.push(ele);
-    });
-    NF_list.forEach(function(ele1,index){
-        ele1.ports.forEach(function(ele2,index){
-                ele2["type"] = "vnf";
-            ele2["id_vnf"] = ele1.id;
-            interfaces.push(ele2);
-        })
-    });
-
-    var big_s = svg.append("g");
-    big_s.append("use").attr("xlink:href","#BIG_SWITCH_node")
-        .attr("class","use_BIG")
-        .style("stroke-dasharray", ("8, 4"));
-
-    big_s.selectAll(".interface").data(interfaces)
-        .enter()
-        .append("circle")
-        .attr("class","interface")
-        .attr("cx",function(){return Math.random()*NF_width+10;})
-        .attr("cy",0)
-        .attr("r",r_interface)
-        .attr("title",function(d){
-            if(d.type=="endpoint")
-                return "bs:"+d.type+":"+d.id;
-            else if(d.type=="vnf")
-            return "bs:"+d.type+":"+d.id_vnf+":"+d.id;
-        })
-
-        .call(drag_INTERFACEBIGSWITCH);
-
-    big_s.attr("transform","translate(300,200)");
-    big_s.on("click",function(){
-        d3.selectAll(".end-points-select").attr("class","end-points");
-        d3.selectAll(".use_NF").attr("xlink:href","#NF_node");
-        d3.select(".use_BIG").attr("xlink:href","#BIG_SWITCH_select");
-        drawBigSwitchInfo(fg);
-
-    });
-    big_s.call(drag_BIGSWITCH);
-}
 
 function drawLINE(){
 
