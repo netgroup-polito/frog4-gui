@@ -37,44 +37,6 @@ function drawNF() {
         //group[index].call(drag_NF);
     //});
 }
-//NOTA BENE ORA LE INTERFACCE DEL BS SI CHIAMANO BS_INTERFACE...
-function drawBIGSWITCH(){
-
-    var data=[big_switch];
-    var big_s=svg.selectAll(".big").data(data).enter()
-        .append("use").attr("xlink:href","#BIG_SWITCH_node")
-        .attr("class","use_BIG")
-        .style("stroke-dasharray", ("8, 4"))
-        .attr("x",big_switch.x)
-        .attr("y",big_switch.y);
-
-    svg.selectAll(".BS_interface").data(big_switch.interfaces)
-        .enter()
-        .append("circle")
-        .attr("class","BS_interface interface")
-        .attr("cx",function(d){return big_switch.x+d.x;})
-        .attr("cy",function(d){return big_switch.y+d.y;})
-        .attr("id",function(d){return d.id;})
-        .attr("r",r_interface)
-        .attr("title",function(d){
-            if(d.type=="endpoint")
-                return "bs:"+d.type+":"+d.id;
-            else if(d.type=="vnf")
-                return "bs:"+d.type+":"+d.id_vnf+":"+d.id;
-        })
-        .call(drag_INTERFACEBIGSWITCH);
-
-
-    big_s.on("click",function(){
-        d3.selectAll(".end-points-select").attr("class","end-points");
-        d3.selectAll(".use_NF").attr("xlink:href","#NF_node");
-        d3.select(".use_BIG").attr("xlink:href","#BIG_SWITCH_select");
-        drawBigSwitchInfo(fg);
-
-    });
-    big_s.call(drag_BIGSWITCH);
-}
-
 function drawVNF_interfaces(){
         //disegnamo le interfacce
     //NF_list.forEach(function(ele,index){
@@ -123,7 +85,6 @@ function drawEP(){
         .call(drag_EP);
 }
 
-<<<<<<< HEAD
 function drawBIGSWITCH(){
 
     var data=[big_switch];
@@ -160,9 +121,6 @@ function drawBIGSWITCH(){
     });
     big_s.call(drag_BIGSWITCH);
 }
-=======
-
->>>>>>> 10fe9ae1388e8c8b0a587c76e2643f37171fa2b3
 
 function drawLINE(){
 
