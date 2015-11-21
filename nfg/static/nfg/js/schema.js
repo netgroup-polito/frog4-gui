@@ -73,7 +73,8 @@
 												  												"required":["id","vnf_template","ports"],
 												  												"additionalProperties":False}},
 												  				"end-points":{"type":"array","items":{"type":"object",
-												  													  "properties":{"id":{"type":"string"},
+												  													  "properties":{
+												  													  "id":{"type":"string"},
 												  													  "name":{"type":"string"},
 												  													  "type":{"enum":["internal","interface","interface-out","gre-tunnel","vlan"]},
 												  													  "remote_endpoint_id":{"type":"string"},

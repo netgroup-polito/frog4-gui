@@ -1,0 +1,43 @@
+ .nf{
+        fill: #80A926;
+        stroke: #000;
+        stroke-width: 2px;
+    }
+
+    .nf-select{
+        fill: #ED571C;
+        stroke: #000;
+        stroke-width: 2px;
+
+    }
+
+    .interface{
+        fill: #337AB7;
+        stroke: #000;       
+    }
+
+    .end-points{
+        fill:#013E72;
+        stroke: #000;
+        stroke-width: 2px;
+    }
+
+    .end-points-select{
+        fill: #ED571C;
+        stroke: #000;
+        stroke-width: 2px;
+    }
+
+    .big-switch{
+        fill: rgba(131, 176, 34, 0.7);
+        stroke: #000;
+        stroke-width: 2px;
+    }
+    .big-switch-select{
+        fill: rgba(237, 87, 28, 0.7);
+        stroke: #000;
+        stroke-width: 2px;
+    }
+    .line{
+       stroke-width: 2px; 
+    }

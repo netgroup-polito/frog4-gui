@@ -74,8 +74,8 @@ function drawEP(){
         .on("click",function(d){
             /* funzioni per selezionare questo oggetto e deselezionare gli altri */
             d3.selectAll(".end-points-select").attr("class","end-points");
-            d3.selectAll(".use_NF").attr("xlink:href","#NF_node");
-            d3.selectAll(".use_BIG").attr("xlink:href","#BIG_SWITCH_node");
+            d3.selectAll(".NetworkFunction").attr("xlink:href","#NF_node");
+            //d3.selectAll(".use_BIG").attr("xlink:href","#BIG_SWITCH_node");
             d3.select(this).attr("class","end-points-select")
 
             /* funzioni per visualizzare le informazioni sulla sinistra */
@@ -86,42 +86,32 @@ function drawEP(){
 }
 
 function drawBIGSWITCH(){
-    var interfaces = [];
 
-    EP_list.forEach(function(ele,index){
-        ele["type"] = "endpoint";
-        interfaces.push(ele);
-    });
-    NF_list.forEach(function(ele1,index){
-        ele1.ports.forEach(function(ele2,index){
-                ele2["type"] = "vnf";
-            ele2["id_vnf"] = ele1.id;
-            interfaces.push(ele2);
-        })
-    });
-
-    var big_s = svg.append("g");
-    big_s.append("use").attr("xlink:href","#BIG_SWITCH_node")
+    var data=[big_switch];
+    var big_s=svg.selectAll(".big").data(data).enter()
+        .append("use").attr("xlink:href","#BIG_SWITCH_node")
         .attr("class","use_BIG")
-        .style("stroke-dasharray", ("8, 4"));
+        .style("stroke-dasharray", ("8, 4"))
+        .attr("x",big_switch.x)
+        .attr("y",big_switch.y);
 
-    big_s.selectAll(".interface").data(interfaces)
+    svg.selectAll(".BS_interface").data(big_switch.interfaces)
         .enter()
         .append("circle")
-        .attr("class","interface")
-        .attr("cx",function(){return Math.random()*NF_width+10;})
-        .attr("cy",0)
+        .attr("class","BS_interface interface")
+        .attr("cx",function(d){return big_switch.x+d.x;})
+        .attr("cy",function(d){return big_switch.y+d.y;})
+        .attr("id",function(d){return d.id;})
         .attr("r",r_interface)
         .attr("title",function(d){
             if(d.type=="endpoint")
                 return "bs:"+d.type+":"+d.id;
             else if(d.type=="vnf")
-            return "bs:"+d.type+":"+d.id_vnf+":"+d.id;
+                return "bs:"+d.type+":"+d.id_vnf+":"+d.id;
         })
-
         .call(drag_INTERFACEBIGSWITCH);
 
-    big_s.attr("transform","translate(300,200)");
+
     big_s.on("click",function(){
         d3.selectAll(".end-points-select").attr("class","end-points");
         d3.selectAll(".use_NF").attr("xlink:href","#NF_node");
@@ -153,9 +143,50 @@ function drawLINE(){
 
 /* DrawInfo */
 function drawEndPointInfo(endpoint,id){
+    console.log(endpoint);
     $('.info').empty();
     $('.info').append('<a href="#"><i class="glyphicon glyphicon-exclamation-sign"></i><strong> Node Info</strong></a><div class="panel panel-default"><div class="panel-heading">Node Id: '+endpoint.id+' </div><div id="end'+endpoint.id+'"class="panel-body"><p><b>Name:</b> '+endpoint.name+'</p><p><b>Type:</b> '+endpoint.type+'</p></div></div>');
-    $('#end'+endpoint.id).append('<div class="panel panel-default"><div class="panel-body"><p><b>Inteface: </b>'+endpoint.interface.interface+'</p><p><b>Node: </b>'+endpoint.interface.node+'</p></div></div>');}
+    switch(endpoint.type){
+        case "internal":
+            break;
+
+        case "interface":
+            var inter = endpoint["interface"];
+            $('#end'+endpoint.id).append('<div class="panel panel-default"><div class="panel-body" id="inter"></div></div>');
+            $("#inter").append('<p><b>Inteface: </b>'+inter["interface"]+'</p>');
+            $("#inter").append('<p><b>Node: </b>'+inter["node"]+'</p>');
+            $("#inter").append('<p><b>Switch ID: </b>'+inter["switch-id"]+'</p>');
+            break;
+
+        case "interface-out":
+            var inter = endpoint["interface-out"];
+            $('#end'+endpoint.id).append('<div class="panel panel-default"><div class="panel-body" id="inter"></div></div>');
+            $("#inter").append('<p><b>Inteface: </b>'+inter["interface"]+'</p>');
+            $("#inter").append('<p><b>Node: </b>'+inter["node"]+'</p>');
+            $("#inter").append('<p><b>Switch ID: </b>'+inter["switch-id"]+'</p>');
+            break;
+
+        case "gre-tunnel":
+            var inter = endpoint["gre-tunnel"];
+            $('#end'+endpoint.id).append('<div class="panel panel-default"><div class="panel-body" id="inter"></div></div>');
+            $("#inter").append('<p><b>Local IP: </b>'+inter["local-ip"]+'</p>');
+            $("#inter").append('<p><b>Remote IP: </b>'+inter["remote-ip"]+'</p>');
+            $("#inter").append('<p><b>Interface: </b>'+inter["interface"]+'</p>');
+            $("#inter").append('<p><b>TTL: </b>'+inter["ttl"]+'</p>');
+            break;
+            
+        case "vlan":
+            var inter = endpoint["vlan"];
+            $('#end'+endpoint.id).append('<div class="panel panel-default"><div class="panel-body" id="inter"></div></div>');
+            $("#inter").append('<p><b>Vlan ID: </b>'+inter["vlan-id"]+'</p>');
+            $("#inter").append('<p><b>Interface: </b>'+inter["interface"]+'</p>');
+            $("#inter").append('<p><b>Switch ID: </b>'+inter["switch-id"]+'</p>');
+            $("#inter").append('<p><b>Node: </b>'+inter["node"]+'</p>');
+            break;
+
+    }
+}
+    
 function drawVNFInfo(vnf,id){
     $('.info').empty();
     $('.info').append('<a href="#"><i class="glyphicon glyphicon-exclamation-sign"></i><strong> VNF Info</strong></a><div class="panel panel-default"><div class="panel-heading">VNF Id: '+vnf.id+' </div><div id="vnf'+vnf.id+'"class="panel-body"><p><b>Name:</b> '+vnf.name+'</p></div><div>');

@@ -208,8 +208,10 @@ def ajax_data_request(request):
 	nffg_diff = nffg_1.diff(nffg_2)'''
 	
 	
-	template = loader.get_template('nfg/index2.html')
-	context = RequestContext(request)
+  #Scommentare queste due righe, per avere una pagina di debug sui i dati ajax ricevuti
+
+	'''template = loader.get_template('nfg/debug.html')
+	context = RequestContext(request)'''
 	
 	return HttpResponse("%s" % nffg_dict_1)
 	'''return render(request,'nfg/index2.html',nffg_1.getDict(True))'''

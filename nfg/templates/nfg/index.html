@@ -4,56 +4,7 @@
 	<head>
 		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
 		<meta charset="utf-8">
-        <style>
-
-    .nf{
-        fill: #80A926;
-        stroke: #000;
-        stroke-width: 2px;
-    }
-
-    .nf-select{
-        fill: #ED571C;
-        stroke: #000;
-        stroke-width: 2px;
-
-    }
-
-    .interface{
-        fill: #337AB7;
-        stroke: #000;       
-    }
-
-    .end-points{
-        fill:#013E72;
-        stroke: #000;
-        stroke-width: 2px;
-    }
-
-    .end-points-select{
-        fill: #ED571C;
-        stroke: #000;
-        stroke-width: 2px;
-    }
-
-    .big-switch{
-        fill: rgba(131, 176, 34, 0.7);
-        stroke: #000;
-        stroke-width: 2px;
-    }
-    .big-switch-select{
-        fill: rgba(237, 87, 28, 0.7);
-        stroke: #000;
-        stroke-width: 2px;
-    }
-    .line{
-       stroke-width: 2px; 
-    }
-
-
-    
-
-    </style>
+        
 		<title>NF-FG</title>
         <link rel="icon" href="{% static "/img/logo_poli.ico" %}" />
 		<meta name="generator" content="Bootply" />
@@ -64,9 +15,6 @@
 
         <script src="https://d3js.org/d3.v3.min.js"></script>
 
-      <!--  <script src="https://github.com/shawnbot/d3-bootstrap/blob/master/d3-bootstrap.js"></script>//-->
-
-
         <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
 
 		<!--[if lt IE 9]>
@@ -74,24 +22,20 @@
 		<![endif]-->
         
 		<link href="{% static "nfg/css/style.css" %}" rel="stylesheet">
+        <link href="{% static "nfg/css/graphElement.css" %}" rel="stylesheet">
+
         <script type="text/javascript" src="{% static "nfg/js/scripts.js" %}"></script>
 
-        <!--<script type="text/javascript" src="{% static "nfg/js/forwarding_graph2.js" %}"></script>-->
-       <!-- <script type="text/javascript" src="{% static "nfg/js/main.js" %}"></script>-->
-        <script type="text/javascript" src="{% static "nfg/js/index.js" %}"></script>
-
-        <script type="text/javascript" src="{% static "nfg/js/main2.js" %}"></script>
+        <script type="text/javascript" src="{% static "nfg/js/main.js" %}"></script>
         <script type="text/javascript" src="{% static "nfg/js/lib/drag.js" %}"></script>
         <script type="text/javascript" src="{% static "nfg/js/lib/drawElements.js" %}"></script>
         <script type="text/javascript" src="{% static "nfg/js/lib/utils.js" %}"></script>
         <script type="text/javascript" src="{% static "nfg/js/lib/positions.js" %}"></script>
         <script type="text/javascript" src="{% static "nfg/js/lib/defElements.js" %}"></script>
         <script type="text/javascript" src="{% static "nfg/js/lib/drawMenuElements.js" %}"></script>
-        <!--<script type="text/javascript" src="{% static "nfg/js/script_d3.js" %}"></script>-->
-     
+        <script type="text/javascript" src="{% static "nfg/js/lib/fillElementInfo.js" %}"></script>
+        <script type="text/javascript" src="{% static "nfg/js/lib/UtilsFormEP.js" %}"></script>
 
-        <!--<script type="text/javascript" src="{% static "nfg/js/forwarding_graph2.js" %}"></script>-->
-        <!--<script type="text/javascript" src="{% static "nfg/js/script_d3.js" %}"></script>-->
 
         
 	</head>
@@ -160,7 +104,7 @@
             </ul>
             <hr>
 
-            <div class="info">
+            <!--<div class="info">
                 <a href="#"><i class="glyphicon glyphicon-exclamation-sign"></i><strong> Node Info</strong></a>
                 <div class="panel panel-default">
                     <div class="panel-heading"><a>Node Id: 2</a></div>
@@ -176,7 +120,9 @@
                     </div>
                 </div>
 
-            </div>
+            </div>-->
+
+            <div class="info"></div>
 
 
             
@@ -200,58 +146,182 @@
         <!--/col-span-9-->
     </div>
 </div>
-<!-- /Main -->
 
-<!--<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button>-->
-
-<!--<div id="myModal" class="modal fade" role="dialog">
-  <div class="modal-dialog">
-
-    
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Modal Header</h4>
-      </div>
-      <div class="modal-body">
-        <p>Some text in the modal.</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-
-  </div>
-</div>-->
+<!-- Model FormEP -->
 
 <div class="modal" id="FormEP">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg" >
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                 <h4 class="modal-title">Info End Point</h4>
             </div>
+            
             <div class="modal-body">
-                <p>info1</p>
-                <p>info2</p>
-                <p>info3</p>
+                <form class="form-horizontal" role="form" id="formEndPoint">
+                    <div class="form-group ">
+                        <label class="control-label col-sm-2" for="name">Name EP:</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="nameEP" class="form-control " id="nameEP" placeholder="">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="idEndPoint">ID EndPoint</label>    
+                        <div class="col-sm-10">
+                            <input type="text" name="idEP" class="form-control " id="idEndPoint" placeholder="" disabled>
+                        </div>          
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="type" >Type:</label>
+                        <div class="col-sm-10">
+
+                            <select class="form-control" name="type" id="seltypeEP">
+                                <option selected>internal</option>
+                                <option>interface</option>
+                                <option>interface-out</option>
+                                <option>gre-tunnel</option>
+                                <option>vlan</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="name">Remote EP id:</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="remoteEPid" id="remoteEPid" placeholder="">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="title" id="titleInterface">title</label>     
+                        <div class="col-sm-10">
+                        </div>          
+                    </div>
+
+                    <!--Interface-->
+
+                    <!--<hr>-->
+
+                    <div id="boxInterface">
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="node">Node:</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="node" id="node" placeholder="">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="switch">Switch ID:</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="switch" id="switch" placeholder="">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="interface">Interface:</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="interface" id="interface" placeholder="">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Gre -->
+
+                    <div id="boxGre">
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="localIP">Local IP:</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="localIP" id="localIP" placeholder="">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="remoteIP">Remote IP:</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="remoteIP" id="remoteIP" placeholder="">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="interface">Interface:</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="gre:interface" id="greInterface" placeholder="">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="ttl">TTL:</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="ttl" id="ttl" placeholder="">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- VLAN -->
+
+                    <div id="boxVlan">
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="vlanID">Vlan ID:</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="vlanID" id="vlanID" placeholder="">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="switchId">Switch ID:</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="vlanSwitch" id="vlanSwitch" placeholder="">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="interface">Interface:</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="vlanInterface" id="vlanInterface" placeholder="">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="node">Node:</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="vlanNode" id="vlanNode" placeholder="">
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <!--<div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button type="submit" class="btn btn-default">Submit</button>
+                        </div>
+                    </div>-->
+                    
+                </form>
             </div>
             <div class="modal-footer">
-                <a href="#" data-dismiss="modal" class="btn">Close</a>
-                <a href="#" onclick="drawNewEP();" data-dismiss="modal" class="btn btn-primary">Save changes</a>
+                <!--<a href="#" data-dismiss="modal" class="btn">Close</a>-->
+
+                <!--data-dismiss="modal"-->
+                <a href="#" onclick="drawNewEP();"  class="btn btn-primary" >Add EndPoint</a>
             </div>
+            
         </div>
         <!-- /.modal-content -->
     </div>
     <!-- /.modal-dalog -->
 </div>
 
+<!-- Model FormNF -->
+
 <div class="modal" id="FormNF">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h4 class="modal-title">Info NetworkFunction</h4>
+                <h4 class="modal-title">Info Network Function</h4>
             </div>
             <div class="modal-body">
 
@@ -281,6 +351,11 @@
             function showPannelBody(){
                 $('.pannel-body').show();
             }
+
+            drawFormEP();
+
+            
+
         </script>
 
 

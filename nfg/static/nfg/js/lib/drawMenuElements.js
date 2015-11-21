@@ -10,9 +10,16 @@ function drawEPMenu(){
             .on("click",function(){
                
                     $('#FormEP').modal('show');
+                    $('#seltypeEP' ).val('internal');
+                    /*reset*/
+
+                    resetFormEp()
+
+                    $("#idEndPoint").val(NextIdEP());
                 
             })
        }
+
 function drawNFMenu(){
     svg_menu.append("rect")
             .attr("class","nf")
@@ -22,26 +29,27 @@ function drawNFMenu(){
             .attr("height",NF_height)   
             .on("click",function(){                
                 $('#FormNF').modal('show');
+
+
             });}
 
 
 function drawNewEP(){
-    ele=[{
-                    "x" : "200",
-                    "y" : "80",
-                    "id": "00000003",
-                    "name": "ingress",
-                    "type": "interface",
-                    "interface": {
-                        "node": "10.0.0.1",
-                        "interface": "eth0"
-                    }
-                }];
+    var ele=[];
+
+
+    var ep = fillNewEP();
+    console.log(validateNewEndPoint(ep));
+    if(validateNewEndPoint(ep)==true){
+
+        $('#FormEP').modal('hide');
+
+        ele.push(ep);
         EP_list.push(ele[0]);
 
 
 
-    svg.selectAll(".new_endpoint")
+        svg.selectAll(".new_endpoint")
                
                .data(ele)
                .enter()
@@ -63,10 +71,14 @@ function drawNewEP(){
                     var ep = getEndPointById(d.id);
                     drawEndPointInfo(ep,d.id);  
                 })
-                .call(drag_EP);}
+                .call(drag_EP);
+    }else{
+        console.log("validazione fallita");
+    }
+}
 
 function drawNewNF(){
-     ele = [{
+    var ele = [{
                     "x":"400",
                     "y":"40",
 
@@ -139,3 +151,26 @@ function drawNewNF(){
             .call(drag_INTERFACE);
 
 }
+
+function drawLINEMenu(){
+    svg_menu.append("line")
+            .attr("class","line")
+            .attr("stroke","black") 
+            .attr("x1",700)
+            .attr("y1",40)
+            .attr("x2",850)
+            .attr("y2",40);
+
+    svg_menu.append("circle")
+            .attr("r",5)
+            .attr("cx",700)
+            .attr("cy",40);
+
+    svg_menu.append("circle")
+            .attr("r",5)
+            .attr("cx",850)
+            .attr("cy",40);
+
+}
+
+
