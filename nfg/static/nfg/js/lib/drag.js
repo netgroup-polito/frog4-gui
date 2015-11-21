@@ -54,6 +54,7 @@ function dragNF(){
 
     return drag_NF;
 }
+//domani posto la versione con i link dei bs...
 function dragBIGSWITCH(){
     var drag_BIGSWITCH = d3.behavior.drag()
         .on("drag",function(d) {
@@ -69,6 +70,7 @@ function dragBIGSWITCH(){
             //assoluta dell'interfaccia all'interno del canvas si trova facendo  parent_NF_position_x+cx e parent_NF_position_y+cy
             svg.selectAll(".BS_interface")[0].forEach(function(e){
                 var interface=d3.select(e);
+<<<<<<< HEAD
                 //console.log(interface);
                 var interface_js = getBSInterfaceById(interface.attr("id"));
                 interface.attr("cx",interface_js.x+x);
@@ -105,6 +107,29 @@ function dragBIGSWITCH(){
                     interface.attr("cx",interface_position_x);
                     interface_js.x = interface_position_x - big_switch.x;
                 }
+=======
+                console.log(interface.attr("id"));
+                var interface_js=getBSInterfaceById(interface.attr("id"));
+                interface.attr("cx",interface_js.x+x);
+                interface.attr("cy",interface_js.y+y);
+
+                //var pos=interface.attr("id").replace(/:/g,"\\:");
+                //console.log(pos);
+                //var link1=svg.selectAll("[start="+pos+"]");
+                ////console.log(interface.attr("cx"));
+                //if(link1[0].length!==0){
+                //    link1.attr("x1",interface_js.x+x)
+                //        .attr("y1",interface_js.y+y)
+                //}
+                //var link2=svg.selectAll("[end="+pos+"]");
+                //if(link2[0].length!==0){
+                //    link2.attr("x2",interface_js.x+x)
+                //        .attr("y2",interface_js.y+y)
+                //}
+                ////console.log(d3.selectAll("[end="+pos+"]").attr("x1"));
+                ////var line
+            });
+>>>>>>> 10fe9ae1388e8c8b0a587c76e2643f37171fa2b3
 
             })
 

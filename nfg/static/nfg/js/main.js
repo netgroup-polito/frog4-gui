@@ -17,6 +17,7 @@ var svg_menu;
 
 /* vettore NF */
 var NF_list=[];
+<<<<<<< HEAD
 
 var EP_list=[];
 
@@ -24,20 +25,34 @@ var big_switch;
 var flow_rules;
 
 
+=======
+var EP_list=[];
+var big_switch;
+var flow_rules;
+
+>>>>>>> 10fe9ae1388e8c8b0a587c76e2643f37171fa2b3
 var drag_NF;
 var drag_EP;
 var drag_INTERFACE;
 var drag_INTERFACEBIGSWITCH;
 var drag_BIGSWITCH;
 var fg;
+<<<<<<< HEAD
 var group=[];
+=======
+>>>>>>> 10fe9ae1388e8c8b0a587c76e2643f37171fa2b3
 
 /* main */
 
 $(document).ready(function(){
 
+<<<<<<< HEAD
     //$("#draw_menu").hide();
     // /* Richiesta Json */
+=======
+    $(".external_box").hide();
+    /* Richiesta Json */
+>>>>>>> 10fe9ae1388e8c8b0a587c76e2643f37171fa2b3
     $.ajax({ type: "GET",url: "/nfg/ajax_data_request",
        success: function(data) {
            //console.log(data);
@@ -48,6 +63,145 @@ $(document).ready(function(){
            DrawForwardingGraph(fg);
        }
     });
+	/* per debug senza python!
+    fg={
+        "forwarding-graph": {
+            "id": "00000001",
+            "name": "Forwarding graph",
+            "VNFs": [
+                {
+                    "vnf_template": "firewall80.json",
+                    "id": "00000001",
+                    "name": "Web Firewall",
+                    "ports": [
+                        {
+                            "id": "User:0",
+                            "name": "User side interface"
+                        },
+                        {
+                            "id": "WAN:0",
+                            "name": "WAN side interface"
+                        }
+                    ]
+                },
+                {
+                    "vnf_template": "firewall.json",
+                    "id": "00000002",
+                    "name": "Non-Web Firewall",
+                    "ports": [
+                        {
+                            "id": "User:0",
+                            "name": "User side interface"
+                        },
+                        {
+                            "id": "WAN:0",
+                            "name": "WAN side interface"
+                        }
+                    ]
+                }
+            ],
+            "end-points": [
+                {
+                    "id": "00000001",
+                    "name": "ingress",
+                    "type": "interface",
+                    "interface": {
+                        "node": "10.0.0.1",
+                        "interface": "eth0"
+                    }
+                },
+                {
+                    "id": "00000002",
+                    "name": "egress",
+                    "type": "interface",
+                    "interface": {
+                        "node": "10.0.0.1",
+                        "interface": "eth1"
+                    }
+                }
+            ],
+            "big-switch": {
+                "flow-rules": [
+                    {
+                        "id": "000000001",
+                        "priority": 100,
+                        "match": {
+                            "ether_type": "0x0800",
+                            "protocol": "tcp",
+                            "dest_port": "80",
+                            "port_in": "endpoint:00000001"
+                        },
+                        "action": [{
+                            "output": "vnf:00000001:User:0"
+                        }]
+                    },
+                    {
+                        "id": "000000002",
+                        "priority": 1,
+                        "match": {
+                            "port_in": "vnf:00000001:User:0"
+                        },
+                        "action": [{
+                            "output": "endpoint:00000001"
+                        }]
+                    },
+                    {
+                        "id": "000000003",
+                        "priority": 1,
+                        "match": {
+                            "port_in": "endpoint:00000001"
+                        },
+                        "action": [{
+                            "output": "vnf:00000002:User:0"
+                        }]
+                    },
+                    {
+                        "id": "000000004",
+                        "priority": 1,
+                        "match": {
+                            "port_in": "vnf:00000002:User:0"
+                        },
+                        "action": [{
+                            "output": "endpoint:00000001"
+                        }]
+                    },
+                    {
+                        "id": "000000005",
+                        "priority": 1,
+                        "match": {
+                            "port_in": "vnf:00000001:WAN:0"
+                        },
+                        "action": [{
+                            "output": "endpoint:00000002"
+                        }]
+                    },
+                    {
+                        "id": "000000006",
+                        "priority": 1,
+                        "match": {
+                            "port_in": "vnf:00000002:User:0"
+                        },
+                        "action": [{
+                            "output": "endpoint:00000002"
+                        }]
+                    },
+                    {
+                        "id": "000000007",
+                        "priority": 1,
+                        "match": {
+                            "port_in": "endpoint:00000002"
+                        },
+                        "action": [{
+                            "output": "vnf:00000002:User:0"
+                        }]
+                    }
+                ]
+            }
+        }
+    };
+    DrawMenuBar();
+    DrawForwardingGraph(fg);
+	*/
 
 });
 
@@ -55,7 +209,7 @@ function DrawMenuBar(){
     svg_menu = d3.select("#draw_menu").append("svg").attr("width", svg_width_menu).attr("height", svg_height_menu);
     drawEPMenu();
     drawNFMenu();
-    drawLINEMenu();
+    //drawLINEMenu();
 }
 
 
@@ -75,9 +229,14 @@ function DrawForwardingGraph(fg){
     setInitialBSPositions();
     elaborateFlowRules();
 
+<<<<<<< HEAD
     //getVNFById("00000001");
     /*
     in drag.js
+=======
+    /*
+     in drag.js
+>>>>>>> 10fe9ae1388e8c8b0a587c76e2643f37171fa2b3
      */
     drag_NF = dragNF();
     drag_EP = dragEP();
@@ -85,7 +244,11 @@ function DrawForwardingGraph(fg){
     drag_INTERFACEBIGSWITCH = dragINTERFACEBIGSWITCH();
     drag_BIGSWITCH=dragBIGSWITCH();
     /*
+<<<<<<< HEAD
     in defElements
+=======
+     in defElements
+>>>>>>> 10fe9ae1388e8c8b0a587c76e2643f37171fa2b3
      */
     var NF = defNF();
     var NF_select = defNF_select();
@@ -96,7 +259,11 @@ function DrawForwardingGraph(fg){
     //console.log(EP_list);
 
     /*
+<<<<<<< HEAD
     in drawElements.js
+=======
+     in drawElements.js
+>>>>>>> 10fe9ae1388e8c8b0a587c76e2643f37171fa2b3
      */
 
     drawNF();
@@ -105,8 +272,21 @@ function DrawForwardingGraph(fg){
     drawEP();
     drawBIGSWITCH();
 
+<<<<<<< HEAD
     //window.alert(serialize());
     
+=======
+
+    //console.log(getFlowRulesInfoById(fg,"000000002"));
+
+    // drawBigSwitchInfo(fg);
+    //svg.selectAll(".interface,.line").sort(function(d){
+    //    if(d.type!=undefined) return -1;
+    //    else return 1;
+    //});
+    //window.alert(serialize());
+    //console.log("basta xD");
+>>>>>>> 10fe9ae1388e8c8b0a587c76e2643f37171fa2b3
 
     $(".interface").tooltip({
         'container': 'body',

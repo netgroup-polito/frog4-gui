@@ -2,7 +2,11 @@
  * This file contains generic utility functions.
  *
  **/
-
+function getBSInterfaceById(id){
+    var int;
+    big_switch.interfaces.forEach(function(e){if(e.id==id){int=e;}});
+    return int;
+}
 function getVNFById(id){
     var vnf;
     NF_list.forEach(function(e){
@@ -95,7 +99,6 @@ function setInitialNFPositions(){
             //da aggiustare se si vogliono mettere equidistribuite attorno all'NF
             e.x=parseInt(Math.random()*NF_width);
             e.y=0;
-
             e.parent_NF_x=x;
             e.parent_NF_y=y;
             e.parent_NF_id=NF_list[i].id;
@@ -112,7 +115,32 @@ function setInitialEPPositions(){
 
     }
 }
+//funzione che ho aggiunto per poter settare la posizione di ogni interfaccia del bs
+function setInitialBSPositions(){
+    var bs_interfaces=[];
+    var bs_x=300,bs_y=200;
 
+    EP_list.forEach(function(ele,index){
+        var tmp={};
+        tmp.ref = "endpoint";
+        tmp.id = "endpoint:"+ele.id;
+        tmp.x=parseInt(Math.random()*BIG_SWITCH_width);
+        tmp.y=0;
+        bs_interfaces.push(tmp);
+    });
+    NF_list.forEach(function(ele1,index){
+        ele1.ports.forEach(function(ele2,index){
+            var tmp={};
+            tmp.ref = "vnf";
+            tmp.id_vnf= ele1.id;
+            tmp.id = "vnf:"+ele1.id+":"+ele2.id;
+            tmp.x=parseInt(Math.random()*BIG_SWITCH_width);
+            tmp.y=0;
+            bs_interfaces.push(tmp);
+        })
+    });
+
+<<<<<<< HEAD
 function setInitialBSPositions(){
     var bs_interfaces=[];
     var bs_x=300,bs_y=200;
@@ -144,6 +172,12 @@ function setInitialBSPositions(){
     console.log(big_switch.interfaces.length);
 }
 
+=======
+    big_switch.x=bs_x;
+    big_switch.y=bs_y;
+    big_switch.interfaces=bs_interfaces;
+}
+>>>>>>> 10fe9ae1388e8c8b0a587c76e2643f37171fa2b3
 /*
  --->>>DA FARE<<<--- COMPLETAMENTE DA RIFARE LE POSIZIONI LE TROVA DALL'OGGETTO JS NON DALL'HTML!
  */
