@@ -123,7 +123,6 @@ function drawBIGSWITCH(){
 }
 
 function drawLINE(){
-
     var lines = svg.selectAll(".line")
         .data(flow_rules)
         .enter()
@@ -138,6 +137,24 @@ function drawLINE(){
         //aggiungo l'info da chi parte a chi arriva
         .attr("start",function(d){return d.match.port_in;})
         .attr("end",function(d){return d.action[0].output;})
+        .attr("fullduplex",function(d){return d.full_duplex;});
+}
+
+function drawBSLinks(){
+    var lines = svg.selectAll(".BS_line")
+        .data(bs_links)
+        .enter()
+        .append("line")
+        .attr("class","BS_line")
+        .attr("stroke","black")
+        .attr("x1",function(d){return d.x1;})
+        .attr("y1",function(d){return d.y1;})
+        .attr("x2",function(d){return d.x2;})
+        .attr("y2",function(d){return d.y2;})
+        .attr("title",function(d){return "Source: "+d.start+" Action: "+d.end;})
+        //aggiungo l'info da chi parte a chi arriva
+        .attr("start",function(d){return d.start;})
+        .attr("end",function(d){return d.end;})
         .attr("fullduplex",function(d){return d.full_duplex;});
 }
 

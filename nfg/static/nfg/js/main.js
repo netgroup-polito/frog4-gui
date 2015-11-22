@@ -22,7 +22,7 @@ var EP_list=[];
 
 var big_switch;
 var flow_rules;
-
+var bs_links=[];
 
 var drag_NF;
 var drag_EP;
@@ -36,18 +36,155 @@ var group=[];
 
 $(document).ready(function(){
 
-    //$("#draw_menu").hide();
-    // /* Richiesta Json */
+    $("#draw_menu").hide();
+    /* Richiesta Json */
     $.ajax({ type: "GET",url: "/nfg/ajax_data_request",
-       success: function(data) {
-           //console.log(data);
-           data = data.replace(/'/g,'"');
-           /* definisco oggetto fg */
-           fg=JSON.parse(data);
-           DrawMenuBar();
-           DrawForwardingGraph(fg);
-       }
+      success: function(data) {
+          //console.log(data);
+          data = data.replace(/'/g,'"');
+          /* definisco oggetto fg */
+          fg=JSON.parse(data);
+          DrawMenuBar();
+          DrawForwardingGraph(fg);
+      }
     });
+    // fg={
+        // "forwarding-graph": {
+            // "id": "00000001",
+            // "name": "Forwarding graph",
+            // "VNFs": [
+                // {
+                    // "vnf_template": "firewall80.json",
+                    // "id": "00000001",
+                    // "name": "Web Firewall",
+                    // "ports": [
+                        // {
+                            // "id": "User:0",
+                            // "name": "User side interface"
+                        // },
+                        // {
+                            // "id": "WAN:0",
+                            // "name": "WAN side interface"
+                        // }
+                    // ]
+                // },
+                // {
+                    // "vnf_template": "firewall.json",
+                    // "id": "00000002",
+                    // "name": "Non-Web Firewall",
+                    // "ports": [
+                        // {
+                            // "id": "User:0",
+                            // "name": "User side interface"
+                        // },
+                        // {
+                            // "id": "WAN:0",
+                            // "name": "WAN side interface"
+                        // }
+                    // ]
+                // }
+            // ],
+            // "end-points": [
+                // {
+                    // "id": "00000001",
+                    // "name": "ingress",
+                    // "type": "interface",
+                    // "interface": {
+                        // "node": "10.0.0.1",
+                        // "interface": "eth0"
+                    // }
+                // },
+                // {
+                    // "id": "00000002",
+                    // "name": "egress",
+                    // "type": "interface",
+                    // "interface": {
+                        // "node": "10.0.0.1",
+                        // "interface": "eth1"
+                    // }
+                // }
+            // ],
+            // "big-switch": {
+                // "flow-rules": [
+                    // {
+                        // "id": "000000001",
+                        // "priority": 100,
+                        // "match": {
+                            // "ether_type": "0x0800",
+                            // "protocol": "tcp",
+                            // "dest_port": "80",
+                            // "port_in": "endpoint:00000001"
+                        // },
+                        // "action": [{
+                            // "output": "vnf:00000001:User:0"
+                        // }]
+                    // },
+                    // {
+                        // "id": "000000002",
+                        // "priority": 1,
+                        // "match": {
+                            // "port_in": "vnf:00000001:User:0"
+                        // },
+                        // "action": [{
+                            // "output": "endpoint:00000001"
+                        // }]
+                    // },
+                    // {
+                        // "id": "000000003",
+                        // "priority": 1,
+                        // "match": {
+                            // "port_in": "endpoint:00000001"
+                        // },
+                        // "action": [{
+                            // "output": "vnf:00000002:User:0"
+                        // }]
+                    // },
+                    // {
+                        // "id": "000000004",
+                        // "priority": 1,
+                        // "match": {
+                            // "port_in": "vnf:00000002:User:0"
+                        // },
+                        // "action": [{
+                            // "output": "endpoint:00000001"
+                        // }]
+                    // },
+                    // {
+                        // "id": "000000005",
+                        // "priority": 1,
+                        // "match": {
+                            // "port_in": "vnf:00000001:WAN:0"
+                        // },
+                        // "action": [{
+                            // "output": "endpoint:00000002"
+                        // }]
+                    // },
+                    // {
+                        // "id": "000000006",
+                        // "priority": 1,
+                        // "match": {
+                            // "port_in": "vnf:00000002:User:0"
+                        // },
+                        // "action": [{
+                            // "output": "endpoint:00000002"
+                        // }]
+                    // },
+                    // {
+                        // "id": "000000007",
+                        // "priority": 1,
+                        // "match": {
+                            // "port_in": "endpoint:00000002"
+                        // },
+                        // "action": [{
+                            // "output": "vnf:00000002:User:0"
+                        // }]
+                    // }
+                // ]
+            // }
+        // }
+    // };
+    // DrawMenuBar();
+    // DrawForwardingGraph(fg);
 
 });
 
@@ -84,6 +221,8 @@ function DrawForwardingGraph(fg){
     drag_INTERFACE = dragINTERFACE();
     drag_INTERFACEBIGSWITCH = dragINTERFACEBIGSWITCH();
     drag_BIGSWITCH=dragBIGSWITCH();
+
+
     /*
     in defElements
      */
@@ -101,12 +240,21 @@ function DrawForwardingGraph(fg){
 
     drawNF();
     drawLINE();
+    drawBSLinks();
     drawVNF_interfaces();
     drawEP();
     drawBIGSWITCH();
 
     //window.alert(serialize());
-    
+
+    //rirdianiamo l'html!
+
+    //svg.selectAll(".BS_line,.interface,use").sort(function(a){
+    //    console.log(a);
+    //    if(a.ref!==undefined) return -5;
+    //    if(a.id===undefined) return -1;
+    //    return 1;
+    //});
 
     $(".interface").tooltip({
         'container': 'body',

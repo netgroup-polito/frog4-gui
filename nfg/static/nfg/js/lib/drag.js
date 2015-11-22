@@ -73,40 +73,52 @@ function dragBIGSWITCH(){
                 var interface_js = getBSInterfaceById(interface.attr("id"));
                 interface.attr("cx",interface_js.x+x);
                 interface.attr("cy",interface_js.y+y);
-                
+                var pos=interface.attr("id").replace(/:/g,"\\:");
+                var link1=svg.selectAll("[start=bs-"+pos+"]");
+                //console.log(interface.attr("cx"));
+                if(link1[0].length!==0){
+                    link1.attr("x1",interface_js.x+x)
+                        .attr("y1",interface_js.y+y)
+                }
+                var link2=svg.selectAll("[end=bs-"+pos+"]");
+                if(link2[0].length!==0){
+                    link2.attr("x2",interface_js.x+x)
+                        .attr("y2",interface_js.y+y)
+                }
             });
-        })
-        
-        var drag_inteface_big = d3.behavior.drag()
-            .on("drag",function(d){
-                var x=d3.event.x,y=d3.event.y;
-                var interface = d3.select(this);
-                var interface_position_x,interface_position_y;
-                var interface_js=getBSInterfaceById(interface.attr("id"));
-                if(interface_js.x==0 || interface_js.x==BIG_SWITCH_width){
-                    if(y<big_switch.y){
-                        interface_position_y = big_switch.y;
-                    }else if(y>big_switch.y+BIG_SWITCH_height){
-                        interface_position_y = big_switch.y+BIG_SWITCH_height;
-                    }else{
-                        interface_position_y = y;
-                    }
-                    interface.attr("cy",interface_position_y);
-                    interface_js.y = interface_position_y-big_switch.y;
-                }
-                if(interface_js.y===0 || interface_js.y===BIG_SWITCH_height){
-                    if(x<big_switch.x){
-                        interface_position_x = big_switch.x;
-                    }else if(x>big_switch.x + BIG_SWITCH_width){
-                        interface_position_x = big_switch.x +BIG_SWITCH_width;
-                    }else{
-                        interface_position_x = x;
-                    }
-                    interface.attr("cx",interface_position_x);
-                    interface_js.x = interface_position_x - big_switch.x;
-                }
 
-            })
+        });
+        
+        //var drag_inteface_big = d3.behavior.drag()
+        //    .on("drag",function(d){
+        //        var x=d3.event.x,y=d3.event.y;
+        //        var interface = d3.select(this);
+        //        var interface_position_x,interface_position_y;
+        //        var interface_js=getBSInterfaceById(interface.attr("id"));
+        //        if(interface_js.x==0 || interface_js.x==BIG_SWITCH_width){
+        //            if(y<big_switch.y){
+        //                interface_position_y = big_switch.y;
+        //            }else if(y>big_switch.y+BIG_SWITCH_height){
+        //                interface_position_y = big_switch.y+BIG_SWITCH_height;
+        //            }else{
+        //                interface_position_y = y;
+        //            }
+        //            interface.attr("cy",interface_position_y);
+        //            interface_js.y = interface_position_y-big_switch.y;
+        //        }
+        //        if(interface_js.y===0 || interface_js.y===BIG_SWITCH_height){
+        //            if(x<big_switch.x){
+        //                interface_position_x = big_switch.x;
+        //            }else if(x>big_switch.x + BIG_SWITCH_width){
+        //                interface_position_x = big_switch.x +BIG_SWITCH_width;
+        //            }else{
+        //                interface_position_x = x;
+        //            }
+        //            interface.attr("cx",interface_position_x);
+        //            interface_js.x = interface_position_x - big_switch.x;
+        //        }
+        //
+        //    })
 
     return drag_BIGSWITCH;
 }
@@ -199,9 +211,9 @@ function dragINTERFACEBIGSWITCH(){
         .on("drag",function(d){
             var x=d3.event.x,y=d3.event.y;
             var interface = d3.select(this);
-            //var pos=interface.attr("id").replace(/:/g,"\\:");
-            //var link1=svg.selectAll("[start="+pos+"]");
-            //var link2=svg.selectAll("[end="+pos+"]");
+            var pos=interface.attr("id").replace(/:/g,"\\:");
+            var link1=svg.selectAll("[start=bs-"+pos+"]");
+            var link2=svg.selectAll("[end=bs-"+pos+"]");
             var interface_position_x,interface_position_y;
             var interface_js=getBSInterfaceById(interface.attr("id"));
             if(interface_js.x==0 || interface_js.x==BIG_SWITCH_width){
@@ -214,12 +226,12 @@ function dragINTERFACEBIGSWITCH(){
                 }
                 interface.attr("cy", interface_position_y);
                 interface_js.y=interface_position_y-big_switch.y;
-                //if(link1[0].length!==0){
-                //    link1.attr("y1",interface_position_y);
-                //}
-                //if(link2[0].length!==0){
-                //    link2.attr("y2",interface_position_y);
-                //}
+                if(link1[0].length!==0){
+                    link1.attr("y1",interface_position_y);
+                }
+                if(link2[0].length!==0){
+                    link2.attr("y2",interface_position_y);
+                }
             }
             if(interface_js.y===0 || interface_js.y===BIG_SWITCH_height) {
                 if (x < big_switch.x) {
@@ -231,12 +243,12 @@ function dragINTERFACEBIGSWITCH(){
                 }
                 interface.attr("cx", interface_position_x);
                 interface_js.x = interface_position_x - big_switch.x;
-                //if(link1[0].length!==0){
-                //    link1.attr("x1",interface_position_x);
-                //}
-                //if(link2[0].length!==0){
-                //    link2.attr("x2",interface_position_x);
-                //}
+                if(link1[0].length!==0){
+                    link1.attr("x1",interface_position_x);
+                }
+                if(link2[0].length!==0){
+                    link2.attr("x2",interface_position_x);
+                }
                 //if(interface_js.x===0 || interface_js.x===BIG_SWITCH_width){
                 //    if(y<0){ d3.select(this).attr("cy",0);}
                 //    else if(y>BIG_SWITCH_height){ d3.select(this).attr("cy",BIG_SWITCH_height);}
