@@ -47,19 +47,65 @@ function fillNewEP(){
 	ep["x"] = "200";
 	ep["y"] = "40";
 	
-
-	/*ep = {
-		"x": "200",
-		"y": "40",
-        "id": "00000003",
-        "name": "ingress",
-        "type": "interface",
-        "interface": {
-          "node": "10.0.0.1",
-          "interface": "eth0"
-        }
-      };*/
     return ep;
+}
+
+function updateEP(){
+    var ep = {};
+
+    ep["name"] = $("#nameEP").val();
+    ep["type"] = $("#seltypeEP").val();
+    ep["remote_endpoint_id"] = $("#remoteEPid").val();
+
+    ep["id"] = $("#idEndPoint").val();
+
+    switch(ep["type"]){
+        case "internal":
+            ep["internal"]={}; 
+            break;
+        case "interface":
+            ep["interface"]={};
+            ep["interface"]["node"] = $("#node").val();
+            ep["interface"]["switch-id"] = $("#switch").val();
+            ep["interface"]["interface"] = $("#interface").val();
+            break;
+        case "interface-out":
+            ep["interface-out"]={};
+            ep["interface-out"]["node"] = $("#node").val();
+            ep["interface-out"]["switch-id"] = $("#switch").val();
+            ep["interface-out"]["interface"] = $("#interface").val();
+            break;
+        case "gre-tunnel":
+            ep["gre-tunnel"]={};
+            ep["gre-tunnel"]["local-ip"] = $("#localIP").val();
+            ep["gre-tunnel"]["remote-ip"] = $("#remoteIP").val();
+            ep["gre-tunnel"]["interface"] = $("#greInterface").val();
+            ep["gre-tunnel"]["ttl"] = $("#ttl").val();
+            break;
+        case "vlan":
+            ep["vlan"]={};
+            ep["vlan"]["vlan-id"] = $("#vlanID").val();
+            ep["vlan"]["interface"] = $("#vlanInterface").val();
+            ep["vlan"]["switch-id"] = $("#switch").val();
+            ep["vlan"]["node"] = $("#vlanNode").val();
+            break;
+
+    }
+
+    console.log(ep);
+
+    ep["x"] = "200";
+    ep["y"] = "40";
+    
+    return ep;
+
+} 
+
+
+
+
+function fillNewVNF(){
+    
 }
 
 

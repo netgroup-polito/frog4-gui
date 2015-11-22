@@ -103,7 +103,8 @@ def ajax_data_request(request):
         "type": "interface",
         "interface": {
           "node": "10.0.0.1",
-          "interface": "eth0"
+          "interface": "eth0",
+          "switch-id": ""
         }
       },
       {
@@ -112,7 +113,8 @@ def ajax_data_request(request):
         "type": "interface",
         "interface": {
           "node": "10.0.0.1",
-          "interface": "eth1"
+          "interface": "eth1",
+          "switch-id": ""
         }
       }
     ],
