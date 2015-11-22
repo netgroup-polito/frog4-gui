@@ -117,7 +117,9 @@
                                 <p><b>Node: </b>'+endpoint.interface.node+'</p>
                             </div>
                         </div>
+                        <p class="edit"><a href="#" onclick="showEditInfoEP()"><strong><i class="glyphicon glyphicon-wrench"></i> Edit</strong></a></p>
                     </div>
+
                 </div>
 
             </div>-->
@@ -305,7 +307,7 @@
                 <!--<a href="#" data-dismiss="modal" class="btn">Close</a>-->
 
                 <!--data-dismiss="modal"-->
-                <a href="#" onclick="drawNewEP();"  class="btn btn-primary" >Add EndPoint</a>
+                <a href="#" id="saveEP" onclick="drawNewEP()"  class="btn btn-primary" >Add EndPoint</a>
             </div>
             
         </div>
@@ -317,22 +319,33 @@
 <!-- Model FormNF -->
 
 <div class="modal" id="FormNF">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                 <h4 class="modal-title">Info Network Function</h4>
             </div>
-            <div class="modal-body">
+            <form class="form-horizontal" role="form" id="formEndPoint">
+                <div class="modal-body">
+                    <div class="form-group ">
+                        <label class="control-label col-sm-2" for="name">Name VNF:</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="nameVNF" class="form-control " id="nameVNF" placeholder="">
+                        </div>
+                    </div>
+                    <div class="form-group" >
+                        <label class="control-label col-sm-2" for="idVNF">ID VNF:</label>    
+                        <div class="col-sm-10">
+                            <input type="text" name="idVNF" class="form-control " id="idVNF" placeholder="" disabled>
+                        </div>          
+                    </div>
 
-                <p>info1</p>
-                <p>info2</p>
-                <p>info3</p>
-            </div>
-            <div class="modal-footer">
-                <a href="#" data-dismiss="modal" class="btn">Close</a>
-                <a href="#" onclick="drawNewNF();" data-dismiss="modal" class="btn btn-primary">Save changes</a>
-            </div>
+                </div>
+                <div class="modal-footer">
+                    <a href="#" data-dismiss="modal" class="btn">Close</a>
+                    <a href="#" onclick="drawNewNF();" data-dismiss="modal" class="btn btn-primary">Save changes</a>
+                </div>
+            </form>
         </div>
         <!-- /.modal-content -->
     </div>

@@ -200,8 +200,8 @@ function drawEndPointInfo(endpoint,id){
             $("#inter").append('<p><b>Switch ID: </b>'+inter["switch-id"]+'</p>');
             $("#inter").append('<p><b>Node: </b>'+inter["node"]+'</p>');
             break;
-
     }
+    $('#end'+endpoint.id).append('<p class="edit"><a href="#" onclick="showEditInfoEP('+endpoint.id+')"><strong><i class="glyphicon glyphicon-wrench"></i> Edit</strong></a></p>');
 }
     
 function drawVNFInfo(vnf,id){

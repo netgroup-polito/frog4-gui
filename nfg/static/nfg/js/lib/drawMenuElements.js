@@ -12,13 +12,15 @@ function drawEPMenu(){
                     $('#FormEP').modal('show');
                     $('#seltypeEP' ).val('internal');
                     /*reset*/
-
-                    resetFormEp()
-
+                    resetFormEp();
                     $("#idEndPoint").val(NextIdEP());
+
+                    $("#saveEP").attr("onclick","drawNewEP()");
+                    $("#saveEP").html("Add End Point");
+
                 
             })
-       }
+}
 
 function drawNFMenu(){
     svg_menu.append("rect")
@@ -77,6 +79,28 @@ function drawNewEP(){
     }
 }
 
+function saveNewEp(){
+    
+    var ep = updateEP();
+    if(validateNewEndPoint(ep)==true){
+        $('#FormEP').modal('hide');
+        EP_list.forEach(function(ele){
+            if(parseInt(ele.id) == parseInt(ep.id)){
+                //ele.name = ep.name;
+                //ele = ep;
+                EP_list.push(ep);
+                console.log("trovato");
+                console.log(ele);
+            }
+        });
+
+        
+    }
+
+    console.log(validateNewEndPoint(ep));
+
+}
+
 function drawNewNF(){
     var ele = [{
                     "x":"400",
@@ -110,7 +134,7 @@ function drawNewNF(){
 
             console.log(ele);
 
-        svg.selectAll(".new_nf")
+        svg.selectAll(".NewNetworkFunction")
             .data(ele)
             .enter()
             .append("use").attr("xlink:href", "#NF_node")
