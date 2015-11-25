@@ -185,3 +185,39 @@ footer {
   text-align: right;
 }
 
+.first-boxPort{
+  padding-top: 6px;
+  border-top: 0.5px solid;
+  border-bottom: 0.5px solid;
+  border-color: #CCC;
+  margin-bottom: 0px; 
+  margin-bottom: 10px;
+  /*padding-bottom: 10px;*/
+}
+
+.middle-boxPort{
+  padding-top: 6px;
+ /* border-top: 0.5px solid;*/
+  border-bottom: 0.5px solid;
+  border-color: #CCC;
+  margin-bottom: 0px; 
+  /*padding-bottom: 10px;*/
+}
+
+.last-boxPort{
+  padding-top: 6px;
+  /*border-top: 0.5px solid;*/
+  border-bottom: 0.5px solid;
+  border-color: #CCC;
+  margin-bottom: 10px; 
+  /*padding-bottom: 10px;*/
+}
+
+.addPort{
+  padding-right:15px;
+}
+
+
+
+
+

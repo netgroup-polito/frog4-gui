@@ -27,6 +27,7 @@ function drawNF() {
                 d3.selectAll(".end-points-select").attr("class","end-points");
                 //d3.selectAll(".BigSwitch").attr("xlink:href","#BIG_SWITCH_node");
                 d3.selectAll(".NetworkFunction").attr("xlink:href","#NF_node");
+                d3.selectAll(".BIG_SWITCH_select").attr("xlink:href","#BIG_SWITCH");
                 $(this).attr("href","#NF_select");
                // d3.select(d).attr("xlink:href","#NF_select");
                 /* funzioni per visualizzare le informazioni sulla sinistra */
@@ -72,12 +73,14 @@ function drawEP(){
          })*/
         .attr("cx",function(d){return d.x;})
         .attr("cy",function(d){return d.y;})
+        .attr("title",function(d){return "EndPoint:"+d.id;})
         .on("click",function(d){
 			select_node(d);
             /* funzioni per selezionare questo oggetto e deselezionare gli altri */
             d3.selectAll(".end-points-select").attr("class","end-points");
             d3.selectAll(".NetworkFunction").attr("xlink:href","#NF_node");
-            //d3.selectAll(".use_BIG").attr("xlink:href","#BIG_SWITCH_node");
+            d3.selectAll(".use_BIG").attr("xlink:href","#BIG_SWITCH_select");
+            //d3.selectAll(".BIG_SWITCH_select").attr("xlink:href","#BIG_SWITCH");
             d3.select(this).attr("class","end-points-select")
 
             /* funzioni per visualizzare le informazioni sulla sinistra */
@@ -106,17 +109,17 @@ function drawBIGSWITCH(){
         .attr("id",function(d){return d.id;})
         .attr("r",r_interface)
         .attr("title",function(d){
-            if(d.type=="endpoint")
-                return "bs:"+d.type+":"+d.id;
-            else if(d.type=="vnf")
-                return "bs:"+d.type+":"+d.id_vnf+":"+d.id;
+            if(d.ref=="endpoint")
+                return d.id;
+            else if(d.ref=="vnf")
+                return d.id;
         })
         .call(drag_INTERFACEBIGSWITCH);
 
 
     big_s.on("click",function(){
         d3.selectAll(".end-points-select").attr("class","end-points");
-        d3.selectAll(".use_NF").attr("xlink:href","#NF_node");
+        d3.selectAll(".NetworkFunction").attr("xlink:href","#NF_node");
         d3.select(".use_BIG").attr("xlink:href","#BIG_SWITCH_select");
         drawBigSwitchInfo(fg);
 
@@ -210,8 +213,13 @@ function drawVNFInfo(vnf,id){
     $('.info').empty();
     $('.info').append('<a href="#"><i class="glyphicon glyphicon-exclamation-sign"></i><strong> VNF Info</strong></a><div class="panel panel-default"><div class="panel-heading">VNF Id: '+vnf.id+' </div><div id="vnf'+vnf.id+'"class="panel-body"><p><b>Name:</b> '+vnf.name+'</p></div><div>');
 
-    $('#vnf'+vnf.id).append('<div class="panel panel-default"><div class="panel-body"><p><b>Port: </b>'+vnf.ports[0].id+'</p><p><b>Node: </b>'+vnf.ports[0].name+'</p></div></div>');
-    $('#vnf'+vnf.id).append('<div class="panel panel-default"><div class="panel-body"><p><b>Port: </b>'+vnf.ports[1].id+'</p><p><b>Node: </b>'+vnf.ports[1].name+'</p></div></div>')}
+   /* $('#vnf'+vnf.id).append('<div class="panel panel-default"><div class="panel-body"><p><b>Port: </b>'+vnf.ports[0].id+'</p><p><b>Node: </b>'+vnf.ports[0].name+'</p></div></div>');
+    $('#vnf'+vnf.id).append('<div class="panel panel-default"><div class="panel-body"><p><b>Port: </b>'+vnf.ports[1].id+'</p><p><b>Node: </b>'+vnf.ports[1].name+'</p></div></div>')}*/
+    vnf.ports.forEach(function(porta){
+        $('#vnf'+vnf.id).append('<div class="panel panel-default"><div class="panel-body"><p><b>Port: </b>'+porta.id+'</p><p><b>Node: </b>'+porta.name+'</p></div></div>');
+    });
+
+}
 function drawBigSwitchInfo(fg){
     $('.info').empty();
     $('.info').append('<a href="#"><i class="glyphicon glyphicon-exclamation-sign"></i><strong> BigSwitch Info</strong></a>');

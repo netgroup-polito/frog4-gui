@@ -56,6 +56,38 @@ def login(request):
 		else:
 			return HttpResponseRedirect("/nfg/login?err_message=Authentication Error!")
 
+def ajax_template_request(request):
+  
+  nffg_dict_1 = {
+      "name": "dhcp",
+      "expandable": "false",
+      "uri": "http://controller:9292/v2/images/00491289-3124-41f7-8333-2c8e5dbde3f6",
+      "vnf-type": "virtual-machine",
+      "memory-size": 2048,
+      "root-file-system-size": 40,
+      "ephemeral-file-system-size": 0,
+      "swap-disk-size": 0,
+      "CPUrequirements": {
+      "platformType": "x86",
+      "socket": [
+        {
+          "coreNumbers": 1
+        }
+      ]
+    },
+    "ports": [
+      {
+        "position": "0-0",
+        "label": "inout",
+        "min": "1",
+        "ipv4-config": "none",
+        "ipv6-config": "none",
+        "name": "eth"
+      }
+    ]
+}
+  
+  return HttpResponse("%s" % nffg_dict_1)
 
 	
 
@@ -217,3 +249,8 @@ def ajax_data_request(request):
 	
 	return HttpResponse("%s" % nffg_dict_1)
 	'''return render(request,'nfg/index2.html',nffg_1.getDict(True))'''
+
+
+
+
+

@@ -105,7 +105,70 @@ function updateEP(){
 
 
 function fillNewVNF(){
+    var vnf2={
+                    "x":"400",
+                    "y":"40",
+
+                    "vnf_template": "firewall80.json",
+                    "id": "00000003",
+                    "name": "NAT",
+                    "ports": [
+                        {
+                            "x":"0",
+                            "y":"0",
+                            "parent_NF_x":"400",
+                            "parent_NF_y":"40",
+                            "parent_NF_id":"00000003",
+                            "id": "User:0",
+                            "name": "User side interface"
+                        },
+                        {   "x":"120",
+                            "y":"0",
+                            "parent_NF_x":"400",
+                            "parent_NF_y":"40",
+                            "parent_NF_id":"00000003",
+                            "id": "WAN:0",
+                            "name": "WAN side interface"
+                        }
+                    ]
+                }
+
+    var vnf = {};
+    var port = {};
+
+    vnf["x"] = "400";
+    vnf["y"] = "40";
+
     
+    vnf["id"] = "00000003";
+    vnf["name"] = $("#nameVNF").val();
+    vnf["vnf_template"] = $("#idVNF").val();
+    vnf["ports"] = [];
+
+
+    for(var i=0;i<num;i++){
+
+        console.log(i);
+        port["x"] = 0+i*10;
+        port["y"] = "0";
+        port["parent_NF_x"] = "400";
+        port["parent_NF_y"] = "40";
+
+        port["parent_NF_id"] = vnf["id"];
+        port["id"] = "User:"+i;
+        console.log(port["id"]);
+
+        port["name"] = $("#namePort"+(i+1)).val();
+        console.log(port["name"]);
+
+        vnf["ports"].push(port);
+
+        console.log(port);
+
+    }
+    console.log(vnf);
+       
+    return vnf;
 }
 
 

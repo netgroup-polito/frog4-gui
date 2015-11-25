@@ -12,6 +12,8 @@ var svg_width = 960,
     BIG_SWITCH_width=200,
     BIG_SWITCH_height=130;
 
+
+
 var svg;
 var svg_menu;
 
@@ -34,6 +36,9 @@ var group=[];
 var ele1_selected;
 var ele2_selected;
 var creating_link=false;
+
+
+var num = 0;
 
 /* main */
 
@@ -259,6 +264,7 @@ function DrawForwardingGraph(fg){
     //    return 1;
     //});
 
+    
     $(".interface").tooltip({
         'container': 'body',
         'placement': 'top'
@@ -269,7 +275,10 @@ function DrawForwardingGraph(fg){
         'placement': 'top'
     });
 
-
+    $(".end-points").tooltip({
+        'container': 'body',
+        'placement': 'top'
+    });
 
 }
 
