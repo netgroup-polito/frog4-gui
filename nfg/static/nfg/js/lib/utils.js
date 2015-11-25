@@ -167,7 +167,7 @@ function setInitialNFPositions(){
             //da aggiustare se si vogliono mettere equidistribuite attorno all'NF
             e.x=parseInt(Math.random()*NF_width);
             e.y=0;
-
+            e.ref="NF_interface";
             e.parent_NF_x=x;
             e.parent_NF_y=y;
             e.parent_NF_id=NF_list[i].id;
@@ -181,7 +181,7 @@ function setInitialEPPositions(){
     for(var i=0;i<n;i++){
         EP_list[i].x=parseInt(200*Math.cos(alfa*(i)+Math.PI/2)+svg_width/2);
         EP_list[i].y=parseInt(200*Math.sin(alfa*(i)+Math.PI/2)+svg_height/2);
-
+        EP_list[i].ref="end-point";
     }
 }
 

@@ -54,7 +54,8 @@ function drawVNF_interfaces(){
             .attr("parent_NF_position_y",function(d){return d.parent_NF_y;})
             .attr("parent",function(d){return "vnf"+d.parent_NF_id;})
             .attr("id",function(d){return "vnf:"+ d.parent_NF_id+":"+d.id;})
-            .call(drag_INTERFACE);
+            .call(drag_INTERFACE)
+			.on("click",select_node);
     //});
 }
 
@@ -72,6 +73,7 @@ function drawEP(){
         .attr("cx",function(d){return d.x;})
         .attr("cy",function(d){return d.y;})
         .on("click",function(d){
+			select_node(d);
             /* funzioni per selezionare questo oggetto e deselezionare gli altri */
             d3.selectAll(".end-points-select").attr("class","end-points");
             d3.selectAll(".NetworkFunction").attr("xlink:href","#NF_node");

@@ -31,6 +31,9 @@ var drag_INTERFACEBIGSWITCH;
 var drag_BIGSWITCH;
 var fg;
 var group=[];
+var ele1_selected;
+var ele2_selected;
+var creating_link=false;
 
 /* main */
 
