@@ -102,15 +102,37 @@ function saveNewEp(){
 }
 
 function drawNewNF(){
-    //var ele = [];
+    var ele = [{
+                    "x":"400",
+                    "y":"40",
 
-            var ele = [];
+                    "vnf_template": "firewall80.json",
+                    "id": "00000003",
+                    "name": "NAT",
+                    "ports": [
+                        {
+                            "x":"0",
+                            "y":"0",
+                            "parent_NF_x":"400",
+                            "parent_NF_y":"40",
+                            "parent_NF_id":"00000003",
+                            "id": "User:0",
+                            "name": "User side interface"
+                        },
+                        {   "x":"120",
+                            "y":"0",
+                            "parent_NF_x":"400",
+                            "parent_NF_y":"40",
+                            "parent_NF_id":"00000003",
+                            "id": "WAN:0",
+                            "name": "WAN side interface"
+                        }
+                    ]
+                }]
 
-            ele[0] = fillNewVNF();
+                NF_list.push(ele[0]);
 
-            NF_list.push(ele[0]);
-
-            //console.log(ele[0]);
+            console.log(ele);
 
         svg.selectAll(".NewNetworkFunction")
             .data(ele)
@@ -155,7 +177,16 @@ function drawNewNF(){
 }
 
 function drawLINEMenu(){
-    svg_menu.append("line")
+    var link=svg_menu.append("g");
+    link.append("rect")
+        .attr("x",650)
+        .attr("y",25)
+        .attr("width",250)
+        .attr("height",30)
+        .attr("fill","white")
+        .attr("stroke","white");
+
+    link.append("line")
             .attr("class","line")
             .attr("stroke","black") 
             .attr("x1",700)
@@ -163,15 +194,22 @@ function drawLINEMenu(){
             .attr("x2",850)
             .attr("y2",40);
 
-    svg_menu.append("circle")
+    link.append("circle")
             .attr("r",5)
             .attr("cx",700)
             .attr("cy",40);
 
-    svg_menu.append("circle")
+    link.append("circle")
             .attr("r",5)
             .attr("cx",850)
             .attr("cy",40);
+
+    link.on("click",function(){
+        $("#my_canvas").css("cursor","crosshair");
+        ele1_selected=undefined;
+        ele2_selected=undefined;
+        creating_link=true;
+    });
 
 }
 
