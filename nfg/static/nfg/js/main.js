@@ -54,6 +54,7 @@ $(document).ready(function(){
           fg=JSON.parse(data);
           DrawMenuBar();
           DrawForwardingGraph(fg);
+          showNFFG(false);
       }
     });
     // fg={

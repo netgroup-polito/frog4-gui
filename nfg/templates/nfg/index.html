@@ -26,6 +26,7 @@
 
         <script type="text/javascript" src="{% static "nfg/js/scripts.js" %}"></script>
         <script type="text/javascript" src="{% static "nfg/js/main.js" %}"></script>
+        <script type="text/javascript" src="{% static "nfg/js/underscore-min.js" %}"></script>
         <script type="text/javascript" src="{% static "nfg/js/lib/drag.js" %}"></script>
         <script type="text/javascript" src="{% static "nfg/js/lib/drawElements.js" %}"></script>
         <script type="text/javascript" src="{% static "nfg/js/lib/utils.js" %}"></script>
@@ -36,7 +37,8 @@
         <script type="text/javascript" src="{% static "nfg/js/lib/UtilsFormEP.js" %}"></script>
         <script type="text/javascript" src="{% static "nfg/js/lib/UtilsFormVNF.js" %}"></script>
 		<script type="text/javascript" src="{% static "nfg/js/lib/linkCreations.js" %}"></script>
-        <script type="text/javascript" src="{% static "nfg/js/underscore-min.js" %}"></script>
+        <script type="text/javascript" src="{% static "nfg/js/lib/showView.js" %}"></script>
+
 
 
         
@@ -95,9 +97,9 @@
 
                 <li class="nav-header"> <a href="#" data-toggle="collapse" data-target="#menu-model">Model <i class="glyphicon glyphicon-chevron-right"></i></a>
                     <ul class="nav nav-stacked collapse" id="menu-model">
-                        <li class="active"> <a href="#"><i class="glyphicon glyphicon-cog"></i> NF-FG network</a></li>
+                        <li class="active"> <a href="#" onclick="showNFFG(false)"><i class="glyphicon glyphicon-cog"></i> NF-FG network</a></li>
                         
-                        <li><a href="#"><i class="glyphicon glyphicon-cog"></i> OpenFlow network</a></li>
+                        <li><a href="#"  onclick="showNFFG(true)"><i class="glyphicon glyphicon-cog"></i> OpenFlow network</a></li>
                         
                                                   
                     </ul>

@@ -125,16 +125,91 @@ function elaborateFlowRules(){
 
     });
 }
+function getPos(ele,bx,by){
+    var pos={};
+    var m1={},m2={},m3={},m4={};
+    m1.x=bx;
+    m1.y=by+BIG_SWITCH_height/2;
+
+    m2.x=bx+BIG_SWITCH_width;
+    m2.y=by+BIG_SWITCH_height/2;
+
+    m3.x=bx+BIG_SWITCH_width/2;
+    m3.y=by;
+
+    m4.x=bx+BIG_SWITCH_width/2;
+    m4.y=by+BIG_SWITCH_height;
+
+    var d1=Math.pow(ele.x-m1.x,2)+Math.pow(ele.y-m1.y,2);
+    var d2=Math.pow(ele.x-m2.x,2)+Math.pow(ele.y-m2.y,2);
+    var d3=Math.pow(ele.x-m3.x,2)+Math.pow(ele.y-m3.y,2);
+    var d4=Math.pow(ele.x-m4.x,2)+Math.pow(ele.y-m4.y,2);
+    console.log(d1);
+    console.log(d2);
+    console.log(d3);
+    console.log(d4);
+    var min=Math.min(d1,d2,d3,d4);
+
+    switch (min){
+        case d1:
+            console.log("d1");
+            if(ele.y<by){
+                pos.y=by;
+            }else if(ele.y>by+BIG_SWITCH_height){
+                pos.y=by+BIG_SWITCH_height;
+            }else{
+                pos.y=ele.y;
+            }
+            pos.x=bx;
+            break;
+        case d2:
+            console.log("d2");
+            if(ele.y<by){
+                pos.y=by;
+            }else if(ele.y>by+BIG_SWITCH_height){
+                pos.y=by+BIG_SWITCH_height;
+            }else{
+                pos.y=ele.y;
+            }
+            pos.x=bx+BIG_SWITCH_width;
+            break;
+        case d3:
+            console.log("d3");
+            if(ele.x<bx){
+                pos.x=bx;
+            }else if(ele.x>bx+BIG_SWITCH_width){
+                pos.x=bx+BIG_SWITCH_width;
+            }else{
+                pos.x=ele.x;
+            }
+            pos.y=by;
+            break;
+        case d4:
+            console.log("d4");
+            if(ele.x<bx){
+                pos.x=bx;
+            }else if(ele.x>bx+BIG_SWITCH_width){
+                pos.x=bx+BIG_SWITCH_width;
+            }else{
+                pos.x=ele.x;
+            }
+            pos.y=by+BIG_SWITCH_height;
+            break;
+    }
+    pos.x-=bx;pos.y-=by;
+    return pos;
+}
 function setInitialBSPositions(){
     var bs_interfaces=[];
-    var bs_x=300,bs_y=200;
+    var bs_x=svg_width/2-BIG_SWITCH_width/2,bs_y=svg_height/2-BIG_SWITCH_height/2;
 
     EP_list.forEach(function(ele,index){
         var tmp={};
         tmp.ref = "endpoint";
         tmp.id = "endpoint:"+ele.id;
-        tmp.x=parseInt(Math.random()*BIG_SWITCH_width);
-        tmp.y=0;
+        var pos=getPos(ele,bs_x,bs_y);
+        tmp.x=pos.x;
+        tmp.y=pos.y;
         bs_interfaces.push(tmp);
     });
     NF_list.forEach(function(ele1,index){
@@ -143,8 +218,10 @@ function setInitialBSPositions(){
             tmp.ref = "vnf";
             tmp.id_vnf= ele1.id;
             tmp.id = "vnf:"+ele1.id+":"+ele2.id;
-            tmp.x=parseInt(Math.random()*BIG_SWITCH_width);
-            tmp.y=0;
+            var temp={x:parseInt(ele2.parent_NF_x)+parseInt(ele2.x),y:parseInt(ele2.parent_NF_y)+parseInt(ele2.y)};
+            var pos=getPos(temp,bs_x,bs_y);
+            tmp.x=pos.x;
+            tmp.y=pos.y;
             bs_interfaces.push(tmp);
         })
     });
@@ -159,9 +236,9 @@ function setInitialNFPositions(){
     var alfa=2*Math.PI/n;
     var x,y;
     for(var i=0;i<n;i++){
-        x=parseInt(300*Math.cos(alfa*(i))+svg_width/2-NF_width/2-NF_offset_x/2);
+        x=parseInt(200*Math.cos(alfa*(i)+Math.PI/2)+svg_width/2-NF_width/2-NF_offset_x/2);
         NF_list[i].x=x;
-        y=parseInt(300*Math.sin(alfa*(i))+svg_height/2-NF_height/2-NF_offset_y/2);
+        y=parseInt(200*Math.sin(alfa*(i)+Math.PI/2)+svg_height/2-NF_height/2-NF_offset_y/2);
         NF_list[i].y=y;
         NF_list[i].ports.forEach(function(e){
             //da aggiustare se si vogliono mettere equidistribuite attorno all'NF
@@ -177,10 +254,10 @@ function setInitialNFPositions(){
 
 function setInitialEPPositions(){
     var n=EP_list.length;
-    var alfa=2*Math.PI/2;
+    var alfa=2*Math.PI/n;
     for(var i=0;i<n;i++){
-        EP_list[i].x=parseInt(200*Math.cos(alfa*(i)+Math.PI/2)+svg_width/2);
-        EP_list[i].y=parseInt(200*Math.sin(alfa*(i)+Math.PI/2)+svg_height/2);
+        EP_list[i].x=parseInt(250*Math.cos(alfa*(i))+svg_width/2);
+        EP_list[i].y=parseInt(250*Math.sin(alfa*(i))+svg_height/2);
         EP_list[i].ref="end-point";
     }
 }

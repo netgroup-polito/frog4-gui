@@ -187,7 +187,7 @@ function drawLINEMenu(){
         .attr("stroke","white");
 
     link.append("line")
-            .attr("class","line")
+            .attr("class","line_menu")
             .attr("stroke","black") 
             .attr("x1",700)
             .attr("y1",40)
