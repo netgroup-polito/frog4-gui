@@ -102,37 +102,15 @@ function saveNewEp(){
 }
 
 function drawNewNF(){
-    var ele = [{
-                    "x":"400",
-                    "y":"40",
+    //var ele = [];
 
-                    "vnf_template": "firewall80.json",
-                    "id": "00000003",
-                    "name": "NAT",
-                    "ports": [
-                        {
-                            "x":"0",
-                            "y":"0",
-                            "parent_NF_x":"400",
-                            "parent_NF_y":"40",
-                            "parent_NF_id":"00000003",
-                            "id": "User:0",
-                            "name": "User side interface"
-                        },
-                        {   "x":"120",
-                            "y":"0",
-                            "parent_NF_x":"400",
-                            "parent_NF_y":"40",
-                            "parent_NF_id":"00000003",
-                            "id": "WAN:0",
-                            "name": "WAN side interface"
-                        }
-                    ]
-                }]
+            var ele = [];
 
-                NF_list.push(ele[0]);
+            ele[0] = fillNewVNF();
 
-            console.log(ele);
+            NF_list.push(ele[0]);
+
+            //console.log(ele[0]);
 
         svg.selectAll(".NewNetworkFunction")
             .data(ele)

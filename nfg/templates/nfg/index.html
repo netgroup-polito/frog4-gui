@@ -25,7 +25,6 @@
         <link href="{% static "nfg/css/graphElement.css" %}" rel="stylesheet">
 
         <script type="text/javascript" src="{% static "nfg/js/scripts.js" %}"></script>
-
         <script type="text/javascript" src="{% static "nfg/js/main.js" %}"></script>
         <script type="text/javascript" src="{% static "nfg/js/lib/drag.js" %}"></script>
         <script type="text/javascript" src="{% static "nfg/js/lib/drawElements.js" %}"></script>
@@ -35,6 +34,8 @@
         <script type="text/javascript" src="{% static "nfg/js/lib/drawMenuElements.js" %}"></script>
         <script type="text/javascript" src="{% static "nfg/js/lib/fillElementInfo.js" %}"></script>
         <script type="text/javascript" src="{% static "nfg/js/lib/UtilsFormEP.js" %}"></script>
+        <script type="text/javascript" src="{% static "nfg/js/lib/UtilsFormVNF.js" %}"></script>
+        <script type="text/javascript" src="{% static "nfg/js/underscore-min.js" %}"></script>
 
 
         
@@ -80,14 +81,13 @@
             <ul class="nav nav-stacked">
                 <li class="nav-header"> <a href="#" data-toggle="collapse" data-target="#userMenu">Settings <i class="glyphicon glyphicon-chevron-right"></i></a>
                     <ul class="nav nav-stacked collapse " id="userMenu">
-                        <li class="active"> <a href="#"><i class="glyphicon glyphicon-home"></i> Home</a></li>
                         
-                        <li><a href="#" onclick="showMenuDrow();"><i class="glyphicon glyphicon-cog"></i>DrawBar</a></li>
-                        <li><a href="#"><i class="glyphicon glyphicon-comment"></i> Shoutbox</a></li>
-                        <li><a href="#"><i class="glyphicon glyphicon-user"></i> Staff List</a></li>
+                        <li><a href="#" onclick="showMenuDrow();"><i class="glyphicon glyphicon-cog"></i> DrawBar</a></li>
+                        <!--<li><a href="#"><i class="glyphicon glyphicon-comment"></i> </a></li>
+                        <li><a href="#"><i class="glyphicon glyphicon-user"></i> </a></li>
                         <li><a href="#"><i class="glyphicon glyphicon-flag"></i> Transactions</a></li>
                         <li><a href="#"><i class="glyphicon glyphicon-exclamation-sign"></i> Rules</a></li>
-                        <li><a href="#"><i class="glyphicon glyphicon-off"></i> Logout</a></li>
+                        <li><a href="#"><i class="glyphicon glyphicon-off"></i> Logout</a></li>-->
                          <hr>                            
                     </ul>
                 </li>
@@ -103,26 +103,6 @@
                 </li>
             </ul>
             <hr>
-
-            <!--<div class="info">
-                <a href="#"><i class="glyphicon glyphicon-exclamation-sign"></i><strong> Node Info</strong></a>
-                <div class="panel panel-default">
-                    <div class="panel-heading"><a>Node Id: 2</a></div>
-                    <div id="end2"class="panel-body">
-                        <p><b>Name:</b> '+endpoint.name+'</p>
-                        <p><b>Type:</b> '+endpoint.type+'</p>
-                        <div class="panel panel-default">
-                            <div class="panel-body">
-                                <p><b>Inteface: </b>'+endpoint.interface.interface+'</p>
-                                <p><b>Node: </b>'+endpoint.interface.node+'</p>
-                            </div>
-                        </div>
-                        <p class="edit"><a href="#" onclick="showEditInfoEP()"><strong><i class="glyphicon glyphicon-wrench"></i> Edit</strong></a></p>
-                    </div>
-
-                </div>
-
-            </div>-->
 
             <div class="info"></div>
 
@@ -325,7 +305,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                 <h4 class="modal-title">Info Network Function</h4>
             </div>
-            <form class="form-horizontal" role="form" id="formEndPoint">
+            <form class="form-horizontal" role="form" id="formVNF">
                 <div class="modal-body">
                     <div class="form-group ">
                         <label class="control-label col-sm-2" for="name">Name VNF:</label>
@@ -345,102 +325,36 @@
                         <div class="col-sm-10">
 
                             <select class="form-control" name="type" id="seltemplateVNF">
-                                <option selected>switch</option>
-                                <option>firewall</option>
-                                <option>dhcp</option>
-                                <option>router</option>
-                                <option>ids</option>
+                                <option selected>firewall</option>      <!--firewall.json-->
+                                <option>firewall-web</option>           <!--firewall-web.json-->
+                                <option>ftp</option>                    <!--ftp.json-->
+                                <option>nat</option>                    <!--nat.json-->
+                                <option>dhcp</option>                   <!--dhcp.json-->
+                                <option>switch</option>                 <!--switch.json-->
                             </select>
                         </div>
                     </div>
 
-                <div class="first-boxPort">
-                    <div class="form-group">
-                        <label class="control-label col-sm-2" for="title" id="titleInterface"><a onclick="showBoxPort(1)">Port [id]</a></label>     
-                        <div class="col-sm-10">
-                        </div>          
-                    </div>
-                    <div id="box1">
-
                     <div class="form-group ">
-                        <label class="control-label col-sm-2" for="name">Name Port:</label>
+                        <label class="control-label col-sm-2" for="group">Group:</label>
                         <div class="col-sm-10">
-                            <input type="text" name="namePort" class="form-control " id="namePort" placeholder="">
+                            <input type="text" name="groupPort" class="form-control " id="groupPort" placeholder="">
                         </div>
                     </div>
 
-                    <div class="form-group" >
-                        <label class="control-label col-sm-2" for="idPort">ID Port:</label>    
-                        <div class="col-sm-10">
-                            <input type="text" name="idPort" class="form-control " id="idPort" placeholder="" disabled>
-                        </div>          
-                    </div>
-                    </div>
-                </div>
+                    <div id="infoPort">
 
-                <div class="middle-boxPort" >
-                    
-                    <div class="form-group">
-                        <label class="control-label col-sm-2" for="title" id="titleInterface"><a onclick="showBoxPort(2)">Port [id]</a></label>     
-                        <div class="col-sm-10">
-                        </div>          
                     </div>
-                    <div id="box2"> 
-
-                    <div class="form-group ">
-                        <label class="control-label col-sm-2" for="name">Name Port:</label>
-                        <div class="col-sm-10">
-                            <input type="text" name="namePort" class="form-control " id="namePort" placeholder="">
-                        </div>
-                    </div>
-
-                    <div class="form-group" >
-                        <label class="control-label col-sm-2" for="idPort">ID Port:</label>    
-                        <div class="col-sm-10">
-                            <input type="text" name="idPort" class="form-control " id="idPort" placeholder="" disabled>
-                        </div>          
-                    </div>
-                </div>
-            </div>
-
-                <div class="last-boxPort">
-                    <div class="form-group">
-                        <label class="control-label col-sm-2" for="title" id="titleInterface"><a onclick="showBoxPort(3)">Port [id]</a></label>     
-                        <div class="col-sm-10">
-                        </div>          
-                    </div>
-                    <div id="box3">
-                    <div class="form-group ">
-                        <label class="control-label col-sm-2" for="name">Name Port:</label>
-                        <div class="col-sm-10">
-                            <input type="text" name="namePort" class="form-control " id="namePort" placeholder="">
-                        </div>
-                    </div>
-
-                    <div class="form-group" >
-                        <label class="control-label col-sm-2" for="idPort">ID Port:</label>    
-                        <div class="col-sm-10">
-                            <input type="text" name="idPort" class="form-control " id="idPort" placeholder="" disabled>
-                        </div>          
-                    </div>
-                    </div>
-                </div>
-                
-                    
 
                     <div class="form-group">        
                         <div class="col-sm-offset-2 col-sm-10">
                            <div class="addPort" align="right"> 
-                                <a href="#" data-dismiss="modal" class="btn btn-primary">Add Port</a>
+                                <a href="#" onclick="addFormPort()" class="btn btn-primary">Add Port</a>
                             </div>
                         </div>
                     </div>
 
-                    
-
-                
                 <div class="modal-footer">
-                    <a href="#" data-dismiss="modal" class="btn">Close</a>
                     <a href="#" onclick="drawNewNF();" data-dismiss="modal" class="btn btn-primary">Save changes</a>
                 </div>
             </form>
@@ -464,9 +378,59 @@
             }
 
             drawFormEP();
+            drawFormVNF();
+
 
             function showBoxPort(id){
                 $('#box'+id).slideToggle("slow");
+            }
+
+            function addFormPort(){
+
+            
+            var classe = "last-boxPort";
+
+            switch(num){
+                    case 0:
+                        classe = "first-boxPort";
+                        num++;
+                        break;
+                    case 1:
+                        classe = "last-boxPort";
+                        num++;
+                        break;
+                    default:
+                        num++;
+                        $(".last-boxPort").attr("class","middle-boxPort");
+                        classe = "last-boxPort";
+                        break;
+                }
+
+            
+
+            $html = '<div class="'+classe+'">'+
+                    '    <div class="form-group">'+
+                    '        <label class="control-label col-sm-2" for="title" id="titleInterface"><a onclick="showBoxPort('+num+')">Port '+num+'</a></label>'+     
+                    '        <div class="col-sm-10">'+
+                    '    </div>'+          
+                    '</div>'+
+                    '<div id="box'+num+'">'+
+                    '<div class="form-group ">'+
+                    '   <label class="control-label col-sm-2" for="name">Name Port:</label>'+
+                    '   <div class="col-sm-10">'+
+                    '        <input type="text" name="namePort" class="form-control " id="namePort'+num+'" placeholder="">'+
+                    '    </div>'+
+                    '</div>'+
+                    '<div class="form-group" >'+
+                    '    <label class="control-label col-sm-2" for="idPort">ID Port:</label>'+    
+                    '   <div class="col-sm-10">'+
+                    '        <input type="text" name="idPort" class="form-control " id="idPort" placeholder="" disabled>'+
+                    '    </div>'+          
+                    '</div>'+
+                    '</div>'+
+                    '</div>';
+
+                $("#infoPort").append($html);            
             }
 
         </script>

@@ -188,16 +188,17 @@ footer {
 .first-boxPort{
   padding-top: 6px;
   border-top: 0.5px solid;
-  /*border-bottom: 2px solid;*/
+  border-bottom: 0.5px solid;
   border-color: #CCC;
   margin-bottom: 0px; 
+  margin-bottom: 10px;
   /*padding-bottom: 10px;*/
 }
 
 .middle-boxPort{
   padding-top: 6px;
-  border-top: 0.5px solid;
-  /*border-bottom: 2px solid;*/
+ /* border-top: 0.5px solid;*/
+  border-bottom: 0.5px solid;
   border-color: #CCC;
   margin-bottom: 0px; 
   /*padding-bottom: 10px;*/
@@ -205,8 +206,8 @@ footer {
 
 .last-boxPort{
   padding-top: 6px;
-  border-top: 0.5px solid;
-  border-bottom: 1px solid;
+  /*border-top: 0.5px solid;*/
+  border-bottom: 0.5px solid;
   border-color: #CCC;
   margin-bottom: 10px; 
   /*padding-bottom: 10px;*/

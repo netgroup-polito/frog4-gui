@@ -1,5 +1,5 @@
 function drawFormEP(){
-    opt = "";
+    var opt = "";
 
             $(function(){
                 $("#boxInterface").hide();
@@ -8,7 +8,7 @@ function drawFormEP(){
                 $("#titleInterface").hide();
            
                 $("#seltypeEP").change(function(){
-                    opt_sel = $( "#seltypeEP" ).val();
+                    var opt_sel = $( "#seltypeEP" ).val();
                                       
                         switch(opt_sel){
 
