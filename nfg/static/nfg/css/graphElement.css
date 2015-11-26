@@ -18,12 +18,14 @@
 
     .end-points{
         fill:#013E72;
+        /*fill: url("../img/ele.png");*/
         stroke: #000;
         stroke-width: 2px;
     }
 
     .end-points-select{
         fill: #ED571C;
+        /*fill: url("../img/ele.png");*/
         stroke: #000;
         stroke-width: 2px;
     }

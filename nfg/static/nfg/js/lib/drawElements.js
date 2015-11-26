@@ -13,7 +13,7 @@ function drawNF() {
         svg.selectAll(".NetworkFunction")
             .data(NF_list)
             .enter()
-            .append("use").attr("xlink:href", "#NF_node")
+            .append("use").attr("xlink:href", "#NF_node")       
             .attr("id", function(d){return d.id;})
             .attr("class", "NetworkFunction") //ogni NF ha un NF_node centrale e attorno tutte le interfacce
         //group[index]
@@ -34,6 +34,15 @@ function drawNF() {
                 var vnf = getVNFById(d.id);
                 drawVNFInfo(vnf,d.id);
              });
+
+        /*var text = svg.append("g").selectAll("text")
+            .data(NF_list)
+            .enter().append("text")
+            .attr("class","text")
+            .attr("x",function(d){ return d.x+2;})
+            .attr("y",function(d){ return d.y+30;})
+            .text(function(d) { return d.name; })*/
+            //.call(drag_TEXT);
 
         //group[index].call(drag_NF);
     //});
@@ -61,6 +70,8 @@ function drawVNF_interfaces(){
 }
 
 function drawEP(){
+
+    
     svg.selectAll(".end-points")
         .data(EP_list)
         .enter()
@@ -74,6 +85,7 @@ function drawEP(){
         .attr("cx",function(d){return d.x;})
         .attr("cy",function(d){return d.y;})
         .attr("title",function(d){return "EndPoint:"+d.id;})
+        //.style("fill","url(#bg)")
         .on("click",function(d){
 			select_node(d);
             /* funzioni per selezionare questo oggetto e deselezionare gli altri */
@@ -222,9 +234,15 @@ function drawVNFInfo(vnf,id){
 }
 function drawBigSwitchInfo(fg){
     $('.info').empty();
-    $('.info').append('<a href="#"><i class="glyphicon glyphicon-exclamation-sign"></i><strong> BigSwitch Info</strong></a>');
+    $('.info').append('<a onclick="ReduceAll()"><i class="glyphicon glyphicon-exclamation-sign"></i><strong> BigSwitch Info</strong></a>');
     fg["forwarding-graph"]["big-switch"]["flow-rules"].forEach(function(e){
-        $('.info').append('<div class="panel panel-default"><div class="panel-heading">FlowRule Id: '+e.id+'</div><div id="flowrule'+e.id+'" class="panel-body"><p><b>Priority: '+e.priority+'</b> </p></div></div>');
+        /*$html = '<div class="panel panel-default"><div class="panel-heading"><a onclick="Reduce('+e.id+')">FlowRule Id: '+e.id+' (';*/
+        $html = '<div class="panel panel-default"><div class="panel-heading"><a onclick="Reduce('+e.id+')">FlowRule (';
+            e.action.forEach(function(a){
+                $html+=a.output+" ";
+            });
+        $html += ')</a></div><div id="flowrule'+e.id+'" class="panel-body"><p><b>Priority: '+e.priority+'</b> </p></div></div>';
+        $('.info').append($html);
         $('#flowrule'+e.id).append('<p><b>Action:</b></p>');
 
         $('#flowrule'+e.id).append('<div class="panel panel-default"><div id="a_'+e.id +'"class="panel-body"></div></div>');
@@ -246,3 +264,20 @@ function drawBigSwitchInfo(fg){
         if(e.match.port_in!=null)
             $('#flowrule'+e.id).append('<p><b>Source Port: </b>'+e.match.port_in+'</p>');
     });}
+
+function ReduceAll(){
+    fg["forwarding-graph"]["big-switch"]["flow-rules"].forEach(function(e){
+        $('#flowrule'+e.id).hide();
+    });
+}
+
+function Reduce(id){
+    if(id<10){
+        id="00000000"+id;
+    }else{
+        id="0000000"+id;
+    }
+
+    $('#flowrule'+id).slideToggle("slow");
+    
+}

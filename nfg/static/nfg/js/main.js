@@ -31,6 +31,7 @@ var drag_EP;
 var drag_INTERFACE;
 var drag_INTERFACEBIGSWITCH;
 var drag_BIGSWITCH;
+var drag_TEXT;
 var fg;
 var group=[];
 var ele1_selected;
@@ -230,6 +231,7 @@ function DrawForwardingGraph(fg){
     drag_INTERFACE = dragINTERFACE();
     drag_INTERFACEBIGSWITCH = dragINTERFACEBIGSWITCH();
     drag_BIGSWITCH=dragBIGSWITCH();
+    //drag_TEXT = dragTEXT();
 
 
     /*

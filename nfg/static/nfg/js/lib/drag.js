@@ -54,6 +54,11 @@ function dragNF(){
 
     return drag_NF;
 }
+
+
+
+
+
 function dragBIGSWITCH(){
     var drag_BIGSWITCH = d3.behavior.drag()
         .on("drag",function(d) {
@@ -199,12 +204,24 @@ function dragINTERFACE(){
 
         })
         .on("dragstart",function(d){
-            //console.log("->>>>");
-            //console.log(this);
             d3.event.sourceEvent.stopPropagation();
         });
     return drag_inteface;
 }
+
+/*function dragTEXT(){
+    var drag_TEXT = d3.behavior.drag()
+    .on("drag",function(d){
+            var x=parseInt(d3.event.x),y=parseInt(d3.event.y);
+            var text = d3.select(this);
+            text.attr("x",x).attr("y",y);
+            
+        }).on("dragstart",function(d){
+            d3.event.sourceEvent.stopPropagation();
+        });
+    return drag_TEXT;
+}*/
+
 
 function dragINTERFACEBIGSWITCH(){
     var drag_inteface_big = d3.behavior.drag()

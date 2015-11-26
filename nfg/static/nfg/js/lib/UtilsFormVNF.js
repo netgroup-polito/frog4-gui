@@ -9,6 +9,7 @@ function drawFormVNF(){
 
 				case "firewall":
 					console.log("firewall");
+					
 					break;
 				case "firewall-web":
 					console.log("firewall-web");
