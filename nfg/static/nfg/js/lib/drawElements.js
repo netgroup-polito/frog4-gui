@@ -24,10 +24,10 @@ function drawNF() {
             .on("click",function(d){ //da sistemare!
                 console.log(this);
             /* funzioni per selezionare questo oggetto e deselezionare gli altri */
-                d3.selectAll(".end-points-select").attr("class","end-points");
+                d3.selectAll(".end-points-select").attr("class","end-points").style("fill","url(#host-icon)");
                 //d3.selectAll(".BigSwitch").attr("xlink:href","#BIG_SWITCH_node");
                 d3.selectAll(".NetworkFunction").attr("xlink:href","#NF_node");
-                d3.selectAll(".BIG_SWITCH_select").attr("xlink:href","#BIG_SWITCH");
+                d3.selectAll(".use_BIG").attr("xlink:href","#BIG_SWITCH_node");
                 $(this).attr("href","#NF_select");
                // d3.select(d).attr("xlink:href","#NF_select");
                 /* funzioni per visualizzare le informazioni sulla sinistra */
@@ -70,7 +70,6 @@ function drawVNF_interfaces(){
 }
 
 function drawEP(){
-
     
     svg.selectAll(".end-points")
         .data(EP_list)
@@ -84,16 +83,16 @@ function drawEP(){
          })*/
         .attr("cx",function(d){return d.x;})
         .attr("cy",function(d){return d.y;})
-        .attr("title",function(d){return "EndPoint:"+d.id;})
-        //.style("fill","url(#bg)")
+        .attr("title",function(d){return d.name;})
+        .style("fill","url(#host-icon)")
         .on("click",function(d){
 			select_node(d);
             /* funzioni per selezionare questo oggetto e deselezionare gli altri */
-            d3.selectAll(".end-points-select").attr("class","end-points");
+            d3.selectAll(".end-points-select").attr("class","end-points").style("fill","url(#host-icon)");
             d3.selectAll(".NetworkFunction").attr("xlink:href","#NF_node");
-            d3.selectAll(".use_BIG").attr("xlink:href","#BIG_SWITCH_select");
+            d3.selectAll(".use_BIG").attr("xlink:href","#BIG_SWITCH_node");
             //d3.selectAll(".BIG_SWITCH_select").attr("xlink:href","#BIG_SWITCH");
-            d3.select(this).attr("class","end-points-select")
+            d3.select(this).attr("class","end-points-select").style("fill","url(#host-select-icon)");
 
             /* funzioni per visualizzare le informazioni sulla sinistra */
             var ep = getEndPointById(d.id);
@@ -130,7 +129,7 @@ function drawBIGSWITCH(){
 
 
     big_s.on("click",function(){
-        d3.selectAll(".end-points-select").attr("class","end-points");
+        d3.selectAll(".end-points-select").attr("class","end-points").style("fill","url(#host-icon)");
         d3.selectAll(".NetworkFunction").attr("xlink:href","#NF_node");
         d3.select(".use_BIG").attr("xlink:href","#BIG_SWITCH_select");
         drawBigSwitchInfo(fg);

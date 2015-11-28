@@ -39,5 +39,37 @@ function defBIGSWITCH_select(){
         .attr("width",BIG_SWITCH_width)
         .attr("height",BIG_SWITCH_height)
         .attr("class","big-switch-select");
-
     return BIG_SWITCH_select;}
+
+function defImgPcRed(){
+    var ImgPcRed = svg.append("defs")
+       .append('pattern')
+       .attr('id','host-select-icon')
+       .attr('width', 1)
+       .attr('height', 1)
+       .attr('patternContentUnits', 'objectBoundingBox')
+       .append("svg:image")
+       .attr("xlink:xlink:href", "/static/nfg/img/pc-red.png")
+       .attr('width', 1)
+       .attr('height', 1)
+       .attr("preserveAspectRatio", "xMinYMin slice");
+
+    return ImgPcRed;
+}
+
+function defImgPcBlue(){    
+
+    var ImgPcBlue = svg.append("defs")
+       .append('pattern')
+       .attr('id','host-icon')
+       .attr('width', 1)
+       .attr('height', 1)
+       .attr('patternContentUnits', 'objectBoundingBox')
+       .append("svg:image")
+       .attr("xlink:xlink:href", "/static/nfg/img/pc-blue.png")
+       .attr('width', 1)
+       .attr('height', 1)
+       .attr("preserveAspectRatio", "xMinYMin slice");
+
+    return ImgPcBlue;
+}

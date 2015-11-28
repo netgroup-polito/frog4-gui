@@ -18,16 +18,14 @@
 
     .end-points{
         fill:#013E72;
-        /*fill: url("../img/ele.png");*/
         stroke: #000;
-        stroke-width: 2px;
+        stroke-width: 4px;
     }
 
     .end-points-select{
-        fill: #ED571C;
-        /*fill: url("../img/ele.png");*/
+        fill:#ED571C;
         stroke: #000;
-        stroke-width: 2px;
+        stroke-width: 4px;
     }
 
     .big-switch{
@@ -40,6 +38,7 @@
         stroke: #000;
         stroke-width: 2px;
     }
-    .line{
-       stroke-width: 2px; 
+    .line,.BS_line{
+       stroke-width: 2.5px; 
     }
+

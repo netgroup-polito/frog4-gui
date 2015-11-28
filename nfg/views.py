@@ -131,7 +131,7 @@ def ajax_data_request(request):
     "end-points": [
       {
         "id": "00000001",
-        "name": "ingress",
+        "name": "Ingress",
         "type": "interface",
         "interface": {
           "node": "10.0.0.1",
@@ -141,7 +141,7 @@ def ajax_data_request(request):
       },
       {
         "id": "00000002",
-        "name": "egress",
+        "name": "Egress",
         "type": "interface",
         "interface": {
           "node": "10.0.0.1",

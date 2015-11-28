@@ -8,8 +8,7 @@ function drawFormVNF(){
 			switch(opt_sel){
 
 				case "firewall":
-					console.log("firewall");
-					
+					console.log("firewall");					
 					break;
 				case "firewall-web":
 					console.log("firewall-web");
