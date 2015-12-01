@@ -57,10 +57,15 @@ a:focus, .navbar-inverse .navbar-nav > .open > a:hover {
     background-color: rgba(140, 185, 44, 0.87);
 }
 
+
+.container-fluid > .navbar-collapse, .container-fluid > 
+.navbar-header, .container > .navbar-collapse, .container > .navbar-header{
+  margin-left: 10px;
+}
+
 .navbar-brand{
   font-family: Arial,Helvetica,sans-serif;
-  font-size: 25px;
- 
+  font-size: 25px; 
 }
 
 .navbar-inverse .navbar-brand{
@@ -130,13 +135,25 @@ a:focus, .navbar-inverse .navbar-nav > .open > a:hover {
   line-height: 1.42857;
 }
 
-
-#my_canvas{
+#upload_menu{
   border: 2px solid #80A926;
   border-radius: 6px;
   background: #FFF;
+  padding: 20px;
   margin-right: 20px;
   margin-bottom: 20px;
+  overflow: scroll;
+  height: auto;
+}
+
+#my_canvas{
+  background-color: #EEE;
+  border: 2px solid #80A926;
+  border-radius: 6px;
+  margin-right: 20px;
+  margin-bottom: 20px;
+  overflow: scroll;
+  height: 510px;
 
 }
 
@@ -148,10 +165,11 @@ a:focus, .navbar-inverse .navbar-nav > .open > a:hover {
   margin-top: 0px;
   margin-bottom: 30px;
   color: inherit;
-  background-color: #FFF;
+  background-color: #EEE;
   font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
   font-size: 14px;
   line-height: 1.42857;
+  margin-right: 20px;
 }
 
 html{
@@ -161,9 +179,8 @@ html{
   
 #footer {
   position: absolute;
-  margin-bottom: 0px;
-  
-  padding-top:20px;
+  margin-bottom: 0px;  
+  padding-top: 20px;
   padding-right: 40px;
   padding-left: 40px;
   width: 100%;  
@@ -201,31 +218,11 @@ html{
   text-align: right;
 }
 
-.first-boxPort{
+.boxPort{
   padding-top: 6px;
-  border-top: 0.5px solid;
-  border-bottom: 0.5px solid;
   border-color: #CCC;
   margin-bottom: 0px; 
   margin-bottom: 10px;
-  /*padding-bottom: 10px;*/
-}
-
-.middle-boxPort{
-  padding-top: 6px;
- /* border-top: 0.5px solid;*/
-  border-bottom: 0.5px solid;
-  border-color: #CCC;
-  margin-bottom: 0px; 
-  /*padding-bottom: 10px;*/
-}
-
-.last-boxPort{
-  padding-top: 6px;
-  /*border-top: 0.5px solid;*/
-  border-bottom: 0.5px solid;
-  border-color: #CCC;
-  margin-bottom: 10px; 
   /*padding-bottom: 10px;*/
 }
 
@@ -233,7 +230,20 @@ html{
   padding-right:15px;
 }
 
-
+#file_content{
+  color: #555;
+  border: 1px solid #CCC;
+  background-color: #EEE;
+  padding: 20px;
+  margin-bottom: 20px;
+  height: 400px;
+  overflow: scroll;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+  border-radius: 10px;
+}
 
 
 

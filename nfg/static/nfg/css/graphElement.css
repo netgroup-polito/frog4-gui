@@ -1,4 +1,4 @@
- .nf{
+    .nf{
         fill: #80A926;
         stroke: #000;
         stroke-width: 2px;
@@ -10,6 +10,8 @@
         stroke-width: 2px;
 
     }
+
+    
 
     .interface{
         fill: #337AB7;
@@ -33,12 +35,19 @@
         stroke: #000;
         stroke-width: 2px;
     }
+
     .big-switch-select{
         fill: rgba(237, 87, 28, 0.7);
         stroke: #000;
         stroke-width: 2px;
     }
-    .line,.BS_line{
+
+    .line,.BS_line,.line_menu{
        stroke-width: 2.5px; 
+    }
+
+
+    .internet{
+        stroke: transparent;
     }
 

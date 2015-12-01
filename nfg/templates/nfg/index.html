@@ -40,10 +40,13 @@
         <script type="text/javascript" src="{% static "nfg/js/lib/showView.js" %}"></script>
 
 
+        <!-- librerie esterne -->
 
-        
+        <script type="text/javascript" src="{% static "nfg/js/bootstrap-filestyle.min.js" %}"></script>
+
 	</head>
 	<body>
+
 
 <!-- header -->
 <div id="top-nav" class="navbar navbar-inverse navbar-static-top">
@@ -80,9 +83,10 @@
             <br>
             <a href="#"><strong><i class="glyphicon glyphicon-wrench"></i> Settings</strong></a>
 
-            <hr>
+            <hr id="hr1">
 
             <ul class="nav nav-stacked">
+
                 <li class="nav-header"> <a href="#" data-toggle="collapse" data-target="#userMenu">Settings <i class="glyphicon glyphicon-chevron-right"></i></a>
                     <ul class="nav nav-stacked collapse " id="userMenu">
                         
@@ -106,9 +110,9 @@
 
                 <li class="nav-header"><a href="#" data-toggle="collapse" data-target="#menu-json">Json Managment <i class="glyphicon glyphicon-chevron-right"></i></a>
                     <ul class="nav nav-stacked collapse" id="menu-json">
-                        <li class="active"> <a href="#" onclick="showNFFG(false)"><i class="glyphicon glyphicon-cog"></i> Upload Json</a></li>
+                        <li class="active"> <a href="#" onclick="showUploadFG();"><i class="glyphicon glyphicon-cog"></i> Upload Json</a></li>
                         
-                        <li><a href="#"  onclick="showNFFG(true)"><i class="glyphicon glyphicon-cog"></i> Download Json</a></li>
+                        <li><a href="#"  onclick=""><i class="glyphicon glyphicon-cog"></i> Download Json</a></li>
 
 
             </ul>
@@ -129,7 +133,16 @@
                     
                 </div>
                 <div class="col-md-12" >
-                    <div id="my_canvas"> </div>
+
+                    <div id="my_canvas">
+                        <!--<div class="col-sm-6">
+                            <img src="{% static "nfg/img/frog2.jpg" %}" />
+                        </div>
+                        <div class="col-sm-6">
+                            <br><br><br><br><br><br>
+                            <h3><b>Clicca qui per iniziare a creare un nuovo grafo.</b></h3>
+                        </div>-->
+                    </div>
                 </div>
 
             </div>
@@ -139,8 +152,37 @@
     </div>
 
 </div>
-<!--<div id="footer"><p>ciao</p></div>-->
 
+
+<!-- Modal Upload -->
+
+<div class="modal" id="UploadFG">
+    <div class="modal-dialog modal-lg" >
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="titleJson">Upload Json </h4>
+            </div>
+            <form class="form-horizontal" role="form" action="#" id="formUpload" method="post" enctype="multipart/form-data" accept-charset="utf-8">
+                <div class="modal-body">
+                    <div id="file_content">
+
+                    </div>
+                    <input id="inputFile" type="file" name="myfile" class="filestyle" data-buttonName="btn-primary">  
+                </div>
+                
+                <div class="modal-footer">
+                    <a href="#" id="Preview" onclick="PreviewFile();"  class="btn btn-primary" >Preview</a>
+                    <a href="#" id="Upload" onclick="UploadFile();"  class="btn btn-primary" >Upload</a>
+                    
+                </div>
+            </form>
+            
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dalog -->
+</div>
 
 
 <!-- Model FormEP -->
@@ -165,7 +207,7 @@
                     <div class="form-group">
                         <label class="control-label col-sm-2" for="idEndPoint">ID EndPoint</label>    
                         <div class="col-sm-10">
-                            <input type="text" name="idEP" class="form-control " id="idEndPoint" placeholder="" disabled>
+                            <input type="text" name="idEP" class="form-control " id="idEndPoint" placeholder="" disabled value="">
                         </div>          
                     </div>
 
@@ -288,12 +330,6 @@
 
 
                     </div>
-
-                    <!--<div class="form-group">
-                        <div class="col-sm-offset-2 col-sm-10">
-                            <button type="submit" class="btn btn-default">Submit</button>
-                        </div>
-                    </div>-->
                     
                 </form>
             </div>
@@ -309,7 +345,7 @@
     </div>
     <!-- /.modal-dalog -->
 </div>
-
+  
 <!-- Model FormNF -->
 
 <div class="modal" id="FormNF">
@@ -339,47 +375,83 @@
                         <div class="col-sm-10">
 
                             <select class="form-control" name="type" id="seltemplateVNF">
-                                <option selected>firewall</option>      <!--firewall.json-->
-                                <option>firewall-web</option>           <!--firewall-web.json-->
-                                <option>ftp</option>                    <!--ftp.json-->
-                                <option>nat</option>                    <!--nat.json-->
-                                <option>dhcp</option>                   <!--dhcp.json-->
-                                <option>switch</option>                 <!--switch.json-->
+                                <option selected>Firewall</option>      <!--firewall.json-->
+                                <option>Firewall-web</option>           <!--firewall-web.json-->
+                                <option>Ftp</option>                    <!--ftp.json-->
+                                <option>Nat</option>                    <!--nat.json-->
+                                <option>Dhcp</option>                   <!--dhcp.json-->
+                                <option>Switch</option>                 <!--switch.json-->
+                                <option>Iptraf</option>                 <!--iptraf.json-->
                             </select>
                         </div>
                     </div>
 
-                    <div class="form-group ">
-                        <label class="control-label col-sm-2" for="group">Group:</label>
-                        <div class="col-sm-10">
-                            <input type="text" name="groupPort" class="form-control " id="groupPort" placeholder="">
+                    <div class="form-group">
+                            <label class="control-label col-sm-2" for="title" id="titleInfo"><a onclick="showInfoVNF()">VNF Info:</a></label>
+                            <div class="col-sm-10">
+                            </div>          
+                    </div>
+
+                    <div id="infoTemplate">
+
+                        <div class="form-group" >
+                            <label class="control-label col-sm-2" for="expandable">Expandable:</label>    
+                            <div class="col-sm-10">
+                                <input type="text" name="idVNF" class="form-control " id="idExpandable" placeholder="" disabled>
+                            </div>
+                        </div> 
+
+                        <div class="form-group" >
+                            <label class="control-label col-sm-2" for="uri">Uri:</label>    
+                            <div class="col-sm-10">
+                                <input type="text" name="idVNF" class="form-control " id="idUri" placeholder="" disabled>
+                            </div>
                         </div>
+
+                        <div class="form-group" >
+                            <label class="control-label col-sm-2" for="type">VNF-Type:</label>    
+                            <div class="col-sm-10">
+                                <input type="text" name="idVNF" class="form-control " id="idType" placeholder="" disabled>
+                            </div>
+                        </div>  
+
+                        <div class="form-group" >
+                            <label class="control-label col-sm-2" for="memory">Memory-Size:</label>    
+                            <div class="col-sm-10">
+                                <input type="text" name="idVNF" class="form-control " id="idMemorySize" placeholder="" disabled>
+                            </div>
+                        </div>
+                        <div class="form-group" >
+                            <label class="control-label col-sm-2" for="root">FileSystemSize:</label>    
+                            <div class="col-sm-10">
+                                <input type="text" name="idVNF" class="form-control " id="idRootFileSystemSize" placeholder="" disabled>
+                            </div>
+                        </div> 
+                        <div class="form-group" >
+                            <label class="control-label col-sm-2" for="swap">SwapDiskSize:</label>    
+                            <div class="col-sm-10">
+                                <input type="text" name="idVNF" class="form-control " id="idSwapDiskSize" placeholder="" disabled>
+                            </div>
+                        </div>
+
                     </div>
 
                     <div id="infoPort">
 
                     </div>
 
-                    <div class="form-group">        
-                        <div class="col-sm-offset-2 col-sm-10">
-                           <div class="addPort" align="right"> 
-                                <a href="#" onclick="addFormPort()" class="btn btn-primary">Add Port</a>
-                            </div>
-                        </div>
-                    </div>
-
-                <div class="modal-footer">
-                    <a href="#" onclick="drawNewNF();" data-dismiss="modal" class="btn btn-primary">Save changes</a>
-                </div>
             </form>
+            <div class="modal-footer">
+                    <a href="#" onclick="drawNewNF();" data-dismiss="modal" class="btn btn-primary">Add VNF</a>
+                </div>
+
         </div>
         <!-- /.modal-content -->
+        
+    
     </div>
     <!-- /.modal-dalog -->
 </div>
-
-
-
 
 <!-- /.modal -->
 	<!-- script references -->
@@ -402,61 +474,62 @@
                 $('.pannel-body').show();
             }
 
+            function showInfoVNF(){
+                $("#infoTemplate").slideToggle("slow");
+            }
+
             drawFormEP();
             drawFormVNF();
-
-
+            
             function showBoxPort(id){
                 $('#box'+id).slideToggle("slow");
             }
 
-            function addFormPort(){
-
-            
-            var classe = "last-boxPort";
-
-            switch(num){
-                    case 0:
-                        classe = "first-boxPort";
-                        num++;
-                        break;
-                    case 1:
-                        classe = "last-boxPort";
-                        num++;
-                        break;
-                    default:
-                        num++;
-                        $(".last-boxPort").attr("class","middle-boxPort");
-                        classe = "last-boxPort";
-                        break;
-                }
-
-            
-
-            $html = '<div class="'+classe+'">'+
-                    '    <div class="form-group">'+
-                    '        <label class="control-label col-sm-2" for="title" id="titleInterface"><a onclick="showBoxPort('+num+')">Port '+num+'</a></label>'+     
-                    '        <div class="col-sm-10">'+
-                    '    </div>'+          
-                    '</div>'+
-                    '<div id="box'+num+'">'+
-                    '<div class="form-group ">'+
-                    '   <label class="control-label col-sm-2" for="name">Name Port:</label>'+
-                    '   <div class="col-sm-10">'+
-                    '        <input type="text" name="namePort" class="form-control " id="namePort'+num+'" placeholder="">'+
-                    '    </div>'+
-                    '</div>'+
-                    '<div class="form-group" >'+
-                    '    <label class="control-label col-sm-2" for="idPort">ID Port:</label>'+    
-                    '   <div class="col-sm-10">'+
-                    '        <input type="text" name="idPort" class="form-control " id="idPort" placeholder="" disabled>'+
-                    '    </div>'+          
-                    '</div>'+
-                    '</div>'+
-                    '</div>';
-
-                $("#infoPort").append($html);            
+            function showUploadFG(){
+                $('#UploadFG').modal('show');
+                $("#file_content").hide();
+                
+                $(".form-control").val("");
+                
             }
+
+            function PreviewFile(){
+                
+                
+
+                var files = document.getElementById('inputFile').files;
+                var file = files[0];
+                
+                //var start = parseInt(opt_startByte) || 0;
+                //var stop = parseInt(opt_stopByte) || file.size - 1;
+                var reader = new FileReader();
+                var start = 0;
+                var stop = file.size - 1;
+                reader.onloadend = function(evt) {
+                    if (evt.target.readyState == FileReader.DONE) { // DONE == 2
+                            console.log(evt.target.result); 
+                            var stringa = evt.target.result;
+                            //stringa += "<br>ciao";
+                            stringa = stringa.replace(/\t/g, '&nbsp;&nbsp;&nbsp;&nbsp;');
+                            stringa = stringa.replace(/ /g, '&nbsp;');
+                            stringa = stringa.replace(/(\r\n|\n\r|\r|\n)/g, "<br>"); 
+
+                            console.log(stringa);
+                            $("#file_content").show();
+                            $('#file_content').empty();
+                            $('#file_content').append(stringa);
+                            //$('#titleJson').html("UploadJson-"+$("#inputFile").val());
+                              
+                    }
+                };
+                var blob = file.slice(start, stop + 1);
+                reader.readAsBinaryString(blob);
+
+
+            }
+
+            
+
 
         </script>
 

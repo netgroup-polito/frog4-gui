@@ -31,7 +31,11 @@ function drawNFMenu(){
             .attr("height",NF_height)   
             .on("click",function(){                
                 $('#FormNF').modal('show');
+                $('#seltemplateVNF' ).val('Firewall');
 
+                /* Template di default Firewall */
+                $.ajax({ type: "GET",url: "/nfg/ajax_template_request/firewall/",
+                         success: function(data) {FuncSuccess(data);} });
 
             });}
 
@@ -102,35 +106,11 @@ function saveNewEp(){
 }
 
 function drawNewNF(){
-    var ele = [{
-                    "x":"400",
-                    "y":"40",
+    var ele = [];
 
-                    "vnf_template": "firewall80.json",
-                    "id": "00000003",
-                    "name": "NAT",
-                    "ports": [
-                        {
-                            "x":"0",
-                            "y":"0",
-                            "parent_NF_x":"400",
-                            "parent_NF_y":"40",
-                            "parent_NF_id":"00000003",
-                            "id": "User:0",
-                            "name": "User side interface"
-                        },
-                        {   "x":"120",
-                            "y":"0",
-                            "parent_NF_x":"400",
-                            "parent_NF_y":"40",
-                            "parent_NF_id":"00000003",
-                            "id": "WAN:0",
-                            "name": "WAN side interface"
-                        }
-                    ]
-                }]
-
-                NF_list.push(ele[0]);
+            var vnf = fillNewVNF();
+            ele.push(vnf);
+            NF_list.push(ele[0]);
 
             console.log(ele);
 
@@ -183,8 +163,8 @@ function drawLINEMenu(){
         .attr("y",25)
         .attr("width",250)
         .attr("height",30)
-        .attr("fill","white")
-        .attr("stroke","white");
+        .attr("fill","#EEE")
+        .attr("stroke","#EEE");
 
     link.append("line")
             .attr("class","line_menu")

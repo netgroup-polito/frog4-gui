@@ -101,71 +101,41 @@ function updateEP(){
 
 } 
 
-
-
-
 function fillNewVNF(){
-    var vnf2={
-                    "x":"400",
-                    "y":"40",
-
-                    "vnf_template": "firewall80.json",
-                    "id": "00000003",
-                    "name": "NAT",
-                    "ports": [
-                        {
-                            "x":"0",
-                            "y":"0",
-                            "parent_NF_x":"400",
-                            "parent_NF_y":"40",
-                            "parent_NF_id":"00000003",
-                            "id": "User:0",
-                            "name": "User side interface"
-                        },
-                        {   "x":"120",
-                            "y":"0",
-                            "parent_NF_x":"400",
-                            "parent_NF_y":"40",
-                            "parent_NF_id":"00000003",
-                            "id": "WAN:0",
-                            "name": "WAN side interface"
-                        }
-                    ]
-                }
 
     var vnf = {};
     var port = {};
 
     vnf["x"] = "400";
     vnf["y"] = "40";
-
     
-    vnf["id"] = "00000003";
+    vnf["id"] = $("#idVNF").val();
     vnf["name"] = $("#nameVNF").val();
-    vnf["vnf_template"] = $("#idVNF").val();
+    vnf["vnf_template"] = template_js.name;
     vnf["ports"] = [];
 
+    var ports_template = template_js.ports;
 
-    for(var i=0;i<num;i++){
+    ports_template.forEach(function(port_t){
+        num_port = $("#MinMax"+port_t.label).val();
+        console.log(num_port);
+        
+        for(var i=0;i<num_port;i++){
+            port = {};
+            port.id = port_t.label+":"+i;
+            port.name = port_t.name+i;
 
-        console.log(i);
-        port["x"] = 0+i*10;
-        port["y"] = "0";
-        port["parent_NF_x"] = "400";
-        port["parent_NF_y"] = "40";
+            port.x = 0+i*8;
+            port.y = "0";
+            port.parent_NF_x = vnf["x"];
+            port.parent_NF_y = vnf["y"];
 
-        port["parent_NF_id"] = vnf["id"];
-        port["id"] = "User:"+i;
-        console.log(port["id"]);
+            port.parent_NF_id = $("#idVNF").val();
+            vnf["ports"].push(port);
+        }
 
-        port["name"] = $("#namePort"+(i+1)).val();
-        console.log(port["name"]);
+    });
 
-        vnf["ports"].push(port);
-
-        console.log(port);
-
-    }
     console.log(vnf);
        
     return vnf;
@@ -245,9 +215,42 @@ function validateNewEndPoint(endpoint){
     
 
     return validate;
-
-
 }
+
+/***************************************************************************************/
+/*                                  VNF fill                                           */
+/***************************************************************************************/
+
+function NextIdVNF(){
+    var len=NF_list.length;
+    var newid = parseInt(NF_list[len-1].id)+1;
+    var s_id;
+    if(newid<10){
+        s_id="0000000"+newid;
+    }else{
+        s_id="000000"+newid;
+    }
+    return s_id;
+}
+
+function fillTemplateVNF(template){
+    $("#idVNF").val(NextIdVNF());
+
+    $("#idExpandable").val(template["expandable"]);
+    $("#idUri").val(template["uri"]);
+    
+    $("#idType").val(template["vnf-type"]);
+    $("#idMemorySize").val(template["memory-size"]);
+    $("#idRoot").val(template["root-file-system-size"]);
+    $("#idRootFileSystemSize").val(template["root-file-system-size"]);
+    $("#idSwapDiskSize").val(template["swap-disk-size"]);
+}
+
+
+
+
+
+
 
 
 

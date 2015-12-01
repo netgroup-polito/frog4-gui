@@ -73,3 +73,41 @@ function defImgPcBlue(){
 
     return ImgPcBlue;
 }
+
+function defImgInternetBlue(){    
+
+    var ImgInternetBlue = svg.append("defs")
+       .append('pattern')
+       .attr('id','internet-icon')
+       .attr('width', 1)
+       .attr('height', 1)
+       .attr('patternContentUnits', 'objectBoundingBox')
+       .append("svg:image")
+       .attr("xlink:xlink:href", "/static/nfg/img/internet_blue2.png")
+       .attr('width', 1)
+       .attr('height', 1)
+       .attr("preserveAspectRatio", "xMinYMin slice");
+
+    return ImgInternetBlue;
+}
+
+function defImgInternetRed(){    
+
+    var ImgInternetRed = svg.append("defs")
+       .append('pattern')
+       .attr('id','internet-select-icon')
+       .attr('width', 1)
+       .attr('height', 1)
+       .attr('patternContentUnits', 'objectBoundingBox')
+       .append("svg:image")
+       .attr("xlink:xlink:href", "/static/nfg/img/internet_red2.png")
+       .attr('width', 1)
+       .attr('height', 1)
+       .attr("preserveAspectRatio", "xMinYMin slice");
+
+    return ImgInternetRed;
+}
+
+
+
+

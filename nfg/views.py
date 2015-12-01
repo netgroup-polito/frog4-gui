@@ -11,6 +11,9 @@ from django.template import RequestContext, loader
 from django.contrib.auth import authenticate
 
 from nffg_library.nffg import NF_FG
+from vnf_template_library.template import Template
+
+from pprint import pprint
 
 def index(request):
 	if "username" not in request.session:
@@ -56,38 +59,22 @@ def login(request):
 		else:
 			return HttpResponseRedirect("/nfg/login?err_message=Authentication Error!")
 
-def ajax_template_request(request):
-  
-  nffg_dict_1 = {
-      "name": "dhcp",
-      "expandable": "false",
-      "uri": "http://controller:9292/v2/images/00491289-3124-41f7-8333-2c8e5dbde3f6",
-      "vnf-type": "virtual-machine",
-      "memory-size": 2048,
-      "root-file-system-size": 40,
-      "ephemeral-file-system-size": 0,
-      "swap-disk-size": 0,
-      "CPUrequirements": {
-      "platformType": "x86",
-      "socket": [
-        {
-          "coreNumbers": 1
-        }
-      ]
-    },
-    "ports": [
-      {
-        "position": "0-0",
-        "label": "inout",
-        "min": "1",
-        "ipv4-config": "none",
-        "ipv6-config": "none",
-        "name": "eth"
-      }
-    ]
-}
-  
-  return HttpResponse("%s" % nffg_dict_1)
+def ajax_template_request(request,id_template):
+
+  print id_template;
+  file_directory = "templates_json/" + id_template + ".json"
+  print file_directory
+
+
+  with open(file_directory) as json_file:
+    json_data = json.load(json_file)
+    json_data = json.dumps(json_data)
+    #template_1 = Template()
+    #template_1.parseDict(json_data)
+
+    print(json_data)
+
+  return HttpResponse("%s" % json_data)
 
 	
 
@@ -131,7 +118,7 @@ def ajax_data_request(request):
     "end-points": [
       {
         "id": "00000001",
-        "name": "Ingress",
+        "name": "internet",
         "type": "interface",
         "interface": {
           "node": "10.0.0.1",
@@ -141,7 +128,7 @@ def ajax_data_request(request):
       },
       {
         "id": "00000002",
-        "name": "Egress",
+        "name": "host",
         "type": "interface",
         "interface": {
           "node": "10.0.0.1",

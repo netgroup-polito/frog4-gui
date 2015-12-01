@@ -46,6 +46,7 @@ function createLink(){
         .attr("x2",x2)
         .attr("y2",y2)
         .attr("stroke","black")
+        .attr("class","line")
         .attr("start",id1)
         .attr("end",id2);
 

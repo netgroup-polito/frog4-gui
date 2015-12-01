@@ -1,7 +1,7 @@
 /* Variabili globali */
 var svg_width = 960,
     svg_width_p = "100%",
-    svg_height = 500,
+    svg_height = 510,
     svg_width_menu = 960,
     svg_width_menu_p = "100%",
     svg_height_menu = 80,
@@ -35,7 +35,11 @@ var drag_INTERFACE;
 var drag_INTERFACEBIGSWITCH;
 var drag_BIGSWITCH;
 var drag_TEXT;
+
 var fg;
+var template_js;
+
+
 var group=[];
 var ele1_selected;
 var ele2_selected;
@@ -49,6 +53,7 @@ var num = 0;
 $(document).ready(function(){
 
     $("#draw_menu").hide();
+    $("#file_content").hide();
     /* Richiesta Json */
     $.ajax({ type: "GET",url: "/nfg/ajax_data_request",
       success: function(data) {
@@ -108,6 +113,8 @@ function DrawForwardingGraph(fg){
     var BIG_SWITCH_select = defBIGSWITCH_select();
     var IMG_PC_RED = defImgPcRed();
     var IMG_PC_BLUE = defImgPcBlue();
+    var IMG_INTERNET_RED = defImgInternetRed();
+    var IMG_INTERNET_BLUE = defImgInternetBlue();
 
 
     //console.log(EP_list);
