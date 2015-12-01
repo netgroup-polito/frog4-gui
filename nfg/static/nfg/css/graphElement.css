@@ -19,13 +19,13 @@
     .end-points{
         fill:#013E72;
         stroke: #000;
-        stroke-width: 2px;
+        stroke-width: 4px;
     }
 
     .end-points-select{
-        fill: #ED571C;
+        fill:#ED571C;
         stroke: #000;
-        stroke-width: 2px;
+        stroke-width: 4px;
     }
 
     .big-switch{
@@ -38,6 +38,7 @@
         stroke: #000;
         stroke-width: 2px;
     }
-    .line{
-       stroke-width: 2px; 
+    .line,.BS_line{
+       stroke-width: 2.5px; 
     }
+

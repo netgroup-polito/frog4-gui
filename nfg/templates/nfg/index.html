@@ -44,6 +44,7 @@
         
 	</head>
 	<body>
+
 <!-- header -->
 <div id="top-nav" class="navbar navbar-inverse navbar-static-top">
     <div class="container-fluid">
@@ -85,25 +86,31 @@
                 <li class="nav-header"> <a href="#" data-toggle="collapse" data-target="#userMenu">Settings <i class="glyphicon glyphicon-chevron-right"></i></a>
                     <ul class="nav nav-stacked collapse " id="userMenu">
                         
-                        <li><a href="#" onclick="showMenuDrow();"><i class="glyphicon glyphicon-cog"></i> DrawBar</a></li>
-                        <!--<li><a href="#"><i class="glyphicon glyphicon-comment"></i> </a></li>
-                        <li><a href="#"><i class="glyphicon glyphicon-user"></i> </a></li>
-                        <li><a href="#"><i class="glyphicon glyphicon-flag"></i> Transactions</a></li>
-                        <li><a href="#"><i class="glyphicon glyphicon-exclamation-sign"></i> Rules</a></li>
-                        <li><a href="#"><i class="glyphicon glyphicon-off"></i> Logout</a></li>-->
+                        <li><a href="#" onclick="showMenuDraw();"><i class="glyphicon glyphicon-cog"></i> DrawBar</a></li>
+                        
                          <hr>                            
                     </ul>
                 </li>
 
                 <li class="nav-header"> <a href="#" data-toggle="collapse" data-target="#menu-model">Model <i class="glyphicon glyphicon-chevron-right"></i></a>
                     <ul class="nav nav-stacked collapse" id="menu-model">
-                        <li class="active"> <a href="#" onclick="showNFFG(false)"><i class="glyphicon glyphicon-cog"></i> NF-FG network</a></li>
+                        <li class="active"> <a href="#" onclick="showNFFG(false)"><i class="glyphicon glyphicon-cog"></i> Simple Network</a></li>
                         
-                        <li><a href="#"  onclick="showNFFG(true)"><i class="glyphicon glyphicon-cog"></i> OpenFlow network</a></li>
+                        <li><a href="#"  onclick="showNFFG(true)"><i class="glyphicon glyphicon-cog"></i> Complex Network</a></li>
+                        <hr>
                         
                                                   
                     </ul>
                 </li>
+
+
+                <li class="nav-header"><a href="#" data-toggle="collapse" data-target="#menu-json">Json Managment <i class="glyphicon glyphicon-chevron-right"></i></a>
+                    <ul class="nav nav-stacked collapse" id="menu-json">
+                        <li class="active"> <a href="#" onclick="showNFFG(false)"><i class="glyphicon glyphicon-cog"></i> Upload Json</a></li>
+                        
+                        <li><a href="#"  onclick="showNFFG(true)"><i class="glyphicon glyphicon-cog"></i> Download Json</a></li>
+
+
             </ul>
             <hr>
 
@@ -130,7 +137,11 @@
         </div>
         <!--/col-span-9-->
     </div>
+
 </div>
+<!--<div id="footer"><p>ciao</p></div>-->
+
+
 
 <!-- Model FormEP -->
 
@@ -368,13 +379,24 @@
 </div>
 
 
+
+
 <!-- /.modal -->
 	<!-- script references -->
         		
 
         <script>		
-            function showMenuDrow(){
-                $('#draw_menu').slideToggle("slow");
+            function showMenuDraw(){
+                if($('#draw_menu').is(':visible')){
+                    $('.col-sm-3').css("height","510px");
+                    $('#draw_menu').hide();
+                }else{
+                    $('.col-sm-3').css("height","640px");
+                    $('#draw_menu').show();
+                }
+
+                //$('#draw_menu').slideToggle("slow");
+
             }
             function showPannelBody(){
                 $('.pannel-body').show();

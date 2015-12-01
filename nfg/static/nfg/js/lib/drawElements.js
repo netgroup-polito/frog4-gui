@@ -13,7 +13,7 @@ function drawNF() {
         svg.selectAll(".NetworkFunction")
             .data(NF_list)
             .enter()
-            .append("use").attr("xlink:href", "#NF_node")
+            .append("use").attr("xlink:href", "#NF_node")       
             .attr("id", function(d){return d.id;})
             .attr("class", "NetworkFunction") //ogni NF ha un NF_node centrale e attorno tutte le interfacce
         //group[index]
@@ -24,16 +24,25 @@ function drawNF() {
             .on("click",function(d){ //da sistemare!
                 console.log(this);
             /* funzioni per selezionare questo oggetto e deselezionare gli altri */
-                d3.selectAll(".end-points-select").attr("class","end-points");
+                d3.selectAll(".end-points-select").attr("class","end-points").style("fill","url(#host-icon)");
                 //d3.selectAll(".BigSwitch").attr("xlink:href","#BIG_SWITCH_node");
                 d3.selectAll(".NetworkFunction").attr("xlink:href","#NF_node");
-                d3.selectAll(".BIG_SWITCH_select").attr("xlink:href","#BIG_SWITCH");
+                d3.selectAll(".use_BIG").attr("xlink:href","#BIG_SWITCH_node");
                 $(this).attr("href","#NF_select");
                // d3.select(d).attr("xlink:href","#NF_select");
                 /* funzioni per visualizzare le informazioni sulla sinistra */
                 var vnf = getVNFById(d.id);
                 drawVNFInfo(vnf,d.id);
              });
+
+        /*var text = svg.append("g").selectAll("text")
+            .data(NF_list)
+            .enter().append("text")
+            .attr("class","text")
+            .attr("x",function(d){ return d.x+2;})
+            .attr("y",function(d){ return d.y+30;})
+            .text(function(d) { return d.name; })*/
+            //.call(drag_TEXT);
 
         //group[index].call(drag_NF);
     //});
@@ -61,6 +70,7 @@ function drawVNF_interfaces(){
 }
 
 function drawEP(){
+    
     svg.selectAll(".end-points")
         .data(EP_list)
         .enter()
@@ -73,15 +83,16 @@ function drawEP(){
          })*/
         .attr("cx",function(d){return d.x;})
         .attr("cy",function(d){return d.y;})
-        .attr("title",function(d){return "EndPoint:"+d.id;})
+        .attr("title",function(d){return d.name;})
+        .style("fill","url(#host-icon)")
         .on("click",function(d){
 			select_node(d);
             /* funzioni per selezionare questo oggetto e deselezionare gli altri */
-            d3.selectAll(".end-points-select").attr("class","end-points");
+            d3.selectAll(".end-points-select").attr("class","end-points").style("fill","url(#host-icon)");
             d3.selectAll(".NetworkFunction").attr("xlink:href","#NF_node");
-            d3.selectAll(".use_BIG").attr("xlink:href","#BIG_SWITCH_select");
+            d3.selectAll(".use_BIG").attr("xlink:href","#BIG_SWITCH_node");
             //d3.selectAll(".BIG_SWITCH_select").attr("xlink:href","#BIG_SWITCH");
-            d3.select(this).attr("class","end-points-select")
+            d3.select(this).attr("class","end-points-select").style("fill","url(#host-select-icon)");
 
             /* funzioni per visualizzare le informazioni sulla sinistra */
             var ep = getEndPointById(d.id);
@@ -118,7 +129,7 @@ function drawBIGSWITCH(){
 
 
     big_s.on("click",function(){
-        d3.selectAll(".end-points-select").attr("class","end-points");
+        d3.selectAll(".end-points-select").attr("class","end-points").style("fill","url(#host-icon)");
         d3.selectAll(".NetworkFunction").attr("xlink:href","#NF_node");
         d3.select(".use_BIG").attr("xlink:href","#BIG_SWITCH_select");
         drawBigSwitchInfo(fg);
@@ -225,9 +236,15 @@ function drawVNFInfo(vnf,id){
 }
 function drawBigSwitchInfo(fg){
     $('.info').empty();
-    $('.info').append('<a href="#"><i class="glyphicon glyphicon-exclamation-sign"></i><strong> BigSwitch Info</strong></a>');
+    $('.info').append('<a onclick="ReduceAll()"><i class="glyphicon glyphicon-exclamation-sign"></i><strong> BigSwitch Info</strong></a>');
     fg["forwarding-graph"]["big-switch"]["flow-rules"].forEach(function(e){
-        $('.info').append('<div class="panel panel-default"><div class="panel-heading">FlowRule Id: '+e.id+'</div><div id="flowrule'+e.id+'" class="panel-body"><p><b>Priority: '+e.priority+'</b> </p></div></div>');
+        /*$html = '<div class="panel panel-default"><div class="panel-heading"><a onclick="Reduce('+e.id+')">FlowRule Id: '+e.id+' (';*/
+        $html = '<div class="panel panel-default"><div class="panel-heading"><a onclick="Reduce('+e.id+')">FlowRule (';
+            e.action.forEach(function(a){
+                $html+=a.output+" ";
+            });
+        $html += ')</a></div><div id="flowrule'+e.id+'" class="panel-body"><p><b>Priority: '+e.priority+'</b> </p></div></div>';
+        $('.info').append($html);
         $('#flowrule'+e.id).append('<p><b>Action:</b></p>');
 
         $('#flowrule'+e.id).append('<div class="panel panel-default"><div id="a_'+e.id +'"class="panel-body"></div></div>');
@@ -249,3 +266,20 @@ function drawBigSwitchInfo(fg){
         if(e.match.port_in!=null)
             $('#flowrule'+e.id).append('<p><b>Source Port: </b>'+e.match.port_in+'</p>');
     });}
+
+function ReduceAll(){
+    fg["forwarding-graph"]["big-switch"]["flow-rules"].forEach(function(e){
+        $('#flowrule'+e.id).hide();
+    });
+}
+
+function Reduce(id){
+    if(id<10){
+        id="00000000"+id;
+    }else{
+        id="0000000"+id;
+    }
+
+    $('#flowrule'+id).slideToggle("slow");
+    
+}
