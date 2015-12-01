@@ -165,7 +165,10 @@ function drawLINE(){
         //aggiungo l'info da chi parte a chi arriva
         .attr("start",function(d){return d.match.port_in;})
         .attr("end",function(d){return d.action[0].output;})
-        .attr("fullduplex",function(d){return d.full_duplex;});
+        .attr("fullduplex",function(d){return d.full_duplex;})
+        .style("marker-end",function(d) {
+            return d.full_duplex == false ? "url(#end-arrow)" : "default";
+        });
 }
 
 function drawBSLinks(){
