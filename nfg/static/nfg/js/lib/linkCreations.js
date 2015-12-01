@@ -3,19 +3,54 @@
  */
 
 function select_node(ele){
-    console.log("ciao*");
     if(creating_link==true){ //possiamo creare un link
         if(ele1_selected===undefined){
             ele1_selected=ele;
+            createTempLink();
         }else if(ele2_selected===undefined){
             ele2_selected=ele;
-            $("#my_canvas").css("cursor","default");
-            creating_link=false;
+            deleteTempLink();
             createLink();
         }
     }
 }
+function deleteTempLink(){
+    $("#my_canvas").css("cursor","default");
+    creating_link=false;
+    svg.on("mousemove",null);
+    lines_section.select("#newTmpLine").remove();
+}
+function createTempLink(){
+    var x1,y1,x2,y2;
+    if(ele1_selected.ref==="end-point"){
+        x1=ele1_selected.x;
+        y1=ele1_selected.y;
+    }
+    if(ele1_selected.ref==="NF_interface"){
+        x1=parseInt(ele1_selected.x)+parseInt(ele1_selected.parent_NF_x);
+        y1=parseInt(ele1_selected.y)+parseInt(ele1_selected.parent_NF_y);
+    }
+    var newLine=lines_section.append("line")
+        .attr("x1",x1)
+        .attr("y1",y1)
+        .attr("id","newTmpLine")
+        .attr("stroke","green")
+        .style("stroke-dasharray",("3,3"))
+        .attr("class","line");
 
+    svg.on("mousemove",function(){
+
+        var coordinates = [0, 0];
+        coordinates = d3.mouse(this);
+        var x = coordinates[0];
+        var y = coordinates[1];
+        //console.log("x: "+x);
+        //console.log("y: "+y);
+        newLine.attr("x2",x)
+            .attr("y2",y);
+
+    });
+}
 function createLink(){
     console.log(ele1_selected);
     console.log(ele2_selected);

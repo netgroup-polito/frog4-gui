@@ -17,14 +17,13 @@ var svg_width = 960,
 
 
 /*
- * main canvas:
+ * main canvas sections:
  */
 var svg,
     defs_section,
     VNF_section,
-    INT_section,
+    interfaces_section,
     lines_section;
-
 var svg_menu;
 
 /* vettore NF */
@@ -46,8 +45,9 @@ var drag_TEXT;
 var fg;
 var template_js;
 
+// only respond once per keydown
+var lastKeyDown = -1;
 
-var group=[];
 var ele1_selected;
 var ele2_selected;
 var creating_link=false;
@@ -88,6 +88,7 @@ function DrawForwardingGraph(fg){
      *controllo degli oggetti se sono undefined occorre vedere lo schema per capire quale campo può non essere presente!
      */
     svg = d3.select("#my_canvas").append("svg").attr("width", svg_width_p).attr("height", svg_height);
+
     /*
      * svg now is divided in 3 sections
      */
@@ -119,8 +120,13 @@ function DrawForwardingGraph(fg){
     drag_INTERFACEBIGSWITCH = dragINTERFACEBIGSWITCH();
     drag_BIGSWITCH=dragBIGSWITCH();
     //drag_TEXT = dragTEXT();
+    /*
+     * Defining of keyBindings
+     */
 
-
+     d3.select(window)
+         .on("keydown",keyDown)
+         .on("keyup",keyUp);
     /*
     in defElements
      */
