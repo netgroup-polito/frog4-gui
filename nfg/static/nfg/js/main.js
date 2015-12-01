@@ -16,8 +16,15 @@ var svg_width = 960,
     BIG_SWITCH_height=130;
 
 
+/*
+ * main canvas:
+ */
+var svg,
+    defs_section,
+    VNF_section,
+    INT_section,
+    lines_section;
 
-var svg;
 var svg_menu;
 
 /* vettore NF */
@@ -81,6 +88,16 @@ function DrawForwardingGraph(fg){
      *controllo degli oggetti se sono undefined occorre vedere lo schema per capire quale campo può non essere presente!
      */
     svg = d3.select("#my_canvas").append("svg").attr("width", svg_width_p).attr("height", svg_height);
+    /*
+     * svg now is divided in 3 sections
+     */
+    defs_section=svg.append("g").attr("class","defs_section");
+    VNF_section=svg.append("g").attr("class","VNF_section");
+    lines_section=svg.append("g").attr("class","lines_section");
+    interfaces_section=svg.append("g").attr("class","interfaces_section");
+    /*
+     * defined the main fields of the forwarding graph
+     */
     NF_list = fg["forwarding-graph"]["VNFs"];
     EP_list = fg["forwarding-graph"]["end-points"];
     big_switch = fg["forwarding-graph"]["big-switch"];

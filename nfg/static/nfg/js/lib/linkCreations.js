@@ -40,7 +40,7 @@ function createLink(){
         y2=parseInt(ele2_selected.y)+parseInt(ele2_selected.parent_NF_y);
         id2="vnf:"+ele2_selected.parent_NF_id+":"+ele2_selected.id;
     }
-    svg.append("line")
+    lines_section.append("line")
         .attr("x1",x1)
         .attr("y1",y1)
         .attr("x2",x2)

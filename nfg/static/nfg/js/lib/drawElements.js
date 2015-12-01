@@ -10,7 +10,7 @@ function drawNF() {
         //    .attr("id", ele.id)
         //    .attr("class", "VNF");
 
-        svg.selectAll(".NetworkFunction")
+        VNF_section.selectAll(".NetworkFunction")
             .data(NF_list)
             .enter()
             .append("use").attr("xlink:href", "#NF_node")       
@@ -45,7 +45,7 @@ function drawVNF_interfaces(){
     //NF_list.forEach(function(ele,index){
         var interfaces=[];
         NF_list.forEach(function(d){d.ports.forEach(function(e){interfaces.push(e)});});
-        svg.selectAll(".interface")
+        interfaces_section.selectAll(".interface")
             .data(interfaces)
             .enter()
             .append("circle")
@@ -63,8 +63,8 @@ function drawVNF_interfaces(){
 }
 
 function drawEP(){
-    
-    svg.selectAll(".end-points")
+
+    interfaces_section.selectAll(".end-points")
         .data(EP_list)
         .enter()
         .append("circle")
@@ -81,7 +81,7 @@ function drawEP(){
                                         return "url(#internet-icon)"
                                     }})
         .on("click",function(d){
-			
+
             /* funzioni per selezionare questo oggetto e deselezionare gli altri */
             d3.selectAll(".host").attr("class","end-points host").style("fill","url(#host-icon)");
             d3.selectAll(".internet").attr("class","end-points internet").style("fill","url(#internet-icon)");
@@ -89,7 +89,7 @@ function drawEP(){
             d3.selectAll(".end-points-select").attr("class","end-points");
             d3.selectAll(".NetworkFunction").attr("xlink:href","#NF_node");
             d3.selectAll(".use_BIG").attr("xlink:href","#BIG_SWITCH_node");
-            
+
             switch(d.name){
                 case "host":
                     d3.select(this).attr("class","end-points-select "+d.name).style("fill","url(#host-select-icon)");
@@ -101,7 +101,7 @@ function drawEP(){
                     d3.select(this).attr("class","end-points-select "+d.name);
                     break;
             }
-            
+
 
             /* funzioni per visualizzare le informazioni sulla sinistra */
             var ep = getEndPointById(d.id);
@@ -113,14 +113,14 @@ function drawEP(){
 function drawBIGSWITCH(){
 
     var data=[big_switch];
-    var big_s=svg.selectAll(".big").data(data).enter()
+    var big_s=VNF_section.selectAll(".big").data(data).enter()
         .append("use").attr("xlink:href","#BIG_SWITCH_node")
         .attr("class","use_BIG")
         .style("stroke-dasharray", ("8, 4"))
         .attr("x",big_switch.x)
         .attr("y",big_switch.y);
 
-    svg.selectAll(".BS_interface").data(big_switch.interfaces)
+    interfaces_section.selectAll(".BS_interface").data(big_switch.interfaces)
         .enter()
         .append("circle")
         .attr("class","BS_interface interface")
@@ -151,7 +151,7 @@ function drawBIGSWITCH(){
 }
 
 function drawLINE(){
-    var lines = svg.selectAll(".line")
+    var lines = lines_section.selectAll(".line")
         .data(flow_rules)
         .enter()
         .append("line")
@@ -172,12 +172,13 @@ function drawLINE(){
 }
 
 function drawBSLinks(){
-    var lines = svg.selectAll(".BS_line")
+    var lines = lines_section.selectAll(".BS_line")
         .data(bs_links)
         .enter()
         .append("line")
         .attr("class","BS_line")
         .attr("stroke","black")
+        .attr("opacity",0.6)
         .attr("x1",function(d){return d.x1;})
         .attr("y1",function(d){return d.y1;})
         .attr("x2",function(d){return d.x2;})

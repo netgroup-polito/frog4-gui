@@ -55,7 +55,7 @@ function drawNewEP(){
 
 
 
-        svg.selectAll(".new_endpoint")
+        interfaces_section.selectAll(".new_endpoint")
                
                .data(ele)
                .enter()
@@ -114,7 +114,7 @@ function drawNewNF(){
 
             console.log(ele);
 
-        svg.selectAll(".NewNetworkFunction")
+        VNF_section.selectAll(".NewNetworkFunction")
             .data(ele)
             .enter()
             .append("use").attr("xlink:href", "#NF_node")
@@ -140,7 +140,7 @@ function drawNewNF(){
 
 
            
-        svg.selectAll(".new_interface")
+        interfaces_section.selectAll(".new_interface")
             .data(ele[0].ports)
             .enter()
             .append("circle")
