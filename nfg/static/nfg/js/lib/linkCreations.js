@@ -10,6 +10,9 @@ function select_node(ele){
         }else if(ele2_selected===undefined){
             ele2_selected=ele;
             deleteTempLink();
+            /*
+             * QUA INSERIRE FINESTRA INSERIMENTO DATI FLOWS RULE
+             */
             createLink();
         }
     }
@@ -83,7 +86,11 @@ function createLink(){
         .attr("stroke","black")
         .attr("class","line")
         .attr("start",id1)
-        .attr("end",id2);
+        .attr("end",id2)
+        .on("click",function(){
+            selected_link=this;
+            d3.select(this).attr("stroke","red");
+        });
 
     //NB->DA FARE modificare il js!!!
     //svg.selectAll("line,circle").sort(function(a){console.log(a);});

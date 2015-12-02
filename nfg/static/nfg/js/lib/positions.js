@@ -4,7 +4,7 @@
 
 
 //return a string in the format of the JSON file...
-function serialize(){
+function POS_serialize(){
     var file={};
     file.poisition_tree=fg.id;
     file.VNFs=[];
@@ -24,12 +24,15 @@ function serialize(){
         });
     }
     if(big_switch!=undefined){
-        file["big_switch"]={x:big_switch.x,y:big_switch.y}
+        file["big_switch"]={x:big_switch.x,y:big_switch.y};
         //salvare anche un vettore di posizione per le interfacce del bs... con id dell'interfaccia corrispondente + x + y
     }
     return JSON.stringify(file);
 }
 
+function FG_serialize(){
+
+}
 function parse(){
 
 }

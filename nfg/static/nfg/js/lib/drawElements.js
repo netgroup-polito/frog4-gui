@@ -168,7 +168,12 @@ function drawLINE(){
         .attr("fullduplex",function(d){return d.full_duplex;})
         .style("marker-end",function(d) {
             return d.full_duplex == false ? "url(#end-arrow)" : "default";
+        })
+        .on("click",function(){
+            selected_link=this;
+            d3.select(this).attr("stroke","red");
         });
+
 }
 
 function drawBSLinks(){
@@ -187,7 +192,11 @@ function drawBSLinks(){
         //aggiungo l'info da chi parte a chi arriva
         .attr("start",function(d){return d.start;})
         .attr("end",function(d){return d.end;})
-        .attr("fullduplex",function(d){return d.full_duplex;});
+        .attr("fullduplex",function(d){return d.full_duplex;})
+        .on("click",function(){
+            selected_link=this;
+            d3.select(this).attr("stroke","red");
+        });
 }
 
 /* DrawInfo */

@@ -248,6 +248,7 @@ function setInitialNFPositions(){
             e.parent_NF_x=x;
             e.parent_NF_y=y;
             e.parent_NF_id=NF_list[i].id;
+            e.isLinked=false;
         })
     }
 }
@@ -259,6 +260,7 @@ function setInitialEPPositions(){
         EP_list[i].x=parseInt(250*Math.cos(alfa*(i))+svg_width/2);
         EP_list[i].y=parseInt(250*Math.sin(alfa*(i))+svg_height/2);
         EP_list[i].ref="end-point";
+        EP_list[i].isLinked=false;
     }
 }
 

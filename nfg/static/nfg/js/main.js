@@ -52,7 +52,10 @@ var ele1_selected;
 var ele2_selected;
 var creating_link=false;
 
-
+/*
+ * selected elements for deleting
+ */
+var selected_node, selected_link;
 var num = 0;
 
 /* main */
@@ -109,6 +112,8 @@ function DrawForwardingGraph(fg){
     setInitialEPPositions();
     setInitialBSPositions();
     elaborateFlowRules();
+
+    //se variabile gloabale è bigswitch cambio
 
     //getVNFById("00000001");
     /*
