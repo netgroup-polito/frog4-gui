@@ -16,8 +16,14 @@ var svg_width = 960,
     BIG_SWITCH_height=130;
 
 
-
-var svg;
+/*
+ * main canvas sections:
+ */
+var svg,
+    defs_section,
+    VNF_section,
+    interfaces_section,
+    lines_section;
 var svg_menu;
 
 /* vettore NF */
@@ -39,13 +45,21 @@ var drag_TEXT;
 var fg;
 var template_js;
 
+// only respond once per keydown
+var lastKeyDown = -1;
 
-var group=[];
 var ele1_selected;
 var ele2_selected;
 var creating_link=false;
-
-
+/*
+ * global variable that says if in the forwarding graph there is a split
+ * if it is set to true -> need to view with big switch
+ */
+var isSplitted=false;
+/*
+ * selected elements for deleting
+ */
+var selected_node, selected_link;
 var num = 0;
 
 /* main */
@@ -81,6 +95,17 @@ function DrawForwardingGraph(fg){
      *controllo degli oggetti se sono undefined occorre vedere lo schema per capire quale campo può non essere presente!
      */
     svg = d3.select("#my_canvas").append("svg").attr("width", svg_width_p).attr("height", svg_height);
+
+    /*
+     * svg now is divided in 3 sections
+     */
+    defs_section=svg.append("g").attr("class","defs_section");
+    VNF_section=svg.append("g").attr("class","VNF_section");
+    lines_section=svg.append("g").attr("class","lines_section");
+    interfaces_section=svg.append("g").attr("class","interfaces_section");
+    /*
+     * defined the main fields of the forwarding graph
+     */
     NF_list = fg["forwarding-graph"]["VNFs"];
     EP_list = fg["forwarding-graph"]["end-points"];
     big_switch = fg["forwarding-graph"]["big-switch"];
@@ -91,6 +116,9 @@ function DrawForwardingGraph(fg){
     setInitialEPPositions();
     setInitialBSPositions();
     elaborateFlowRules();
+    setBSExternalLink();
+
+    //se variabile gloabale è bigswitch cambio
 
     //getVNFById("00000001");
     /*
@@ -102,8 +130,13 @@ function DrawForwardingGraph(fg){
     drag_INTERFACEBIGSWITCH = dragINTERFACEBIGSWITCH();
     drag_BIGSWITCH=dragBIGSWITCH();
     //drag_TEXT = dragTEXT();
+    /*
+     * Defining of keyBindings
+     */
 
-
+     d3.select(window)
+         .on("keydown",keyDown)
+         .on("keyup",keyUp);
     /*
     in defElements
      */
