@@ -51,7 +51,11 @@ var lastKeyDown = -1;
 var ele1_selected;
 var ele2_selected;
 var creating_link=false;
-
+/*
+ * global variable that says if in the forwarding graph there is a split
+ * if it is set to true -> need to view with big switch
+ */
+var isSplitted=false;
 /*
  * selected elements for deleting
  */
@@ -112,6 +116,7 @@ function DrawForwardingGraph(fg){
     setInitialEPPositions();
     setInitialBSPositions();
     elaborateFlowRules();
+    setBSExternalLink();
 
     //se variabile gloabale è bigswitch cambio
 

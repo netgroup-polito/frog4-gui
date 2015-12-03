@@ -82,6 +82,8 @@ function drawEP(){
                                     }})
         .on("click",function(d){
 
+            select_node(d);
+
             /* funzioni per selezionare questo oggetto e deselezionare gli altri */
             d3.selectAll(".host").attr("class","end-points host").style("fill","url(#host-icon)");
             d3.selectAll(".internet").attr("class","end-points internet").style("fill","url(#internet-icon)");
@@ -106,6 +108,7 @@ function drawEP(){
             /* funzioni per visualizzare le informazioni sulla sinistra */
             var ep = getEndPointById(d.id);
             drawEndPointInfo(ep,d.id);
+
         })
         .call(drag_EP);
 }
@@ -134,6 +137,7 @@ function drawBIGSWITCH(){
             else if(d.ref=="vnf")
                 return d.id;
         })
+        .on("click",select_node)
         .call(drag_INTERFACEBIGSWITCH);
 
 
@@ -171,7 +175,7 @@ function drawLINE(){
         })
         .on("click",function(){
             selected_link=this;
-            d3.select(this).attr("stroke","red");
+            $(this).css("stroke","red");
         });
 
 }

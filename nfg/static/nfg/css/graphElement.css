@@ -51,3 +51,6 @@
         stroke: transparent;
     }
 
+    [fullduplex~=false] {
+        stroke:grey;
+    }
