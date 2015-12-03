@@ -50,13 +50,14 @@ function UploadFile(){
             //console.log(evt.target.result); 
             stringa = evt.target.result;
             console.log(stringa);
-
+            console.log(file_name);
             $.ajax({
 
                 url: 'ajax_upload_request/', 
                 type: 'POST',
                 data: { "file_name":file_name,
                         "file": stringa} // file inputs.
+
 
             }).done(function(e){
                                 
