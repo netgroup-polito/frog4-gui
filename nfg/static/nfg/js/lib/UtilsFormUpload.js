@@ -50,6 +50,7 @@ function UploadFile(){
             //console.log(evt.target.result); 
             stringa = evt.target.result;
             console.log(stringa);
+            console.log(file_name);
 
             $.ajax({
 
