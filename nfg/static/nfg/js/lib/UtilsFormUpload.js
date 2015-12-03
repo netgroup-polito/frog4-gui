@@ -52,13 +52,17 @@ function UploadFile(){
             stringa = evt.target.result;
             console.log(stringa);
             console.log(file_name);
+<<<<<<< HEAD
 
+=======
+>>>>>>> 685fe3e8b67aa06176cf1ef9543fe0dd404d3fe1
             $.ajax({
 
                 url: 'ajax_upload_request/', 
                 type: 'POST',
                 data: { "file_name":file_name,
                         "file": stringa} // file inputs.
+
 
             }).done(function(e){
                                 
