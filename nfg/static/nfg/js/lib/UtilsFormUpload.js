@@ -38,6 +38,7 @@ function UploadFile(){
 
     var stringa;
     var file_name = $('#inputFile').val();
+        file_name = file_name.replace("C:\\fakepath\\","");
 
     var files = document.getElementById('inputFile').files;
     var file = files[0];
