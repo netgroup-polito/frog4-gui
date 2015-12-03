@@ -87,22 +87,24 @@ def ajax_template_request(request,id_template):
 def ajax_data_request(request):
 
   directory = "users/upload@"+request.session["username"]
+  print directory
 
   if "file_name" in request.session:
     file_name = request.session["file_name"]
   else:
-    file_name = directory+"/default.json"
+    file_name = "/default.json"
     request.session["file_name"] = file_name
   
+  print file_name
   (shortname, extension) = os.path.splitext(file_name)
 
   print extension
   nffg_dict_1 = {}
 
   if(extension == ".json"):
-    if os.path.isfile(file_name):
+    if os.path.isfile(directory+"/"+file_name):
       print "file trovato"
-      json_file = open(file_name,"r")
+      json_file = open(directory+"/"+file_name,"r")
 
       json_data = json.load(json_file)
       json_data = json.dumps(json_data)
