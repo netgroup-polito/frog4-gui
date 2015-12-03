@@ -156,6 +156,7 @@ function setBSExternalLink(){
         }else{
             int1=getEndPointById(id_split[1]);
             x1=int1.x; y1=int1.y; id="endpoint:"+int1.id;
+            
         }
 
         var link1={
