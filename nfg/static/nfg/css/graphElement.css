@@ -10,9 +10,7 @@
         stroke-width: 2px;
 
     }
-
-    
-
+   
     .interface{
         fill: #337AB7;
         stroke: #000;       
@@ -51,6 +49,3 @@
         stroke: transparent;
     }
 
-    [fullduplex~=false] {
-        stroke:grey;
-    }

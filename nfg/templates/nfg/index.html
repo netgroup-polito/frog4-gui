@@ -38,7 +38,7 @@
         <script type="text/javascript" src="{% static "nfg/js/lib/UtilsFormVNF.js" %}"></script>
 		<script type="text/javascript" src="{% static "nfg/js/lib/linkCreations.js" %}"></script>
         <script type="text/javascript" src="{% static "nfg/js/lib/showView.js" %}"></script>
-        <script type="text/javascript" src="{% static "nfg/js/lib/keysBindings.js" %}"></script>
+        <script type="text/javascript" src="{% static "nfg/js/lib/UtilsFormUpload.js" %}"></script>
 
 
         <!-- librerie esterne -->
@@ -62,8 +62,17 @@
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
+
                 <li class="dropdown">
-                    <a class="dropdown-toggle" role="button" data-toggle="dropdown" href="#"><i class="glyphicon glyphicon-user"></i> Admin <span class="caret"></span></a>
+                    <a class="dropdown-toggle" role="button" data-toggle="dropdown" href="#">
+                        <i class="glyphicon glyphicon-info-sign"></i> Info</a>
+                <li>
+                <li class="dropdown">
+                     
+
+
+                    <a class="dropdown-toggle" role="button" data-toggle="dropdown" href="#"><i class="glyphicon glyphicon-user"></i> Profile<span class="caret"></span></a>
+
                     <ul id="g-account-menu" class="dropdown-menu" role="menu">
                         <li><a href="#">Welcome {{ username }}</a></li>
                     </ul>
@@ -113,7 +122,7 @@
                     <ul class="nav nav-stacked collapse" id="menu-json">
                         <li class="active"> <a href="#" onclick="showUploadFG();"><i class="glyphicon glyphicon-cog"></i> Upload Json</a></li>
                         
-                        <li><a href="#"  onclick=""><i class="glyphicon glyphicon-cog"></i> Download Json</a></li>
+                        <li><a href="#"  onclick="showDownloadFG();"><i class="glyphicon glyphicon-cog"></i> Download Json</a></li>
 
 
             </ul>
@@ -164,9 +173,9 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                 <h4 class="modal-title" id="titleJson">Upload Json </h4>
             </div>
-            <form class="form-horizontal" role="form" action="#" id="formUpload" method="post" enctype="multipart/form-data" accept-charset="utf-8">
+            <form class="form-horizontal" role="form" action="#" id="formUpload" method="post" enctype="multipart/form-data" accept-charset="utf-8" name="formUpload">
                 <div class="modal-body">
-                    <div id="file_content">
+                    <div id="file_content_upload">
 
                     </div>
                     <input id="inputFile" type="file" name="myfile" class="filestyle" data-buttonName="btn-primary">  
@@ -184,6 +193,46 @@
     </div>
     <!-- /.modal-dalog -->
 </div>
+
+<!-- Model Download -->
+
+<div class="modal" id="DownloadFG">
+    <div class="modal-dialog modal-lg" >
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="titleJson">Download Json </h4>
+            </div>
+            <form class="form-horizontal" role="form" action="#" id="formDownload" method="post" enctype="multipart/form-data" accept-charset="utf-8" name="formUpload">
+                <div class="modal-body">
+                    <div id="file_content_download">
+                        
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="type" >Select File:</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" name="type" id="selfileDownload">
+                            </select>
+                        </div>
+                    </div>
+
+                </div>
+                
+                <div class="modal-footer">
+                    <a href="#" id="Preview" onclick="PreviewFile();"  class="btn btn-primary" >Preview</a>
+                    <a href="#" id="Upload" onclick="UploadFile();"  class="btn btn-primary" >Download</a>
+                    
+                </div>
+            </form>
+            
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dalog -->
+</div>
+
+
 
 
 <!-- Model FormEP -->
@@ -486,49 +535,32 @@
                 $('#box'+id).slideToggle("slow");
             }
 
-            function showUploadFG(){
-                $('#UploadFG').modal('show');
-                $("#file_content").hide();
-                
-                $(".form-control").val("");
-                
-            }
-
-            function PreviewFile(){
-                
-                
-
-                var files = document.getElementById('inputFile').files;
-                var file = files[0];
-                
-                //var start = parseInt(opt_startByte) || 0;
-                //var stop = parseInt(opt_stopByte) || file.size - 1;
-                var reader = new FileReader();
-                var start = 0;
-                var stop = file.size - 1;
-                reader.onloadend = function(evt) {
-                    if (evt.target.readyState == FileReader.DONE) { // DONE == 2
-                            console.log(evt.target.result); 
-                            var stringa = evt.target.result;
-                            //stringa += "<br>ciao";
-                            stringa = stringa.replace(/\t/g, '&nbsp;&nbsp;&nbsp;&nbsp;');
-                            stringa = stringa.replace(/ /g, '&nbsp;');
-                            stringa = stringa.replace(/(\r\n|\n\r|\r|\n)/g, "<br>"); 
-
-                            console.log(stringa);
-                            $("#file_content").show();
-                            $('#file_content').empty();
-                            $('#file_content').append(stringa);
-                            //$('#titleJson').html("UploadJson-"+$("#inputFile").val());
-                              
-                    }
-                };
-                var blob = file.slice(start, stop + 1);
-                reader.readAsBinaryString(blob);
-
+            
+            function showDownloadFG(){
+                $('#DownloadFG').modal('show');
+                $("#file_content_download").hide();            
+                //$(".form-control").val(""); 
+                ajaxFilesRequest();
 
             }
 
+            function ajaxFilesRequest(){
+                $.ajax({
+                    url: 'ajax_files_request/', 
+                    type: 'GET'                    
+                }).done(function(data){
+                    console.log(data);
+                    drawFormDownload(data);
+                });
+            }
+
+            function drawFormDownload(data){
+                file_list = JSON.parse(data);
+                for(var i=0;i<file_list.length;i++){
+                    $("#selfileDownload").append("<option>"+file_list[i]+"</option>");
+                }
+
+            }
             
 
 

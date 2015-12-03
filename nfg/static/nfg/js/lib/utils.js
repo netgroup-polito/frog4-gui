@@ -57,7 +57,6 @@ function elaborateFlowRules(){
         fr["match"]["interface_position_x"]=pos.x;
         fr["match"]["interface_position_y"]=pos.y;
 
-
         //console.log("match");
         /*
         --->>>DA FARE<<<--- da nodificare con un forEach
@@ -70,18 +69,14 @@ function elaborateFlowRules(){
 
         //2. cerco all'interno di flow_rules se c'è il suo duale, se no setto fullduplex a false;
         //--->>>DA FARE<<<--- SE è FULL DUPLEX OCCORRE NON AGGIUNGERE UNA SECONDA VOLTA UNA LINEA!
-        if(fr["double"]===undefined) {
-            fr["full_duplex"] = false;
-            for (var j = i; j < flow_rules.length; j++) {
-                if (fr["match"]["port_in"] === flow_rules[j]["action"][0]["output"] && fr["action"][0]["output"] == flow_rules[j]["match"]["port_in"]) {
-                    fr["full_duplex"] = true;
-                    flow_rules[j]["double"] = true;
-                    flow_rules[j]["full_duplex"]=true;
-                    break;
-                }
+        fr["full_duplex"] = false;
+        for(var j=i;j<flow_rules.length;j++) {
+            if (fr["double"]===undefined && fr["match"]["port_in"] === flow_rules[j]["action"][0]["output"] && fr["action"][0]["output"] == flow_rules[j]["match"]["port_in"]) {
+                fr["full_duplex"] = true;
+                flow_rules[j]["double"]=true;
+                break;
             }
         }
-
 
         //3 aggiunco alla lista delle interfacce del bs 2 nuovi elementi:
         //var bs_x=300,bs_y=200;
@@ -96,7 +91,15 @@ function elaborateFlowRules(){
         var int1=getBSInterfaceById(fr["match"]["port_in"]);
         var int2=getBSInterfaceById(fr["action"][0]["output"]);
 
-
+        var link1={
+            x1: fr["match"]["interface_position_x"],
+            y1: fr["match"]["interface_position_y"],
+            x2: int1.x + big_switch.x,
+            y2: int1.y + big_switch.y,
+            start: fr["match"]["port_in"],
+            end: "bs-"+int1.id,
+            full_duplex: fr["full_duplex"]
+        };
         var link2={
             x1: int1.x + big_switch.x,
             y1: int1.y + big_switch.y,
@@ -159,17 +162,30 @@ function setBSExternalLink(){
             
         }
 
-        var link1={
+        var link1= {
             x1: x1,
             y1: y1,
-            x2: bs_int.x+big_switch.x,
-            y2: bs_int.y+big_switch.y,
+            x2: bs_int.x + big_switch.x,
+            y2: bs_int.y + big_switch.y,
             start: id,
-            end: "bs-"+bs_int.id
+            end: "bs-" + bs_int.id
             //full_duplex: fr["full_duplex"]
+        };
+        var link3={
+            x1: int2.x + big_switch.x,
+            y1: int2.y + big_switch.y,
+            x2: fr["action"][0]["interface_position_x"],
+            y2: fr["action"][0]["interface_position_y"],
+            start: "bs-"+int2.id,
+            end:  fr["action"][0]["output"],
+            full_duplex: fr["full_duplex"]
+
         };
 
         bs_links.push(link1);
+        bs_links.push(link2);
+        bs_links.push(link3);
+
     });
 }
 function getPos(ele,bx,by){
@@ -191,14 +207,15 @@ function getPos(ele,bx,by){
     var d2=Math.pow(ele.x-m2.x,2)+Math.pow(ele.y-m2.y,2);
     var d3=Math.pow(ele.x-m3.x,2)+Math.pow(ele.y-m3.y,2);
     var d4=Math.pow(ele.x-m4.x,2)+Math.pow(ele.y-m4.y,2);
-    //console.log(d1);
-    //console.log(d2);
-    //console.log(d3);
-    //console.log(d4);
+    console.log(d1);
+    console.log(d2);
+    console.log(d3);
+    console.log(d4);
     var min=Math.min(d1,d2,d3,d4);
 
     switch (min){
         case d1:
+            console.log("d1");
             if(ele.y<by){
                 pos.y=by;
             }else if(ele.y>by+BIG_SWITCH_height){
@@ -209,6 +226,7 @@ function getPos(ele,bx,by){
             pos.x=bx;
             break;
         case d2:
+            console.log("d2");
             if(ele.y<by){
                 pos.y=by;
             }else if(ele.y>by+BIG_SWITCH_height){
@@ -219,6 +237,7 @@ function getPos(ele,bx,by){
             pos.x=bx+BIG_SWITCH_width;
             break;
         case d3:
+            console.log("d3");
             if(ele.x<bx){
                 pos.x=bx;
             }else if(ele.x>bx+BIG_SWITCH_width){
@@ -229,6 +248,7 @@ function getPos(ele,bx,by){
             pos.y=by;
             break;
         case d4:
+            console.log("d4");
             if(ele.x<bx){
                 pos.x=bx;
             }else if(ele.x>bx+BIG_SWITCH_width){
@@ -291,7 +311,6 @@ function setInitialNFPositions(){
             e.parent_NF_x=x;
             e.parent_NF_y=y;
             e.parent_NF_id=NF_list[i].id;
-            e.isLinked=false;
         })
     }
 }
@@ -303,7 +322,6 @@ function setInitialEPPositions(){
         EP_list[i].x=parseInt(250*Math.cos(alfa*(i))+svg_width/2);
         EP_list[i].y=parseInt(250*Math.sin(alfa*(i))+svg_height/2);
         EP_list[i].ref="end-point";
-        EP_list[i].isLinked=false;
     }
 }
 
