@@ -1,137 +1,137 @@
-{
-  "forwarding-graph": {
-    "id": "00000001",
-    "name": "Forwarding graph",
-    "VNFs": [
-      {
-        "vnf_template": "firewall80.json",
-        "id": "00000001",
-        "name": "Web Firewalllol999966666",
-        "ports": [
-          {
-            "id": "User:0",
-            "name": "User side interface"
-          },
-          {
-            "id": "WAN:0",
-            "name": "WAN side interface"
-          }
-        ]
-      },
-      {
-        "vnf_template": "firewall.json",
-        "id": "00000002",
-        "name": "Non-Web Firewall",
-        "ports": [
-          {
-            "id": "User:0",
-            "name": "User side interface"
-          },
-          {
-            "id": "WAN:0",
-            "name": "WAN side interface"
-          }
-        ]
-      }
-    ],
-    "end-points": [
-      {
-        "id": "00000001",
-        "name": "internet",
-        "type": "interface",
-        "interface": {
-          "node": "10.0.0.1",
-          "interface": "eth0",
-          "switch-id": ""
-        }
-      },
-      {
-        "id": "00000002",
-        "name": "host",
-        "type": "interface",
-        "interface": {
-          "node": "10.0.0.1",
-          "interface": "eth1",
-          "switch-id": ""
-        }
-      }
-    ],
-    "big-switch": {
-      "flow-rules": [
-        {
-          "id": "000000001",
-          "priority": 100,
-          "match": {
-            "ether_type": "0x0800",
-            "protocol": "tcp",
-            "dest_port": "80",
-            "port_in": "endpoint:00000001"
-          },
-          "action": [{
-            "output": "vnf:00000001:User:0"
-          }]
-        },
-        {
-          "id": "000000002",
-          "priority": 1,
-          "match": {
-            "port_in": "vnf:00000001:User:0"
-          },
-          "action": [{
-            "output": "endpoint:00000001"
-          }]
-        },
-        {
-          "id": "000000003",
-          "priority": 1,
-          "match": {
-            "port_in": "endpoint:00000001"
-          },
-          "action": [{
-            "output": "vnf:00000002:User:0"
-          }]
-        },
-        {
-          "id": "000000004",
-          "priority": 1,
-          "match": {
-            "port_in": "vnf:00000002:User:0"
-          },
-          "action": [{
-            "output": "endpoint:00000001"
-          }]
-        },
-        {
-          "id": "000000005",
-          "priority": 1,
-          "match": {
-            "port_in": "vnf:00000001:WAN:0"
-          },
-          "action": [{
-            "output": "endpoint:00000002"
-          }]
-        },
-        {
-          "id": "000000006",
-          "priority": 1,
-          "match": {
-            "port_in": "vnf:00000002:User:0"
-          },
-          "action": [{
-            "output": "endpoint:00000002"
-          }]
-        },
-        {
-          "id": "000000007",
-          "priority": 1,
-          "match": {
-            "port_in": "endpoint:00000002"
-          },
-          "action": [{
-            "output": "vnf:00000002:User:0"
-          }]
-        }
-      ]
-    }
-  }
+{
+  "forwarding-graph": {
+    "id": "00000001",
+    "name": "Forwarding graph",
+    "VNFs": [
+      {
+        "vnf_template": "firewall80.json",
+        "id": "00000001",
+        "name": "Web Firewalllol999966666",
+        "ports": [
+          {
+            "id": "User:0",
+            "name": "User side interface"
+          },
+          {
+            "id": "WAN:0",
+            "name": "WAN side interface"
+          }
+        ]
+      },
+      {
+        "vnf_template": "firewall.json",
+        "id": "00000002",
+        "name": "Non-Web Firewall",
+        "ports": [
+          {
+            "id": "User:0",
+            "name": "User side interface"
+          },
+          {
+            "id": "WAN:0",
+            "name": "WAN side interface"
+          }
+        ]
+      }
+    ],
+    "end-points": [
+      {
+        "id": "00000001",
+        "name": "internet",
+        "type": "interface",
+        "interface": {
+          "node": "10.0.0.1",
+          "interface": "eth0",
+          "switch-id": ""
+        }
+      },
+      {
+        "id": "00000002",
+        "name": "host",
+        "type": "interface",
+        "interface": {
+          "node": "10.0.0.1",
+          "interface": "eth1",
+          "switch-id": ""
+        }
+      }
+    ],
+    "big-switch": {
+      "flow-rules": [
+        {
+          "id": "000000001",
+          "priority": 100,
+          "match": {
+            "ether_type": "0x0800",
+            "protocol": "tcp",
+            "dest_port": "80",
+            "port_in": "endpoint:00000001"
+          },
+          "action": [{
+            "output": "vnf:00000001:User:0"
+          }]
+        },
+        {
+          "id": "000000002",
+          "priority": 1,
+          "match": {
+            "port_in": "vnf:00000001:User:0"
+          },
+          "action": [{
+            "output": "endpoint:00000001"
+          }]
+        },
+        {
+          "id": "000000003",
+          "priority": 1,
+          "match": {
+            "port_in": "endpoint:00000001"
+          },
+          "action": [{
+            "output": "vnf:00000002:User:0"
+          }]
+        },
+        {
+          "id": "000000004",
+          "priority": 1,
+          "match": {
+            "port_in": "vnf:00000002:User:0"
+          },
+          "action": [{
+            "output": "endpoint:00000001"
+          }]
+        },
+        {
+          "id": "000000005",
+          "priority": 1,
+          "match": {
+            "port_in": "vnf:00000001:WAN:0"
+          },
+          "action": [{
+            "output": "endpoint:00000002"
+          }]
+        },
+        {
+          "id": "000000006",
+          "priority": 1,
+          "match": {
+            "port_in": "vnf:00000002:User:0"
+          },
+          "action": [{
+            "output": "endpoint:00000002"
+          }]
+        },
+        {
+          "id": "000000007",
+          "priority": 1,
+          "match": {
+            "port_in": "endpoint:00000002"
+          },
+          "action": [{
+            "output": "vnf:00000002:User:0"
+          }]
+        }
+      ]
+    }
+  }
 }
