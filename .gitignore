@@ -6,5 +6,5 @@
 .DS_Store?
 .idea
 .idea/*
-users/*
+users/*/*
 users/
