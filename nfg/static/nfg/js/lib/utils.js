@@ -91,7 +91,7 @@ function elaborateFlowRules(){
         //big_switch.interfaces.push(int2);
 
     });
-    flow_rules= _.filter(flow_rules,function(e){return e["double"]!==undefined || e["full_duplex"]===false;});
+    //flow_rules= _.filter(flow_rules,function(e){return e["double"]!==undefined || e["full_duplex"]===false;});
     flow_rules.forEach(function(fr){
         var int1=getBSInterfaceById(fr["match"]["port_in"]);
         var int2=getBSInterfaceById(fr["action"][0]["output"]);
@@ -285,6 +285,7 @@ function setInitialNFPositions(){
         NF_list[i].x=x;
         y=parseInt(200*Math.sin(alfa*(i)+Math.PI/2)+svg_height/2-NF_height/2-NF_offset_y/2);
         NF_list[i].y=y;
+        NF_list[i].ref="vnf";
         NF_list[i].ports.forEach(function(e){
             //da aggiustare se si vogliono mettere equidistribuite attorno all'NF
             e.x=parseInt(Math.random()*NF_width);
