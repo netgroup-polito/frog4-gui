@@ -71,7 +71,27 @@ function keyDown(){
 
 
                 }else{ //ep
-                    console.log("è un ep");
+
+                    d3.selectAll("[start=endpoint\\:"+selected_node.id).remove();
+                    d3.selectAll("[end=endpoint\\:"+selected_node.id).remove();
+                    d3.selectAll(".BS_interface#endpoint\\:"+selected_node.id).remove();
+                    d3.selectAll("[start=bs-endpoint\\:"+selected_node.id).remove();
+                    d3.selectAll("[end=bs-endpoint\\:"+selected_node.id).remove();
+                    $(selected_node).remove();
+                    /*
+                     * ELIMINARLI DAGLI OGGETTI JS!!!!
+                     */
+                    flow_rules= _.filter(flow_rules,function(fr){
+                        var id_port_in=fr["match"]["port_in"],id_port_out= fr["action"][0]["output"];
+                        if(id_port_in===undefined || id_port_out===undefined) return true;
+                        var id_port_in_split=[],id_port_out_split=[];
+                        id_port_in_split=id_port_in.split(":");
+                        id_port_out_split=id_port_out.split(":");
+                        if(id_port_in_split[0]==="endpoint" && id_port_in_split[1]===selected_node.id) return false;
+                        if(id_port_out_split[0]==="endpoint" && id_port_out_split[1]===selected_node.id) return false;
+                        return true;
+                    });
+                    EP_list= _.filter(EP_list,function(e){return e.id!==selected_node.id;});
                 }
 
             } else if(selected_link) {
