@@ -3,16 +3,22 @@
  */
 
 function select_node(ele){
-    if(creating_link==true){ //possiamo creare un link
+    if(NF_view===false && ele.ref!=="bsInt") return;
+    if(creating_link===true){ //possiamo creare un link
         if(ele1_selected===undefined){
             ele1_selected=ele;
             createTempLink();
         }else if(ele2_selected===undefined){
+            if(ele1_selected.ref==="bsInt" && ele.ref!=="bsInt") return;
+            if(ele1_selected.ref!=="bsInt" && ele.ref==="bsInt") return;
             ele2_selected=ele;
             deleteTempLink();
             /*
              * QUA INSERIRE FINESTRA INSERIMENTO DATI FLOWS RULE
              */
+            //var newFR={};
+            //newFR.campo1={};
+            //flow_rules.add(newFR);
             createLink();
         }
     }
@@ -25,6 +31,11 @@ function deleteTempLink(){
 }
 function createTempLink(){
     var x1,y1,x2,y2;
+    if(ele1_selected.ref==="bsInt" ){
+        x1=ele1_selected.x+big_switch.x;
+        y1=ele1_selected.y+big_switch.y;
+    }
+
     if(ele1_selected.ref==="end-point"){
         x1=ele1_selected.x;
         y1=ele1_selected.y;
@@ -58,27 +69,34 @@ function createLink(){
     console.log(ele1_selected);
     console.log(ele2_selected);
     var x1,y1,x2,y2,id1,id2;
-    if(ele1_selected.ref==="end-point"){
-        x1=ele1_selected.x;
-        y1=ele1_selected.y;
-        id1="endpoint:"+ele1_selected.id;
+    if(ele1_selected.ref==="bsInt"){
+        x1=ele1_selected.x+big_switch.x;
+        y1=ele1_selected.y+big_switch.y;
+        x2=ele2_selected.x+big_switch.x;
+        y2=ele2_selected.y+big_switch.y;
+    }else {
+        if (ele1_selected.ref === "end-point") {
+            x1 = ele1_selected.x;
+            y1 = ele1_selected.y;
+            id1 = "endpoint:" + ele1_selected.id;
+        }
+        if (ele1_selected.ref === "NF_interface") {
+            x1 = parseInt(ele1_selected.x) + parseInt(ele1_selected.parent_NF_x);
+            y1 = parseInt(ele1_selected.y) + parseInt(ele1_selected.parent_NF_y);
+            id1 = "vnf:" + ele1_selected.parent_NF_id + ":" + ele1_selected.id;
+        }
+        if (ele2_selected.ref === "end-point") {
+            x2 = ele2_selected.x;
+            y2 = ele2_selected.y;
+            id2 = "endpoint:" + ele2_selected.id;
+        }
+        if (ele2_selected.ref === "NF_interface") {
+            x2 = parseInt(ele2_selected.x) + parseInt(ele2_selected.parent_NF_x);
+            y2 = parseInt(ele2_selected.y) + parseInt(ele2_selected.parent_NF_y);
+            id2 = "vnf:" + ele2_selected.parent_NF_id + ":" + ele2_selected.id;
+        }
     }
-    if(ele1_selected.ref==="NF_interface"){
-        x1=parseInt(ele1_selected.x)+parseInt(ele1_selected.parent_NF_x);
-        y1=parseInt(ele1_selected.y)+parseInt(ele1_selected.parent_NF_y);
-        id1="vnf:"+ele1_selected.parent_NF_id+":"+ele1_selected.id;
-    }
-    if(ele2_selected.ref==="end-point"){
-        x2=ele2_selected.x;
-        y2=ele2_selected.y;
-        id2="endpoint:"+ele2_selected.id;
-    }
-    if(ele2_selected.ref==="NF_interface"){
-        x2=parseInt(ele2_selected.x)+parseInt(ele2_selected.parent_NF_x);
-        y2=parseInt(ele2_selected.y)+parseInt(ele2_selected.parent_NF_y);
-        id2="vnf:"+ele2_selected.parent_NF_id+":"+ele2_selected.id;
-    }
-    lines_section.append("line")
+    var newLine=lines_section.append("line")
         .attr("x1",x1)
         .attr("y1",y1)
         .attr("x2",x2)
@@ -91,7 +109,10 @@ function createLink(){
             selected_link=this;
             d3.select(this).attr("stroke","red");
         });
-
+    if(ele1_selected.ref==="bsInt") {
+        newLine.attr("opacity", 0.6);
+        newLine.attr("class","BS_line")
+    }
     //NB->DA FARE modificare il js!!!
     //svg.selectAll("line,circle").sort(function(a){console.log(a);});
     //svg.selectAll("line,circle").order();

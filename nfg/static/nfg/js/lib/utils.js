@@ -128,6 +128,8 @@ function elaborateFlowRules(){
         }else{//è già false
             isSplitted=true;
             console.log("POSSIBILE SOLO VISTA IN BS!!!");
+            NF_view=false;
+            showNFFG(true);
             //showBigSwitch
         }
         if(end_int.isLinked===false){
@@ -248,7 +250,7 @@ function setInitialBSPositions(){
 
     EP_list.forEach(function(ele,index){
         var tmp={};
-        tmp.ref = "endpoint";
+        tmp.ref = "bsInt";
         tmp.id = "endpoint:"+ele.id;
         var pos=getPos(ele,bs_x,bs_y);
         tmp.x=pos.x;
@@ -258,7 +260,7 @@ function setInitialBSPositions(){
     NF_list.forEach(function(ele1,index){
         ele1.ports.forEach(function(ele2,index){
             var tmp={};
-            tmp.ref = "vnf";
+            tmp.ref = "bsInt";
             tmp.id_vnf= ele1.id;
             tmp.id = "vnf:"+ele1.id+":"+ele2.id;
             var temp={x:parseInt(ele2.parent_NF_x)+parseInt(ele2.x),y:parseInt(ele2.parent_NF_y)+parseInt(ele2.y)};

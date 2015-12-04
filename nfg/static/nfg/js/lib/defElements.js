@@ -5,7 +5,7 @@
 
 
 function defNF(){
-    var NF = svg.append("defs").append("g").attr("id","NF_node");
+    var NF = defs_section.append("defs").append("g").attr("id","NF_node");
     NF.append("rect")
         .attr("x",NF_offset_x)
         .attr("y",NF_offset_y)
@@ -14,7 +14,7 @@ function defNF(){
         .attr("class","nf");
     return NF;}
 function defNF_select(){
-    var NF_select = svg.append("defs").append("g").attr("id","NF_select");
+    var NF_select = defs_section.append("defs").append("g").attr("id","NF_select");
     NF_select.append("rect")
         .attr("x",NF_offset_x)
         .attr("y",NF_offset_y)
@@ -23,7 +23,7 @@ function defNF_select(){
         .attr("class","nf-select");
     return NF_select;}
 function defBIGSWITCH(){
-    var BIG_SWITCH = svg.append("defs").append("g").attr("id","BIG_SWITCH_node");
+    var BIG_SWITCH = defs_section.append("defs").append("g").attr("id","BIG_SWITCH_node");
     BIG_SWITCH.append("rect")
         .attr("x",NF_offset_x)
         .attr("y",NF_offset_y)
@@ -32,7 +32,7 @@ function defBIGSWITCH(){
         .attr("class","big-switch");
     return BIG_SWITCH;}
 function defBIGSWITCH_select(){
-    var BIG_SWITCH_select = svg.append("defs").append("g").attr("id","BIG_SWITCH_select");
+    var BIG_SWITCH_select = defs_section.append("defs").append("g").attr("id","BIG_SWITCH_select");
     BIG_SWITCH_select.append("rect")
         .attr("x",NF_offset_x)
         .attr("y",NF_offset_y)
@@ -42,7 +42,7 @@ function defBIGSWITCH_select(){
     return BIG_SWITCH_select;}
 
 function defImgPcRed(){
-    var ImgPcRed = svg.append("defs")
+    var ImgPcRed = defs_section.append("defs")
        .append('pattern')
        .attr('id','host-select-icon')
        .attr('width', 1)
@@ -59,7 +59,7 @@ function defImgPcRed(){
 
 function defImgPcBlue(){    
 
-    var ImgPcBlue = svg.append("defs")
+    var ImgPcBlue = defs_section.append("defs")
        .append('pattern')
        .attr('id','host-icon')
        .attr('width', 1)
@@ -76,7 +76,7 @@ function defImgPcBlue(){
 
 function defImgInternetBlue(){    
 
-    var ImgInternetBlue = svg.append("defs")
+    var ImgInternetBlue = defs_section.append("defs")
        .append('pattern')
        .attr('id','internet-icon')
        .attr('width', 1)
@@ -93,7 +93,7 @@ function defImgInternetBlue(){
 
 function defImgInternetRed(){    
 
-    var ImgInternetRed = svg.append("defs")
+    var ImgInternetRed = defs_section.append("defs")
        .append('pattern')
        .attr('id','internet-select-icon')
        .attr('width', 1)

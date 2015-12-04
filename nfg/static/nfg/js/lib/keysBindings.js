@@ -8,8 +8,8 @@ function keyUp(){
 }
 
 function keyDown(){
-    d3.event.preventDefault();
-
+    //d3.event.preventDefault();
+    console.log("ciao");
     if(lastKeyDown !== -1) return;
     lastKeyDown = d3.event.keyCode;
 
@@ -28,7 +28,10 @@ function keyDown(){
 
                 /*
                  * QUA INSERIRE IL MESSAGGIO DI CONFERMA!
+                 *
+                 * AGGIUNGERE ELIMINAZIONE DA JS
                  */
+
                 d3.select(selected_node).remove();
             } else if(selected_link) {
                 //links.splice(links.indexOf(selected_link), 1);
@@ -36,6 +39,8 @@ function keyDown(){
 
                 /*
                  * QUA INSERIRE IL MESSAGGIO DI CONFERMA!
+                 *
+                 * AGGIUNGERE ELIMINAZIONE DA JS
                  */
                 d3.select(selected_link).remove();
             }
