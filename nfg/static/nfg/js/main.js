@@ -56,6 +56,8 @@ var creating_link=false;
  * if it is set to true -> need to view with big switch
  */
 var isSplitted=false;
+var NF_view=true;
+
 /*
  * selected elements for deleting
  */

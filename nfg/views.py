@@ -92,7 +92,7 @@ def ajax_data_request(request):
   if "file_name" in request.session:
     file_name = request.session["file_name"]
   else:
-    file_name = "/default.json"
+    file_name = "default.json"
     request.session["file_name"] = file_name
   
   print file_name
@@ -100,7 +100,7 @@ def ajax_data_request(request):
 
   print extension
   nffg_dict_1 = {}
-
+  print directory+"/"+file_name
   if(extension == ".json"):
     if os.path.isfile(directory+"/"+file_name):
       print "file trovato"
