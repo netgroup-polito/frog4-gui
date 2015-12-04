@@ -1,7 +1,16 @@
 # Virtualized Network Services GUI
 
-This software module provides a way to _create_, _modify_ and _view_ complex virtualized network services. 
-A complex virtualized network service is usually made through the composition different elementary elements, such as a DHCP server operating on a (virtual) LAN, with a firewall and a NAT operating on the link connecting to the Internet.
+This software module provides a way to _create_, _modify_ and _view_ complex virtualized network services, often called **service graphs**. 
+A complex virtualized network service is usually made through the composition different elementary elements, such as a DHCP server operating on a (virtual) LAN, with a firewall and a NAT operating on the link connecting to the Internet as depicted in the example below.
+
+                    +------+
+      +--------+    | DHCP |
+      |  user  |    +------+
+      +--------+        |      +----------+   +-----+
+     / laptop /---o-----+------| Firewall |---| NAT |---o-- Internet
+    +--------+                 +----------+   +-----+
+                  |                                     |
+                  |<--------- service graph ----------->|
 
 This GUI provides allow users to:
 * Create their own network service, starting from elementary building blocks (network functions, links).
