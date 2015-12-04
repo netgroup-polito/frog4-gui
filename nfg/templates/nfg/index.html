@@ -165,6 +165,180 @@
 
 </div>
 
+<!-- Modal Form FlowRules -->
+
+<div class="modal" id="ModalFlowRules">
+    <div class="modal-dialog modal-lg" >
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="titleFlowRules">Create FlowRule</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form" action="#" id="formDownload" method="post" enctype="multipart/form-data" accept-charset="utf-8" name="formUpload">
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="idFlowRule">ID FlowRule:</label>    
+                    <div class="col-sm-10">
+                        <input type="text" name="idEP" class="form-control " id="idFlowRule" placeholder="" disabled value="">
+                    </div>          
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="idPriority">Priority:</label>    
+                    <div class="col-sm-10">
+                        <input type="text" name="idEP" class="form-control " id="idPriority" placeholder="" value="">
+                    </div>          
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="match" ><a onclick="showMatch()">Match:</a></label>
+                    <div class="col-sm-10">
+                        
+                    </div>
+                </div>
+
+                <div class="match">
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="idPriority">Hard Timeout:</label>    
+                    <div class="col-sm-10">
+                        <input type="text" name="idEP" class="form-control " id="idHardTimeout" placeholder="" value="">
+                    </div>          
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="idPriority">Ether Type:</label>    
+                    <div class="col-sm-10">
+                        <input type="text" name="idEP" class="form-control " id="idEtherType" placeholder="" value="">
+                    </div>          
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="idPriority">Vlan ID:</label>    
+                    <div class="col-sm-10">
+                        <input type="text" name="idEP" class="form-control " id="idVlanID" placeholder="" value="">
+                    </div>          
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="idPriority">Vlan Priority:</label>    
+                    <div class="col-sm-10">
+                        <input type="text" name="idEP" class="form-control " id="idVlanPriority" placeholder="" value="">
+                    </div>          
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="idPriority">Source Mac:</label>    
+                    <div class="col-sm-10">
+                        <input type="text" name="idEP" class="form-control " id="idSourceMac" placeholder="" value="">
+                    </div>          
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="idPriority">Source IP:</label>    
+                    <div class="col-sm-10">
+                        <input type="text" name="idEP" class="form-control " id="idSourceIP" placeholder="" value="">
+                    </div>          
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="idPriority">Destination Ip:</label>    
+                    <div class="col-sm-10">
+                        <input type="text" name="idEP" class="form-control " id="idDestinationIP" placeholder="" value="">
+                    </div>          
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="idPriority">Tos bits:</label>    
+                    <div class="col-sm-10">
+                        <input type="text" name="idEP" class="form-control " id="idTosBits" placeholder="" value="">
+                    </div>          
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="idPriority">Source Port:</label>    
+                    <div class="col-sm-10">
+                        <input type="text" name="idEP" class="form-control " id="idSourcePort" placeholder="" value="">
+                    </div>          
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="idPriority">Destination Port:</label>    
+                    <div class="col-sm-10">
+                        <input type="text" name="idEP" class="form-control " id="idDestinationPort" placeholder="" value="">
+                    </div>          
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="idPriority">Protocol:</label>    
+                    <div class="col-sm-10">
+                        <input type="text" name="idEP" class="form-control " id="idProtocol" placeholder="" value="">
+                    </div>          
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="idPriority">Port In:</label>    
+                    <div class="col-sm-10">
+                        <input type="text" name="idEP" class="form-control " id="idPortIn" placeholder="" value="">
+                    </div>          
+                </div>
+            </div>
+
+
+                <div class="form-group" >
+                    <label class="control-label col-sm-2" for="action" ><a onclick="showAction()">Action:</a></label>
+                    <div class="col-sm-10">
+
+                    </div>
+                </div>
+
+            <div class="action">
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="idPriority">Output:</label>    
+                    <div class="col-sm-10">
+                        <input type="text" name="idEP" class="form-control " id="idOutput" placeholder="" value="">
+                    </div>          
+                </div>
+            </div>
+            </form>
+
+
+               
+            </div>
+
+            <div class="modal-footer">
+                <a href="#" data-dismiss="modal" class="btn btn-primary" >Add Rule</a>
+            </div>
+            
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dalog -->
+</div>
+
+<!-- Modal Warning View -->
+
+<div class="modal" id="ModalWarning">
+    <div class="modal-dialog modal-lg" >
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="titleWarning"><span class="glyphicon glyphicon-alert"></span> Warning </h4>
+            </div>
+            <div class="modal-body">
+                <p><b>Warning:</b> It's possible only Coplex View, because there is a split</p>
+            </div>
+
+            <div class="modal-footer">
+                <a href="#" data-dismiss="modal" class="btn btn-primary" >OK</a>
+            </div>
+            
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dalog -->
+</div>
 
 <!-- Modal Upload -->
 
@@ -233,8 +407,6 @@
     </div>
     <!-- /.modal-dalog -->
 </div>
-
-
 
 
 <!-- Model FormEP -->
@@ -491,11 +663,13 @@
                     <div id="infoPort">
 
                     </div>
-
+                </div>
+                
             </form>
+
             <div class="modal-footer">
                     <a href="#" onclick="drawNewNF();" data-dismiss="modal" class="btn btn-primary">Add VNF</a>
-                </div>
+            </div>
 
         </div>
         <!-- /.modal-content -->
@@ -563,8 +737,14 @@
                 }
 
             }
-            
 
+            function showMatch(){
+                $(".match").slideToggle("slow");
+            }
+
+            function showAction(){
+                $(".action").slideToggle("slow");
+            }
 
         </script>
 

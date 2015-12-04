@@ -16,6 +16,13 @@ function select_node(ele){
             /*
              * QUA INSERIRE FINESTRA INSERIMENTO DATI FLOWS RULE
              */
+                console.log("showModalFlow");
+
+
+                $("#idPortIn").val(ele1_selected.id);
+                $("#idOutput").val(ele2_selected.id);
+                $("#ModalFlowRules").modal("show");
+
             //var newFR={};
             //newFR.campo1={};
             //flow_rules.add(newFR);

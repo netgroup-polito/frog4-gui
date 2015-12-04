@@ -189,6 +189,7 @@ function drawLINEMenu(){
         ele1_selected=undefined;
         ele2_selected=undefined;
         creating_link=true;
+        
     });
 
 }
