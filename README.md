@@ -12,7 +12,7 @@ A complex virtualized network service is usually made through the composition di
                   |                                     |
                   |<--------- service graph ----------->|
 
-This GUI allow users to:
+This GUI allows users to:
 * Create their own network service, starting from elementary building blocks (network functions, links).
 * View and modify their own service.
 * Load and save the service description to an external file.
