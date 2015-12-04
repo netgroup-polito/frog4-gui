@@ -1,3 +1,3 @@
-# How to install the Service Chaining GUI
+# How to install the Virtualized Network Services GUI
 
-This document presents how to install the Service Chaining GUI.
+This document presents how to install the Virtualized Network Services GUI.
