@@ -164,12 +164,12 @@ function drawLINE(){
         .attr("stroke","black")
         .attr("x1",function(d){return d.match.interface_position_x;})
         .attr("y1",function(d){return d.match.interface_position_y;})
-        .attr("x2",function(d){return d.action[0].interface_position_x;})
-        .attr("y2",function(d){return d.action[0].interface_position_y;})
-        .attr("title",function(d){return "Source: "+d.match.port_in+" Action: "+d.action[0].output;})
+        .attr("x2",function(d){return d.action.interface_position_x;})
+        .attr("y2",function(d){return d.action.interface_position_y;})
+        .attr("title",function(d){return "Source: "+d.match.port_in+" Action: "+d.action.output;})
         //aggiungo l'info da chi parte a chi arriva
         .attr("start",function(d){return d.match.port_in;})
-        .attr("end",function(d){return d.action[0].output;})
+        .attr("end",function(d){return d.action.output;})
         .attr("fullduplex",function(d){return d.full_duplex;})
         .style("marker-end",function(d) {
             return d.full_duplex == false ? "url(#end-arrow)" : "default";
