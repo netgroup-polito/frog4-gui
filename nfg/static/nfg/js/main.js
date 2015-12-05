@@ -57,6 +57,7 @@ var creating_link=false;
  */
 var isSplitted=false;
 var NF_view=true;
+var isAlreadyPositioned=false;
 
 /*
  * selected elements for deleting
@@ -114,11 +115,7 @@ function DrawForwardingGraph(fg){
     flow_rules = fg["forwarding-graph"]["big-switch"]["flow-rules"];
 
     /* chiamo la funzione per settare il posizionamento iniziale (ancora non prevede end point e big switch) */
-    setInitialNFPositions();
-    setInitialEPPositions();
-    setInitialBSPositions();
-    elaborateFlowRules();
-    setBSExternalLink();
+     FG_init();
 
     //se variabile gloabale è bigswitch cambio
 
