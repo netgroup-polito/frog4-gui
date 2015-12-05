@@ -22,7 +22,8 @@ function drawNF() {
             //.attr("transform","translate("+NF_list[index].x+","+NF_list[index].y+")")
             .call(drag_NF)
             .on("click",function(d){ //da sistemare!
-                console.log(this);
+               // console.log(this);
+                selected_node=this;
             /* funzioni per selezionare questo oggetto e deselezionare gli altri */
                 d3.selectAll(".host").attr("class","end-points host").style("fill","url(#host-icon)");
                 d3.selectAll(".internet").attr("class","end-points internet").style("fill","url(#internet-icon)");
@@ -83,7 +84,7 @@ function drawEP(){
         .on("click",function(d){
 
             select_node(d);
-
+            selected_node=this;
             /* funzioni per selezionare questo oggetto e deselezionare gli altri */
             d3.selectAll(".host").attr("class","end-points host").style("fill","url(#host-icon)");
             d3.selectAll(".internet").attr("class","end-points internet").style("fill","url(#internet-icon)");

@@ -2,6 +2,7 @@
  * Created by pc asus on 25/11/2015.
  */
 function showNFFG(bs_view){
+
     if(bs_view===false && isSplitted===true){
         console.log("errore!");
         $('#ModalWarning').modal('show');
