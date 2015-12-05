@@ -68,9 +68,6 @@ function ser_big(){
 
 		});
 
-
-		
-
 		flowrule["action"] = actions;
 		big_switch["flow_rules"].push(flowrule);
 	});
@@ -156,4 +153,66 @@ function ser_fg(){
 	return forwarding_graph;
 
 }
+
+function serialize_pos(){
+    var file={};
+    file.id=fg["forwarding-graph"]["id"];
+    file.VNFs=[];
+    if(NF_list.length!=0){
+        NF_list.forEach(function(nf,i){
+            file.VNFs[i]={id:nf.id,x:nf.x,y:nf.y};
+            file.VNFs[i].ports=[];
+            nf.ports.forEach(function(port,j){
+                file.VNFs[i].ports[j]={id:port.id,x:port.x,y:port.y};
+            });
+        });
+    }
+    if(EP_list.length!=0){
+        file["end-points"]=[];
+        EP_list.forEach(function(ep,i){
+            file["end-points"][i]={id:ep.id,x:ep.x,y:ep.y};
+        });
+    }
+    if(big_switch!=undefined){
+        file["big_switch"]={x:big_switch.x,y:big_switch.y}
+        //salvare anche un vettore di posizione per le interfacce del bs... con id dell'interfaccia corrispondente + x + y
+    }
+    return JSON.stringify(file);
+}
+
+function saveFile(){
+	console.log("Save File Ajax");
+
+	var file_content_fg = serialize_fg();
+	var file_content_pos = serialize_pos();
+
+	var file_name_fg = fg["forwarding-graph"]["id"]+".json";		/*file fg*/
+	var file_name_pos = fg["forwarding-graph"]["id"]+"_pos.json";	/*file posizionamento*/
+
+
+	 $.ajax({
+
+        		url: 'ajax_save_request/', 
+                type: 'POST',
+                data: { "file_name_fg":file_name_fg,
+                        "file_content_fg": file_content_fg,
+                        "file_name_pos":file_name_pos,
+                        "file_content_pos": file_content_pos
+                      } // file inputs.
+
+
+            }).done(function(e){
+                                
+                console.log("Success: Files sent!");
+                location.reload();
+            
+            }).fail(function(){
+                
+                console.log("An error occurred, the files couldn't be sent!");
+            });  
+
+
+}
+
+
 
