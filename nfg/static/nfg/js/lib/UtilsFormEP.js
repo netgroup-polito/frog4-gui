@@ -42,7 +42,6 @@ function drawFormEP(){
 
 function showEditInfoEP(idEP){
     $('#FormEP').modal('show');
-
     fillFormInfoEP(idEP);
     
 }

@@ -104,9 +104,32 @@ function FuncSuccess(data){
 
 function showEditInfoVNF(idVNF){
     $('#FormNF').modal('show');
+
+
     //drawFormVNF();
     //fillFormInfoEP(idVNF);
     
+}
+
+function FillFormInfoVNF(idVNF){
+    var vnf;
+    NF_list.forEach(function(ele){
+        if(parseInt(ele.id) == idEP){
+            vnf = ele;
+            return;
+        }
+    });
+
+    /* recuperato vnf da modificare */
+
+    
+
+
+    /* cambio il bottone in save */
+
+    $("#saveEP").attr("onclick","saveNewVNF()");
+    $("#saveEP").html("Save VNF");
+
 }
 
 

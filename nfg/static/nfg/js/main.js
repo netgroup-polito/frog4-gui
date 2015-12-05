@@ -32,7 +32,7 @@ var NF_list=[];
 var EP_list=[];
 
 var big_switch;
-var flow_rules;
+var flow_rules=[];
 var bs_links=[];
 
 var drag_NF;

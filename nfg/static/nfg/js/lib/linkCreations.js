@@ -18,18 +18,28 @@ function select_node(ele){
              */
                 console.log("showModalFlow");
 
-
+                $("#idFlowRule").val(NextIdFlowRule());
                 $("#idPortIn").val(ele1_selected.id);
                 $("#idOutput").val(ele2_selected.id);
                 $("#ModalFlowRules").modal("show");
 
+
             //var newFR={};
             //newFR.campo1={};
             //flow_rules.add(newFR);
-            createLink();
+            //createLink();
         }
     }
 }
+
+function DrawNewLink(){
+    var newFR = fillNewFlowRule();
+    flow_rules.push(newFR);
+    createLink();
+}
+
+
+
 function deleteTempLink(){
     $("#my_canvas").css("cursor","default");
     creating_link=false;

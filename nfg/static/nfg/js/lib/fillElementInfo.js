@@ -246,8 +246,72 @@ function fillTemplateVNF(template){
     $("#idSwapDiskSize").val(template["swap-disk-size"]);
 }
 
+/***************************************************************************************/
+/*                                  FlowRule fill                                      */
+/***************************************************************************************/
 
 
+function NextIdFlowRule(){
+    var len = flow_rules.length;
+    var newid = parseInt(flow_rules[len-1].id)+1;
+    var s_id;
+    if(newid<10){
+        s_id = "0000000"+newid;
+    }else{
+        s_id = "000000"+newid;
+    }
+
+    return s_id;
+}
+
+function fillNewFlowRule(){
+    var flow_rule = {};
+    var match = {};
+    var action = {};
+
+    flow_rule["double"] = false;            /*chiedere  a francesco settaggio iniziale*/
+    flow_rule["full_duplex"] = false;
+
+
+    flow_rule["id"] = NextIdFlowRule();
+    flow_rule["priority"] = $("#idPriority").val();
+
+    match["hard_timeout"] = $("#idHardTimeout").val();
+    match["ether_type"] = $("#idEtherType").val();
+    match["vlan_id"] = $("#idVlanID").val();
+    match["vlan_priority"] = $("#idVlanPriority").val();
+    match["source_mac"] = $("#idSourceMac").val();
+    match["dest_mac"] = $("#idDestinationMac").val();
+    match["source_ip"] = $("#idSourceIP").val();
+    match["dest_ip"] = $("#idDestinationIP").val();
+    match["tos_bits"] = $("#idTosBits").val();
+    match["source_port"] = $("#idSourcePort").val();
+    match["dest_port"] = $("#idDestinationPort").val();
+    match["protocol"] = $("#idProtocol").val();
+    match["port_in"] = $("#idPortIn").val(); 
+
+    flow_rule["match"] = match;
+
+    action["output"] = $("#idOutput").val();
+    action["set_vlan_id"] = $("#idSetVlanId").val();
+    action["set_vlan_priority-id"] = $("#idSetVlanPriorityId").val();
+    action["pop_vlan"] = $("#idPopVlan").val();
+    action["set_ethernet_src_address"] = $("#idSetEthernetSrcAddresss").val();
+    action["set_ethernet_dst_address"] = $("#idSetEthernetDstAddress").val();
+    action["set_ip_src_address"] = $("#idSetIpSrcAddresss").val();
+    action["set_ip_dst_address"] = $("#idSetIpDstAddress").val();
+    action["set_ip_tos"] = $("#idSetIpTos").val();
+    action["set_l4_src_port"] = $("#idSetL4SrcPort").val();
+    action["set_l4_dst_port"] = $("#idSetL4DstPort").val();
+    action["output_to_queue"] = $("#idOutputToQueue").val();
+
+
+    flow_rule["action"] = action;
+
+    console.log(flow_rule);
+
+    return flow_rule;
+}
 
 
 
