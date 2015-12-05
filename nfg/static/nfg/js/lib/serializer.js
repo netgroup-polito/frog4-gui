@@ -200,7 +200,6 @@ function saveFile(){
                         "file_content_pos": file_content_pos
                       } // file inputs.
 
-
             }).done(function(e){
                                 
                 console.log("Success: Files sent!");
