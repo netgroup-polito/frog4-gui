@@ -42,6 +42,7 @@
         <script type="text/javascript" src="{% static "nfg/js/lib/keysBindings.js" %}"></script>
         <script type="text/javascript" src="{% static "nfg/js/lib/UtilsFormUpload.js" %}"></script>
         <script type="text/javascript" src="{% static "nfg/js/lib/init.js" %}"></script>
+        <script type="text/javascript" src="{% static "nfg/js/lib/serializer.js" %}"></script>
 
 
         <!-- librerie esterne -->
@@ -126,6 +127,8 @@
                         <li class="active"> <a href="#" onclick="showUploadFG();"><i class="glyphicon glyphicon-cog"></i> Upload Json</a></li>
                         
                         <li><a href="#"  onclick="showDownloadFG();"><i class="glyphicon glyphicon-cog"></i> Download Json</a></li>
+
+                        <li><a href="#"  onclick="serialize_fg()"><i class="glyphicon glyphicon-cog"></i> Save</a></li>
 
 
             </ul>

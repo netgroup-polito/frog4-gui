@@ -67,9 +67,9 @@
             "dest_port": "80",
             "port_in": "endpoint:00000001"
           },
-          "action": {
+          "action": [{
             "output": "vnf:00000001:User:0"
-          }
+          }]
         },
         {
           "id": "000000002",
@@ -77,9 +77,9 @@
           "match": {
             "port_in": "vnf:00000001:User:0"
           },
-          "action": {
+          "action": [{
             "output": "endpoint:00000001"
-          }
+          }]
         },
         {
           "id": "000000003",
@@ -87,9 +87,9 @@
           "match": {
             "port_in": "endpoint:00000001"
           },
-          "action": {
+          "action": [{
             "output": "vnf:00000002:User:0"
-          }
+          }]
         },
         {
           "id": "000000004",
@@ -97,9 +97,9 @@
           "match": {
             "port_in": "vnf:00000002:User:0"
           },
-          "action": {
+          "action": [{
             "output": "endpoint:00000001"
-          }
+          }]
         },
         {
           "id": "000000005",
@@ -107,9 +107,9 @@
           "match": {
             "port_in": "vnf:00000001:WAN:0"
           },
-          "action": {
+          "action": [{
             "output": "endpoint:00000002"
-          }
+          }]
         },
         {
           "id": "000000006",
@@ -117,9 +117,9 @@
           "match": {
             "port_in": "vnf:00000002:User:0"
           },
-          "action": {
+          "action": [{
             "output": "endpoint:00000002"
-          }
+          }]
         },
         {
           "id": "000000007",
@@ -127,9 +127,9 @@
           "match": {
             "port_in": "endpoint:00000002"
           },
-          "action": {
+          "action":[ {
             "output": "vnf:00000002:User:0"
-          }
+          }]
         }
       ]
     }

@@ -268,7 +268,7 @@ function drawBigSwitchInfo(fg){
         /*$html = '<div class="panel panel-default"><div class="panel-heading"><a onclick="Reduce('+e.id+')">FlowRule Id: '+e.id+' (';*/
         $html = '<div class="panel panel-default"><div class="panel-heading"><a onclick="Reduce('+e.id+')">FlowRule (';           
 
-        $html+=e.action.output+" ";
+        $html+=e.action[0].output+" ";
         
         $html += ')</a></div><div id="flowrule'+e.id+'" class="panel-body"><p><b>Priority: '+e.priority+'</b> </p></div></div>';
         $('.info').append($html);
@@ -276,8 +276,8 @@ function drawBigSwitchInfo(fg){
 
         $('#flowrule'+e.id).append('<div class="panel panel-default"><div id="a_'+e.id +'"class="panel-body"></div></div>');
         
-            if(e.action.output!=null)
-                $('#a_'+e.id).append('<p><b>Output: </b>'+e.action.output+'</p>');
+            if(e.action[0].output!=null)
+                $('#a_'+e.id).append('<p><b>Output: </b>'+e.action[0].output+'</p>');
            
             
         

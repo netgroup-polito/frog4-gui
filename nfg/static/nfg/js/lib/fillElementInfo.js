@@ -267,6 +267,8 @@ function NextIdFlowRule(){
 function fillNewFlowRule(){
     var flow_rule = {};
     var match = {};
+
+    var actions = [];
     var action = {};
 
     flow_rule["double"] = false;            /*chiedere  a francesco settaggio iniziale*/
@@ -305,8 +307,8 @@ function fillNewFlowRule(){
     action["set_l4_dst_port"] = $("#idSetL4DstPort").val();
     action["output_to_queue"] = $("#idOutputToQueue").val();
 
-
-    flow_rule["action"] = action;
+    actions.push(action);
+    flow_rule["action"] = actions;
 
     console.log(flow_rule);
 
