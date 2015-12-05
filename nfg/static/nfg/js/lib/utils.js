@@ -62,9 +62,9 @@ function elaborateFlowRules(){
         /*
         --->>>DA FARE<<<--- da nodificare con un forEach
          */
-        pos=getLinkEndPositionById(fr["action"][0]["output"]);
-        fr["action"][0]["interface_position_x"]=pos.x;
-        fr["action"][0]["interface_position_y"]=pos.y;
+        pos=getLinkEndPositionById(fr["action"]["output"]);
+        fr["action"]["interface_position_x"]=pos.x;
+        fr["action"]["interface_position_y"]=pos.y;
 
         //console.log(pos.x,pos.y);
 
@@ -73,7 +73,7 @@ function elaborateFlowRules(){
         if(fr["double"]===undefined) {
             fr["full_duplex"] = false;
             for (var j = i; j < flow_rules.length; j++) {
-                if (fr["match"]["port_in"] === flow_rules[j]["action"][0]["output"] && fr["action"][0]["output"] == flow_rules[j]["match"]["port_in"]) {
+                if (fr["match"]["port_in"] === flow_rules[j]["action"]["output"] && fr["action"]["output"] == flow_rules[j]["match"]["port_in"]) {
                     fr["full_duplex"] = true;
                     flow_rules[j]["double"] = true;
                     flow_rules[j]["full_duplex"]=true;
@@ -94,7 +94,7 @@ function elaborateFlowRules(){
     //flow_rules= _.filter(flow_rules,function(e){return e["double"]!==undefined || e["full_duplex"]===false;});
     flow_rules.forEach(function(fr){
         var int1=getBSInterfaceById(fr["match"]["port_in"]);
-        var int2=getBSInterfaceById(fr["action"][0]["output"]);
+        var int2=getBSInterfaceById(fr["action"]["output"]);
 
 
         var link2={
@@ -111,7 +111,7 @@ function elaborateFlowRules(){
 
         var start_id=[],end_id=[];
         start_id=fr["match"]["port_in"].split(":");
-        end_id=fr["action"][0]["output"].split(":");
+        end_id=fr["action"]["output"].split(":");
         var start_int,end_int;
         if(start_id[0]==="vnf"){
             start_int=getInterfaceById(fr["match"]["port_in"]);
@@ -119,7 +119,7 @@ function elaborateFlowRules(){
             start_int=getEndPointById(start_id[1]);
         }
         if(end_id[0]==="vnf"){
-            end_int=getInterfaceById(fr["action"][0]["output"]);
+            end_int=getInterfaceById(fr["action"]["output"]);
         }else if(end_id[0]==="endpoint"){
             end_int=getEndPointById(end_id[1]);
         }

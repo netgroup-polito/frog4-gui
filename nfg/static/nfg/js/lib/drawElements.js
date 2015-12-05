@@ -164,12 +164,12 @@ function drawLINE(){
         .attr("stroke","black")
         .attr("x1",function(d){return d.match.interface_position_x;})
         .attr("y1",function(d){return d.match.interface_position_y;})
-        .attr("x2",function(d){return d.action[0].interface_position_x;})
-        .attr("y2",function(d){return d.action[0].interface_position_y;})
-        .attr("title",function(d){return "Source: "+d.match.port_in+" Action: "+d.action[0].output;})
+        .attr("x2",function(d){return d.action.interface_position_x;})
+        .attr("y2",function(d){return d.action.interface_position_y;})
+        .attr("title",function(d){return "Source: "+d.match.port_in+" Action: "+d.action.output;})
         //aggiungo l'info da chi parte a chi arriva
         .attr("start",function(d){return d.match.port_in;})
-        .attr("end",function(d){return d.action[0].output;})
+        .attr("end",function(d){return d.action.output;})
         .attr("fullduplex",function(d){return d.full_duplex;})
         .style("marker-end",function(d) {
             return d.full_duplex == false ? "url(#end-arrow)" : "default";
@@ -264,25 +264,24 @@ function drawVNFInfo(vnf,id){
 function drawBigSwitchInfo(fg){
     $('.info').empty();
     $('.info').append('<a onclick="ReduceAll()"><i class="glyphicon glyphicon-exclamation-sign"></i><strong> BigSwitch Info</strong></a>');
-    fg["forwarding-graph"]["big-switch"]["flow-rules"].forEach(function(e){
+    flow_rules.forEach(function(e){
         /*$html = '<div class="panel panel-default"><div class="panel-heading"><a onclick="Reduce('+e.id+')">FlowRule Id: '+e.id+' (';*/
-        $html = '<div class="panel panel-default"><div class="panel-heading"><a onclick="Reduce('+e.id+')">FlowRule (';
-            e.action.forEach(function(a){
-                $html+=a.output+" ";
-            });
+        $html = '<div class="panel panel-default"><div class="panel-heading"><a onclick="Reduce('+e.id+')">FlowRule (';           
+
+        $html+=e.action.output+" ";
+        
         $html += ')</a></div><div id="flowrule'+e.id+'" class="panel-body"><p><b>Priority: '+e.priority+'</b> </p></div></div>';
         $('.info').append($html);
         $('#flowrule'+e.id).append('<p><b>Action:</b></p>');
 
         $('#flowrule'+e.id).append('<div class="panel panel-default"><div id="a_'+e.id +'"class="panel-body"></div></div>');
-        e.action.forEach(function(a){
-            if(a.output!=null)
-                $('#a_'+e.id).append('<p><b>Output: </b>'+a.output+'</p>');
-            if(a.set_vlan_id!=null)
-                $('#a_'+e.id).append('<p><b>Vlan: </b>'+a.set_vlan_id+'</p>');
-            if(a.controller!=null)
-                $('#a_'+e.id).append('<p><b>Controller: </b>'+a.controller+'</p>');
-        });
+        
+            if(e.action.output!=null)
+                $('#a_'+e.id).append('<p><b>Output: </b>'+e.action.output+'</p>');
+           
+            
+        
+            /* aggiungere gli altri*/
 
         if(e.match.ether_type!=null)
             $('#flowrule'+e.id).append('<p><b>EtherType: </b>'+e.match.ether_type+'</p>');
@@ -292,6 +291,8 @@ function drawBigSwitchInfo(fg){
             $('#flowrule'+e.id).append('<p><b>Destination Port: </b>'+e.match.dest_port+'</p>');
         if(e.match.port_in!=null)
             $('#flowrule'+e.id).append('<p><b>Source Port: </b>'+e.match.port_in+'</p>');
+
+        /* aggiungere gli altri*/
     });}
 
 function ReduceAll(){
