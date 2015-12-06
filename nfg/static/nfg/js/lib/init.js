@@ -14,6 +14,7 @@ function FG_init(){
         setBSExternalLink();
     }else{
         //settare con il file di posizionamento!!!
+
     }
 }
 
@@ -165,12 +166,12 @@ function getPos(ele,bx,by){
     var d2=Math.pow(ele.x-m2.x,2)+Math.pow(ele.y-m2.y,2);
     var d3=Math.pow(ele.x-m3.x,2)+Math.pow(ele.y-m3.y,2);
     var d4=Math.pow(ele.x-m4.x,2)+Math.pow(ele.y-m4.y,2);
-    //console.log(d1);
-    //console.log(d2);
-    //console.log(d3);
-    //console.log(d4);
+    console.log(d1);
+    console.log(d2);
+    console.log(d3);
+    console.log(d4);
     var min=Math.min(d1,d2,d3,d4);
-
+ console.log(min);
     switch (min){
         case d1:
             if(ele.y<by){

@@ -3,7 +3,8 @@
  */
 
 function select_node(ele){
-    if(NF_view===false && ele.ref!=="bsInt") return;
+    console.log(ele)
+    //if(NF_view===false && ele.ref!=="bsInt") return;
     if(creating_link===true){ //possiamo creare un link
         if(ele1_selected===undefined){
             ele1_selected=ele;
@@ -91,6 +92,20 @@ function createLink(){
         y1=ele1_selected.y+big_switch.y;
         x2=ele2_selected.x+big_switch.x;
         y2=ele2_selected.y+big_switch.y;
+        //if (ele1_selected.ref === "end-point") {
+        //    id1 = "bs-endpoint:" + ele1_selected.id;
+        //}
+        //if (ele1_selected.ref === "NF_interface") {
+        //    id1 = "bs-vnf:" + ele1_selected.parent_NF_id + ":" + ele1_selected.id;
+        //}
+        //if (ele2_selected.ref === "end-point") {
+        //    id2 = "bs-endpoint:" + ele2_selected.id;
+        //}
+        //if (ele2_selected.ref === "NF_interface") {
+        //    id2 = "bs-vnf:" + ele2_selected.parent_NF_id + ":" + ele2_selected.id;
+        //}
+        id1="bs-"+ele1_selected.id;
+        id2="bs-"+ele2_selected.id;
     }else {
         if (ele1_selected.ref === "end-point") {
             x1 = ele1_selected.x;

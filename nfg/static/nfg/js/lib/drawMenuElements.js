@@ -8,7 +8,6 @@ function drawEPMenu(){
             .attr("cx",200)
             .attr("cy",40)
             .on("click",function(){
-               
                     $('#FormEP').modal('show');
                     $('#seltypeEP' ).val('internal');
                     /*reset*/
@@ -17,9 +16,7 @@ function drawEPMenu(){
 
                     $("#saveEP").attr("onclick","drawNewEP()");
                     $("#saveEP").html("Add End Point");
-
-                
-            })
+            });
 }
 
 function drawNFMenu(){
@@ -43,27 +40,31 @@ function drawNFMenu(){
 function drawNewEP(){
     var ele=[];
 
-
     var ep = fillNewEP();
     console.log(validateNewEndPoint(ep));
-    if(validateNewEndPoint(ep)==true){
-
+    if(validateNewEndPoint(ep)===true){
         $('#FormEP').modal('hide');
-
         ele.push(ep);
+
+        /* aggiungo l'oggetto ep appena creato alla lista degli ep */
         EP_list.push(ele[0]);
 
+        /* creo un nuovo oggetto bs_interface e lo aggiungo alla lista delle interfacce del BS*/
+        var new_bs_int={};
+        new_bs_int.ref = "bsInt";
+        new_bs_int.id = "endpoint:"+ep.id;
+        new_bs_int.x=0;
+        new_bs_int.y=0;
+        big_switch.interfaces.push(new_bs_int);
 
-
-        svg.selectAll(".new_endpoint")
-               
+        /*disegno l'oggetto ep*/
+        interfaces_section.selectAll(".new_endpoint")
                .data(ele)
                .enter()
                .append("circle")           
                .attr("class","end-points")
                .attr("id",function(d){return d.id;})
                .attr("r",r_endpoint)
-           
                 .attr("cx",function(d){return d.x;})
                 .attr("cy",function(d){return d.y;})
                 .on("click",function(d){
@@ -71,13 +72,53 @@ function drawNewEP(){
                     d3.selectAll(".end-points-select").attr("class","end-points");
                     d3.selectAll(".use_NF").attr("xlink:href","#NF_node");
                     d3.selectAll(".use_BIG").attr("xlink:href","#BIG_SWITCH_node");
-                    d3.select(this).attr("class","end-points-select")
-                
+                    d3.select(this).attr("class","end-points-select");
                     
                     var ep = getEndPointById(d.id);
                     drawEndPointInfo(ep,d.id);  
                 })
                 .call(drag_EP);
+
+        /*disegno l'oggetto bs_int*/
+        var newBSIntVet=[];newBSIntVet.push(new_bs_int);
+        interfaces_section
+            .selectAll(".newBSint")
+            .data(newBSIntVet)
+            .enter()
+            .append("circle")
+            .attr("class","BS_interface interface")
+            .attr("cx",big_switch.x+new_bs_int.x)
+            .attr("cy",big_switch.y+new_bs_int.y)
+            .attr("id",new_bs_int.id)
+            .attr("r",r_interface)
+            .attr("title",function(){
+                if(new_bs_int.ref=="endpoint")
+                    return new_bs_int.id;
+                else if(new_bs_int.ref=="vnf")
+                    return new_bs_int.id;
+            })
+            .on("click",select_node)
+            .call(drag_INTERFACEBIGSWITCH);
+
+        /*disegno il link che collega il bs_int al ep*/
+        lines_section
+            .append("line")
+            .attr("class","BS_line")
+            .attr("stroke","black")
+            .attr("opacity",0.6)
+            .attr("x1", ep.x)
+            .attr("y1",ep.y)
+            .attr("x2",big_switch.x+new_bs_int.x)
+            .attr("y2",big_switch.y+new_bs_int.y)
+            .attr("title","Source: endpoint:"+ep.id+" Action: bs-endpoint:"+ep.id)
+            //aggiungo l'info da chi parte a chi arriva
+            .attr("start","endpoint:"+ep.id)
+            .attr("end","bs-endpoint:"+ep.id)
+            .on("click",function(){
+                selected_link=this;
+                d3.select(this).attr("stroke","red");
+            });
+
     }else{
         console.log("validazione fallita");
     }
@@ -114,7 +155,7 @@ function drawNewNF(){
 
             console.log(ele);
 
-        svg.selectAll(".NewNetworkFunction")
+        VNF_section.selectAll(".NewNetworkFunction")
             .data(ele)
             .enter()
             .append("use").attr("xlink:href", "#NF_node")
@@ -140,7 +181,7 @@ function drawNewNF(){
 
 
            
-        svg.selectAll(".new_interface")
+        interfaces_section.selectAll(".new_interface")
             .data(ele[0].ports)
             .enter()
             .append("circle")
