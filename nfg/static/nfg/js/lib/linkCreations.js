@@ -3,7 +3,7 @@
  */
 
 function select_node(ele){
-    console.log(ele)
+    console.log(ele);
     //if(NF_view===false && ele.ref!=="bsInt") return;
     if(creating_link===true){ //possiamo creare un link
         if(ele1_selected===undefined){
@@ -13,6 +13,7 @@ function select_node(ele){
             if(ele1_selected.ref==="bsInt" && ele.ref!=="bsInt") return;
             if(ele1_selected.ref!=="bsInt" && ele.ref==="bsInt") return;
             ele2_selected=ele;
+            console.log("qua ci arrivo");
             deleteTempLink();
             /*
              * QUA INSERIRE FINESTRA INSERIMENTO DATI FLOWS RULE
@@ -107,6 +108,9 @@ function createLink(){
         id1="bs-"+ele1_selected.id;
         id2="bs-"+ele2_selected.id;
     }else {
+        //occorre anche creare il link interno al bs!
+        var bs_x1,bs_y1,bs_x2,bs_y2;
+        var bs_int1,bs_int2;
         if (ele1_selected.ref === "end-point") {
             x1 = ele1_selected.x;
             y1 = ele1_selected.y;
@@ -117,6 +121,9 @@ function createLink(){
             y1 = parseInt(ele1_selected.y) + parseInt(ele1_selected.parent_NF_y);
             id1 = "vnf:" + ele1_selected.parent_NF_id + ":" + ele1_selected.id;
         }
+
+        bs_int1=getBSInterfaceById(id1);
+
         if (ele2_selected.ref === "end-point") {
             x2 = ele2_selected.x;
             y2 = ele2_selected.y;
@@ -127,6 +134,29 @@ function createLink(){
             y2 = parseInt(ele2_selected.y) + parseInt(ele2_selected.parent_NF_y);
             id2 = "vnf:" + ele2_selected.parent_NF_id + ":" + ele2_selected.id;
         }
+
+        bs_int2=getBSInterfaceById(id2);
+
+        /*disegno il link interno al BS*/
+        lines_section.append("line")
+            .attr("class","BS_line")
+            .attr("stroke","black")
+            .attr("opacity",0.6)
+            .attr("x1",bs_int1.x+big_switch.x)
+            .attr("y1",bs_int1.y+big_switch.y)
+            .attr("x2",bs_int2.x+big_switch.x)
+            .attr("y2",bs_int2.y+big_switch.y)
+            .attr("title","Source: "+bs_int1.id+" Action: "+bs_int2.id)
+            //aggiungo l'info da chi parte a chi arriva
+            .attr("start","bs-"+bs_int1.id)
+            .attr("end","bs-"+bs_int2.id)
+            .attr("fullduplex",false)
+            .on("click",function(){
+                selected_link=this;
+                d3.select(this).attr("stroke","red");
+            });
+
+
     }
     var newLine=lines_section.append("line")
         .attr("x1",x1)
