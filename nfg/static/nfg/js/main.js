@@ -78,12 +78,16 @@ $(document).ready(function(){
           console.log(data);
           data = data.replace(/'/g,'"');
           /* definisco oggetto fg */
+<<<<<<< HEAD
            var json_data=JSON.parse(data);
+=======
+          var json_data = JSON.parse(data);
+>>>>>>> 351b00fcaffa12d719dd6d89647c07c09266af74
 
           fg = json_data["json_file_fg"];
           if(json_data["is_find_pos"]==="true"){
             /* file di posizionamento presente */
-            //isAlreadyPositioned = true;
+            isAlreadyPositioned = true;
             fg_pos = json_data["json_file_pos"];
             console.log(fg_pos);
           }else{

@@ -7,15 +7,19 @@
 
 function FG_init(){
     if(!isAlreadyPositioned) {
-        setInitialNFPositions();
-        setInitialEPPositions();
-        setInitialBSPositions();
-        elaborateFlowRules();
-        setBSExternalLink();
+        setRandomInitialNFPositions();
+        setRandomInitialEPPositions();
+        setRandomInitialBSPositions();
+        
     }else{
         //settare con il file di posizionamento!!!
+        setInitialEPPositions();
+        setInitialNFPositions();
+        setInitialBSPositions();
 
     }
+    elaborateFlowRules();
+    setBSExternalLink();
 }
 
 function elaborateFlowRules(){
@@ -217,7 +221,7 @@ function getPos(ele,bx,by){
     pos.x-=bx;pos.y-=by;
     return pos;
 }
-function setInitialBSPositions(){
+function setRandomInitialBSPositions(){
     var bs_interfaces=[];
     var bs_x=svg_width/2-BIG_SWITCH_width/2,bs_y=svg_height/2-BIG_SWITCH_height/2;
 
@@ -249,7 +253,7 @@ function setInitialBSPositions(){
     big_switch.interfaces=bs_interfaces;
 }
 
-function setInitialNFPositions(){
+function setRandomInitialNFPositions(){
     var n=NF_list.length;
     var alfa=2*Math.PI/n;
     var x,y;
@@ -268,11 +272,11 @@ function setInitialNFPositions(){
             e.parent_NF_y=y;
             e.parent_NF_id=NF_list[i].id;
             e.isLinked=false;
-        })
+        });
     }
 }
 
-function setInitialEPPositions(){
+function setRandomInitialEPPositions(){
     var n=EP_list.length;
     var alfa=2*Math.PI/n;
     for(var i=0;i<n;i++){
@@ -282,3 +286,75 @@ function setInitialEPPositions(){
         EP_list[i].isLinked=false;
     }
 }
+
+function setInitialNFPositions(){
+    var nf_list = fg_pos["VNFs"];
+    
+    for (var i=0;i<nf_list.length;i++){
+        var vnf = getVNFbyIdPos(NF_list[i].id)
+
+        NF_list[i].x = vnf.x;
+        NF_list[i].y = vnf.y;
+        NF_list[i].ref="vnf";
+
+        NF_list[i].ports.forEach(function(e){
+            var port = getPortVnfbyId(vnf,e.id);
+            e.x = port.x;
+            e.y = port.y;
+            e.ref="NF_interface";
+            e.parent_NF_x=vnf.x;
+            e.parent_NF_y=vnf.y;
+            e.parent_NF_id=NF_list[i].id;
+            e.isLinked=false;
+
+        });
+    }
+}
+
+function setInitialEPPositions(){
+    for(var i=0;i<EP_list.length;i++){
+        var ep = getEndPointbyIdPos(EP_list[i].id);
+        EP_list[i].x = ep.x;
+        EP_list[i].y = ep.y;
+        EP_list[i].ref = "end-point";
+        EP_list[i].isLinked = false;
+    }
+}
+
+function setInitialBSPositions(){
+    var bs_interfaces=[];
+    var big = getBS();
+
+    big_switch.x = big.x;
+    big_switch.y = big.y;
+
+    EP_list.forEach(function(ele){
+        var tmp={};
+        tmp.ref = "bsInt";
+        tmp.id = "endpoint:"+ele.id;
+
+        var inter = getBSInterfaceByIdPos(tmp.id);
+        tmp.x=inter.x;
+        tmp.y=inter.y;
+        bs_interfaces.push(tmp);
+    });
+
+    NF_list.forEach(function(ele1,index){
+        ele1.ports.forEach(function(ele2,index){
+            var tmp={};
+            tmp.ref = "bsInt";
+            tmp.id_vnf= ele1.id;
+            tmp.id = "vnf:"+ele1.id+":"+ele2.id;
+            var inter = getBSInterfaceByIdPos(tmp.id);
+            tmp.x=inter.x;
+            tmp.y=inter.y;
+            bs_interfaces.push(tmp);
+        })
+    });
+
+    big_switch.interfaces=bs_interfaces;
+
+}
+
+
+
