@@ -82,6 +82,7 @@ function getLinkEndPositionById(id){
         }
     }
 }
+
 /* funzioni per leggere dal file di posizionamento */
 
 function getVNFbyIdPos(id){
