@@ -90,29 +90,59 @@ def ajax_data_request(request):
   print directory
 
   if "file_name" in request.session:
-    file_name = request.session["file_name"]
+    file_name_fg = request.session["file_name_fg"]
   else:
-    file_name = "default.json"
-    request.session["file_name"] = file_name
+    file_name_fg = "prova3.json"
+    request.session["file_name_fg"] = file_name_fg
   
-  print file_name
-  (shortname, extension) = os.path.splitext(file_name)
+  print file_name_fg
+  (shortname, extension) = os.path.splitext(file_name_fg)
 
   print extension
-  nffg_dict_1 = {}
-  print directory+"/"+file_name
+  
+  json_data = {}
+
+  print directory+"/"+file_name_fg
   if(extension == ".json"):
-    if os.path.isfile(directory+"/"+file_name):
+    if os.path.isfile(directory+"/"+file_name_fg):
       print "file trovato"
-      json_file = open(directory+"/"+file_name,"r")
+      json_file_fg = open(directory+"/"+file_name_fg,"r")
 
-      json_data = json.load(json_file)
-      json_data = json.dumps(json_data)
-      json_file.close()
+      json_data_fg = json.load(json_file_fg)
 
-      print(json_data)
-      nffg_dict_1 = json_data
+      json_data['json_file_fg'] = json_data_fg
+      json_file_fg.close()
 
+
+      #print json_data
+      #print json_data
+
+      if "file_name_pos" in request.session:
+
+
+        file_name_pos = request.session["file_name_pos"]
+        print file_name_pos
+        
+        json_file_pos = open(directory+"/"+file_name_pos,"r")
+        json_data_pos = json.load(json_file_pos)
+        print(json_data_pos)
+        json_file_pos.close()
+
+        json_data['is_find_pos'] = 'true'
+        json_data['json_file_pos'] = json_data_pos
+
+        #print json_data_pos
+
+
+
+        print "file di posizionamento trovato"
+
+
+      else:
+        print "file di posizionamento non presente"
+        json_data['is_find_pos'] = 'false'
+        json_data['json_file_pos'] = {}
+            
     else:
       print "file non trovato"
 
@@ -120,8 +150,12 @@ def ajax_data_request(request):
   else:
     print "formato file non valido"
     
+  
+  json_data = json.dumps(json_data)
+  print json_data
 	
-  return HttpResponse("%s" % nffg_dict_1)
+
+  return HttpResponse("%s" % json_data)
 	
 
 @csrf_exempt
@@ -137,21 +171,21 @@ def ajax_upload_request(request):
       os.makedirs(directory)
 
     # memorizzo filename e contenuto del file inviato dall'utente
-    file_name = request.POST["file_name"]    
-    content_file = request.POST["file"]
+    file_name_fg = request.POST["file_name_fg"]    
+    content_file = request.POST["file_content_fg"]
     # memorizzo il filename nella varibile di sessione file_name
-    request.session["file_name"] = file_name
+    request.session["file_name_fg"] = file_name_fg
 
 
-    (shortname, extension) = os.path.splitext(file_name)
+    (shortname, extension) = os.path.splitext(file_name_fg)
 
 
     if(extension == ".json"):
 
-      print request.POST["file_name"]
-      print request.POST["file"]
+      print request.POST["file_name_fg"]
+      print request.POST["file_content_fg"]
       
-      out_file = open(directory+"/"+file_name,"w")
+      out_file = open(directory+"/"+file_name_fg,"w")
       out_file.write(content_file)
       out_file.close()
 
@@ -159,8 +193,6 @@ def ajax_upload_request(request):
 
     else:
       print "formato non valido"
-
-
 
 
     return HttpResponse("%s" % "post")
@@ -172,7 +204,7 @@ def ajax_upload_request(request):
 
 
 def ajax_files_request(request):
-  if request.method == "GET":
+  if request.method == "GET":         #sostituire con metodo post
     directory = "users/upload@"+request.session["username"]
     dirs = os.listdir(directory)
 
@@ -187,4 +219,37 @@ def ajax_files_request(request):
 
     print json_data
   return HttpResponse("%s" % json_data)
+
+
+@csrf_exempt
+def ajax_save_request(request):
+  if request.method == "POST":
+    directory = "users/upload@"+request.session["username"]
+
+    file_name_fg = request.POST["file_name_fg"]
+    file_name_pos = request.POST["file_name_pos"]
+
+    file_content_fg = request.POST["file_content_fg"]
+    file_content_pos = request.POST["file_content_pos"]
+
+    # memorizzo il filename nella varibile di sessione file_name
+    request.session["file_name_fg"] = file_name_fg;
+    request.session["file_name_pos"] = file_name_pos;
+
+    (shortname, extension) = os.path.splitext(file_name_fg)
+
+    if(extension == ".json"):
+
+      out_file = open(directory+"/"+file_name_fg,"w")
+      out_file.write(file_content_fg)
+      out_file.close()
+
+      out_file = open(directory+"/"+file_name_pos,"w")
+      out_file.write(file_content_pos)
+      out_file.close()
+
+      return HttpResponse("%s" % "salvataggio riuscito")
+
+    else:
+      print "formato non valido"
 

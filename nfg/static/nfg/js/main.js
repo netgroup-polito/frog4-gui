@@ -43,6 +43,7 @@ var drag_BIGSWITCH;
 var drag_TEXT;
 
 var fg;
+var fg_pos;
 var template_js;
 
 // only respond once per keydown
@@ -74,10 +75,22 @@ $(document).ready(function(){
     /* Richiesta Json */
     $.ajax({ type: "GET",url: "/nfg/ajax_data_request",
       success: function(data) {
-          //console.log(data);
+          console.log(data);
           data = data.replace(/'/g,'"');
           /* definisco oggetto fg */
-          fg=JSON.parse(data);
+          json_data=JSON.parse(data);
+
+          fg = json_data["json_file_fg"];
+          if(json_data["is_find_pos"]==="true"){
+            /* file di posizionamento presente */
+            //isAlreadyPositioned = true;
+            fg_pos = json_data["json_file_pos"];
+            console.log(fg_pos);
+          }else{
+            /* file di posizionamento non presente */ 
+            isAlreadyPositioned = false;
+          }
+
           DrawMenuBar();
           DrawForwardingGraph(fg);
           showNFFG(false);
