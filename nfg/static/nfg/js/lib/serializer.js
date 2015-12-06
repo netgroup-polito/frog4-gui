@@ -256,7 +256,7 @@ function saveFile(){
             }).done(function(e){
                                 
                 console.log("Success: Files sent!");
-                //location.reload();
+                location.reload();
             
             }).fail(function(){
                 

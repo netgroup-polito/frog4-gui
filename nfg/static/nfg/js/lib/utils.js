@@ -82,3 +82,62 @@ function getLinkEndPositionById(id){
         }
     }
 }
+/* funzioni per leggere dal file di posizionamento */
+
+function getVNFbyIdPos(id){
+    var vnf ={};
+    var vnf_list = fg_pos["VNFs"];
+
+    vnf_list.forEach(function(ele){
+        if(ele.id == id) vnf = ele; 
+    });
+
+    return vnf; 
+}
+
+function getEndPointbyIdPos(id){
+    var endpoint={};
+    var ep_list = fg_pos["end-points"];
+
+    ep_list.forEach(function(ele){
+        if(ele.id == id) endpoint = ele;
+    });
+
+    return endpoint;
+}
+
+function getBSInterfaceByIdPos(id){
+    var inter = {};
+    var interfaces = fg_pos["big-switch"]["interfaces"];
+
+    interfaces.forEach(function(ele){
+        if(ele.id == id) inter = ele;
+    });
+
+    return inter;
+}
+
+function getPortVnfbyId(vnf,id){
+    var ports = vnf["ports"];
+    var port = {};
+
+    ports.forEach(function(ele){
+        if(ele.id == id) port = ele;
+    });
+
+    return port;
+
+}
+
+
+function getBS(){
+    var big = {};
+    big = fg_pos["big-switch"];
+
+    return big;
+}
+
+
+
+
+

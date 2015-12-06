@@ -83,7 +83,7 @@ $(document).ready(function(){
           fg = json_data["json_file_fg"];
           if(json_data["is_find_pos"]==="true"){
             /* file di posizionamento presente */
-            //isAlreadyPositioned = true;
+            isAlreadyPositioned = true;
             fg_pos = json_data["json_file_pos"];
             console.log(fg_pos);
           }else{
