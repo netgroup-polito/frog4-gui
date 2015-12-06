@@ -89,7 +89,7 @@ def ajax_data_request(request):
   directory = "users/upload@"+request.session["username"]
   print directory
 
-  if "file_name" in request.session:
+  if "file_name_fg" in request.session:
     file_name_fg = request.session["file_name_fg"]
   else:
     file_name_fg = "prova3.json"

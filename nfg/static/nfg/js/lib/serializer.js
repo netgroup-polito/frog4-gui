@@ -239,6 +239,8 @@ function saveFile(){
 	var file_content_fg = serialize_fg();
 	var file_content_pos = serialize_pos();
 
+	//console.log(file_content_fg);
+
 	var file_name_fg = fg["forwarding-graph"]["id"]+".json";		/*file fg*/
 	var file_name_pos = fg["forwarding-graph"]["id"]+"_pos.json";	/*file posizionamento*/
 
