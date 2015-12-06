@@ -75,6 +75,7 @@ function elaborateFlowRules(){
 
 
         var link2={
+            id: fr.id,
             x1: int1.x + big_switch.x,
             y1: int1.y + big_switch.y,
             x2: int2.x + big_switch.x,

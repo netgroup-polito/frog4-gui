@@ -245,5 +245,20 @@ html{
   border-radius: 10px;
 }
 
+.panel-info-select{
+  border-color: #F01010;
+}
+
+.panel-h-info-select{
+  border-color: #F01010;
+  background-color: #F01010; 
+  color: #FFF;
+
+}
+
+.panel-info-select > .panel-heading > a{
+  color: #FFF;
+}
+
 
 

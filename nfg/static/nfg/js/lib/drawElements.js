@@ -186,7 +186,7 @@ function drawLINE(){
         .style("marker-end",function(d) {
             return d.full_duplex == false ? "url(#end-arrow)" : "default";
         })
-        .on("click",function(){
+        .on("click",function(d){
             selected_link=this;
             d3.selectAll(".line-selected").attr("class","line");
             d3.selectAll(".BS-line-selected").attr("class","BS-line"); 
@@ -199,7 +199,7 @@ function drawLINE(){
             d3.select(".use_BIG").attr("xlink:href","#BIG_SWITCH_node");           
 
             $(this).attr("class","line-selected");
-
+            console.log(d);
 
         });
 
@@ -222,7 +222,7 @@ function drawBSLinks(){
         .attr("start",function(d){return d.start;})
         .attr("end",function(d){return d.end;})
         .attr("fullduplex",function(d){return d.full_duplex;})
-        .on("click",function(){
+        .on("click",function(d){
             selected_link=this;
             //d3.select(this).attr("stroke","red");
 
@@ -239,8 +239,19 @@ function drawBSLinks(){
             $(this).attr("class","BS-line-selected");
             drawBigSwitchInfo(fg);
 
+            //console.log(d);
+            highlightsFlowRule(d.id);
 
         });
+
+}
+
+
+function highlightsFlowRule(id){
+    console.log(id);
+    $('#panel'+id).attr("class","panel panel-info-select");
+    $('#panel-h'+id).attr("class","panel-heading panel-h-info-select panel-heading ");
+    $('#internal_panel'+id).attr("class","panel panel-info-select");
 
 }
 
@@ -306,7 +317,7 @@ function drawBigSwitchInfo(fg){
     $('.info').append('<a onclick="ReduceAll()"><i class="glyphicon glyphicon-exclamation-sign"></i><strong> BigSwitch Info</strong></a>');
     flow_rules.forEach(function(e){
         /*$html = '<div class="panel panel-default"><div class="panel-heading"><a onclick="Reduce('+e.id+')">FlowRule Id: '+e.id+' (';*/
-        $html = '<div class="panel panel-default"><div class="panel-heading"><a onclick="Reduce('+e.id+')">FlowRule (';           
+        $html = '<div class="panel panel-default" id="panel'+e.id+'"><div class="panel-heading" id="panel-h'+e.id+'"><a onclick="Reduce('+e.id+')">FlowRule (';           
 
         $html+=e.action[0].output+" ";
         
@@ -314,7 +325,7 @@ function drawBigSwitchInfo(fg){
         $('.info').append($html);
         $('#flowrule'+e.id).append('<p><b>Action:</b></p>');
 
-        $('#flowrule'+e.id).append('<div class="panel panel-default"><div id="a_'+e.id +'"class="panel-body"></div></div>');
+        $('#flowrule'+e.id).append('<div class="panel panel-default" id="internal_panel'+e.id+'"><div id="a_'+e.id +'"class="panel-body"></div></div>');
         
             if(e.action[0].output!=null)
                 $('#a_'+e.id).append('<p><b>Output: </b>'+e.action[0].output+'</p>');
