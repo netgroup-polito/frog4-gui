@@ -19,7 +19,10 @@ function getEndPointById(id){
     });
     return endpoint;
 }
-
+function getEndPointByCompleteId(fullId){
+    var chunk=fullId.split(":");
+    return getEndPointById(chunk[1]);
+}
 function getBSInterfaceById(id){
     var inter;
     big_switch.interfaces.forEach(function(e){
