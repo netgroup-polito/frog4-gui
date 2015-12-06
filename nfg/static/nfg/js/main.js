@@ -78,7 +78,7 @@ $(document).ready(function(){
           console.log(data);
           data = data.replace(/'/g,'"');
           /* definisco oggetto fg */
-          json_data=JSON.parse(data);
+           var json_data=JSON.parse(data);
 
           fg = json_data["json_file_fg"];
           if(json_data["is_find_pos"]==="true"){
