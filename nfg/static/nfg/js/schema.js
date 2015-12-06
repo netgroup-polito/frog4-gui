@@ -84,7 +84,9 @@
 												  													  "interface":{"$ref":"#/definitions/interface"},
 												  													  "interface-out":{"$ref":"#/definitions/interface"},
 												  													  "gre-tunnel":{"$ref":"#/definitions/gre"},
-												  													  "vlan":{"$ref":"#/definitions/vlan"}},
+												  													  "vlan":{"$ref":"#/definitions/vlan"}
+
+												  													},
 												  													  "required":["id"],
 												  													  "additionalProperties":False}},
 												  				"big-switch":{"type":"object","properties":{"flow-rules":{"type":"array",

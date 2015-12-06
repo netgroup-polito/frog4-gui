@@ -25,6 +25,10 @@ function drawNF() {
                // console.log(this);
                 selected_node=this;
             /* funzioni per selezionare questo oggetto e deselezionare gli altri */
+
+                d3.selectAll(".line-selected").attr("class","line");
+                d3.selectAll(".BS-line-selected").attr("class","BS-line");
+
                 d3.selectAll(".host").attr("class","end-points host").style("fill","url(#host-icon)");
                 d3.selectAll(".internet").attr("class","end-points internet").style("fill","url(#internet-icon)");
                 d3.selectAll(".end-points-select").attr("class","end-points");
@@ -86,6 +90,10 @@ function drawEP(){
             select_node(d);
             selected_node=this;
             /* funzioni per selezionare questo oggetto e deselezionare gli altri */
+
+            d3.selectAll(".line-selected").attr("class","line");
+            d3.selectAll(".BS-line-selected").attr("class","BS-line");
+
             d3.selectAll(".host").attr("class","end-points host").style("fill","url(#host-icon)");
             d3.selectAll(".internet").attr("class","end-points internet").style("fill","url(#internet-icon)");
 
@@ -143,6 +151,10 @@ function drawBIGSWITCH(){
 
 
     big_s.on("click",function(){
+
+        d3.selectAll(".line-selected").attr("class","line");
+        d3.selectAll(".BS-line-selected").attr("class","BS-line");
+
         d3.selectAll(".host").attr("class","end-points host").style("fill","url(#host-icon)");
         d3.selectAll(".internet").attr("class","end-points internet").style("fill","url(#internet-icon)");
         d3.selectAll(".end-points-select").attr("class","end-points");
@@ -176,17 +188,29 @@ function drawLINE(){
         })
         .on("click",function(){
             selected_link=this;
-            $(this).css("stroke","red");
+            d3.selectAll(".line-selected").attr("class","line");
+            d3.selectAll(".BS-line-selected").attr("class","BS-line"); 
+
+            d3.selectAll(".host").attr("class","end-points host").style("fill","url(#host-icon)");
+            d3.selectAll(".internet").attr("class","end-points internet").style("fill","url(#internet-icon)");
+            
+            d3.selectAll(".end-points-select").attr("class","end-points");
+            d3.selectAll(".NetworkFunction").attr("xlink:href","#NF_node");
+            d3.select(".use_BIG").attr("xlink:href","#BIG_SWITCH_node");           
+
+            $(this).attr("class","line-selected");
+
+
         });
 
 }
 
 function drawBSLinks(){
-    var lines = lines_section.selectAll(".BS_line")
+    var lines = lines_section.selectAll(".BS-line")
         .data(bs_links)
         .enter()
         .append("line")
-        .attr("class","BS_line")
+        .attr("class","BS-line")
         .attr("stroke","black")
         .attr("opacity",0.6)
         .attr("x1",function(d){return d.x1;})
@@ -200,8 +224,24 @@ function drawBSLinks(){
         .attr("fullduplex",function(d){return d.full_duplex;})
         .on("click",function(){
             selected_link=this;
-            d3.select(this).attr("stroke","red");
+            //d3.select(this).attr("stroke","red");
+
+            d3.selectAll(".line-selected").attr("class","line");
+            d3.selectAll(".BS-line-selected").attr("class","BS-line");
+
+            d3.selectAll(".host").attr("class","end-points host").style("fill","url(#host-icon)");
+            d3.selectAll(".internet").attr("class","end-points internet").style("fill","url(#internet-icon)");
+            
+            d3.selectAll(".end-points-select").attr("class","end-points");
+            d3.selectAll(".NetworkFunction").attr("xlink:href","#NF_node");
+            d3.select(".use_BIG").attr("xlink:href","#BIG_SWITCH_node"); 
+
+            $(this).attr("class","BS-line-selected");
+            drawBigSwitchInfo(fg);
+
+
         });
+
 }
 
 /* DrawInfo */

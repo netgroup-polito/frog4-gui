@@ -163,7 +163,7 @@ function createLink(){
 
     /*disegno il link interno al BS*/
     lines_section.append("line")
-        .attr("class","BS_line")
+        .attr("class","BS-line")
         .attr("stroke","black")
         .attr("opacity",0.6)
         .attr("x1",bs_int1.x+big_switch.x)
@@ -178,6 +178,7 @@ function createLink(){
         .on("click",function(){
             selected_link=this;
             d3.select(this).attr("stroke","red");
+
         });
 
 

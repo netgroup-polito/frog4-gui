@@ -1,17 +1,18 @@
     .nf{
         fill: #80A926;
         stroke: #000;
-        stroke-width: 2px;
+        stroke-width: 3px;
     }
 
     .nf-select{
         fill: #ED571C;
         stroke: #000;
-        stroke-width: 2px;
+        stroke-width: 3px;
 
     }
    
     .interface{
+        stroke-width:2px;
         fill: #337AB7;
         stroke: #000;       
     }
@@ -31,17 +32,31 @@
     .big-switch{
         fill: rgba(131, 176, 34, 0.7);
         stroke: #000;
-        stroke-width: 2px;
+        stroke-width: 3px;
     }
 
     .big-switch-select{
         fill: rgba(237, 87, 28, 0.7);
         stroke: #000;
-        stroke-width: 2px;
+        stroke-width: 3px;
     }
 
-    .line,.BS_line,.line_menu{
-       stroke-width: 2.5px; 
+    .line,.BS-line,.line_menu{
+       stroke-width: 3px; 
+    }
+
+    .line{
+        stroke: #000;
+    }
+
+    .line-selected{
+        stroke-width: 3px;
+        stroke: #ED571C;
+    }
+
+    .BS-line-selected{
+        stroke-width: 3px;
+        stroke: #ED571C; 
     }
 
 
