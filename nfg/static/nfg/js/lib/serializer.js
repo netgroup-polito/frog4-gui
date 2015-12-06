@@ -1,8 +1,8 @@
 function serialize_fg(){
 	var file_fg = {};
 	
-	file_fg["forwarding_graph"] = ser_fg();
-	file_fg["big_switch"] = ser_big();
+	file_fg["forwarding-graph"] = ser_fg();
+	//file_fg["big-switch"] = ser_big();
 	
 	console.log(file_fg);
 	console.log(JSON.stringify(file_fg))
@@ -14,7 +14,7 @@ function serialize_fg(){
 function ser_big(){
 
 	var big_switch = {};
-	big_switch["flow_rules"]=[];
+	big_switch["flow-rules"]=[];
 
 	flow_rules.forEach(function(ele){
 		var flowrule = {};
@@ -69,7 +69,7 @@ function ser_big(){
 		});
 
 		flowrule["action"] = actions;
-		big_switch["flow_rules"].push(flowrule);
+		big_switch["flow-rules"].push(flowrule);
 	});
 
 	return big_switch;
@@ -150,6 +150,9 @@ function ser_fg(){
 		forwarding_graph["end-points"].push(ep);
 	});
 
+	forwarding_graph["big-switch"] = ser_big();
+
+
 	return forwarding_graph;
 
 }
@@ -174,8 +177,58 @@ function serialize_pos(){
         });
     }
     if(big_switch!=undefined){
-        file["big_switch"]={x:big_switch.x,y:big_switch.y}
-        //salvare anche un vettore di posizione per le interfacce del bs... con id dell'interfaccia corrispondente + x + y
+        file["big-switch"]={x:big_switch.x,y:big_switch.y};
+        
+        file["big-switch"]["interfaces"]= [];
+
+        big_switch.interfaces.forEach(function(ele){
+        	inter = {}
+        	inter.id = ele.id;
+        	inter.ref = ele.ref;
+        	inter.x = ele.x;
+        	inter.y = ele.y; 
+
+        	file["big-switch"]["interfaces"].push(inter);
+        });
+
+        /*
+        file["big-switch"]["flow-rules"] = [];
+
+        flow_rules = big_switch["flow-rules"];
+
+        flow_rules.forEach(function(ele){
+        	flow_rule = {};
+        	flow_rule.id = ele.id;
+        	flow_rule.full_duplex = ele.full_duplex;
+
+        	flow_rule.action=[];
+        	ele.action.forEach(function(ele2){
+        		act = {};
+        		act.interface_position_x = ele2.interface_position_x;
+        		act.interface_position_y = ele2.interface_position_y;
+        		act.output = ele2.output;
+
+        		flow_rule.action.push(act);
+        	})
+
+        	flow_rule.match={};
+
+        	match={};
+        	match.interface_position_x=ele.match.interface_position_x;
+        	match.interface_position_y=ele.match.interface_position_y;
+        	
+        	match.port_in=ele.port_in;
+
+        	flow_rule.match = match;
+
+        	flow_rules.push(flow_rule);
+
+        });
+
+        file["big-switch"]["flow-rules"]=flow_rules;
+        */
+
+
     }
     return JSON.stringify(file);
 }
@@ -203,7 +256,7 @@ function saveFile(){
             }).done(function(e){
                                 
                 console.log("Success: Files sent!");
-                location.reload();
+                //location.reload();
             
             }).fail(function(){
                 
