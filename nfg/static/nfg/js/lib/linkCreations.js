@@ -36,6 +36,9 @@ function select_node(ele){
 
 function DrawNewLink(){
     var newFR = fillNewFlowRule();
+    /*
+    DA FARE-> CONTROLLO SE SI CREA UNO SPLIT SE SI->FORZARE A BIG SWITCH!
+     */
     flow_rules.push(newFR);
     createLink();
 }
@@ -87,94 +90,113 @@ function createTempLink(){
 function createLink(){
     console.log(ele1_selected);
     console.log(ele2_selected);
-    var x1,y1,x2,y2,id1,id2;
+
+    var bs_int1={},bs_int2={};
+    var ele1={},ele2={};
+
     if(ele1_selected.ref==="bsInt"){
-        x1=ele1_selected.x+big_switch.x;
-        y1=ele1_selected.y+big_switch.y;
-        x2=ele2_selected.x+big_switch.x;
-        y2=ele2_selected.y+big_switch.y;
-        //if (ele1_selected.ref === "end-point") {
-        //    id1 = "bs-endpoint:" + ele1_selected.id;
-        //}
-        //if (ele1_selected.ref === "NF_interface") {
-        //    id1 = "bs-vnf:" + ele1_selected.parent_NF_id + ":" + ele1_selected.id;
-        //}
-        //if (ele2_selected.ref === "end-point") {
-        //    id2 = "bs-endpoint:" + ele2_selected.id;
-        //}
-        //if (ele2_selected.ref === "NF_interface") {
-        //    id2 = "bs-vnf:" + ele2_selected.parent_NF_id + ":" + ele2_selected.id;
-        //}
-        id1="bs-"+ele1_selected.id;
-        id2="bs-"+ele2_selected.id;
+        bs_int1.x=ele1_selected.x;
+        bs_int1.y=ele1_selected.y;
+        bs_int2.x=ele2_selected.x;
+        bs_int2.y=ele2_selected.y;
+
+        bs_int1.id="bs-"+ele1_selected.id;
+        bs_int2.id="bs-"+ele2_selected.id;
+        var type1=ele1_selected.id.split(":");
+        var type2=ele2_selected.id.split(":");
+
+        if(type1[0]==="endpoint"){
+            var tmp=getEndPointByCompleteId(ele1_selected.id);
+            ele1.x = tmp.x;
+            ele1.y = tmp.y;
+            ele1.id = "endpoint:" + tmp.id;
+        }else if(type1[0]==="vnf") {
+            var tmp = getInterfaceById(ele1_selected.id);
+            ele1.x = parseInt(tmp.x) + parseInt(tmp.parent_NF_x);
+            ele1.y = parseInt(tmp.y) + parseInt(tmp.parent_NF_y);
+            ele1.id = "vnf:" + tmp.parent_NF_id + ":" + tmp.id;
+        }
+        if(type2[0]==="endpoint"){
+            var tmp=getEndPointByCompleteId(ele2_selected.id);
+            ele2.x = tmp.x;
+            ele2.y = tmp.y;
+            ele2.id = "endpoint:" + tmp.id;
+        }else if(type2[0]==="vnf"){
+            var tmp=getInterfaceById(ele2_selected.id);
+            ele2.x = parseInt(tmp.x) + parseInt(tmp.parent_NF_x);
+            ele2.y = parseInt(tmp.y) + parseInt(tmp.parent_NF_y);
+            ele2.id = "vnf:" + tmp.parent_NF_id + ":" + tmp.id;
+        }
     }else {
-        //occorre anche creare il link interno al bs!
-        var bs_x1,bs_y1,bs_x2,bs_y2;
-        var bs_int1,bs_int2;
+
         if (ele1_selected.ref === "end-point") {
-            x1 = ele1_selected.x;
-            y1 = ele1_selected.y;
-            id1 = "endpoint:" + ele1_selected.id;
+            ele1.x = ele1_selected.x;
+            ele1.y = ele1_selected.y;
+            ele1.id = "endpoint:" + ele1_selected.id;
         }
         if (ele1_selected.ref === "NF_interface") {
-            x1 = parseInt(ele1_selected.x) + parseInt(ele1_selected.parent_NF_x);
-            y1 = parseInt(ele1_selected.y) + parseInt(ele1_selected.parent_NF_y);
-            id1 = "vnf:" + ele1_selected.parent_NF_id + ":" + ele1_selected.id;
+            ele1.x = parseInt(ele1_selected.x) + parseInt(ele1_selected.parent_NF_x);
+            ele1.y = parseInt(ele1_selected.y) + parseInt(ele1_selected.parent_NF_y);
+            ele1.id = "vnf:" + ele1_selected.parent_NF_id + ":" + ele1_selected.id;
         }
 
-        bs_int1=getBSInterfaceById(id1);
+        bs_int1=getBSInterfaceById(ele1.id);
 
         if (ele2_selected.ref === "end-point") {
-            x2 = ele2_selected.x;
-            y2 = ele2_selected.y;
-            id2 = "endpoint:" + ele2_selected.id;
+            ele2.x = ele2_selected.x;
+            ele2.y = ele2_selected.y;
+            ele2.id = "endpoint:" + ele2_selected.id;
         }
         if (ele2_selected.ref === "NF_interface") {
-            x2 = parseInt(ele2_selected.x) + parseInt(ele2_selected.parent_NF_x);
-            y2 = parseInt(ele2_selected.y) + parseInt(ele2_selected.parent_NF_y);
-            id2 = "vnf:" + ele2_selected.parent_NF_id + ":" + ele2_selected.id;
+            ele2.x = parseInt(ele2_selected.x) + parseInt(ele2_selected.parent_NF_x);
+            ele2.y = parseInt(ele2_selected.y) + parseInt(ele2_selected.parent_NF_y);
+            ele2.id = "vnf:" + ele2_selected.parent_NF_id + ":" + ele2_selected.id;
         }
 
-        bs_int2=getBSInterfaceById(id2);
-
-        /*disegno il link interno al BS*/
-        lines_section.append("line")
-            .attr("class","BS_line")
-            .attr("stroke","black")
-            .attr("opacity",0.6)
-            .attr("x1",bs_int1.x+big_switch.x)
-            .attr("y1",bs_int1.y+big_switch.y)
-            .attr("x2",bs_int2.x+big_switch.x)
-            .attr("y2",bs_int2.y+big_switch.y)
-            .attr("title","Source: "+bs_int1.id+" Action: "+bs_int2.id)
-            //aggiungo l'info da chi parte a chi arriva
-            .attr("start","bs-"+bs_int1.id)
-            .attr("end","bs-"+bs_int2.id)
-            .attr("fullduplex",false)
-            .on("click",function(){
-                selected_link=this;
-                d3.select(this).attr("stroke","red");
-            });
-
-
+        bs_int2=getBSInterfaceById(ele2.id);
     }
-    var newLine=lines_section.append("line")
-        .attr("x1",x1)
-        .attr("y1",y1)
-        .attr("x2",x2)
-        .attr("y2",y2)
+
+    /*
+    DA FARE -> SETTARE SE C'è GIà UN ALTRO LINK CON DIREZIONE OPPOSTA SE SI CAMBIARE A FULL DUPLEX =TRUE
+     */
+    var isDuplex=false;
+
+    /*disegno il link interno al BS*/
+    lines_section.append("line")
+        .attr("class","BS_line")
         .attr("stroke","black")
-        .attr("class","line")
-        .attr("start",id1)
-        .attr("end",id2)
+        .attr("opacity",0.6)
+        .attr("x1",bs_int1.x+big_switch.x)
+        .attr("y1",bs_int1.y+big_switch.y)
+        .attr("x2",bs_int2.x+big_switch.x)
+        .attr("y2",bs_int2.y+big_switch.y)
+        .attr("title","Source: "+bs_int1.id+" Action: "+bs_int2.id)
+        //aggiungo l'info da chi parte a chi arriva
+        .attr("start","bs-"+bs_int1.id)
+        .attr("end","bs-"+bs_int2.id)
+        .attr("fullduplex",isDuplex)
         .on("click",function(){
             selected_link=this;
             d3.select(this).attr("stroke","red");
         });
-    if(ele1_selected.ref==="bsInt") {
-        newLine.attr("opacity", 0.6);
-        newLine.attr("class","BS_line")
-    }
+
+
+    /* disegno il link tra i 2 elementi */
+   lines_section.append("line")
+        .attr("x1",ele1.x)
+        .attr("y1",ele1.y)
+        .attr("x2",ele2.x)
+        .attr("y2",ele2.y)
+        .attr("stroke","black")
+        .attr("class","line")
+        .attr("start",ele1.id)
+        .attr("end",ele2.id)
+       .attr("fullduplex",isDuplex)
+        .on("click",function(){
+            selected_link=this;
+            d3.select(this).attr("stroke","red");
+        });
+
     //NB->DA FARE modificare il js!!!
     //svg.selectAll("line,circle").sort(function(a){console.log(a);});
     //svg.selectAll("line,circle").order();
