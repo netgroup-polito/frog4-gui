@@ -70,14 +70,54 @@ function drawNewEP(){
                 .attr("cx",function(d){return d.x;})
                 .attr("cy",function(d){return d.y;})
                 .on("click",function(d){
+                    //select_node(d);
+                    //d3.selectAll(".end-points-select").attr("class","end-points");
+                    //d3.selectAll(".use_NF").attr("xlink:href","#NF_node");
+                    //d3.selectAll(".use_BIG").attr("xlink:href","#BIG_SWITCH_node");
+                    //d3.selectAll(".line[fullduplex=false]").attr("marker-end","url(#EPArrow)");
+                    //d3.selectAll(".BS-line[fullduplex=false]").attr("marker-end","url(#IntArrow)");
+                    //d3.select(this).attr("class","end-points-select");
+                    //
+                    //var ep = getEndPointById(d.id);
+                    //drawEndPointInfo(ep,d.id);
+
                     select_node(d);
+                    selected_node=this;
+                    selected_link=undefined;
+                    /* funzioni per selezionare questo oggetto e deselezionare gli altri */
+
+                    d3.selectAll(".line-selected").attr("class","line");
+                    d3.selectAll(".BS-line-selected").attr("class","BS-line");
+                    d3.selectAll(".line[fullduplex=false]").attr("marker-end",function(d){
+                        var type=$(this).attr("end");
+                        if(type.indexOf("vnf")===-1) return "url(#EPArrow)"
+                        else return "url(#IntArrow)";
+                    });
+                    d3.selectAll(".BS-line[fullduplex=false]").attr("marker-end","url(#IntArrow)");
+
+                    d3.selectAll(".host").attr("class","end-points host").style("fill","url(#host-icon)");
+                    d3.selectAll(".internet").attr("class","end-points internet").style("fill","url(#internet-icon)");
+
                     d3.selectAll(".end-points-select").attr("class","end-points");
-                    d3.selectAll(".use_NF").attr("xlink:href","#NF_node");
+                    d3.selectAll(".NetworkFunction").attr("xlink:href","#NF_node");
                     d3.selectAll(".use_BIG").attr("xlink:href","#BIG_SWITCH_node");
-                    d3.select(this).attr("class","end-points-select");
-                    
+
+                    switch(d.name){
+                        case "host":
+                            d3.select(this).attr("class","end-points-select "+d.name).style("fill","url(#host-select-icon)");
+                            break;
+                        case "internet":
+                            d3.select(this).attr("class","end-points-select "+d.name).style("fill","url(#internet-select-icon)");
+                            break;
+                        default:
+                            d3.select(this).attr("class","end-points-select "+d.name);
+                            break;
+                    }
+
+
+                    /* funzioni per visualizzare le informazioni sulla sinistra */
                     var ep = getEndPointById(d.id);
-                    drawEndPointInfo(ep,d.id);  
+                    drawEndPointInfo(ep,d.id);
                 })
                 .call(drag_EP);
 
@@ -105,9 +145,9 @@ function drawNewEP(){
         /*disegno il link che collega il bs_int al ep*/
         lines_section
             .append("line")
-            .attr("class","BS_line")
+            .attr("class","BS-line")
             .attr("stroke","black")
-            .attr("opacity",0.6)
+            //.attr("opacity",0.6)
             .attr("x1", ep.x)
             .attr("y1",ep.y)
             .attr("x2",big_switch.x+new_bs_int.x)
@@ -115,11 +155,14 @@ function drawNewEP(){
             .attr("title","Source: endpoint:"+ep.id+" Action: bs-endpoint:"+ep.id)
             //aggiungo l'info da chi parte a chi arriva
             .attr("start","endpoint:"+ep.id)
-            .attr("end","bs-endpoint:"+ep.id)
-            .on("click",function(){
-                selected_link=this;
-                d3.select(this).attr("stroke","red");
-            });
+            .attr("end","bs-endpoint:"+ep.id);
+            //.on("click",function(){
+            //    selected_link=this;
+            //    selected_node=
+            //    d3.selectAll(".line[fullduplex=false]").attr("marker-end","url(#EPArrow)");
+            //    d3.selectAll(".BS-line[fullduplex=false]").attr("marker-end","url(#IntArrow)");
+            //    //d3.select(this).attr("stroke","red");
+            //});
 
     }else{
         console.log("validazione fallita");
@@ -182,13 +225,38 @@ function drawNewNF(){
             //.attr("transform","translate("+NF_list[index].x+","+NF_list[index].y+")")
             .call(drag_NF)
             .on("click",function(d){ //da sistemare!
-                console.log(this);
-            /* funzioni per selezionare questo oggetto e deselezionare gli altri */
+            //    console.log(this);
+            ///* funzioni per selezionare questo oggetto e deselezionare gli altri */
+            //    d3.selectAll(".end-points-select").attr("class","end-points");
+            //    //d3.selectAll(".BigSwitch").attr("xlink:href","#BIG_SWITCH_node");
+            //    d3.selectAll(".NetworkFunction").attr("xlink:href","#NF_node");
+            //    $(this).attr("href","#NF_select");
+            //   // d3.select(d).attr("xlink:href","#NF_select");
+            //    /* funzioni per visualizzare le informazioni sulla sinistra */
+            //    var vnf = getVNFById(d.id);
+            //    drawVNFInfo(vnf,d.id);
+                selected_node=this;
+                selected_link=undefined;
+                /* funzioni per selezionare questo oggetto e deselezionare gli altri */
+
+                d3.selectAll(".line-selected").attr("class","line");
+                d3.selectAll(".BS-line-selected").attr("class","BS-line");
+                d3.selectAll(".line[fullduplex=false]").attr("marker-end",function(d){
+                    var type=$(this).attr("end");
+                    if(type.indexOf("vnf")===-1) return "url(#EPArrow)"
+                    else return "url(#IntArrow)";
+                });
+                d3.selectAll(".BS-line[fullduplex=false]").attr("marker-end","url(#IntArrow)");
+
+                d3.selectAll(".host").attr("class","end-points host").style("fill","url(#host-icon)");
+                d3.selectAll(".internet").attr("class","end-points internet").style("fill","url(#internet-icon)");
                 d3.selectAll(".end-points-select").attr("class","end-points");
+
                 //d3.selectAll(".BigSwitch").attr("xlink:href","#BIG_SWITCH_node");
                 d3.selectAll(".NetworkFunction").attr("xlink:href","#NF_node");
+                d3.selectAll(".use_BIG").attr("xlink:href","#BIG_SWITCH_node");
                 $(this).attr("href","#NF_select");
-               // d3.select(d).attr("xlink:href","#NF_select");
+                // d3.select(d).attr("xlink:href","#NF_select");
                 /* funzioni per visualizzare le informazioni sulla sinistra */
                 var vnf = getVNFById(d.id);
                 drawVNFInfo(vnf,d.id);
@@ -236,9 +304,9 @@ function drawNewNF(){
         .data(new_bs_links)
         .enter()
         .append("line")
-        .attr("class","BS_line")
+        .attr("class","BS-line")
         .attr("stroke","black")
-        .attr("opacity",0.6)
+        //.attr("opacity",0.6)
         .attr("x1",function(d){return d.x1;})
         .attr("y1",function(d){return d.y1;})
         .attr("x2",function(d){return d.x2;})
@@ -246,11 +314,11 @@ function drawNewNF(){
         .attr("title",function(d){return "Source: "+d.start+" Action: "+d.end;})
         //aggiungo l'info da chi parte a chi arriva
         .attr("start",function(d){return d.start;})
-        .attr("end",function(d){return d.end;})
-        .on("click",function(){
-            selected_link=this;
-            d3.select(this).attr("stroke","red");
-        });
+        .attr("end",function(d){return d.end;});
+        //.on("click",function(){
+        //    selected_link=this;
+        //    d3.select(this).attr("stroke","red");
+        //});
 
 }
 function saveNewEp(){

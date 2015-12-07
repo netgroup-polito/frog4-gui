@@ -161,7 +161,7 @@ function DrawForwardingGraph(fg){
     var IMG_PC_BLUE = defImgPcBlue();
     var IMG_INTERNET_RED = defImgInternetRed();
     var IMG_INTERNET_BLUE = defImgInternetBlue();
-
+    defArrow();
 
     //console.log(EP_list);
 

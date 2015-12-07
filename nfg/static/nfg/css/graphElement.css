@@ -1,18 +1,18 @@
     .nf{
         fill: #80A926;
         stroke: #000;
-        stroke-width: 3px;
+        stroke-width: 1px;
     }
 
     .nf-select{
         fill: #ED571C;
         stroke: #000;
-        stroke-width: 3px;
+        stroke-width: 1px;
 
     }
    
     .interface{
-        stroke-width:2px;
+        stroke-width:1px;
         fill: #337AB7;
         stroke: #000;       
     }
@@ -20,13 +20,13 @@
     .end-points{
         fill:#013E72;
         stroke: #000;
-        stroke-width: 4px;
+        stroke-width: 0px;
     }
 
     .end-points-select{
         fill:#ED571C;
         stroke: #000;
-        stroke-width: 4px;
+        stroke-width: 0px;
     }
 
     .big-switch{
@@ -42,20 +42,23 @@
     }
 
     .line,.BS-line,.line_menu{
-       stroke-width: 3px; 
+       stroke-width: 2.5px;
     }
-
+    #EPArrow{
+        color:greenyellow;
+    }
     .line{
         stroke: #000;
     }
 
     .line-selected{
-        stroke-width: 3px;
+        stroke-width: 2.5px;
         stroke: #ED571C;
+        color: #ED571C;
     }
 
     .BS-line-selected{
-        stroke-width: 3px;
+        stroke-width: 2.5px;
         stroke: #ED571C; 
     }
 

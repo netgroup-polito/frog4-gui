@@ -145,7 +145,8 @@ function setBSExternalLink(){
             x2: bs_int.x+big_switch.x,
             y2: bs_int.y+big_switch.y,
             start: id,
-            end: "bs-"+bs_int.id
+            end: "bs-"+bs_int.id,
+            external:true
             //full_duplex: fr["full_duplex"]
         };
 

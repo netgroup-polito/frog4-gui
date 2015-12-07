@@ -108,6 +108,68 @@ function defImgInternetRed(){
     return ImgInternetRed;
 }
 
+function defArrow(){
+    defs_section.append("defs")
+        .append("marker")
+        .attr({
+            "id":"EPArrow",
+            "viewBox":"0 -5 10 10",
+            "refX":25,
+            "refY":0,
+            "markerWidth":5,
+            "markerHeight":5,
+            "orient":"auto"
+        })
+        .append("path")
+        .attr("d", "M0,-5L10,0L0,5")
+        .attr("class","arrowHead");
 
+    defs_section.append("defs")
+        .append("marker")
+        .attr({
+            "id":"IntArrow",
+            "viewBox":"0 -5 10 10",
+            "refX":15,
+            "refY":0,
+            "markerWidth":5,
+            "markerHeight":5,
+            "orient":"auto"
+        })
+        .append("path")
+        .attr("d", "M0,-5L10,0L0,5")
+        .attr("class","arrowHead");
+
+    defs_section.append("defs")
+        .append("marker")
+        .attr({
+            "id":"EPArrowSelected",
+            "viewBox":"0 -5 10 10",
+            "refX":25,
+            "refY":0,
+            "markerWidth":5,
+            "markerHeight":5,
+            "orient":"auto"
+        })
+        .attr("fill","#ED571C")
+        .append("path")
+        .attr("d", "M0,-5L10,0L0,5")
+        .attr("class","arrowHead");
+
+    defs_section.append("defs")
+        .append("marker")
+        .attr({
+            "id":"IntArrowSelected",
+            "viewBox":"0 -5 10 10",
+            "refX":15,
+            "refY":0,
+            "markerWidth":5,
+            "markerHeight":5,
+            "orient":"auto"
+        })
+        .attr("fill","#ED571C")
+        .append("path")
+        .attr("d", "M0,-5L10,0L0,5")
+        .attr("class","arrowHead");
+}
 
 

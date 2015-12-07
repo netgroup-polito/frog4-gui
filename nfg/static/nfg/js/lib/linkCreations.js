@@ -165,7 +165,7 @@ function createLink(){
     lines_section.append("line")
         .attr("class","BS-line")
         .attr("stroke","black")
-        .attr("opacity",0.6)
+        //  .attr("opacity",0.6)
         .attr("x1",bs_int1.x+big_switch.x)
         .attr("y1",bs_int1.y+big_switch.y)
         .attr("x2",bs_int2.x+big_switch.x)
@@ -175,6 +175,11 @@ function createLink(){
         .attr("start","bs-"+bs_int1.id)
         .attr("end","bs-"+bs_int2.id)
         .attr("fullduplex",isDuplex)
+        .attr("marker-end",function(d) {
+           if(isDuplex) return "default";
+            return "url(#IntArrow)";
+
+        })
         .on("click",function(){
             selected_link=this;
             d3.select(this).attr("stroke","red");
@@ -193,6 +198,12 @@ function createLink(){
         .attr("start",ele1.id)
         .attr("end",ele2.id)
        .attr("fullduplex",isDuplex)
+       .attr("marker-end",function() {
+           if(isDuplex===true) return "default";
+           var type=ele2.id.split(":");
+           if(type[0]==="vnf") return "url(#IntArrow)"
+           else return "url(#EPArrow)";
+       })
         .on("click",function(){
             selected_link=this;
             d3.select(this).attr("stroke","red");

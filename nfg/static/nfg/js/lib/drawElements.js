@@ -4,11 +4,6 @@
  **/
 
 function drawNF() {
-    //NF_list.forEach(function (ele, index) {
-
-        //group[index] = svg.append("g")
-        //    .attr("id", ele.id)
-        //    .attr("class", "VNF");
 
         VNF_section.selectAll(".NetworkFunction")
             .data(NF_list)
@@ -16,18 +11,23 @@ function drawNF() {
             .append("use").attr("xlink:href", "#NF_node")       
             .attr("id", function(d){return d.id;})
             .attr("class", "NetworkFunction") //ogni NF ha un NF_node centrale e attorno tutte le interfacce
-        //group[index]
             .attr("x",function(d){return d.x;})
             .attr("y",function(d){return d.y;})
-            //.attr("transform","translate("+NF_list[index].x+","+NF_list[index].y+")")
             .call(drag_NF)
             .on("click",function(d){ //da sistemare!
                // console.log(this);
                 selected_node=this;
+                selected_link=undefined;
             /* funzioni per selezionare questo oggetto e deselezionare gli altri */
 
                 d3.selectAll(".line-selected").attr("class","line");
                 d3.selectAll(".BS-line-selected").attr("class","BS-line");
+                d3.selectAll(".line[fullduplex=false]").attr("marker-end",function(d){
+                    var type=$(this).attr("end");
+                    if(type.indexOf("vnf")===-1) return "url(#EPArrow)"
+                    else return "url(#IntArrow)";
+                });
+                d3.selectAll(".BS-line[fullduplex=false]").attr("marker-end","url(#IntArrow)");
 
                 d3.selectAll(".host").attr("class","end-points host").style("fill","url(#host-icon)");
                 d3.selectAll(".internet").attr("class","end-points internet").style("fill","url(#internet-icon)");
@@ -89,10 +89,17 @@ function drawEP(){
 
             select_node(d);
             selected_node=this;
+            selected_link=undefined;
             /* funzioni per selezionare questo oggetto e deselezionare gli altri */
 
             d3.selectAll(".line-selected").attr("class","line");
             d3.selectAll(".BS-line-selected").attr("class","BS-line");
+            d3.selectAll(".line[fullduplex=false]").attr("marker-end",function(d){
+                var type=$(this).attr("end");
+                if(type.indexOf("vnf")===-1) return "url(#EPArrow)"
+                else return "url(#IntArrow)";
+            });
+            d3.selectAll(".BS-line[fullduplex=false]").attr("marker-end","url(#IntArrow)");
 
             d3.selectAll(".host").attr("class","end-points host").style("fill","url(#host-icon)");
             d3.selectAll(".internet").attr("class","end-points internet").style("fill","url(#internet-icon)");
@@ -154,6 +161,12 @@ function drawBIGSWITCH(){
 
         d3.selectAll(".line-selected").attr("class","line");
         d3.selectAll(".BS-line-selected").attr("class","BS-line");
+        d3.selectAll(".line[fullduplex=false]").attr("marker-end",function(d){
+            var type=$(this).attr("end");
+            if(type.indexOf("vnf")===-1) return "url(#EPArrow)"
+            else return "url(#IntArrow)";
+        });
+        d3.selectAll(".BS-line[fullduplex=false]").attr("marker-end","url(#IntArrow)");
 
         d3.selectAll(".host").attr("class","end-points host").style("fill","url(#host-icon)");
         d3.selectAll(".internet").attr("class","end-points internet").style("fill","url(#internet-icon)");
@@ -183,13 +196,25 @@ function drawLINE(){
         .attr("start",function(d){return d.match.port_in;})
         .attr("end",function(d){return d.action[0].output;})
         .attr("fullduplex",function(d){return d.full_duplex;})
-        .style("marker-end",function(d) {
-            return d.full_duplex == false ? "url(#end-arrow)" : "default";
+        .attr("marker-end",function(d) {
+            //return d.full_duplex == false ? "url(#EPArrow)" : "default";
+            if(d.full_duplex===true) return "default";
+            var type=d.action[0].output.split(":");
+            if(type[0]==="vnf") return "url(#IntArrow)";
+            else return "url(#EPArrow)";
         })
         .on("click",function(d){
             selected_link=this;
+            selected_node=undefined;
             d3.selectAll(".line-selected").attr("class","line");
-            d3.selectAll(".BS-line-selected").attr("class","BS-line"); 
+            d3.selectAll(".BS-line-selected").attr("class","BS-line");
+            d3.selectAll(".line[fullduplex=false]").attr("marker-end",function(d){
+                var type=$(this).attr("end");
+                if(type.indexOf("vnf")===-1) return "url(#EPArrow)"
+                else return "url(#IntArrow)";
+            });
+            d3.selectAll(".BS-line[fullduplex=false]").attr("marker-end","url(#IntArrow)");
+
 
             d3.selectAll(".host").attr("class","end-points host").style("fill","url(#host-icon)");
             d3.selectAll(".internet").attr("class","end-points internet").style("fill","url(#internet-icon)");
@@ -197,7 +222,9 @@ function drawLINE(){
             d3.selectAll(".end-points-select").attr("class","end-points");
             d3.selectAll(".NetworkFunction").attr("xlink:href","#NF_node");
             d3.select(".use_BIG").attr("xlink:href","#BIG_SWITCH_node");           
-
+            if($(this).attr("fullduplex")==="false") {
+                $(this).attr("marker-end", "url(#EPArrowSelected)");
+            }
             $(this).attr("class","line-selected");
             console.log(d);
 
@@ -212,7 +239,7 @@ function drawBSLinks(){
         .append("line")
         .attr("class","BS-line")
         .attr("stroke","black")
-        .attr("opacity",0.6)
+        //.attr("opacity",0.6)
         .attr("x1",function(d){return d.x1;})
         .attr("y1",function(d){return d.y1;})
         .attr("x2",function(d){return d.x2;})
@@ -222,20 +249,34 @@ function drawBSLinks(){
         .attr("start",function(d){return d.start;})
         .attr("end",function(d){return d.end;})
         .attr("fullduplex",function(d){return d.full_duplex;})
+        .attr("marker-end",function(d) {
+            return d.full_duplex == false ? "url(#IntArrow)" : "default";
+        })
         .on("click",function(d){
+            if(d.external===true) return;
             selected_link=this;
+            selected_node=undefined;
             //d3.select(this).attr("stroke","red");
 
             d3.selectAll(".line-selected").attr("class","line");
             d3.selectAll(".BS-line-selected").attr("class","BS-line");
+            d3.selectAll(".line[fullduplex=false]").attr("marker-end",function(d){
+                var type=$(this).attr("end");
+                if(type.indexOf("vnf")===-1) return "url(#EPArrow)"
+                else return "url(#IntArrow)";
+            });
+            d3.selectAll(".BS-line[fullduplex=false]").attr("marker-end","url(#IntArrow)");
 
             d3.selectAll(".host").attr("class","end-points host").style("fill","url(#host-icon)");
             d3.selectAll(".internet").attr("class","end-points internet").style("fill","url(#internet-icon)");
             
             d3.selectAll(".end-points-select").attr("class","end-points");
             d3.selectAll(".NetworkFunction").attr("xlink:href","#NF_node");
-            d3.select(".use_BIG").attr("xlink:href","#BIG_SWITCH_node"); 
+            d3.select(".use_BIG").attr("xlink:href","#BIG_SWITCH_node");
 
+            if($(this).attr("fullduplex")==="false") {
+                $(this).attr("marker-end", "url(#IntArrowSelected)");
+            }
             $(this).attr("class","BS-line-selected");
             drawBigSwitchInfo(fg);
 
