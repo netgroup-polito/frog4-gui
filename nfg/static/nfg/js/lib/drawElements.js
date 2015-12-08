@@ -15,7 +15,7 @@ function drawNF_text(){
         .attr("id",function(d){return "text_"+d.id;})
         .attr("class","NetworkFunction_text")
         .attr("x",function(d){return d.x+20;})
-        .attr("y",function(d){return d.y+NF_height/2+11/2;});
+        .attr("y",function(d){return d.y+NF_height/2+5;});
 
 } 
 

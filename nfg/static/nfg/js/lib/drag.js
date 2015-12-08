@@ -46,6 +46,8 @@ function dragNF(){
                 //console.log(d3.selectAll("[end="+pos+"]").attr("x1"));
                 //var line
             });
+            //sposto anche l'etichetta ad essa associata
+            VNF_text_section.select("#text_"+VNF.attr("id")).attr("x",x+20).attr("y",y+5+NF_height/2);
 
         })
         .on("dragstart",function(d){
