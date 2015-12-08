@@ -141,6 +141,43 @@ function fillNewVNF(){
     return vnf;
 }
 
+function updateVNF(){
+    var vnf = {};
+    var port = {};
+
+    vnf["id"] = $("#idVNF").val();
+    vnf["name"] = $("#nameVNF").val();
+    vnf["vnf_template"] = template_js.name;
+    vnf["ports"] = [];
+
+    var ports_template = template_js.ports;
+
+    ports_template.forEach(function(port_t){
+        num_port = $("#MinMax"+port_t.label).val();
+        console.log(num_port);
+        
+        for(var i=0;i<num_port;i++){
+            port = {};
+            port.id = port_t.label+":"+i;
+            port.name = port_t.name+i;
+
+            port.x = 0+i*8;
+            port.y = "0";
+            port.parent_NF_x = vnf["x"];
+            port.parent_NF_y = vnf["y"];
+
+            port.parent_NF_id = $("#idVNF").val();
+            vnf["ports"].push(port);
+        }
+
+    });
+
+    console.log(vnf);
+       
+    return vnf;
+
+}
+
 
 function NextIdEP(){
     var len=EP_list.length;
@@ -234,7 +271,6 @@ function NextIdVNF(){
 }
 
 function fillTemplateVNF(template){
-    $("#idVNF").val(NextIdVNF());
 
     $("#idExpandable").val(template["expandable"]);
     $("#idUri").val(template["uri"]);

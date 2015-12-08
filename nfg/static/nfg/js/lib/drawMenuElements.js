@@ -30,6 +30,8 @@ function drawNFMenu(){
                 $('#FormNF').modal('show');
                 $('#seltemplateVNF' ).val('Firewall');
 
+                $("#idVNF").val(NextIdVNF());
+
                 /* Template di default Firewall */
                 $.ajax({ type: "GET",url: "/nfg/ajax_template_request/firewall/",
                          success: function(data) {FuncSuccess(data);} });
@@ -326,11 +328,11 @@ function saveNewEp(){
     var ep = updateEP();
     if(validateNewEndPoint(ep)==true){
         $('#FormEP').modal('hide');
-        EP_list.forEach(function(ele){
+        EP_list.forEach(function(ele,index){
             if(parseInt(ele.id) == parseInt(ep.id)){
                 //ele.name = ep.name;
                 //ele = ep;
-                EP_list.push(ep);
+                EP_list[index]=ep;                
                 console.log("trovato");
                 console.log(ele);
             }
@@ -342,6 +344,19 @@ function saveNewEp(){
     console.log(validateNewEndPoint(ep));
 
 }
+
+function saveNewVNF(){
+    var vnf = updateVNF();
+    NF_list.forEach(function(ele,index){
+        if(parseInt(ele.id) == parseInt(vnf.id)){
+            NF_list[index]=vnf;
+            console.log(ele);
+        }
+    })
+}
+
+
+
 function drawLINEMenu(){
     var link=svg_menu.append("g");
     link.append("rect")
