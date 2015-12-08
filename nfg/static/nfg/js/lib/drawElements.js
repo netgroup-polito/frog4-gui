@@ -148,10 +148,7 @@ function drawBIGSWITCH(){
         .attr("id",function(d){return d.id;})
         .attr("r",r_interface)
         .attr("title",function(d){
-            if(d.ref=="endpoint")
-                return d.id;
-            else if(d.ref=="vnf")
-                return d.id;
+            return d.id;
         })
         .on("click",select_node)
         .call(drag_INTERFACEBIGSWITCH);

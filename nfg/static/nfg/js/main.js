@@ -188,12 +188,12 @@ function DrawForwardingGraph(fg){
     //});
 
     
-    $(".interface").tooltip({
+    $(".BS_interface").tooltip({
         'container': 'body',
         'placement': 'top'
     });
 
-    $(".line").tooltip({
+    $(".BS-line").tooltip({
         'container': 'body',
         'placement': 'top'
     });

@@ -3,7 +3,7 @@ html {
 	padding: 0;
 	height: 100%;
 	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-	background: #EAEBE5 url('../img/frog-background.jpg') no-repeat center;
+	background: #EAEBE5 url('../../img/frog-background.jpg') no-repeat center;
 	background-size: cover;
 }
 

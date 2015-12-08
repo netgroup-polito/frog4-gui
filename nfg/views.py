@@ -27,6 +27,12 @@ def index(request):
 	else:		
 		return render(request,'nfg/index.html',{'username':request.session['username']})
 
+def info(request):
+  if "username" not in request.session:
+    return HttpResponseRedirect("/nfg/login/")
+  else:   
+    return render(request,'nfg/info.html',{'username':request.session['username']})
+
 def logout(request):
 	if request.method == 'GET':
 		if "username" in request.session:
