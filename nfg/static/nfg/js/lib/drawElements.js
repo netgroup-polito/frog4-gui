@@ -3,6 +3,22 @@
  *
  **/
 
+
+function drawNF_text(){
+        console.log("vnf_text");
+        VNF_text_section.selectAll(".NetworkFunction_text")
+        .data(NF_list)
+        .enter()
+        .append("text")
+        .attr("fill","white")
+        .text(function(d){return d.name;})
+        .attr("id",function(d){return "text_"+d.id;})
+        .attr("class","NetworkFunction_text")
+        .attr("x",function(d){return d.x+20;})
+        .attr("y",function(d){return d.y+NF_height/2+11/2;});
+
+} 
+
 function drawNF() {
 
         VNF_section.selectAll(".NetworkFunction")

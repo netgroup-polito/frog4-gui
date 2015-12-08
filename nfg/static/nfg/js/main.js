@@ -5,8 +5,8 @@ var svg_width = 960,
     svg_width_menu = 960,
     svg_width_menu_p = "100%",
     svg_height_menu = 80,
-    NF_width=120,
-    NF_height=50,
+    NF_width=150,
+    NF_height=60,
     NF_offset_x=0,
     NF_offset_y=0,
     r_interface=8,
@@ -118,6 +118,9 @@ function DrawForwardingGraph(fg){
      */
     defs_section=svg.append("g").attr("class","defs_section");
     VNF_section=svg.append("g").attr("class","VNF_section");
+
+    VNF_text_section = svg.append("g").attr("class","VNF_text_section");
+    
     lines_section=svg.append("g").attr("class","lines_section");
     interfaces_section=svg.append("g").attr("class","interfaces_section");
     /*
@@ -170,6 +173,7 @@ function DrawForwardingGraph(fg){
      */
 
     drawNF();
+    drawNF_text();
     drawLINE();
     drawBSLinks();
     drawVNF_interfaces();

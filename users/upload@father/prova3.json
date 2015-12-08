@@ -6,7 +6,7 @@
       {
         "vnf_template": "firewall80.json",
         "id": "00000001",
-        "name": "Web Firewalllol999966666",
+        "name": "Web Firewall",
         "ports": [
           {
             "id": "User:0",
