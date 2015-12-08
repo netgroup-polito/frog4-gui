@@ -4,7 +4,7 @@
     "name": "Forwarding graph",
     "VNFs": [
       {
-        "vnf_template": "firewall80.json",
+        "vnf_template": "firewall_web.json",
         "id": "00000001",
         "name": "Web Firewall",
         "ports": [

@@ -104,7 +104,7 @@ function FuncSuccess(data){
 
 function showEditInfoVNF(idVNF){
     $('#FormNF').modal('show');
-
+    FillFormInfoVNF(idVNF);
 
     //drawFormVNF();
     //fillFormInfoEP(idVNF);
@@ -112,23 +112,77 @@ function showEditInfoVNF(idVNF){
 }
 
 function FillFormInfoVNF(idVNF){
+    var template;
     var vnf;
     NF_list.forEach(function(ele){
-        if(parseInt(ele.id) == idEP){
+        if(parseInt(ele.id) == idVNF){
             vnf = ele;
-            return;
+            return vnf;
         }
     });
 
     /* recuperato vnf da modificare */
+    console.log(vnf);
+     console.log(vnf.id);
+    $("#idVNF").val(vnf.id);
+    $("#nameVNF").val(vnf.name);
+    //drawFormVNF();
+    console.log(vnf.vnf_template);
+
+    switch(vnf.vnf_template){
+                case "firewall.json":
+                    console.log("firewall");
+                    $('#seltemplateVNF' ).val('Firewall');
+                    template = "firewall";              
+                    break;
+
+                case "firewall_web.json":
+                    console.log("firewall-web");
+                    $("#seltemplateVNF").val("Firewall-web");
+                    template = "firewall_web";
+                    break;
+
+                case "ftp.json":
+                    console.log("ftp");
+                    $("#seltemplateVNF").val("Ftp");
+                    template = "ftp";
+                    break;
+
+                case "nat.json":
+                    console.log("nat");
+                    $("#seltemplateVNF").val("Nat");
+                    template = "nat";
+                    break;
+
+                case "dhcp.json":
+                    console.log("dhcp");
+                    $("#seltemplateVNF").val("Dhcp");
+                    template = "dhcp";
+                    break;
+
+                case "switch.json":
+                    console.log("switch");
+                    $("#seltemplateVNF").val("Switch");
+                    template = "switch";
+                    break;
+
+                case "iptraf.json":
+                    console.log("iptraf");
+                    $("#seltemplateVNF").val("Iptraf");
+                    template = "iptraf";
+                    
+            }
+
+    /* Template di default Firewall */
+    $.ajax({ type: "GET",url: "/nfg/ajax_template_request/"+template+"/",
+                success: function(data) {FuncSuccess(data);} });
 
     
 
-
     /* cambio il bottone in save */
 
-    $("#saveEP").attr("onclick","saveNewVNF()");
-    $("#saveEP").html("Save VNF");
+    $("#saveVNF").attr("onclick","saveNewVNF()");
+    $("#saveVNF").html("Save VNF");
 
 }
 
