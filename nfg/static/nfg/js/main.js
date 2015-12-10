@@ -79,6 +79,7 @@ $(document).ready(function(){
           data = data.replace(/'/g,'"');
           /* definisco oggetto fg */
            var json_data=JSON.parse(data);
+           
 
 
           fg = json_data["json_file_fg"];

@@ -52,6 +52,7 @@ function SelectText(element) {
 }
 
 function copyOnClipboard(){
+	
 	SelectText('file_content_preview');
 }
 

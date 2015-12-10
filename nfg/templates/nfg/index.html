@@ -433,6 +433,29 @@
     <!-- /.modal-dalog -->
 </div>
 
+<!-- Modal Error View -->
+
+<div class="modal" id="ModalMsgServer">
+    <div class="modal-dialog modal-lg" >
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="titleWarning"><span class="glyphicon glyphicon-alert"></span> Warning </h4>
+            </div>
+            <div class="modal-body">
+                <p id="msg"></p>
+            </div>
+
+            <div class="modal-footer">
+                <a href="#" data-dismiss="modal" onclick="reloadPage();"class="btn btn-primary" >OK</a>
+            </div>
+            
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dalog -->
+</div>
+
 <!-- Modal Previw -->
 
 <div class="modal" id="PreviewFG">
@@ -482,7 +505,7 @@
                 
                 <div class="modal-footer">
                     <a href="#" id="Preview" onclick="PreviewFileUpload();"  class="btn btn-primary" >Preview</a>
-                    <a href="#" id="Upload" onclick="UploadFile();"  class="btn btn-primary" >Upload</a>
+                    <a href="#" id="Upload" onclick="UploadFile();"  class="btn btn-primary" data-dismiss="modal" >Upload</a>
                     
                 </div>
             </form>

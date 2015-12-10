@@ -344,7 +344,7 @@ function fillNewFlowRule(){
     flow_rule["priority"] = $("#idPriority").val();
 
     if($("#idPriority").val()=="") 
-        flow_rule["priority"] = 1
+        flow_rule["priority"] = 1;
 
 
     match["hard_timeout"] = $("#idHardTimeout").val();

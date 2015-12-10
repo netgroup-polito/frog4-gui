@@ -77,7 +77,10 @@ function DownloadFile(){
         console.log(e);
         /*file restituito */
         hideDownloadFG();
-        location.reload();
+        $("#ModalMsgServer").modal("show");
+        $("#msg").empty();
+        $("#msg").append("<b>"+e+"</b>");
+        //location.reload();
             
     }).fail(function(){
                 
