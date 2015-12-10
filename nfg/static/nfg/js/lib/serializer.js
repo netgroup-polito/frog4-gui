@@ -47,7 +47,7 @@ function ser_big(){
 
 		var actions = [];
 
-		ele_action = ele["action"];
+		ele_action = ele["actions"];
 
 		ele_action.forEach(function(ele2){
 			var action = {};
@@ -68,7 +68,7 @@ function ser_big(){
 
 		});
 
-		flowrule["action"] = actions;
+		flowrule["actions"] = actions;
 		big_switch["flow-rules"].push(flowrule);
 	});
 

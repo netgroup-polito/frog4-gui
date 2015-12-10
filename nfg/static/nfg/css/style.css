@@ -33,7 +33,7 @@ hr{
 .col-sm-3{
   background-color: rgba(255, 255, 255, 0.65);
   overflow: scroll;
-  height: 510px;
+  height: 570px;
   
 }
 
@@ -149,7 +149,9 @@ a:focus, .navbar-inverse .navbar-nav > .open > a:hover {
 #my_canvas{
   background-color: #EEE;
   border: 2px solid #80A926;
-  border-radius: 6px;
+  border-top: 0px;
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
   margin-right: 20px;
   margin-bottom: 20px;
   overflow: scroll;
@@ -159,8 +161,8 @@ a:focus, .navbar-inverse .navbar-nav > .open > a:hover {
 
 #draw_menu{
   border: 2px solid #80A926;
-  border-bottom-left-radius: 6px;
-  border-bottom-right-radius: 6px;
+  border-top: 0px;
+  /*border-radius: 6px;*/
   padding: 8px;
   margin-top: 0px;
   margin-bottom: 30px;
@@ -170,6 +172,7 @@ a:focus, .navbar-inverse .navbar-nav > .open > a:hover {
   font-size: 14px;
   line-height: 1.42857;
   margin-right: 20px;
+  margin-top: 0px;
 }
 
 html{
@@ -260,5 +263,31 @@ html{
   color: #FFF;
 }
 
+#file_content_upload{
+  background-color: #EEE;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+#file_content_download{
+  background-color: #EEE;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+#menubar{
+  border: 2px solid #80A926;
+  border-bottom: 0px;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+  padding: 8px;
+  margin-top: 0px;
+  color: inherit;
+  background-color: #EEE;
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-size: 14px;
+  line-height: 1.42857;
+  margin-right: 20px;
+}
 
 

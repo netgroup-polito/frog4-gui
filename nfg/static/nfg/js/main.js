@@ -4,7 +4,7 @@ var svg_width = 960,
     svg_height = 510,
     svg_width_menu = 960,
     svg_width_menu_p = "100%",
-    svg_height_menu = 80,
+    svg_height_menu = 100,
     NF_width=150,
     NF_height=60,
     NF_offset_x=0,
@@ -86,6 +86,7 @@ $(document).ready(function(){
             /* file di posizionamento presente */
             isAlreadyPositioned = true;
             fg_pos = json_data["json_file_pos"];
+            console.log("file di posizionamento")
             console.log(fg_pos);
           }else{
             /* file di posizionamento non presente */ 

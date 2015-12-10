@@ -4,7 +4,7 @@ function showUploadFG(){
     //$('.form-control').val('');                
 }
 
-function PreviewFile(){
+function PreviewFileUpload(){
                 
     var files = document.getElementById('inputFile').files;
     var file = files[0];
@@ -22,11 +22,11 @@ function PreviewFile(){
             stringa = stringa.replace(/(\r\n|\n\r|\r|\n)/g, "<br>"); 
 
             //console.log(stringa);
-            $('#file_content_upload').show();
-            $('#file_content_upload').empty();
-            $('#file_content_upload').append(stringa);
-                            //$('#titleJson').html("UploadJson-"+$("#inputFile").val());
-                              
+            
+                $('#file_content_upload').show();
+                $('#file_content_upload').empty();
+                $('#file_content_upload').append(stringa);
+                             
         }
     };
     var blob = file.slice(start, stop + 1);
@@ -57,17 +57,13 @@ function UploadFile(){
 
                 url: 'ajax_upload_request/', 
                 type: 'POST',
-                data: { "file_name":file_name,
-                        "file": stringa} // file inputs.
+                data: { "file_name_fg":file_name,
+                        "file_content_fg": stringa} // file inputs.
 
 
             }).done(function(e){
                                 
                 console.log("Success: Files sent!");
-                //console.log(e);
-
-
-
                 location.reload();
             
             }).fail(function(){

@@ -1,12 +1,12 @@
 {
   "forwarding-graph": {
-    "id": "00000001",
+    "id": "00000003",
     "name": "Forwarding graph",
     "VNFs": [
       {
-        "vnf_template": "firewall_web.json",
+        "vnf_template": "firewall80.json",
         "id": "00000001",
-        "name": "Web Firewall",
+        "name": "Web Firewalllol999966666",
         "ports": [
           {
             "id": "User:0",
@@ -21,6 +21,21 @@
       {
         "vnf_template": "firewall.json",
         "id": "00000002",
+        "name": "Non-Web Firewall",
+        "ports": [
+          {
+            "id": "User:0",
+            "name": "User side interface"
+          },
+          {
+            "id": "WAN:0",
+            "name": "WAN side interface"
+          }
+        ]
+      },
+      {
+        "vnf_template": "firewall.json",
+        "id": "00000003",
         "name": "Non-Web Firewall",
         "ports": [
           {
@@ -52,6 +67,16 @@
         "interface": {
           "node": "10.0.0.1",
           "interface": "eth1",
+          "switch-id": ""
+        }
+      },
+      {
+        "id": "00000003",
+        "name": "internet",
+        "type": "interface",
+        "interface": {
+          "node": "10.0.0.1",
+          "interface": "eth0",
           "switch-id": ""
         }
       }
@@ -127,7 +152,17 @@
           "match": {
             "port_in": "endpoint:00000002"
           },
-          "action":[ {
+          "action": [{
+            "output": "vnf:00000002:User:0"
+          }]
+        },
+        {
+          "id": "000000008",
+          "priority": 1,
+          "match": {
+            "port_in": "endpoint:00000003"
+          },
+          "action": [{
             "output": "vnf:00000002:User:0"
           }]
         }

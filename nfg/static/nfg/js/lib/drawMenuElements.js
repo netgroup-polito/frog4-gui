@@ -31,6 +31,8 @@ function drawNFMenu(){
                 $('#seltemplateVNF' ).val('Firewall');
 
                 $("#idVNF").val(NextIdVNF());
+                $("#saveEP").attr("onclick","drawNewVNF()");
+                $("#saveEP").html("Add VNF");
 
                 /* Template di default Firewall */
                 $.ajax({ type: "GET",url: "/nfg/ajax_template_request/firewall/",
@@ -214,7 +216,30 @@ function drawNewNF(){
     /*aggiungo alla lista delle NF il nuovo elemento*/
     NF_list.push(vnf);
 
+
     var ele = [];   ele.push(vnf);
+
+    VNF_text_section.selectAll(".NewNetworkFunction_text")
+        .data(ele)
+        .enter()
+        .append("text")
+        .attr("fill","white")
+        .text(function(d){
+            var text;
+            if(d.name==null || d.name == undefined || d.name == ""){
+                text = "NaN";
+            }else if(d.name.length>=18){
+                text = d.name.slice(0,18);
+                console.log(text);
+            }else{
+                text = d.name; 
+            }
+            return text;
+        })
+        .attr("id",function(d){return "text_"+d.id;})
+        .attr("class","NetworkFunction_text")
+        .attr("x",function(d){return d.x+20;})
+        .attr("y",function(d){return d.y+NF_height/2+5;});
 
     VNF_section.selectAll(".NewNetworkFunction")
             .data(ele)

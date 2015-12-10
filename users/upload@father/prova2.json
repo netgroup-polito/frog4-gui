@@ -1,12 +1,12 @@
 {
   "forwarding-graph": {
-    "id": "00000001",
+    "id": "00000002",
     "name": "Forwarding graph",
     "VNFs": [
       {
         "vnf_template": "firewall80.json",
         "id": "00000001",
-        "name": "Web Firewalllol999966666",
+        "name": "Web Firewall",
         "ports": [
           {
             "id": "User:0",
@@ -18,21 +18,7 @@
           }
         ]
       },
-      {
-        "vnf_template": "firewall.json",
-        "id": "00000002",
-        "name": "Non-Web Firewall",
-        "ports": [
-          {
-            "id": "User:0",
-            "name": "User side interface"
-          },
-          {
-            "id": "WAN:0",
-            "name": "WAN side interface"
-          }
-        ]
-      }
+      
     ],
     "end-points": [
       {
@@ -54,7 +40,9 @@
           "interface": "eth1",
           "switch-id": ""
         }
-      }
+      },
+      
+
     ],
     "big-switch": {
       "flow-rules": [
@@ -126,6 +114,46 @@
           "priority": 1,
           "match": {
             "port_in": "endpoint:00000002"
+          },
+          "action": [{
+            "output": "vnf:00000002:User:0"
+          }]
+        },
+        {
+          "id": "000000008",
+          "priority": 1,
+          "match": {
+            "port_in": "endpoint:00000002"
+          },
+          "action": [{
+            "output": "vnf:00000002:User:0"
+          }]
+        },
+        {
+          "id": "000000009",
+          "priority": 1,
+          "match": {
+            "port_in": "endpoint:00000002"
+          },
+          "action": [{
+            "output": "vnf:00000002:User:0"
+          }]
+        },
+        {
+          "id": "000000010",
+          "priority": 1,
+          "match": {
+            "port_in": "endpoint:00000002"
+          },
+          "action": [{
+            "output": "vnf:00000002:User:0"
+          }]
+        },
+        {
+          "id": "000000011",
+          "priority": 1,
+          "match": {
+            "port_in": "endpoint:00000003"
           },
           "action": [{
             "output": "vnf:00000002:User:0"
