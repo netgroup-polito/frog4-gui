@@ -11,7 +11,17 @@ function drawNF_text(){
         .enter()
         .append("text")
         .attr("fill","white")
-        .text(function(d){return d.name;})
+        .text(function(d){
+            var text;
+            if(d.name==null || d.name == undefined || d.name == ""){
+                text = "NaN";
+            }else if(d.name.length>=18){
+                text = d.name.slice(0,18);
+            }else{
+                text = d.name; 
+            }
+            return text;
+        })
         .attr("id",function(d){return "text_"+d.id;})
         .attr("class","NetworkFunction_text")
         .attr("x",function(d){return d.x+20;})
@@ -203,17 +213,17 @@ function drawLINE(){
         .attr("stroke","black")
         .attr("x1",function(d){return d.match.interface_position_x;})
         .attr("y1",function(d){return d.match.interface_position_y;})
-        .attr("x2",function(d){return d.action[0].interface_position_x;})
-        .attr("y2",function(d){return d.action[0].interface_position_y;})
-        .attr("title",function(d){return "Source: "+d.match.port_in+" Action: "+d.action[0].output;})
+        .attr("x2",function(d){return d.actions[0].interface_position_x;})
+        .attr("y2",function(d){return d.actions[0].interface_position_y;})
+        .attr("title",function(d){return "Source: "+d.match.port_in+" Action: "+d.actions[0].output;})
         //aggiungo l'info da chi parte a chi arriva
         .attr("start",function(d){return d.match.port_in;})
-        .attr("end",function(d){return d.action[0].output;})
+        .attr("end",function(d){return d.actions[0].output;})
         .attr("fullduplex",function(d){return d.full_duplex;})
         .attr("marker-end",function(d) {
             //return d.full_duplex == false ? "url(#EPArrow)" : "default";
             if(d.full_duplex===true) return "default";
-            var type=d.action[0].output.split(":");
+            var type=d.actions[0].output.split(":");
             if(type[0]==="vnf") return "url(#IntArrow)";
             else return "url(#EPArrow)";
         })
@@ -375,7 +385,7 @@ function drawBigSwitchInfo(fg){
         /*$html = '<div class="panel panel-default"><div class="panel-heading"><a onclick="Reduce('+e.id+')">FlowRule Id: '+e.id+' (';*/
         $html = '<div class="panel panel-default" id="panel'+e.id+'"><div class="panel-heading" id="panel-h'+e.id+'"><a onclick="Reduce('+e.id+')">FlowRule (';           
 
-        $html+=e.action[0].output+" ";
+        $html+=e.actions[0].output+" ";
         
         $html += ')</a></div><div id="flowrule'+e.id+'" class="panel-body"><p><b>Priority: '+e.priority+'</b> </p></div></div>';
         $('.info').append($html);
@@ -383,8 +393,8 @@ function drawBigSwitchInfo(fg){
 
         $('#flowrule'+e.id).append('<div class="panel panel-default" id="internal_panel'+e.id+'"><div id="a_'+e.id +'"class="panel-body"></div></div>');
         
-            if(e.action[0].output!=null)
-                $('#a_'+e.id).append('<p><b>Output: </b>'+e.action[0].output+'</p>');
+            if(e.actions[0].output!=null)
+                $('#a_'+e.id).append('<p><b>Output: </b>'+e.actions[0].output+'</p>');
            
             
         

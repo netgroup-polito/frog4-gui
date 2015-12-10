@@ -38,9 +38,11 @@ Create a new graph that directly connects two endpoints.
           "match": {
             "port_in": "endpoint:00000001"
           },
-          "action": {
-            "output": "endpoint:00000002"
-          }
+          "actions": [
+            {
+              "output": "endpoint:00000002"
+            }
+          ]
         },
         {
           "id": "00000002",
@@ -48,14 +50,53 @@ Create a new graph that directly connects two endpoints.
           "match": {
             "port_in": "endpoint:00000002"
           },
-          "action": {
-            "output": "endpoint:00000001"
-          }
+          "actions": [
+            {
+              "output": "endpoint:00000001"
+            }
+          ]
         }
       ]
     }
   }
+ }
+ * It is also possible to have more than one action in a flow-rule
+
+
+{
+  "id": "00000002",
+  "priority": 1,
+  "match": {
+    "port_in": "endpoint:00000002"
+  },
+  "actions": [
+    {
+      "output": "endpoint:00000001"
+    },
+    {
+      "output": "endpoint:00000003"
+    },
+    {
+      "controller": true
+    }
+  ]
 }
+
+ or	a drop action
+
+{
+  "id": "00000002",
+  "priority": 1,
+  "match": {
+    "port_in": "endpoint:00000002"
+  },
+  "actions": [
+    {
+      "drop": true
+    }
+  ]
+}
+
 
  * The graph connects the interface 300 in the switch openflow:110953238266560 of node identified by ip address 10.0.0.1 with the end-point external_endpoint_1 of the graph external_graph_2
 
@@ -89,9 +130,11 @@ Create a new graph that directly connects two endpoints.
           "match": {
             "port_in": "endpoint:00000001"
           },
-          "action": {
-            "output": "endpoint:00000002"
-          }
+          "actions": [
+            {
+              "output": "endpoint:00000002"
+            }
+          ]
         },
         {
           "id": "000000002",
@@ -99,9 +142,11 @@ Create a new graph that directly connects two endpoints.
           "match": {
             "port_in": "endpoint:00000002"
           },
-          "action": {
-            "output": "endpoint:00000001"
-          }
+          "actions": [
+            {
+              "output": "endpoint:00000001"
+            }
+          ]
         }
       ]
     }
@@ -147,9 +192,11 @@ Create a graph of VNF not connected with the outside world.
           "match": {
             "port_in": "vnf:00000001:inout:0"
           },
-          "action": {
-            "output": "vnf:00000002:inout:0"
-          }
+          "actions": [
+            {
+              "output": "vnf:00000002:inout:0"
+            }
+          ]
         },
         {
           "id": "000000002",
@@ -157,9 +204,11 @@ Create a graph of VNF not connected with the outside world.
           "match": {
             "port_in": "vnf:00000002:inout:0"
           },
-          "action": {
-            "output": "vnf:00000001:inout:0"
-          }
+          "actions": [
+            {
+              "output": "vnf:00000001:inout:0"
+            }
+          ]
         }
       ]
     }
@@ -219,9 +268,11 @@ Create a graph with end-points and VNFs.
           "match": {
             "port_in": "endpoint:00000001"
           },
-          "action": {
-            "output": "vnf:00000001:User:0"
-          }
+          "actions": [
+            {
+              "output": "vnf:00000001:User:0"
+            }
+          ]
         },
         {
           "id": "000000002",
@@ -229,9 +280,11 @@ Create a graph with end-points and VNFs.
           "match": {
             "port_in": "vnf:00000001:User:0"
           },
-          "action": {
-            "output": "endpoint:00000001"
-          }
+          "actions": [
+            {
+              "output": "endpoint:00000001"
+            }
+          ]
         },
         {
           "id": "000000003",
@@ -239,9 +292,11 @@ Create a graph with end-points and VNFs.
           "match": {
             "port_in": "vnf:00000001:WAN:0"
           },
-          "action": {
-            "output": "endpoint:00000002"
-          }
+          "actions": [
+            {
+              "output": "endpoint:00000002"
+            }
+          ]
         },
         {
           "id": "000000004",
@@ -249,9 +304,11 @@ Create a graph with end-points and VNFs.
           "match": {
             "port_in": "endpoint:00000002"
           },
-          "action": {
-            "output": "vnf:00000001:WAN:0"
-          }
+          "actions": [
+            {
+              "output": "vnf:00000001:WAN:0"
+            }
+          ]
         }
       ]
     }
@@ -328,9 +385,11 @@ Create a graph with end-points and VNFs.
             "dest_port": "80",
             "port_in": "endpoint:00000001"
           },
-          "action": {
-            "output": "vnf:00000001:User:0"
-          }
+          "actions": [
+            {
+              "output": "vnf:00000001:User:0"
+            }
+          ]
         },
         {
           "id": "000000002",
@@ -338,9 +397,11 @@ Create a graph with end-points and VNFs.
           "match": {
             "port_in": "vnf:00000001:User:0"
           },
-          "action": {
-            "output": "endpoint:00000001"
-          }
+          "actions": [
+            {
+              "output": "endpoint:00000001"
+            }
+          ]
         },
         {
           "id": "000000003",
@@ -348,9 +409,11 @@ Create a graph with end-points and VNFs.
           "match": {
             "port_in": "endpoint:00000001"
           },
-          "action": {
-            "output": "vnf:00000002:User:0"
-          }
+          "actions": [
+            {
+              "output": "vnf:00000002:User:0"
+            }
+          ]
         },
         {
           "id": "000000004",
@@ -358,9 +421,11 @@ Create a graph with end-points and VNFs.
           "match": {
             "port_in": "vnf:00000002:User:0"
           },
-          "action": {
-            "output": "endpoint:00000001"
-          }
+          "actions": [
+            {
+              "output": "endpoint:00000001"
+            }
+          ]
         },
         {
           "id": "000000005",
@@ -368,9 +433,11 @@ Create a graph with end-points and VNFs.
           "match": {
             "port_in": "vnf:00000001:WAN:0"
           },
-          "action": {
-            "output": "endpoint:00000002"
-          }
+          "actions": [
+            {
+              "output": "endpoint:00000002"
+            }
+          ]
         },
         {
           "id": "000000006",
@@ -378,9 +445,11 @@ Create a graph with end-points and VNFs.
           "match": {
             "port_in": "vnf:00000002:User:0"
           },
-          "action": {
-            "output": "endpoint:00000002"
-          }
+          "actions": [
+            {
+              "output": "endpoint:00000002"
+            }
+          ]
         },
         {
           "id": "000000007",
@@ -388,9 +457,11 @@ Create a graph with end-points and VNFs.
           "match": {
             "port_in": "endpoint:00000002"
           },
-          "action": {
-            "output": "vnf:00000002:User:0"
-          }
+          "actions": [
+            {
+              "output": "vnf:00000002:User:0"
+            }
+          ]
         }
       ]
     }
@@ -441,7 +512,7 @@ Create a graph with end-points and VNFs.
         ]
       },
       {
-        "vnf_template": "firewall.json",
+        "vnf_template": "cisco_firewall.json",
         "ports": [
           {
             "id": "WAN:0"
@@ -474,17 +545,19 @@ Create a graph with end-points and VNFs.
       {
         "id": "00000001",
         "name": "ingress",
-        "type": "internal",
-        "remote_endpoint_id": "remote_graph0001:remote_endpoint_001",
-        "internal": {}
+        "type": "interface",
+        "interface": {
+          "node": "130.192.225.193",
+          "interface": "to-br-usr"
+        }
       },
       {
         "id": "00000002",
         "name": "egress",
         "type": "interface-out",
         "interface-out": {
-          "node": "79.56.71.237",
-          "interface": "to-br-ex"
+          "node": "130.192.225.193",
+          "interface": "eth2"
         }
       }
     ],
@@ -496,19 +569,23 @@ Create a graph with end-points and VNFs.
           "match": {
             "port_in": "endpoint:00000001"
           },
-          "action": {
-            "output": "vnf:000000001:L2Port:0"
-          }
+          "actions": [
+            {
+              "output": "vnf:00000001:L2Port:0"
+            }
+          ]
         },
         {
           "id": "000000002",
           "priority": 1,
           "match": {
-            "port_in": "vnf:000000001:L2Port:0"
+            "port_in": "vnf:00000001:L2Port:0"
           },
-          "action": {
-            "output": "endpoint:00000001"
-          }
+          "actions": [
+            {
+              "output": "endpoint:00000001"
+            }
+          ]
         },
         {
           "id": "000000003",
@@ -516,9 +593,11 @@ Create a graph with end-points and VNFs.
           "match": {
             "port_in": "vnf:00000002:inout:0"
           },
-          "action": {
-            "output": "vnf:000000001:L2Port:1"
-          }
+          "actions": [
+            {
+              "output": "vnf:00000001:L2Port:1"
+            }
+          ]
         },
         {
           "id": "000000004",
@@ -526,9 +605,11 @@ Create a graph with end-points and VNFs.
           "match": {
             "port_in": "vnf:00000001:L2Port:1"
           },
-          "action": {
-            "output": "vnf:00000002:inout:0"
-          }
+          "actions": [
+            {
+              "output": "vnf:00000002:inout:0"
+            }
+          ]
         },
         {
           "id": "000000005",
@@ -536,9 +617,11 @@ Create a graph with end-points and VNFs.
           "match": {
             "port_in": "vnf:00000003:User:0"
           },
-          "action": {
-            "output": "vnf:000000001:L2Port:2"
-          }
+          "actions": [
+            {
+              "output": "vnf:00000001:L2Port:2"
+            }
+          ]
         },
         {
           "id": "000000006",
@@ -546,9 +629,11 @@ Create a graph with end-points and VNFs.
           "match": {
             "port_in": "vnf:00000001:L2Port:2"
           },
-          "action": {
-            "output": "vnf:00000003:User:0"
-          }
+          "actions": [
+            {
+              "output": "vnf:00000003:User:0"
+            }
+          ]
         },
         {
           "id": "000000007",
@@ -556,9 +641,11 @@ Create a graph with end-points and VNFs.
           "match": {
             "port_in": "vnf:00000003:WAN:0"
           },
-          "action": {
-            "output": "vnf:00000004:User:0"
-          }
+          "actions": [
+            {
+              "output": "vnf:00000004:User:0"
+            }
+          ]
         },
         {
           "id": "000000008",
@@ -566,9 +653,11 @@ Create a graph with end-points and VNFs.
           "match": {
             "port_in": "vnf:00000004:User:0"
           },
-          "action": {
-            "output": "vnf:00000003:WAN:0"
-          }
+          "actions": [
+            {
+              "output": "vnf:00000003:WAN:0"
+            }
+          ]
         },
         {
           "id": "000000009",
@@ -576,9 +665,11 @@ Create a graph with end-points and VNFs.
           "match": {
             "port_in": "endpoint:00000002"
           },
-          "action": {
-            "output": "vnf:00000004:WAN:0"
-          }
+          "actions": [
+            {
+              "output": "vnf:00000004:WAN:0"
+            }
+          ]
         },
         {
           "id": "000000010",
@@ -586,9 +677,11 @@ Create a graph with end-points and VNFs.
           "match": {
             "port_in": "vnf:00000004:WAN:0"
           },
-          "action": {
-            "output": "endpoint:00000002"
-          }
+          "actions": [
+            {
+              "output": "endpoint:00000002"
+            }
+          ]
         }
       ]
     }

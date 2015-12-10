@@ -57,7 +57,7 @@ function keyDown(){
                      * ELIMINARLI DAGLI OGGETTI JS!!!!
                      */
                     flow_rules= _.filter(flow_rules,function(fr){
-                        var id_port_in=fr["match"]["port_in"],id_port_out= fr["action"][0]["output"];
+                        var id_port_in=fr["match"]["port_in"],id_port_out= fr["actions"][0]["output"];
                         if(id_port_in===undefined || id_port_out===undefined) return true;
                         var id_port_in_split=[],id_port_out_split=[];
                         id_port_in_split=id_port_in.split(":");
@@ -81,7 +81,7 @@ function keyDown(){
                      * ELIMINARLI DAGLI OGGETTI JS!!!!
                      */
                     flow_rules= _.filter(flow_rules,function(fr){
-                        var id_port_in=fr["match"]["port_in"],id_port_out= fr["action"][0]["output"];
+                        var id_port_in=fr["match"]["port_in"],id_port_out= fr["actions"][0]["output"];
                         if(id_port_in===undefined || id_port_out===undefined) return true;
                         var id_port_in_split=[],id_port_out_split=[];
                         id_port_in_split=id_port_in.split(":");

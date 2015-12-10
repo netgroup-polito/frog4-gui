@@ -146,34 +146,48 @@ function updateVNF(){
     var port = {};
 
     vnf["id"] = $("#idVNF").val();
-    vnf["name"] = $("#nameVNF").val();
-    vnf["vnf_template"] = template_js.name;
-    vnf["ports"] = [];
-
-    var ports_template = template_js.ports;
-
-    ports_template.forEach(function(port_t){
-        num_port = $("#MinMax"+port_t.label).val();
-        console.log(num_port);
-        
-        for(var i=0;i<num_port;i++){
-            port = {};
-            port.id = port_t.label+":"+i;
-            port.name = port_t.name+i;
-
-            port.x =i*8;
-            port.y = 0;
-            port.parent_NF_x = vnf["x"];
-            port.parent_NF_y = vnf["y"];
-
-            port.parent_NF_id = $("#idVNF").val();
-            vnf["ports"].push(port);
-        }
-
+    
+    NF_list.forEach(function(ele){
+        if(vnf.id == ele.id) vnf = ele;
     });
+    /* recupero la VNF  da modificare */
 
     console.log(vnf);
-       
+    vnf["name"] = $("#nameVNF").val();
+    vnf["ports"] = [];
+    
+    var ports_template = template_js.ports;
+    var new_int=[];
+    var new_bs_links=[];
+
+    var num_port;
+
+    ports_template.forEach(function(port_t){
+        num_port += $("#MinMax"+port_t.label).val();
+        console.log(num_port);
+    });
+
+            //port.x =i*8;
+            //port.y = 0;
+            //port.parent_NF_x = vnf["x"];
+            //port.parent_NF_y = vnf["y"];
+
+    console.log(num_port);
+    console.log(vnf);     
+
+    if(vnf.ports.length>num_port){
+        /* numero di porte diminuito */
+
+    }else if(vnf.ports.lenght<num_port){
+        /* numero di porte aumentato */
+
+    }else{
+        /* numero di porte invariato */
+        
+    }
+
+
+
     return vnf;
 
 }
@@ -329,6 +343,10 @@ function fillNewFlowRule(){
     flow_rule["id"] = NextIdFlowRule();
     flow_rule["priority"] = $("#idPriority").val();
 
+    if($("#idPriority").val()=="") 
+        flow_rule["priority"] = 1
+
+
     match["hard_timeout"] = $("#idHardTimeout").val();
     match["ether_type"] = $("#idEtherType").val();
     match["vlan_id"] = $("#idVlanID").val();
@@ -363,7 +381,7 @@ function fillNewFlowRule(){
     action["output_to_queue"] = $("#idOutputToQueue").val();
 
     actions.push(action);
-    flow_rule["action"] = actions;
+    flow_rule["actions"] = actions;
 
     console.log(flow_rule);
 
