@@ -16,10 +16,12 @@ i {
 .container-fluid{
   padding-right: 0px;
   padding-left: 0px;
+
 }
 
 body{
   background: #FFF url("../img/frog-background.jpg") no-repeat scroll center center / cover;
+  margin-right: 0px;
 }
 
 hr{
@@ -177,6 +179,7 @@ a:focus, .navbar-inverse .navbar-nav > .open > a:hover {
 
 html{
   height: 100%;
+  margin-right: 0px;
 }
 
   
@@ -290,4 +293,7 @@ html{
   margin-right: 20px;
 }
 
+.row{
+  margin-right: 0px;
+}
 
