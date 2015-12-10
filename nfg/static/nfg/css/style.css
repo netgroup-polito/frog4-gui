@@ -278,6 +278,12 @@ html{
   margin-bottom: 20px;
 }
 
+#file_content_preview{
+  background-color: #EEE;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
 #menubar{
   border: 2px solid #80A926;
   border-bottom: 0px;
