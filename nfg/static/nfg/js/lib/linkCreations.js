@@ -24,12 +24,6 @@ function select_node(ele){
                 $("#idPortIn").val(ele1_selected.id);
                 $("#idOutput").val(ele2_selected.id);
                 $("#ModalFlowRules").modal("show");
-
-
-            //var newFR={};
-            //newFR.campo1={};
-            //flow_rules.add(newFR);
-            //createLink();
         }
     }
 }
@@ -39,8 +33,13 @@ function DrawNewLink(){
     /*
     DA FARE-> CONTROLLO SE SI CREA UNO SPLIT SE SI->FORZARE A BIG SWITCH!
      */
+    var duplex=isDuplex(newFR["match"]["port_in"],newFR["action"][0]["output"]);
+    newFR["full_duplex"]=duplex;
     flow_rules.push(newFR);
-    createLink();
+    console.log(duplex);
+    checkSplit();
+    createLink(duplex);
+
 }
 
 
@@ -87,7 +86,7 @@ function createTempLink(){
 
     });
 }
-function createLink(){
+function createLink(duplex){
     console.log(ele1_selected);
     console.log(ele2_selected);
 
@@ -159,7 +158,9 @@ function createLink(){
     /*
     DA FARE -> SETTARE SE C'è GIà UN ALTRO LINK CON DIREZIONE OPPOSTA SE SI CAMBIARE A FULL DUPLEX =TRUE
      */
-    var isDuplex=false;
+
+    //var duplex=isDuplex(ele1.id,ele2.id);
+    //console.log(duplex);
 
     /*disegno il link interno al BS*/
     lines_section.append("line")
@@ -174,9 +175,9 @@ function createLink(){
         //aggiungo l'info da chi parte a chi arriva
         .attr("start","bs-"+bs_int1.id)
         .attr("end","bs-"+bs_int2.id)
-        .attr("fullduplex",isDuplex)
+        .attr("fullduplex",duplex)
         .attr("marker-end",function(d) {
-           if(isDuplex) return "default";
+           if(duplex) return "default";
             return "url(#IntArrow)";
 
         })
@@ -197,9 +198,9 @@ function createLink(){
         .attr("class","line")
         .attr("start",ele1.id)
         .attr("end",ele2.id)
-       .attr("fullduplex",isDuplex)
+       .attr("fullduplex",duplex)
        .attr("marker-end",function() {
-           if(isDuplex===true) return "default";
+           if(duplex===true) return "default";
            var type=ele2.id.split(":");
            if(type[0]==="vnf") return "url(#IntArrow)"
            else return "url(#EPArrow)";

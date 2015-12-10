@@ -9,7 +9,6 @@ function keyUp(){
 
 function keyDown(){
     //d3.event.preventDefault();
-    console.log("ciao");
     if(lastKeyDown !== -1) return;
     lastKeyDown = d3.event.keyCode;
 
@@ -68,7 +67,7 @@ function keyDown(){
                         return true;
                     });
                     NF_list= _.filter(NF_list,function(e){return e.id!==selected_node.id;});
-
+                    big_switch.interfaces= _.filter(big_switch.interfaces,function(e){return e.id!==select_node.fullId});
 
                 }else{ //ep
 

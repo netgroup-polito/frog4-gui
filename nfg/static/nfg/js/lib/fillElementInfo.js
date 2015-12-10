@@ -44,8 +44,8 @@ function fillNewEP(){
 
 	console.log(ep);
 
-	ep["x"] = "200";
-	ep["y"] = "40";
+    ep["x"] = Math.random()*50+200;
+    ep["y"] = Math.random()*10+40;
 	
     return ep;
 }
@@ -94,8 +94,8 @@ function updateEP(){
 
     console.log(ep);
 
-    ep["x"] = "200";
-    ep["y"] = "40";
+    ep["x"] = Math.random()*50+200;
+    ep["y"] = Math.random()*10+40;
     
     return ep;
 
@@ -106,8 +106,8 @@ function fillNewVNF(){
     var vnf = {};
     var port = {};
 
-    vnf["x"] = "400";
-    vnf["y"] = "40";
+    vnf["x"] = Math.random()*100+400;
+    vnf["y"] = Math.random()*30+50;
     
     vnf["id"] = $("#idVNF").val();
     vnf["name"] = $("#nameVNF").val();
@@ -161,8 +161,8 @@ function updateVNF(){
             port.id = port_t.label+":"+i;
             port.name = port_t.name+i;
 
-            port.x = 0+i*8;
-            port.y = "0";
+            port.x =i*8;
+            port.y = 0;
             port.parent_NF_x = vnf["x"];
             port.parent_NF_y = vnf["y"];
 
@@ -181,7 +181,12 @@ function updateVNF(){
 
 function NextIdEP(){
     var len=EP_list.length;
-    var newid = parseInt(EP_list[len-1].id)+1;
+    var newid;
+    if(len===0){
+        newid=1;
+    }else {
+        newid=parseInt(EP_list[len - 1].id) + 1;
+    }
     var s_id;
     if(newid<10){
         s_id="0000000"+newid;
@@ -260,7 +265,12 @@ function validateNewEndPoint(endpoint){
 
 function NextIdVNF(){
     var len=NF_list.length;
-    var newid = parseInt(NF_list[len-1].id)+1;
+    var newid;
+    if(len!==0){
+        newid=parseInt(NF_list[len-1].id)+1;
+    }else{
+        newid=1;
+    }
     var s_id;
     if(newid<10){
         s_id="0000000"+newid;
@@ -289,7 +299,12 @@ function fillTemplateVNF(template){
 
 function NextIdFlowRule(){
     var len = flow_rules.length;
-    var newid = parseInt(flow_rules[len-1].id)+1;
+    var newid;
+    if(len===0){
+        newid=1;
+    }else{
+        newid = parseInt(flow_rules[len-1].id)+1
+    }
     var s_id;
     if(newid<10){
         s_id = "0000000"+newid;
@@ -326,11 +341,15 @@ function fillNewFlowRule(){
     match["source_port"] = $("#idSourcePort").val();
     match["dest_port"] = $("#idDestinationPort").val();
     match["protocol"] = $("#idProtocol").val();
-    match["port_in"] = $("#idPortIn").val(); 
+    //match["port_in"] = $("#idPortIn").val();
+    match["port_in"] = ele1_selected.fullId;
+
 
     flow_rule["match"] = match;
 
-    action["output"] = $("#idOutput").val();
+    //action["output"] = $("#idOutput").val();
+    action["output"] = ele2_selected.fullId;
+
     action["set_vlan_id"] = $("#idSetVlanId").val();
     action["set_vlan_priority-id"] = $("#idSetVlanPriorityId").val();
     action["pop_vlan"] = $("#idPopVlan").val();

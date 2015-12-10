@@ -191,7 +191,8 @@ function DrawForwardingGraph(fg){
     //    return 1;
     //});
 
-    
+    checkSplit();
+
     $(".BS_interface").tooltip({
         'container': 'body',
         'placement': 'top'

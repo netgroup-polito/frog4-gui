@@ -16,6 +16,17 @@ function showNFFG(bs_view){
     //    NF_view=false;
     //    $(".use_BIG,.BS_interface,.BS_line").show();
     //    $(".line").hide();
-    //
     //}
+}
+
+function updateView(){
+    if(isSplitted){
+        showNFFG(true);
+    }else{
+        showNFFG(false);
+    }
+}
+
+function switchView(){
+    showNFFG(!NF_view);
 }

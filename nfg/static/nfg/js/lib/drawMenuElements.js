@@ -43,6 +43,7 @@ function drawNewEP(){
     var ele=[];
 
     var ep = fillNewEP();
+    ep.fullId="endpoint:"+ep.id;
     ep.ref="end-point";
     ep.isLinked=false;
     console.log(validateNewEndPoint(ep));
@@ -57,6 +58,7 @@ function drawNewEP(){
         var new_bs_int={};
         new_bs_int.ref = "bsInt";
         new_bs_int.id = "endpoint:"+ep.id;
+        new_bs_int.fullId=new_bs_int.id;
         new_bs_int.x=0;
         new_bs_int.y=0;
         big_switch.interfaces.push(new_bs_int);
@@ -176,9 +178,6 @@ function drawNewEP(){
 function drawNewNF(){
     var vnf = fillNewVNF();
 
-    vnf.x=parseInt(vnf.x);
-    vnf.y=parseInt(vnf.y);
-
     var new_int=[];
     var new_bs_links=[];
 
@@ -189,12 +188,13 @@ function drawNewNF(){
         port.parent_NF_x=parseInt(port.parent_NF_x);
         port.parent_NF_y=parseInt(port.parent_NF_y);
         port.ref="NF_interface";
-
+        port.fullId="vnf:"+vnf.id+":"+port.id;
         /* creo un nuovo oggetto bs_interface e lo aggiungo alla lista delle interfacce del BS*/
         var newBSInt={};
         newBSInt.ref = "bsInt";
         newBSInt.id_vnf= vnf.id;
         newBSInt.id = "vnf:"+vnf.id+":"+port.id;
+        newBSInt.fullId = "vnf:"+vnf.id+":"+port.id;
        // var temp={x:parseInt(port.parent_NF_x)+parseInt(port.x),y:parseInt(port.parent_NF_y)+parseInt(port.y)};
         newBSInt.x=22*i%BIG_SWITCH_width;
         newBSInt.y=0;

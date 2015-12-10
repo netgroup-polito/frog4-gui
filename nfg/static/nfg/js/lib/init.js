@@ -106,8 +106,7 @@ function elaborateFlowRules(){
         }else{//è già false
             isSplitted=true;
             console.log("POSSIBILE SOLO VISTA IN BS!!!");
-            NF_view=false;
-            showNFFG(true);
+            updateView();
             //showBigSwitch
         }
         if(end_int.isLinked===false){
@@ -115,6 +114,7 @@ function elaborateFlowRules(){
         }else{//è già false
             isSplitted=true;
             console.log("POSSIBILE SOLO VISTA IN BS!!!");
+            updateView();
             //showBigSwitch
         }
 
@@ -270,6 +270,7 @@ function setRandomInitialNFPositions(){
             e.x=parseInt(Math.random()*NF_width);
             e.y=0;
             e.ref="NF_interface";
+            e.fullId= "vnf:"+NF_list[i].id+":"+ e.id;
             e.parent_NF_x=x;
             e.parent_NF_y=y;
             e.parent_NF_id=NF_list[i].id;
@@ -285,6 +286,7 @@ function setRandomInitialEPPositions(){
         EP_list[i].x=parseInt(250*Math.cos(alfa*(i))+svg_width/2);
         EP_list[i].y=parseInt(250*Math.sin(alfa*(i))+svg_height/2);
         EP_list[i].ref="end-point";
+        EP_list[i].fullId="endpoint:"+EP_list[i].id;
         EP_list[i].isLinked=false;
     }
 }
@@ -304,6 +306,7 @@ function setInitialNFPositions(){
             e.x = port.x;
             e.y = port.y;
             e.ref="NF_interface";
+            e.fullId= "vnf:"+NF_list[i].id+":"+ e.id;
             e.parent_NF_x=vnf.x;
             e.parent_NF_y=vnf.y;
             e.parent_NF_id=NF_list[i].id;
@@ -319,6 +322,7 @@ function setInitialEPPositions(){
         EP_list[i].x = ep.x;
         EP_list[i].y = ep.y;
         EP_list[i].ref = "end-point";
+        EP_list[i].fullId="endpoint:"+EP_list[i].id;
         EP_list[i].isLinked = false;
     }
 }
@@ -334,6 +338,7 @@ function setInitialBSPositions(){
         var tmp={};
         tmp.ref = "bsInt";
         tmp.id = "endpoint:"+ele.id;
+        tmp.fullId=tmp.id;
 
         var inter = getBSInterfaceByIdPos(tmp.id);
         tmp.x=inter.x;
@@ -347,6 +352,7 @@ function setInitialBSPositions(){
             tmp.ref = "bsInt";
             tmp.id_vnf= ele1.id;
             tmp.id = "vnf:"+ele1.id+":"+ele2.id;
+            tmp.fullId=tmp.id;
             var inter = getBSInterfaceByIdPos(tmp.id);
             tmp.x=inter.x;
             tmp.y=inter.y;

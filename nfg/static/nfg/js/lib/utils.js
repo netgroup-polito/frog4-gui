@@ -142,6 +142,65 @@ function getBS(){
 }
 
 
+function isDuplex(sourceId,destId){
+    var d=false;
+    flow_rules.forEach(function(fr){
+        if(fr["action"][0]["output"]===sourceId && fr["match"]["port_in"]===destId){
+            console.log("ci entro");
+            console.log("in..: "+sourceId);
+            console.log("out..: "+destId);
+            console.log("in: "+fr["match"]["port_in"]);
+            console.log("out: "+fr["action"][0]["output"]);
+            d=true;
+            var id_start_mod=sourceId.replace(/:/g,"\\:");
+            var id_end_mod=destId.replace(/:/g,"\\:");
+            fr["full_duplex"]=true;
+            lines_section.selectAll(".line[start="+id_end_mod+"][end="+id_start_mod+"]")
+                .attr("marker-end","default")
+                .attr("fullduplex","true");
+            lines_section.selectAll(".BS-line[start=bs-"+id_end_mod+"][end=bs-"+id_start_mod+"]")
+                .attr("marker-end","default")
+                .attr("fullduplex","true");
+        }
+    });
+    return d;
+}
 
+function checkSplit(){
+    for(var i=0;i<flow_rules.length;i++){
+        for(var j=i+1;j<flow_rules.length;j++){
+            if(
+                flow_rules[i]["match"]["port_in"]===flow_rules[j]["match"]["port_in"] ||
+                flow_rules[i]["match"]["port_in"]===flow_rules[j]["action"][0]["output"] ||
+                flow_rules[i]["action"][0]["output"]===flow_rules[j]["match"]["port_in"] ||
+                flow_rules[i]["action"][0]["output"]===flow_rules[j]["action"][0]["output"]
+            ){
+                isSplitted=true;
+                console.log("SPLITTT");
+                flow_rules[i]["double"]=true;
+                flow_rules[j]["double"]=true;
+            }
+        }
+    }
+    updateView();
+}
 
+function showVNFPorts(){
+    var vnf=selected_node;
+    var htmlInsertions="";
+    htmlInsertions+="<table class='table table-bordered'>";
+    htmlInsertions+="<tr><th>port id</th><th></th>"
+    for(var i=0;i<vnf.ports.length;i++){
+        htmlInsertions+=
+            "<tr>" +
+                "<th>"+vnf.ports[i].id+"</th>" +
+                "<td><div onclick='removePort("+vnf.ports[i].id+"' >" +
+                    "<button type='button' class='btn btn-default btn-lg'><span class='glyphicon glyphicon-minus' aria-hidden='true'></span></button>"
+                "</td>" +
+            "</tr>";
+    }
 
+    htmlInsertions+="</table>";
+
+    $("#showPorts").append(htmlInsertions)
+}

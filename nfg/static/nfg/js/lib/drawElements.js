@@ -162,6 +162,7 @@ function drawBIGSWITCH(){
         .attr("cx",function(d){return big_switch.x+d.x;})
         .attr("cy",function(d){return big_switch.y+d.y;})
         .attr("id",function(d){return d.id;})
+        .attr("fullId",function(d){return d.fullId;})
         .attr("r",r_interface)
         .attr("title",function(d){
             return d.id;
