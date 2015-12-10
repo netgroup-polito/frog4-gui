@@ -145,12 +145,12 @@ function getBS(){
 function isDuplex(sourceId,destId){
     var d=false;
     flow_rules.forEach(function(fr){
-        if(fr["action"][0]["output"]===sourceId && fr["match"]["port_in"]===destId){
+        if(fr["actions"][0]["output"]===sourceId && fr["match"]["port_in"]===destId){
             console.log("ci entro");
             console.log("in..: "+sourceId);
             console.log("out..: "+destId);
             console.log("in: "+fr["match"]["port_in"]);
-            console.log("out: "+fr["action"][0]["output"]);
+            console.log("out: "+fr["actions"][0]["output"]);
             d=true;
             var id_start_mod=sourceId.replace(/:/g,"\\:");
             var id_end_mod=destId.replace(/:/g,"\\:");
@@ -171,9 +171,9 @@ function checkSplit(){
         for(var j=i+1;j<flow_rules.length;j++){
             if(
                 flow_rules[i]["match"]["port_in"]===flow_rules[j]["match"]["port_in"] ||
-                flow_rules[i]["match"]["port_in"]===flow_rules[j]["action"][0]["output"] ||
-                flow_rules[i]["action"][0]["output"]===flow_rules[j]["match"]["port_in"] ||
-                flow_rules[i]["action"][0]["output"]===flow_rules[j]["action"][0]["output"]
+                flow_rules[i]["match"]["port_in"]===flow_rules[j]["actions"][0]["output"] ||
+                flow_rules[i]["actions"][0]["output"]===flow_rules[j]["match"]["port_in"] ||
+                flow_rules[i]["actions"][0]["output"]===flow_rules[j]["actions"][0]["output"]
             ){
                 isSplitted=true;
                 console.log("SPLITTT");
