@@ -253,12 +253,16 @@ function saveFile(){
                         "file_content_fg": file_content_fg,
                         "file_name_pos":file_name_pos,
                         "file_content_pos": file_content_pos
-                      } // file inputs.
+                      } 
 
             }).done(function(e){
                                 
                 console.log("Success: Files sent!");
-                location.reload();
+                console.log(e);
+                $("#ModalMsgServer").modal("show");
+                $("#msg").empty();
+                $("#msg").append("<b>"+e+"</b>");
+                //location.reload();
             
             }).fail(function(){
                 
@@ -266,6 +270,10 @@ function saveFile(){
             });  
 
 
+}
+
+function reloadPage(){
+	location.reload();
 }
 
 

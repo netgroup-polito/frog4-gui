@@ -21,7 +21,9 @@ function PreviewFileUpload(){
             stringa = stringa.replace(/ /g, '&nbsp;');
             stringa = stringa.replace(/(\r\n|\n\r|\r|\n)/g, "<br>"); 
 
-            //console.log(stringa);
+           
+
+            console.log(stringa);
             
                 $('#file_content_upload').show();
                 $('#file_content_upload').empty();
@@ -64,7 +66,10 @@ function UploadFile(){
             }).done(function(e){
                                 
                 console.log("Success: Files sent!");
-                location.reload();
+                $("#ModalMsgServer").modal("show");
+                $("#msg").empty();
+                $("#msg").append("<b>"+e+"</b>");
+                //location.reload();
             
             }).fail(function(){
                 

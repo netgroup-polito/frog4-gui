@@ -83,8 +83,6 @@ def ajax_template_request(request,id_template):
   with open(file_directory) as json_file:
     json_data = json.load(json_file)
     json_data = json.dumps(json_data)
-    #template_1 = Template()
-    #template_1.parseDict(json_data)
 
     print(json_data)
 
@@ -95,6 +93,17 @@ def ajax_template_request(request,id_template):
 def ajax_data_request(request):
   fg = NF_FG()
   val = ValidateNF_FG()
+
+  if "err_msg" in request.session:
+    print "si"
+    if request.session["err_msg"]!="":
+
+      msg = request.session["err_msg"]
+      #request.session["err_msg"] = ""
+
+      return HttpResponse("%s" % msg)
+
+
       
 
   directory = "users/upload@"+request.session["username"]
@@ -120,16 +129,17 @@ def ajax_data_request(request):
       json_file_fg = open(directory+"/"+file_name_fg,"r")
       json_data_fg = json.load(json_file_fg)
 
-      ############
-      fg.parseDict(json_data_fg)
-      val.validate(json_data_fg)
-      ############
-
-      json_data['json_file_fg'] = json_data_fg
-      json_file_fg.close()
+      try:
+        #effettuo la validazione lato server#
+        val.validate(json_data_fg)
+        json_data['json_file_fg'] = json_data_fg
+        json_file_fg.close()
 
 
-
+      except ValidationError as err:
+        msg = "errore di validazione:" + err.message 
+        return HttpResponse("%s" % msg)
+      
       if "file_name_pos" in request.session:
 
 
@@ -138,7 +148,6 @@ def ajax_data_request(request):
         
         json_file_pos = open(directory+"/"+file_name_pos,"r")
         json_data_pos = json.load(json_file_pos)
-        print(json_data_pos)
         json_file_pos.close()
 
         json_data['is_find_pos'] = 'true'
@@ -159,7 +168,6 @@ def ajax_data_request(request):
           print "file di posizionamento presente"
           json_file_pos = open(directory+"/"+file_name_pos,"r")
           json_data_pos = json.load(json_file_pos)
-          print(json_data_pos)
           json_file_pos.close()
 
           json_data['is_find_pos'] = 'true'
@@ -181,14 +189,14 @@ def ajax_data_request(request):
     
   
   json_data = json.dumps(json_data)
-  print json_data
-	
 
   return HttpResponse("%s" % json_data)
 	
 
 @csrf_exempt
 def ajax_upload_request(request):
+  fg = NF_FG()
+  val = ValidateNF_FG()
   if request.method == 'POST':
     print "post"
     
@@ -202,7 +210,17 @@ def ajax_upload_request(request):
     file_name_fg = request.POST["file_name_fg"]    
     content_file = request.POST["file_content_fg"]
     # memorizzo il filename nella varibile di sessione file_name
-    request.session["file_name_fg"] = file_name_fg
+
+
+    json_data = json.loads(content_file)
+    try:
+      val.validate(json_data)
+    except ValidationError as err:
+
+      msg = "errore di validazione:" + err.message 
+      print msg
+      return HttpResponse("%s" % msg)
+
 
 
     (shortname, extension) = os.path.splitext(file_name_fg)
@@ -217,7 +235,10 @@ def ajax_upload_request(request):
       out_file.write(content_file)
       out_file.close()
 
-      return HttpResponse("%s" % content_file)
+      request.session["file_name_fg"] = file_name_fg;
+
+      msg = "upload riuscito"
+      return HttpResponse("%s" % msg)
 
     else:
       print "formato non valido"
@@ -272,7 +293,10 @@ def ajax_save_request(request):
     try:
       val.validate(json_data)
     except ValidationError as err:
-      print "errore di validazione:"+err.message
+
+      msg = "errore di validazione:" + err.message 
+      print msg
+      return HttpResponse("%s" % msg)
 
 
     (shortname, extension) = os.path.splitext(file_name_fg)
@@ -290,7 +314,10 @@ def ajax_save_request(request):
       return HttpResponse("%s" % "salvataggio riuscito")
 
     else:
-      print "formato non valido"
+      
+      msg = "formato non valido"
+      print msg
+      
 
 @csrf_exempt
 def ajax_download_preview(request):
@@ -322,6 +349,8 @@ def ajax_download_preview(request):
 
 @csrf_exempt
 def ajax_download_request(request):
+  fg = NF_FG()
+  val = ValidateNF_FG()
   if request.method == "POST":
     directory = "users/upload@"+request.session["username"]
     file_name_fg = request.POST["file_name_fg"]
@@ -333,12 +362,22 @@ def ajax_download_request(request):
       if os.path.isfile(directory+"/"+file_name_fg):
         print "file trovato"
 
-        request.session["file_name_fg"] = file_name_fg
+        
 
         json_file_fg = open(directory+"/"+file_name_fg,"r")
         json_data_fg = json.load(json_file_fg) 
         json_data = json.dumps(json_data_fg)
 
+        try:
+          val.validate(json_data_fg)
+        except ValidationError as err:
+
+          msg = "errore di validazione:" + err.message 
+          print msg
+          return HttpResponse("%s" % msg)
+
+
+        request.session["file_name_fg"] = file_name_fg
         len_file_name = len(file_name_fg)
         file_name_pos = file_name_fg[0:len_file_name-5]
         file_name_pos += "_pos.json"

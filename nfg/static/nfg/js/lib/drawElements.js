@@ -63,6 +63,7 @@ function drawNF() {
                 d3.selectAll(".NetworkFunction").attr("xlink:href","#NF_node");
                 d3.selectAll(".use_BIG").attr("xlink:href","#BIG_SWITCH_node");
                 $(this).attr("href","#NF_select");
+                
                // d3.select(d).attr("xlink:href","#NF_select");
                 /* funzioni per visualizzare le informazioni sulla sinistra */
                 var vnf = getVNFById(d.id);
