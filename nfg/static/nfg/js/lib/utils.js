@@ -34,7 +34,7 @@ function getBSInterfaceById(id){
 function getFlowRulesById(id){
     var flowrule;
     flow_rules.forEach(function(e){
-        if(e.id == id){ flowrule=e; }
+        if(e.id === id){ flowrule=e;}
     });
     return flowrule;
 }
@@ -203,4 +203,34 @@ function showVNFPorts(){
     htmlInsertions+="</table>";
 
     $("#showPorts").append(htmlInsertions)
+}
+
+function getDualFRId(id){
+    var retid=undefined;
+    var flowRule=getFlowRulesById(id);
+    console.log(id);
+    console.log(flowRule);
+    flow_rules.forEach(function(fr){
+        if(fr["actions"][0]["output"]===flowRule["match"]["port_in"] && fr["match"]["port_in"]===flowRule["actions"][0]["output"]){
+            retid=fr["id"];
+        }
+    });
+    return retid;
+}
+
+function updateTooltips(){
+    $(".BS_interface").tooltip({
+        'container': 'body',
+        'placement': 'top'
+    });
+
+    $(".BS-line").tooltip({
+        'container': 'body',
+        'placement': 'top'
+    });
+
+    $(".end-points").tooltip({
+        'container': 'body',
+        'placement': 'top'
+    });
 }

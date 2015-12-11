@@ -21,7 +21,7 @@ function keyDown(){
     switch(d3.event.keyCode) {
         case 8: // backspace
         case 46: // delete
-            console.log("ho premuto canc");
+            //console.log("ho premuto canc");
             if(selected_node) {
                 console.log(selected_node);
 
@@ -31,6 +31,8 @@ function keyDown(){
                  * AGGIUNGERE ELIMINAZIONE DA JS
                  */
                 if($(selected_node).attr("class")==="NetworkFunction"){
+                    console.log(selected_node.id);
+                    VNF_text_section.select("#text_"+selected_node.id).remove();
                     console.log("è una vnf");
                     var vnf_int=svg.selectAll("[parent=vnf"+selected_node.id+"]");
                     console.log(vnf_int);

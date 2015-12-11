@@ -194,20 +194,7 @@ function DrawForwardingGraph(fg){
 
     checkSplit();
 
-    $(".BS_interface").tooltip({
-        'container': 'body',
-        'placement': 'top'
-    });
-
-    $(".BS-line").tooltip({
-        'container': 'body',
-        'placement': 'top'
-    });
-
-    $(".end-points").tooltip({
-        'container': 'body',
-        'placement': 'top'
-    });
+    updateTooltips();
 
 }
 

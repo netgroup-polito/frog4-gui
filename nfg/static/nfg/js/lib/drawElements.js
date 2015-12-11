@@ -40,7 +40,7 @@ function drawNF() {
             .attr("x",function(d){return d.x;})
             .attr("y",function(d){return d.y;})
             .call(drag_NF)
-            .on("click",function(d){ //da sistemare!
+            .on("mousedown",function(d){ //da sistemare!
                // console.log(this);
                 selected_node=this;
                 selected_link=undefined;
@@ -306,6 +306,8 @@ function drawBSLinks(){
 
             //console.log(d);
             highlightsFlowRule(d.id);
+            if(getDualFRId(d.id)!==undefined)
+                highlightsFlowRule(getDualFRId(d.id));
 
         });
 

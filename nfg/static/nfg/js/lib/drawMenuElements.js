@@ -139,12 +139,7 @@ function drawNewEP(){
             .attr("cy",big_switch.y+new_bs_int.y)
             .attr("id",new_bs_int.id)
             .attr("r",r_interface)
-            .attr("title",function(){
-                if(new_bs_int.ref=="endpoint")
-                    return new_bs_int.id;
-                else if(new_bs_int.ref=="vnf")
-                    return new_bs_int.id;
-            })
+            .attr("title",new_bs_int)
             .on("click",select_node)
             .call(drag_INTERFACEBIGSWITCH);
 
@@ -169,7 +164,7 @@ function drawNewEP(){
             //    d3.selectAll(".BS-line[fullduplex=false]").attr("marker-end","url(#IntArrow)");
             //    //d3.select(this).attr("stroke","red");
             //});
-
+        updateTooltips();
     }else{
         console.log("validazione fallita");
     }
@@ -319,6 +314,7 @@ function drawNewNF(){
         .attr("cx",function(d){ return big_switch.x + d.x;})
         .attr("cy",function(d){ return big_switch.y + d.y;})
         .attr("id",function(d){ return d.id;})
+        .attr("title",function(d){return d.id;})
         .attr("r",r_interface)
         .attr("title",function(d){  return d.id; })
         .on("click",select_node)
@@ -346,6 +342,7 @@ function drawNewNF(){
         //    selected_link=this;
         //    d3.select(this).attr("stroke","red");
         //});
+    updateTooltips();
 
 }
 function saveNewEp(){
