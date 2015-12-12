@@ -66,97 +66,100 @@ function drawNewEP(){
         big_switch.interfaces.push(new_bs_int);
 
         /*disegno l'oggetto ep*/
-        interfaces_section.selectAll(".new_endpoint")
-               .data(ele)
-               .enter()
-               .append("circle")           
-               .attr("class","end-points")
-               .attr("id",function(d){return d.id;})
-               .attr("r",r_endpoint)
-                .attr("cx",function(d){return d.x;})
-                .attr("cy",function(d){return d.y;})
-                .on("click",function(d){
-                    //select_node(d);
-                    //d3.selectAll(".end-points-select").attr("class","end-points");
-                    //d3.selectAll(".use_NF").attr("xlink:href","#NF_node");
-                    //d3.selectAll(".use_BIG").attr("xlink:href","#BIG_SWITCH_node");
-                    //d3.selectAll(".line[fullduplex=false]").attr("marker-end","url(#EPArrow)");
-                    //d3.selectAll(".BS-line[fullduplex=false]").attr("marker-end","url(#IntArrow)");
-                    //d3.select(this).attr("class","end-points-select");
-                    //
-                    //var ep = getEndPointById(d.id);
-                    //drawEndPointInfo(ep,d.id);
-
-                    select_node(d);
-                    selected_node=this;
-                    selected_link=undefined;
-                    /* funzioni per selezionare questo oggetto e deselezionare gli altri */
-
-                    d3.selectAll(".line-selected").attr("class","line");
-                    d3.selectAll(".BS-line-selected").attr("class","BS-line");
-                    d3.selectAll(".line[fullduplex=false]").attr("marker-end",function(d){
-                        var type=$(this).attr("end");
-                        if(type.indexOf("vnf")===-1) return "url(#EPArrow)"
-                        else return "url(#IntArrow)";
-                    });
-                    d3.selectAll(".BS-line[fullduplex=false]").attr("marker-end","url(#IntArrow)");
-
-                    d3.selectAll(".host").attr("class","end-points host").style("fill","url(#host-icon)");
-                    d3.selectAll(".internet").attr("class","end-points internet").style("fill","url(#internet-icon)");
-
-                    d3.selectAll(".end-points-select").attr("class","end-points");
-                    d3.selectAll(".NetworkFunction").attr("xlink:href","#NF_node");
-                    d3.selectAll(".use_BIG").attr("xlink:href","#BIG_SWITCH_node");
-
-                    switch(d.name){
-                        case "host":
-                            d3.select(this).attr("class","end-points-select "+d.name).style("fill","url(#host-select-icon)");
-                            break;
-                        case "internet":
-                            d3.select(this).attr("class","end-points-select "+d.name).style("fill","url(#internet-select-icon)");
-                            break;
-                        default:
-                            d3.select(this).attr("class","end-points-select "+d.name);
-                            break;
-                    }
-
-
-                    /* funzioni per visualizzare le informazioni sulla sinistra */
-                    var ep = getEndPointById(d.id);
-                    drawEndPointInfo(ep,d.id);
-                })
-                .call(drag_EP);
-
+        drawEP(ele);
+        /*
+        //interfaces_section.selectAll(".new_endpoint")
+        //       .data(ele)
+        //       .enter()
+        //       .append("circle")
+        //       .attr("class","end-points")
+        //       .attr("id",function(d){return d.id;})
+        //       .attr("r",r_endpoint)
+        //        .attr("cx",function(d){return d.x;})
+        //        .attr("cy",function(d){return d.y;})
+        //        .on("click",function(d){
+        //            //select_node(d);
+        //            //d3.selectAll(".end-points-select").attr("class","end-points");
+        //            //d3.selectAll(".use_NF").attr("xlink:href","#NF_node");
+        //            //d3.selectAll(".use_BIG").attr("xlink:href","#BIG_SWITCH_node");
+        //            //d3.selectAll(".line[fullduplex=false]").attr("marker-end","url(#EPArrow)");
+        //            //d3.selectAll(".BS-line[fullduplex=false]").attr("marker-end","url(#IntArrow)");
+        //            //d3.select(this).attr("class","end-points-select");
+        //            //
+        //            //var ep = getEndPointById(d.id);
+        //            //drawEndPointInfo(ep,d.id);
+        //
+        //            select_node(d);
+        //            selected_node=this;
+        //            selected_link=undefined;
+        //            /* funzioni per selezionare questo oggetto e deselezionare gli altri */
+        //
+        //            d3.selectAll(".line-selected").attr("class","line");
+        //            d3.selectAll(".BS-line-selected").attr("class","BS-line");
+        //            d3.selectAll(".line[fullduplex=false]").attr("marker-end",function(d){
+        //                var type=$(this).attr("end");
+        //                if(type.indexOf("vnf")===-1) return "url(#EPArrow)"
+        //                else return "url(#IntArrow)";
+        //            });
+        //            d3.selectAll(".BS-line[fullduplex=false]").attr("marker-end","url(#IntArrow)");
+        //
+        //            d3.selectAll(".host").attr("class","end-points host").style("fill","url(#host-icon)");
+        //            d3.selectAll(".internet").attr("class","end-points internet").style("fill","url(#internet-icon)");
+        //
+        //            d3.selectAll(".end-points-select").attr("class","end-points");
+        //            d3.selectAll(".NetworkFunction").attr("xlink:href","#NF_node");
+        //            d3.selectAll(".use_BIG").attr("xlink:href","#BIG_SWITCH_node");
+        //
+        //            switch(d.name){
+        //                case "host":
+        //                    d3.select(this).attr("class","end-points-select "+d.name).style("fill","url(#host-select-icon)");
+        //                    break;
+        //                case "internet":
+        //                    d3.select(this).attr("class","end-points-select "+d.name).style("fill","url(#internet-select-icon)");
+        //                    break;
+        //                default:
+        //                    d3.select(this).attr("class","end-points-select "+d.name);
+        //                    break;
+        //            }
+        //
+        //
+        //            /* funzioni per visualizzare le informazioni sulla sinistra */
+        //            var ep = getEndPointById(d.id);
+        //            drawEndPointInfo(ep,d.id);
+        //        })
+        //        .call(drag_EP);
+        //*/
         /*disegno l'oggetto bs_int*/
-        var newBSIntVet=[];newBSIntVet.push(new_bs_int);
-        interfaces_section
-            .selectAll(".newBSint")
-            .data(newBSIntVet)
-            .enter()
-            .append("circle")
-            .attr("class","BS_interface interface")
-            .attr("cx",big_switch.x+new_bs_int.x)
-            .attr("cy",big_switch.y+new_bs_int.y)
-            .attr("id",new_bs_int.id)
-            .attr("r",r_interface)
-            .attr("title",new_bs_int)
-            .on("click",select_node)
-            .call(drag_INTERFACEBIGSWITCH);
+        drawSingleBSInterfaceAndExternalLink(new_bs_int,ep);
+        //var newBSIntVet=[];newBSIntVet.push(new_bs_int);
+        //interfaces_section
+        //    .selectAll(".newBSint")
+        //    .data(newBSIntVet)
+        //    .enter()
+        //    .append("circle")
+        //    .attr("class","BS_interface interface")
+        //    .attr("cx",big_switch.x+new_bs_int.x)
+        //    .attr("cy",big_switch.y+new_bs_int.y)
+        //    .attr("id",new_bs_int.id)
+        //    .attr("r",r_interface)
+        //    .attr("title",new_bs_int)
+        //    .on("click",select_node)
+        //    .call(drag_INTERFACEBIGSWITCH);
 
-        /*disegno il link che collega il bs_int al ep*/
-        lines_section
-            .append("line")
-            .attr("class","BS-line")
-            .attr("stroke","black")
-            //.attr("opacity",0.6)
-            .attr("x1", ep.x)
-            .attr("y1",ep.y)
-            .attr("x2",big_switch.x+new_bs_int.x)
-            .attr("y2",big_switch.y+new_bs_int.y)
-            .attr("title","Source: endpoint:"+ep.id+" Action: bs-endpoint:"+ep.id)
-            //aggiungo l'info da chi parte a chi arriva
-            .attr("start","endpoint:"+ep.id)
-            .attr("end","bs-endpoint:"+ep.id);
+        ///*disegno il link che collega il bs_int al ep*/
+        //lines_section
+        //    .append("line")
+        //    .attr("class","BS-line")
+        //    .attr("stroke","black")
+        //    //.attr("opacity",0.6)
+        //    .attr("x1", ep.x)
+        //    .attr("y1",ep.y)
+        //    .attr("x2",big_switch.x+new_bs_int.x)
+        //    .attr("y2",big_switch.y+new_bs_int.y)
+        //    .attr("title","Source: endpoint:"+ep.id+" Action: bs-endpoint:"+ep.id)
+        //    //aggiungo l'info da chi parte a chi arriva
+        //    .attr("start","endpoint:"+ep.id)
+        //    .attr("end","bs-endpoint:"+ep.id);
             //.on("click",function(){
             //    selected_link=this;
             //    selected_node=
@@ -203,6 +206,7 @@ function drawNewNF(){
         newLink.y2=newBSInt.y+big_switch.y;
         newLink.start=newBSInt.id;
         newLink.end="bs-"+newBSInt.id;
+        newLink.external=true;
 
         new_bs_links.push(newLink);
         new_int.push(newBSInt);
@@ -214,130 +218,132 @@ function drawNewNF(){
 
     var ele = [];   ele.push(vnf);
 
-    VNF_text_section.selectAll(".NewNetworkFunction_text")
-        .data(ele)
-        .enter()
-        .append("text")
-        .attr("fill","white")
-        .text(function(d){
-            var text;
-            if(d.name==null || d.name == undefined || d.name == ""){
-                text = "NaN";
-            }else if(d.name.length>=18){
-                text = d.name.slice(0,18);
-                console.log(text);
-            }else{
-                text = d.name; 
-            }
-            return text;
-        })
-        .attr("id",function(d){return "text_"+d.id;})
-        .attr("class","NetworkFunction_text")
-        .attr("x",function(d){return d.x+20;})
-        .attr("y",function(d){return d.y+NF_height/2+5;});
+    drawNF_text(ele);
+    //VNF_text_section.selectAll(".NewNetworkFunction_text")
+    //    .data(ele)
+    //    .enter()
+    //    .append("text")
+    //    .attr("fill","white")
+    //    .text(function(d){
+    //        var text;
+    //        if(d.name==null || d.name == undefined || d.name == ""){
+    //            text = "NaN";
+    //        }else if(d.name.length>=18){
+    //            text = d.name.slice(0,18);
+    //            console.log(text);
+    //        }else{
+    //            text = d.name;
+    //        }
+    //        return text;
+    //    })
+    //    .attr("id",function(d){return "text_"+d.id;})
+    //    .attr("class","NetworkFunction_text")
+    //    .attr("x",function(d){return d.x+20;})
+    //    .attr("y",function(d){return d.y+NF_height/2+5;});
 
-    VNF_section.selectAll(".NewNetworkFunction")
-            .data(ele)
-            .enter()
-            .append("use").attr("xlink:href", "#NF_node")
-            .attr("id", function(d){return d.id;})
-            .attr("class", "NetworkFunction") //ogni NF ha un NF_node centrale e attorno tutte le interfacce
-            .attr("x",function(d){return d.x;})
-            .attr("y",function(d){return d.y;})
-            //.attr("transform","translate("+NF_list[index].x+","+NF_list[index].y+")")
-            .call(drag_NF)
-            .on("click",function(d){ //da sistemare!
-            //    console.log(this);
-            ///* funzioni per selezionare questo oggetto e deselezionare gli altri */
-            //    d3.selectAll(".end-points-select").attr("class","end-points");
-            //    //d3.selectAll(".BigSwitch").attr("xlink:href","#BIG_SWITCH_node");
-            //    d3.selectAll(".NetworkFunction").attr("xlink:href","#NF_node");
-            //    $(this).attr("href","#NF_select");
-            //   // d3.select(d).attr("xlink:href","#NF_select");
-            //    /* funzioni per visualizzare le informazioni sulla sinistra */
-            //    var vnf = getVNFById(d.id);
-            //    drawVNFInfo(vnf,d.id);
-                selected_node=this;
-                selected_link=undefined;
-                /* funzioni per selezionare questo oggetto e deselezionare gli altri */
+    drawNF(ele);
+    //VNF_section.selectAll(".NewNetworkFunction")
+    //        .data(ele)
+    //        .enter()
+    //        .append("use").attr("xlink:href", "#NF_node")
+    //        .attr("id", function(d){return d.id;})
+    //        .attr("class", "NetworkFunction") //ogni NF ha un NF_node centrale e attorno tutte le interfacce
+    //        .attr("x",function(d){return d.x;})
+    //        .attr("y",function(d){return d.y;})
+    //        //.attr("transform","translate("+NF_list[index].x+","+NF_list[index].y+")")
+    //        .call(drag_NF)
+    //        .on("mousedown",function(d){ //da sistemare!
+    //        //    console.log(this);
+    //        ///* funzioni per selezionare questo oggetto e deselezionare gli altri */
+    //        //    d3.selectAll(".end-points-select").attr("class","end-points");
+    //        //    //d3.selectAll(".BigSwitch").attr("xlink:href","#BIG_SWITCH_node");
+    //        //    d3.selectAll(".NetworkFunction").attr("xlink:href","#NF_node");
+    //        //    $(this).attr("href","#NF_select");
+    //        //   // d3.select(d).attr("xlink:href","#NF_select");
+    //        //    /* funzioni per visualizzare le informazioni sulla sinistra */
+    //        //    var vnf = getVNFById(d.id);
+    //        //    drawVNFInfo(vnf,d.id);
+    //            selected_node=this;
+    //            selected_link=undefined;
+    //            /* funzioni per selezionare questo oggetto e deselezionare gli altri */
+    //
+    //            d3.selectAll(".line-selected").attr("class","line");
+    //            d3.selectAll(".BS-line-selected").attr("class","BS-line");
+    //            d3.selectAll(".line[fullduplex=false]").attr("marker-end",function(d){
+    //                var type=$(this).attr("end");
+    //                if(type.indexOf("vnf")===-1) return "url(#EPArrow)"
+    //                else return "url(#IntArrow)";
+    //            });
+    //            d3.selectAll(".BS-line[fullduplex=false]").attr("marker-end","url(#IntArrow)");
+    //
+    //            d3.selectAll(".host").attr("class","end-points host").style("fill","url(#host-icon)");
+    //            d3.selectAll(".internet").attr("class","end-points internet").style("fill","url(#internet-icon)");
+    //            d3.selectAll(".end-points-select").attr("class","end-points");
+    //
+    //            //d3.selectAll(".BigSwitch").attr("xlink:href","#BIG_SWITCH_node");
+    //            d3.selectAll(".NetworkFunction").attr("xlink:href","#NF_node");
+    //            d3.selectAll(".use_BIG").attr("xlink:href","#BIG_SWITCH_node");
+    //            $(this).attr("href","#NF_select");
+    //            // d3.select(d).attr("xlink:href","#NF_select");
+    //            /* funzioni per visualizzare le informazioni sulla sinistra */
+    //            var vnf = getVNFById(d.id);
+    //            drawVNFInfo(vnf,d.id);
+    //         });
 
-                d3.selectAll(".line-selected").attr("class","line");
-                d3.selectAll(".BS-line-selected").attr("class","BS-line");
-                d3.selectAll(".line[fullduplex=false]").attr("marker-end",function(d){
-                    var type=$(this).attr("end");
-                    if(type.indexOf("vnf")===-1) return "url(#EPArrow)"
-                    else return "url(#IntArrow)";
-                });
-                d3.selectAll(".BS-line[fullduplex=false]").attr("marker-end","url(#IntArrow)");
 
-                d3.selectAll(".host").attr("class","end-points host").style("fill","url(#host-icon)");
-                d3.selectAll(".internet").attr("class","end-points internet").style("fill","url(#internet-icon)");
-                d3.selectAll(".end-points-select").attr("class","end-points");
-
-                //d3.selectAll(".BigSwitch").attr("xlink:href","#BIG_SWITCH_node");
-                d3.selectAll(".NetworkFunction").attr("xlink:href","#NF_node");
-                d3.selectAll(".use_BIG").attr("xlink:href","#BIG_SWITCH_node");
-                $(this).attr("href","#NF_select");
-                // d3.select(d).attr("xlink:href","#NF_select");
-                /* funzioni per visualizzare le informazioni sulla sinistra */
-                var vnf = getVNFById(d.id);
-                drawVNFInfo(vnf,d.id);
-             });
-
-
-           
-    interfaces_section.selectAll(".new_interface")
-            .data(ele[0].ports)
-            .enter()
-            .append("circle")
-            .attr("class","interface")
-            .attr("cx",function(d){return parseInt(d.x)+parseInt(d.parent_NF_x);})
-            .attr("cy",function(d){return parseInt(d.y)+parseInt(d.parent_NF_y);})
-            .attr("r",r_interface)
-            .attr("parent_NF_position_x",function(d){return d.parent_NF_x;})
-            .attr("parent_NF_position_y",function(d){return d.parent_NF_y;})
-            .attr("parent",function(d){return "vnf"+d.parent_NF_id;})
-            .attr("id",function(d){return "vnf:"+ d.parent_NF_id+":"+d.id;})
-        .on("click",select_node)
-            .call(drag_INTERFACE);
+    drawVNF_interfaces(ele[0].ports);
+    //interfaces_section.selectAll(".new_interface")
+    //        .data(ele[0].ports)
+    //        .enter()
+    //        .append("circle")
+    //        .attr("class","interface")
+    //        .attr("cx",function(d){return parseInt(d.x)+parseInt(d.parent_NF_x);})
+    //        .attr("cy",function(d){return parseInt(d.y)+parseInt(d.parent_NF_y);})
+    //        .attr("r",r_interface)
+    //        .attr("parent_NF_position_x",function(d){return d.parent_NF_x;})
+    //        .attr("parent_NF_position_y",function(d){return d.parent_NF_y;})
+    //        .attr("parent",function(d){return "vnf"+d.parent_NF_id;})
+    //        .attr("id",function(d){return "vnf:"+ d.parent_NF_id+":"+d.id;})
+    //    .on("click",select_node)
+    //        .call(drag_INTERFACE);
 
 
 
 
     /*      aggiungo un nuovo elemento grafico bsInt     */
-    interfaces_section
-        .selectAll(".newBSint")
-        .data(new_int)
-        .enter()
-        .append("circle")
-        .attr("class","BS_interface interface")
-        .attr("cx",function(d){ return big_switch.x + d.x;})
-        .attr("cy",function(d){ return big_switch.y + d.y;})
-        .attr("id",function(d){ return d.id;})
-        .attr("title",function(d){return d.id;})
-        .attr("r",r_interface)
-        .attr("title",function(d){  return d.id; })
-        .on("click",select_node)
-        .call(drag_INTERFACEBIGSWITCH);
+    drawBSInterfaces(new_int);
+    //interfaces_section
+    //    .selectAll(".newBSint")
+    //    .data(new_int)
+    //    .enter()
+    //    .append("circle")
+    //    .attr("class","BS_interface interface")
+    //    .attr("cx",function(d){ return big_switch.x + d.x;})
+    //    .attr("cy",function(d){ return big_switch.y + d.y;})
+    //    .attr("id",function(d){ return d.id;})
+    //    .attr("title",function(d){return d.id;})
+    //    .attr("r",r_interface)
+    //    .attr("title",function(d){  return d.id; })
+    //    .on("click",select_node)
+    //    .call(drag_INTERFACEBIGSWITCH);
 
     /*disegno il link che collega il bs_int al vnf*/
-
-
-    var lines = lines_section.selectAll(".NEWBS_line")
-        .data(new_bs_links)
-        .enter()
-        .append("line")
-        .attr("class","BS-line")
-        .attr("stroke","black")
-        //.attr("opacity",0.6)
-        .attr("x1",function(d){return d.x1;})
-        .attr("y1",function(d){return d.y1;})
-        .attr("x2",function(d){return d.x2;})
-        .attr("y2",function(d){return d.y2;})
-        .attr("title",function(d){return "Source: "+d.start+" Action: "+d.end;})
-        //aggiungo l'info da chi parte a chi arriva
-        .attr("start",function(d){return d.start;})
-        .attr("end",function(d){return d.end;});
+    drawBSLinks(new_bs_links);
+    //var lines = lines_section.selectAll(".NEWBS_line")
+    //    .data(new_bs_links)
+    //    .enter()
+    //    .append("line")
+    //    .attr("class","BS-line")
+    //    .attr("stroke","black")
+    //    //.attr("opacity",0.6)
+    //    .attr("x1",function(d){return d.x1;})
+    //    .attr("y1",function(d){return d.y1;})
+    //    .attr("x2",function(d){return d.x2;})
+    //    .attr("y2",function(d){return d.y2;})
+    //    .attr("title",function(d){return "Source: "+d.start+" Action: "+d.end;})
+    //    //aggiungo l'info da chi parte a chi arriva
+    //    .attr("start",function(d){return d.start;})
+    //    .attr("end",function(d){return d.end;});
         //.on("click",function(){
         //    selected_link=this;
         //    d3.select(this).attr("stroke","red");

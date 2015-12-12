@@ -18,12 +18,12 @@ function select_node(ele){
             /*
              * QUA INSERIRE FINESTRA INSERIMENTO DATI FLOWS RULE
              */
-                console.log("showModalFlow");
+            console.log("showModalFlow");
 
-                $("#idFlowRule").val(NextIdFlowRule());
-                $("#idPortIn").val(ele1_selected.id);
-                $("#idOutput").val(ele2_selected.id);
-                $("#ModalFlowRules").modal("show");
+            $("#idFlowRule").val(NextIdFlowRule());
+            $("#idPortIn").val(ele1_selected.id);
+            $("#idOutput").val(ele2_selected.id);
+            $("#ModalFlowRules").modal("show");
         }
     }
 }
@@ -99,8 +99,8 @@ function createLink(duplex){
         bs_int2.x=ele2_selected.x;
         bs_int2.y=ele2_selected.y;
 
-        bs_int1.id="bs-"+ele1_selected.id;
-        bs_int2.id="bs-"+ele2_selected.id;
+        bs_int1.id=ele1_selected.id;
+        bs_int2.id=ele2_selected.id;
         var type1=ele1_selected.id.split(":");
         var type2=ele2_selected.id.split(":");
 

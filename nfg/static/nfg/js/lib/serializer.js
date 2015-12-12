@@ -240,9 +240,29 @@ function saveFile(){
 	var file_content_pos = serialize_pos();
 
 	//console.log(file_content_fg);
+	var file_name_pos;
+	var fileName=$("#nameFile").val().trim();
+	if(fileName===""){
+		alert("file name non valido!");
+		return;
+	}
+	if(fileName.indexOf(".json")===-1){
+		file_name_pos=fileName+"_pos.json";
+		fileName+=".json";
+	}else if(fileName.indexOf(".json")===0){
+		alert("file name non valido!");
+		return;
+	}else{
+		var tmp=fileName.split(".");
+		if(tmp.length>2){
+			alert("max 1 point");
+			return;
+		}
+		file_name_pos=tmp[0]+"_pos.json";
+	}
 
-	var file_name_fg = fg["forwarding-graph"]["id"]+".json";		/*file fg*/
-	var file_name_pos = fg["forwarding-graph"]["id"]+"_pos.json";	/*file posizionamento*/
+
+	var file_name_fg = fileName;//fg["forwarding-graph"]["id"]+".json";		/*file fg*/
 
 
 	 $.ajax({
@@ -276,5 +296,6 @@ function reloadPage(){
 	location.reload();
 }
 
-
-
+function showSaveForm(){
+    $("#SaveFG").modal("show");
+}

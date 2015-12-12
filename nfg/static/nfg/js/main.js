@@ -87,7 +87,8 @@ $(document).ready(function(){
             /* file di posizionamento presente */
             isAlreadyPositioned = true;
             fg_pos = json_data["json_file_pos"];
-            console.log("file di posizionamento")
+              $("#nameFile").val(fg["forwarding-graph"]["id"]+".json");
+            console.log("file di posizionamento");
             console.log(fg_pos);
           }else{
             /* file di posizionamento non presente */ 
@@ -168,30 +169,22 @@ function DrawForwardingGraph(fg){
     var IMG_INTERNET_BLUE = defImgInternetBlue();
     defArrow();
 
-    //console.log(EP_list);
-
     /*
     in drawElements.js
      */
 
-    drawNF();
-    drawNF_text();
-    drawLINE();
-    drawBSLinks();
-    drawVNF_interfaces();
-    drawEP();
+    drawNF(NF_list);
+    drawNF_text(NF_list);
+    drawLINE(flow_rules);
+    drawBSLinks(bs_links);
+
+    var interfaces=[];
+    NF_list.forEach(function(d){d.ports.forEach(function(e){interfaces.push(e)});});
+
+    drawVNF_interfaces(interfaces);
+    drawEP(EP_list);
     drawBIGSWITCH();
-
-    //window.alert(serialize());
-
-    //rirdianiamo l'html!
-
-    //svg.selectAll(".BS_line,.interface,use").sort(function(a){
-    //    console.log(a);
-    //    if(a.ref!==undefined) return -5;
-    //    if(a.id===undefined) return -1;
-    //    return 1;
-    //});
+    drawBSInterfaces(big_switch.interfaces);
 
     checkSplit();
 

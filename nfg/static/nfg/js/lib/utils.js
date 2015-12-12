@@ -4,7 +4,7 @@
  **/
 
 function getVNFById(id){
-    var vnf;
+    var vnf=undefined;
     NF_list.forEach(function(e){
         if(e.id == id){ vnf=e;}
     });
@@ -12,10 +12,9 @@ function getVNFById(id){
 }
 
 function getEndPointById(id){
-    var endpoint;
+    var endpoint=undefined;
     EP_list.forEach(function(e){
         if (e.id == id) {endpoint=e;}
-
     });
     return endpoint;
 }
@@ -24,7 +23,7 @@ function getEndPointByCompleteId(fullId){
     return getEndPointById(chunk[1]);
 }
 function getBSInterfaceById(id){
-    var inter;
+    var inter=undefined;
     big_switch.interfaces.forEach(function(e){
         if(e.id==id){   inter=e;    }
     });
@@ -32,7 +31,7 @@ function getBSInterfaceById(id){
 }
 
 function getFlowRulesById(id){
-    var flowrule;
+    var flowrule=undefined;
     flow_rules.forEach(function(e){
         if(e.id === id){ flowrule=e;}
     });
@@ -40,7 +39,7 @@ function getFlowRulesById(id){
 }
 
 function getInterfaceById(id){
-    var interface;
+    var interface=undefined;
     var data=id.split(":");
     NF_list.forEach(function(nf){
         if(nf.id == data[1]){ nf["ports"].forEach(function(i){ if(i.id==data[2]+":"+data[3]) interface=i;}); }
@@ -48,42 +47,22 @@ function getInterfaceById(id){
     return interface;
 }
 
-
-/*
- --->>>DA FARE<<<--- COMPLETAMENTE DA RIFARE LE POSIZIONI LE TROVA DALL'OGGETTO JS NON DALL'HTML!
- */
 function getLinkEndPositionById(id){
-    //dato un id, devo ricavarmi la posizione di tale interfaccia
-    //console.log(id);
     var data=id.split(":");
-    var x,y;
-
+    var x=undefined,y=undefined;
     if(data[0]==="vnf"){
-        //var id_mod=id.replace(/:/g,"\\:");
-        //console.log("id_mod: "+id_mod);
-        //console.log("qui");
         var NF_interface=getInterfaceById(id);
         var NF=getVNFById(data[1]);
         x=parseInt(NF_interface.x+parseInt(NF.x));
         y=parseInt(NF_interface.y+parseInt(NF.y));
-
-        return {x:x,y:y};
-    }else{
-        if(data[0]==="endpoint"){
-
+    }else if(data[0]==="endpoint"){
             var endpoint=getEndPointById(data[1]);
-
             x=parseInt(endpoint.x);
             y=parseInt(endpoint.y);
-            //var id_mod=id.replace(/:/g,"\\:");
-            //var EP_interface=svg.select("#"+id_mod);
-            //var x=parseInt(EP_interface.attr("cx"));
-            //var y=parseInt(EP_interface.attr("cy"));
-            //console.log(x,y);
-
-            return {x:x,y:y};
-        }
+    }else{
+        console.log("Errore!");
     }
+    return {x:x,y:y};
 }
 
 /* funzioni per leggere dal file di posizionamento */
@@ -146,11 +125,11 @@ function isDuplex(sourceId,destId){
     var d=false;
     flow_rules.forEach(function(fr){
         if(fr["actions"][0]["output"]===sourceId && fr["match"]["port_in"]===destId){
-            console.log("ci entro");
-            console.log("in..: "+sourceId);
-            console.log("out..: "+destId);
-            console.log("in: "+fr["match"]["port_in"]);
-            console.log("out: "+fr["actions"][0]["output"]);
+            //console.log("ci entro");
+            //console.log("in..: "+sourceId);
+            //console.log("out..: "+destId);
+            //console.log("in: "+fr["match"]["port_in"]);
+            //console.log("out: "+fr["actions"][0]["output"]);
             d=true;
             var id_start_mod=sourceId.replace(/:/g,"\\:");
             var id_end_mod=destId.replace(/:/g,"\\:");
@@ -205,19 +184,20 @@ function showVNFPorts(){
     $("#showPorts").append(htmlInsertions)
 }
 
-function getDualFRId(id){
-    var retid=undefined;
+function getDualFR(id){
     var flowRule=getFlowRulesById(id);
-    console.log(id);
-    console.log(flowRule);
+    var fr=getFRByPoints(flowRule["actions"][0]["output"],flowRule["match"]["port_in"]);
+    return fr;
+}
+function getFRByPoints(start,end){
+    var retFR=undefined;
     flow_rules.forEach(function(fr){
-        if(fr["actions"][0]["output"]===flowRule["match"]["port_in"] && fr["match"]["port_in"]===flowRule["actions"][0]["output"]){
-            retid=fr["id"];
+        if(fr["actions"][0]["output"]===end && fr["match"]["port_in"]===start){
+            retFR=fr;
         }
     });
-    return retid;
+    return retFR;
 }
-
 function updateTooltips(){
     $(".BS_interface").tooltip({
         'container': 'body',
@@ -233,4 +213,21 @@ function updateTooltips(){
         'container': 'body',
         'placement': 'top'
     });
+}
+
+function disableTooltip(){
+    $(".tooltip").remove();
+}
+
+function newForwardingGraph(){
+    //cancellare tutto!
+}
+
+
+function highlightsFlowRule(id){
+    console.log(id);
+    $('#panel'+id).attr("class","panel panel-info-select");
+    $('#panel-h'+id).attr("class","panel-heading panel-h-info-select panel-heading ");
+    $('#internal_panel'+id).attr("class","panel panel-info-select");
+
 }

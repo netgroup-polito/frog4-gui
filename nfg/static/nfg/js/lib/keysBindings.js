@@ -3,7 +3,7 @@
  */
 
 function keyUp(){
-
+    disableTooltip();
     lastKeyDown=-1;
 }
 
@@ -24,7 +24,6 @@ function keyDown(){
             //console.log("ho premuto canc");
             if(selected_node) {
                 console.log(selected_node);
-
                 /*
                  * QUA INSERIRE IL MESSAGGIO DI CONFERMA!
                  *
@@ -97,7 +96,11 @@ function keyDown(){
 
             } else if(selected_link) {
                 //links.splice(links.indexOf(selected_link), 1);
-                console.log("cancello");
+                console.log("link:>");
+                console.log(selected_link);
+                flow_rules= _.filter(flow_rules,function(fr){
+
+                });
 
                 /*
                  * QUA INSERIRE IL MESSAGGIO DI CONFERMA!
