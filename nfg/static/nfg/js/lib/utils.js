@@ -198,6 +198,20 @@ function getFRByPoints(start,end){
     });
     return retFR;
 }
+
+
+function setKeysWindowListener(){
+    d3.select(window)
+        .on("keydown",keyDown)
+        .on("keyup",keyUp);
+
+}
+function unSetKeysWindowListener(){
+    d3.select(window)
+        .on("keydown",null)
+        .on("keyup",null);    
+}
+
 function updateTooltips(){
     $(".BS_interface").tooltip({
         'container': 'body',

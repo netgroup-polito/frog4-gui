@@ -20,9 +20,12 @@ function select_node(ele){
              */
             console.log("showModalFlow");
 
+
+
             $("#idFlowRule").val(NextIdFlowRule());
             $("#idPortIn").val(ele1_selected.id);
             $("#idOutput").val(ele2_selected.id);
+            unSetKeysWindowListener();
             $("#ModalFlowRules").modal("show");
         }
     }
@@ -30,16 +33,26 @@ function select_node(ele){
 
 function DrawNewLink(){
     var newFR = fillNewFlowRule();
-    /*
-    DA FARE-> CONTROLLO SE SI CREA UNO SPLIT SE SI->FORZARE A BIG SWITCH!
-     */
-    var duplex=isDuplex(newFR["match"]["port_in"],newFR["actions"][0]["output"]);
-    newFR["full_duplex"]=duplex;
-    flow_rules.push(newFR);
-    console.log(duplex);
-    checkSplit();
-    createLink(duplex);
 
+    if(validateNewFlowRule(newFR)){
+        /*
+        DA FARE-> CONTROLLO SE SI CREA UNO SPLIT SE SI->FORZARE A BIG SWITCH!
+        */
+        var duplex=isDuplex(newFR["match"]["port_in"],newFR["actions"][0]["output"]);
+        newFR["full_duplex"]=duplex;
+        flow_rules.push(newFR);
+        console.log(duplex);
+        checkSplit();
+        createLink(duplex);
+        $("#ModalFlowRules").modal("hide");
+        setKeysWindowListener();
+
+    }else{
+        console.log("validazione fallita");
+    }
+
+
+    
 }
 
 

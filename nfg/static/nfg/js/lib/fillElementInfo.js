@@ -343,10 +343,6 @@ function fillNewFlowRule(){
     flow_rule["id"] = NextIdFlowRule();
     flow_rule["priority"] = $("#idPriority").val();
 
-    if($("#idPriority").val()=="") 
-        flow_rule["priority"] = 1;
-
-
     match["hard_timeout"] = $("#idHardTimeout").val();
     match["ether_type"] = $("#idEtherType").val();
     match["vlan_id"] = $("#idVlanID").val();
@@ -388,6 +384,28 @@ function fillNewFlowRule(){
     return flow_rule;
 }
 
+function validateNewFlowRule(flow_rule){
+    var validate = true;
+
+    if(flow_rule.id=="" || flow_rule.id==undefined || flow_rule.id == null){
+        console.log("validazione fallita");
+        validate = false;
+    }
+
+    if(flow_rule.priority=="" || flow_rule.priority==undefined || flow_rule.priority==null){
+        console.log("campo priorita richiesto");
+        $("#idPriority").parent().parent().attr("class","form-group has-error has-feedback");
+        validate = false;
+    }
+
+    if(isNaN(flow_rule.priority)){
+        console.log("campo priorita deve essere un numero");
+        $("#idPriority").parent().parent().attr("class","form-group has-error has-feedback");
+        validate = false;
+
+    }
+    return validate;
+}
 
 
 
