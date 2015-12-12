@@ -64,11 +64,17 @@ function UploadFile(){
 
 
             }).done(function(e){
-                                
-                console.log("Success: Files sent!");
+                e=JSON.parse(e);
+                console.log(e);
+
                 $("#ModalMsgServer").modal("show");
                 $("#msg").empty();
-                $("#msg").append("<b>"+e+"</b>");
+                console.log("Success: Files sent!");
+                if(e.success){
+                    $("#msg").append("<b>"+e.success+"</b>");
+                }else{
+                    $("#msg").append("<b>"+e.err+"</b>");
+                }
                 //location.reload();
             
             }).fail(function(){

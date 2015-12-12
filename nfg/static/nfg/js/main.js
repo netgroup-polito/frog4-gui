@@ -83,20 +83,26 @@ $(document).ready(function(){
 
 
           fg = json_data["json_file_fg"];
-          if(json_data["is_find_pos"]==="true"){
-            /* file di posizionamento presente */
-            isAlreadyPositioned = true;
-            fg_pos = json_data["json_file_pos"];
-            console.log("file di posizionamento")
-            console.log(fg_pos);
-          }else{
-            /* file di posizionamento non presente */ 
-            isAlreadyPositioned = false;
-          }
+          if(fg == undefined){
+            console.log("clicca qui per disegnaro un nuovo grafo");
 
-          DrawMenuBar();
-          DrawForwardingGraph(fg);
-          showNFFG(false);
+          }else{
+
+            if(json_data["is_find_pos"]==="true"){
+              /* file di posizionamento presente */
+              isAlreadyPositioned = true;
+              fg_pos = json_data["json_file_pos"];
+              console.log("file di posizionamento")
+              console.log(fg_pos);
+            }else{
+              /* file di posizionamento non presente */ 
+              isAlreadyPositioned = false;
+            }
+
+            DrawMenuBar();
+            DrawForwardingGraph(fg);
+            showNFFG(false);
+          }
       }
     });
 });
@@ -152,9 +158,7 @@ function DrawForwardingGraph(fg){
      * Defining of keyBindings
      */
 
-     d3.select(window)
-         .on("keydown",keyDown)
-         .on("keyup",keyUp);
+    setKeysWindowListener();
     /*
     in defElements
      */

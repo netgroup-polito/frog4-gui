@@ -259,9 +259,16 @@ function saveFile(){
                                 
                 console.log("Success: Files sent!");
                 console.log(e);
+                e=JSON.parse(e);
+
                 $("#ModalMsgServer").modal("show");
                 $("#msg").empty();
-                $("#msg").append("<b>"+e+"</b>");
+                
+                if(e.success){
+            		$("#msg").append("<b>"+e.success+"</b>");
+        		}else{
+            		$("#msg").append("<b>"+e.err+"</b>");
+        		}
                 //location.reload();
             
             }).fail(function(){

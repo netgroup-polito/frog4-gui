@@ -9,6 +9,7 @@ function drawEPMenu(){
             .attr("cy",40)
             .on("click",function(){
                     $('#FormEP').modal('show');
+                    unSetKeysWindowListener();
                     $('#seltypeEP' ).val('internal');
                     /*reset*/
                     resetFormEp();
@@ -28,6 +29,7 @@ function drawNFMenu(){
             .attr("height",NF_height)   
             .on("click",function(){                
                 $('#FormNF').modal('show');
+                unSetKeysWindowListener();
                 $('#seltemplateVNF' ).val('Firewall');
 
                 $("#idVNF").val(NextIdVNF());
@@ -174,6 +176,8 @@ function drawNewEP(){
 
 function drawNewNF(){
     var vnf = fillNewVNF();
+    $('#FormNF').modal('hide');
+    setKeysWindowListener();
 
     var new_int=[];
     var new_bs_links=[];
@@ -350,6 +354,7 @@ function saveNewEp(){
     var ep = updateEP();
     if(validateNewEndPoint(ep)==true){
         $('#FormEP').modal('hide');
+        setKeysWindowListener();
         EP_list.forEach(function(ele,index){
             if(parseInt(ele.id) == parseInt(ep.id)){
                 //ele.name = ep.name;

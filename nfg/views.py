@@ -22,6 +22,7 @@ from django.views.decorators.csrf import csrf_exempt
 from nffg_library.nffg import NF_FG
 from nffg_library.validator import ValidateNF_FG
 from jsonschema import validate, ValidationError
+from create_logger import MyLogger
 
 def index(request):
 	if "username" not in request.session:
@@ -44,10 +45,12 @@ def logout(request):
 
 
 
-def login(request):
+def login(request): 
 
 	if request.method == 'GET':
 		if "username" in request.session:
+      
+
 			return HttpResponseRedirect("/nfg/")
 		if request.GET.has_key('err_message'):
 			err_msg = request.GET['err_message']
@@ -93,14 +96,16 @@ def ajax_template_request(request,id_template):
 def ajax_data_request(request):
   fg = NF_FG()
   val = ValidateNF_FG()
+  msg = {}
+  
+  logger = MyLogger("filelog.log","django-application").getMyLogger()
 
   if "err_msg" in request.session:
     print "si"
     if request.session["err_msg"]!="":
 
       msg = request.session["err_msg"]
-      #request.session["err_msg"] = ""
-
+      logger.debug(msg)
       return HttpResponse("%s" % msg)
 
 
@@ -112,7 +117,8 @@ def ajax_data_request(request):
   if "file_name_fg" in request.session:
     file_name_fg = request.session["file_name_fg"]
   else:
-    file_name_fg = "00000001.json"      #file json di default
+    #file_name_fg = "00000001.json"      #file json di default
+    file_name_fg = "default.json"        #file vuoto    
     request.session["file_name_fg"] = file_name_fg
   
   print file_name_fg
@@ -125,28 +131,29 @@ def ajax_data_request(request):
   print directory+"/"+file_name_fg
   if(extension == ".json"):
     if os.path.isfile(directory+"/"+file_name_fg):
-      print "file trovato"
+      logger.debug("file trovato")
       json_file_fg = open(directory+"/"+file_name_fg,"r")
       json_data_fg = json.load(json_file_fg)
 
       try:
-        #effettuo la validazione lato server#
+        
         val.validate(json_data_fg)
         json_data['json_file_fg'] = json_data_fg
         json_file_fg.close()
 
 
       except ValidationError as err:
-        msg = "errore di validazione:" + err.message 
+        msg["err"] = "Errore di validazione" + err.message
+        logger.debug(msg["err"])
+        msg = json.dumps(msg) 
         return HttpResponse("%s" % msg)
       
       if "file_name_pos" in request.session:
 
 
         file_name_pos = request.session["file_name_pos"]
-        print file_name_pos
         
-        json_file_pos = open(directory+"/"+file_name_pos,"r")
+        json_file_pos = open(directory+"/pos/"+file_name_pos,"r")
         json_data_pos = json.load(json_file_pos)
         json_file_pos.close()
 
@@ -154,7 +161,7 @@ def ajax_data_request(request):
         json_data['json_file_pos'] = json_data_pos
 
 
-        print "file di posizionamento trovato nella sessione"
+        logger.debug("file di posizionamento trovato nella sessione")
 
 
       else:
@@ -165,8 +172,8 @@ def ajax_data_request(request):
 
         if os.path.isfile(directory+"/"+file_name_pos):
 
-          print "file di posizionamento presente"
-          json_file_pos = open(directory+"/"+file_name_pos,"r")
+          logger.debug("file di posizionamento trovato")
+          json_file_pos = open(directory+"/pos/"+file_name_pos,"r")
           json_data_pos = json.load(json_file_pos)
           json_file_pos.close()
 
@@ -176,16 +183,16 @@ def ajax_data_request(request):
 
         else:
 
-          print "file di posizionamento non presente"
+          logger.debug("file di posizionamento non presente")
           json_data['is_find_pos'] = 'false'
           json_data['json_file_pos'] = {}
             
     else:
-      print "file non trovato"
+      logger.debug("file non trovato")
 
 
   else:
-    print "formato file non valido"
+    logger.debug("formato file non valido")
     
   
   json_data = json.dumps(json_data)
@@ -197,8 +204,11 @@ def ajax_data_request(request):
 def ajax_upload_request(request):
   fg = NF_FG()
   val = ValidateNF_FG()
+  msg = {}
+  logger = MyLogger("filelog.log","django-application").getMyLogger()
+
   if request.method == 'POST':
-    print "post"
+    #print "post"
     
 
     directory = "users/upload@"+request.session["username"]
@@ -217,8 +227,9 @@ def ajax_upload_request(request):
       val.validate(json_data)
     except ValidationError as err:
 
-      msg = "errore di validazione:" + err.message 
-      print msg
+      msg["err"] = "Errore di validazione" + err.message
+      logger.debug(msg["err"])
+      msg = json.dumps(msg)
       return HttpResponse("%s" % msg)
 
 
@@ -228,8 +239,8 @@ def ajax_upload_request(request):
 
     if(extension == ".json"):
 
-      print request.POST["file_name_fg"]
-      print request.POST["file_content_fg"]
+      #print request.POST["file_name_fg"]
+      #print request.POST["file_content_fg"]
       
       out_file = open(directory+"/"+file_name_fg,"w")
       out_file.write(content_file)
@@ -237,22 +248,24 @@ def ajax_upload_request(request):
 
       request.session["file_name_fg"] = file_name_fg;
 
-      msg = "upload riuscito"
+      msg["success"] = "Upload Riuscito"
+      logger.debug(msg["success"])
+      msg = json.dumps(msg)
       return HttpResponse("%s" % msg)
 
     else:
-      print "formato non valido"
+      logger.debug("formato non valido")
 
 
     return HttpResponse("%s" % "post")
   elif request.method == 'GET':
-    print "get"
     #form = NameForm(request.GET)
     print request.GET
     return HttpResponse("%s" % "get")
 
 
 def ajax_files_request(request):
+
   if request.method == "GET":         #sostituire con metodo post
     directory = "users/upload@"+request.session["username"]
     dirs = os.listdir(directory)
@@ -274,6 +287,8 @@ def ajax_files_request(request):
 def ajax_save_request(request):
   fg = NF_FG()
   val = ValidateNF_FG()
+  msg = {}
+  logger = MyLogger("filelog.log","django-application").getMyLogger()
   if request.method == "POST":
     
     directory = "users/upload@"+request.session["username"]
@@ -294,8 +309,9 @@ def ajax_save_request(request):
       val.validate(json_data)
     except ValidationError as err:
 
-      msg = "errore di validazione:" + err.message 
-      print msg
+      msg["err"] = "Errore di validazione" + err.message
+      logger.debug(msg["err"])
+      msg = json.dumps(msg)
       return HttpResponse("%s" % msg)
 
 
@@ -307,20 +323,26 @@ def ajax_save_request(request):
       out_file.write(file_content_fg)
       out_file.close()
 
-      out_file = open(directory+"/"+file_name_pos,"w")
+      out_file = open(directory+"/pos/"+file_name_pos,"w")
       out_file.write(file_content_pos)
       out_file.close()
 
-      return HttpResponse("%s" % "salvataggio riuscito")
+      msg["success"] = "Salvataggio Riuscito"
+      logger.debug(msg["success"])
+      msg = json.dumps(msg)
+
+      return HttpResponse("%s" % msg)
 
     else:
       
       msg = "formato non valido"
-      print msg
+      logger.debug(msg)
+      
       
 
 @csrf_exempt
 def ajax_download_preview(request):
+  logger = MyLogger("filelog.log","django-application").getMyLogger()
   if request.method == "POST":
     directory = "users/upload@"+request.session["username"]
     file_name_fg = request.POST["file_name_fg"]
@@ -329,7 +351,8 @@ def ajax_download_preview(request):
 
     if(extension == ".json"):
       if os.path.isfile(directory+"/"+file_name_fg):
-        print "file trovato"
+        #print "file trovato"
+        logger.debug("file trovato")
 
         request.session["file_name_fg"] = file_name_fg
 
@@ -337,13 +360,13 @@ def ajax_download_preview(request):
         json_data_fg = json.load(json_file_fg)      
         json_data = json.dumps(json_data_fg)
 
-        print json_data
+        
         return HttpResponse("%s" % json_data)
 
       else:
-        print "file non trovato"
+        logger.debug("file non trovato")
     else:
-      print "formato file non valido"
+      logger.debug("formato file non valido")
 
 
 
@@ -351,6 +374,9 @@ def ajax_download_preview(request):
 def ajax_download_request(request):
   fg = NF_FG()
   val = ValidateNF_FG()
+  msg = {}
+  logger = MyLogger("filelog.log","django-application").getMyLogger()
+
   if request.method == "POST":
     directory = "users/upload@"+request.session["username"]
     file_name_fg = request.POST["file_name_fg"]
@@ -360,9 +386,7 @@ def ajax_download_request(request):
 
     if(extension == ".json"):
       if os.path.isfile(directory+"/"+file_name_fg):
-        print "file trovato"
-
-        
+        logger.debug("file trovato")
 
         json_file_fg = open(directory+"/"+file_name_fg,"r")
         json_data_fg = json.load(json_file_fg) 
@@ -372,8 +396,10 @@ def ajax_download_request(request):
           val.validate(json_data_fg)
         except ValidationError as err:
 
-          msg = "errore di validazione:" + err.message 
-          print msg
+          #msg = "errore di validazione:" + err.message 
+          msg["err"] = "Errore di validazione" + err.message
+          logger.debug(msg["err"])
+          msg = json.dumps(msg)
           return HttpResponse("%s" % msg)
 
 
@@ -383,18 +409,21 @@ def ajax_download_request(request):
         file_name_pos += "_pos.json"
         print file_name_pos
 
-        if os.path.isfile(directory+"/"+file_name_pos):
-          print "file di posizionamento presente"
+        if os.path.isfile(directory+"/pos/"+file_name_pos):
+          logger.debug("file di posizionamento presente")
           request.session["file_name_pos"] = file_name_pos
 
 
         print json_data
-        return HttpResponse("%s" % "salvataggio riuscito")
+        msg["success"] = "Download Riuscito"
+        logger.debug(msg["success"])
+        msg = json.dumps(msg)
+        return HttpResponse("%s" % msg)
 
       else:
-        print "file non trovato"
+        logger.debug("file non trovato")
     else:
-      print "formato file non valido"
+      logger.debug("formato file non valido")
 
 
 
