@@ -116,6 +116,7 @@ def ajax_data_request(request):
 
   if "file_name_fg" in request.session:
     file_name_fg = request.session["file_name_fg"]
+    print "file di sessione:" + file_name_fg
   else:
     #file_name_fg = "00000001.json"      #file json di default
     file_name_fg = "default.json"        #file vuoto    
@@ -138,6 +139,7 @@ def ajax_data_request(request):
       try:
         
         val.validate(json_data_fg)
+        json_data['file_name_fg'] = file_name_fg
         json_data['json_file_fg'] = json_data_fg
         json_file_fg.close()
 

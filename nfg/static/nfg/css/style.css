@@ -35,7 +35,7 @@ hr{
 .col-sm-3{
   background-color: rgba(255, 255, 255, 0.65);
   overflow: scroll;
-  height: 570px;
+  height: 610px;
   
 }
 
@@ -157,7 +157,7 @@ a:focus, .navbar-inverse .navbar-nav > .open > a:hover {
   margin-right: 20px;
   margin-bottom: 20px;
   overflow: scroll;
-  height: 510px;
+  height: 550px;
 
 }
 
@@ -304,5 +304,21 @@ html{
 
 .row{
   margin-right: 0px;
+}
+
+#fg_id{
+  text-align: right;
+  padding-top:10px;
+  padding-right: 40px;
+  color: #337AB7; 
+  cursor: pointer; 
+}
+
+#fg_id:hover{
+  text-align: right;
+  padding-top:10px;
+  padding-right: 40px;
+  color: #013E72; 
+  cursor: pointer;  
 }
 

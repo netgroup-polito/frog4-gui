@@ -235,6 +235,8 @@ function serialize_pos(){
 
 function saveFile(){
 	console.log("Save File Ajax");
+	$("#SaveFG").modal("hide");
+	setKeysWindowListener();
 
 	var file_content_fg = serialize_fg();
 	var file_content_pos = serialize_pos();
@@ -286,8 +288,12 @@ function saveFile(){
                 
                 if(e.success){
             		$("#msg").append("<b>"+e.success+"</b>");
+            		$("#titleWarning").empty();
+            		$("#titleWarning").append('Message Info');
         		}else{
             		$("#msg").append("<b>"+e.err+"</b>");
+            		$("#titleWarning").empty();
+            		$("#titleWarning").append('<span class="glyphicon glyphicon-alert"></span>Warning');
         		}
                 //location.reload();
             
@@ -305,4 +311,5 @@ function reloadPage(){
 
 function showSaveForm(){
     $("#SaveFG").modal("show");
+    unSetKeysWindowListener()
 }
