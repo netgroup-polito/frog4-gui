@@ -403,6 +403,8 @@ function validateNewFlowRule(flow_rule){
         $("#idPriority").parent().parent().attr("class","form-group has-error has-feedback");
         validate = false;
 
+    }else{
+        flow_rule.priority=parseInt(flow_rule.priority);
     }
     return validate;
 }

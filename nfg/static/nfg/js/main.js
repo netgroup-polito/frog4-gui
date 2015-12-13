@@ -44,6 +44,7 @@ var drag_TEXT;
 
 var fg;
 var fg_pos;
+var file_name_fg;
 var template_js;
 
 // only respond once per keydown
@@ -86,12 +87,15 @@ $(document).ready(function(){
           if(fg == undefined){
               console.log("clicca qui per disegnaro un nuovo grafo");
           }else{
-
+            console.log(fg["forwarding-graph"]["id"]);
+            drawLabelIdFG();
             if(json_data["is_find_pos"]==="true"){
               /* file di posizionamento presente */
               isAlreadyPositioned = true;
               fg_pos = json_data["json_file_pos"];
-                $("#nameFile").val(fg["forwarding-graph"]["id"]+".json");
+
+              
+              
               console.log("file di posizionamento");
               console.log(fg_pos);
             }else{
@@ -103,6 +107,10 @@ $(document).ready(function(){
             DrawForwardingGraph(fg);
             showNFFG(false);
           }
+
+          file_name_fg = json_data["file_name_fg"];
+          $("#nameFile").val(file_name_fg);
+          console.log(file_name_fg);
       }
     });
 });

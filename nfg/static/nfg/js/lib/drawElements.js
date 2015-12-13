@@ -40,8 +40,11 @@ function drawNF(elements) {
             .attr("x",function(d){return d.x;})
             .attr("y",function(d){return d.y;})
             .call(drag_NF)
-            .on("mousedown",selectVNFs);
-           // .on("dblclick",function(){$("#FormNF").modal("show");});
+            .on("mousedown",selectVNFs)
+            .on("contextmenu",function(d){
+                d3.event.preventDefault();
+                showEditInfoVNF(d.id);}
+            );
 
 }
 
@@ -61,6 +64,8 @@ function drawVNF_interfaces(interfaces){
             .attr("id",function(d){return "vnf:"+ d.parent_NF_id+":"+d.id;})
             .call(drag_INTERFACE)
 			.on("click",select_node);
+
+            
 
 }
 
@@ -83,6 +88,9 @@ function drawEP(elements){
                                         return "url(#internet-icon)"
                                     }})
         .on("click",selectEndPoints)
+        .on("contextmenu",function(d){
+            d3.event.preventDefault();
+            showEditInfoEP(d.id);})
         .call(drag_EP);
 }
 
@@ -197,4 +205,10 @@ function drawSingleBSInterfaceAndExternalLink(new_bs_int,ele){
         //aggiungo l'info da chi parte a chi arriva
         .attr("start","endpoint:"+ele.id)
         .attr("end","bs-endpoint:"+ele.id);
+}
+
+function drawLabelIdFG(){
+     $("#fg_id").empty();
+     $("#fg_id").append("<b>ID: "+fg["forwarding-graph"]["id"]+"</b>");
+     $("#newIDFG").val(fg["forwarding-graph"]["id"]);
 }
