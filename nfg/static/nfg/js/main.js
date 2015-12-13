@@ -23,7 +23,8 @@ var svg,
     defs_section,
     VNF_section,
     interfaces_section,
-    lines_section;
+    lines_section,
+    bs_section;
 var svg_menu;
 
 /* vettore NF */
@@ -59,6 +60,7 @@ var creating_link=false;
 var isSplitted=false;
 var NF_view=true;
 var isAlreadyPositioned=false;
+var isModified=false;
 
 /*
  * selected elements for deleting
@@ -124,6 +126,7 @@ function DrawForwardingGraph(fg){
     /*
      * svg now is divided in 3 sections
      */
+    bs_section=svg.append("g").attr("class","bs_section");
     defs_section=svg.append("g").attr("class","defs_section");
     VNF_section=svg.append("g").attr("class","VNF_section");
 

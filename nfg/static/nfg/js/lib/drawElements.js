@@ -89,7 +89,7 @@ function drawEP(elements){
 function drawBIGSWITCH(){
 
     var data=[big_switch];
-    VNF_section.selectAll(".big").data(data).enter()
+    bs_section.selectAll(".big").data(data).enter()
         .append("use").attr("xlink:href","#BIG_SWITCH_node")
         .attr("class","use_BIG")
         .style("stroke-dasharray", ("8, 4"))
@@ -127,6 +127,7 @@ function drawLINE(elements){
         .attr("y1",function(d){return d.match.interface_position_y;})
         .attr("x2",function(d){return d.actions[0].interface_position_x;})
         .attr("y2",function(d){return d.actions[0].interface_position_y;})
+        .attr("idfr",function(d){return "fr-"+d.id;})
         .attr("title",function(d){return "Source: "+d.match.port_in+" Action: "+d.actions[0].output;})
         //aggiungo l'info da chi parte a chi arriva
         .attr("start",function(d){return d.match.port_in;})
@@ -154,6 +155,7 @@ function drawBSLinks(elements){
         .attr("y1",function(d){return d.y1;})
         .attr("x2",function(d){return d.x2;})
         .attr("y2",function(d){return d.y2;})
+        .attr("idfr",function(d){if(d.id!==undefined)return "fr-"+d.id;})
         .attr("title",function(d){return "Source: "+d.start+" Action: "+d.end;})
         //aggiungo l'info da chi parte a chi arriva
         .attr("start",function(d){return d.start;})
@@ -179,7 +181,7 @@ function drawSingleBSInterfaceAndExternalLink(new_bs_int,ele){
         .attr("cy",big_switch.y+new_bs_int.y)
         .attr("id",new_bs_int.id)
         .attr("r",r_interface)
-        .attr("title",new_bs_int)
+        .attr("title",new_bs_int.id)
         .on("click",select_node)
         .call(drag_INTERFACEBIGSWITCH);
 

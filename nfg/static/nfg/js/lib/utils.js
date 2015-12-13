@@ -234,7 +234,11 @@ function disableTooltip(){
 }
 
 function newForwardingGraph(){
-    //cancellare tutto!
+    if(isModified){
+        //messaggio di conferma
+    }
+    eraseAll();
+
 }
 
 

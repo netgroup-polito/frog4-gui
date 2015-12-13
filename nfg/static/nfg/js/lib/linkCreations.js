@@ -43,7 +43,7 @@ function DrawNewLink(){
         flow_rules.push(newFR);
         console.log(duplex);
         checkSplit();
-        createLink(duplex);
+        createLink(duplex,newFR.id);
         $("#ModalFlowRules").modal("hide");
         setKeysWindowListener();
 
@@ -99,7 +99,8 @@ function createTempLink(){
 
     });
 }
-function createLink(duplex){
+
+function createLink(duplex,idFR){
     console.log(ele1_selected);
     console.log(ele2_selected);
 
@@ -184,6 +185,7 @@ function createLink(duplex){
         .attr("y1",bs_int1.y+big_switch.y)
         .attr("x2",bs_int2.x+big_switch.x)
         .attr("y2",bs_int2.y+big_switch.y)
+        .attr("idfr","fr-"+idFR)
         .attr("title","Source: "+bs_int1.id+" Action: "+bs_int2.id)
         //aggiungo l'info da chi parte a chi arriva
         .attr("start","bs-"+bs_int1.id)
@@ -194,11 +196,7 @@ function createLink(duplex){
             return "url(#IntArrow)";
 
         })
-        .on("click",function(){
-            selected_link=this;
-            d3.select(this).attr("stroke","red");
-
-        });
+        .on("click",selectInternalBSLinks);
 
 
     /* disegno il link tra i 2 elementi */
@@ -207,6 +205,7 @@ function createLink(duplex){
         .attr("y1",ele1.y)
         .attr("x2",ele2.x)
         .attr("y2",ele2.y)
+       .attr("idfr","fr-"+idFR)
         .attr("stroke","black")
         .attr("class","line")
         .attr("start",ele1.id)
@@ -218,10 +217,7 @@ function createLink(duplex){
            if(type[0]==="vnf") return "url(#IntArrow)"
            else return "url(#EPArrow)";
        })
-        .on("click",function(){
-            selected_link=this;
-            d3.select(this).attr("stroke","red");
-        });
+        .on("click",selectSimpleLines);
 
     //NB->DA FARE modificare il js!!!
     //svg.selectAll("line,circle").sort(function(a){console.log(a);});

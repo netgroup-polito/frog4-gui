@@ -545,3 +545,464 @@
 2015-12-12 11:22:05,067 - django-application - DEBUG - file di posizionamento trovato nella sessione
 2015-12-12 11:22:05,067 - django-application - DEBUG - file di posizionamento trovato nella sessione
 2015-12-12 11:22:05,067 - django-application - DEBUG - file di posizionamento trovato nella sessione
+2015-12-12 19:44:37,257 - django-application - DEBUG - file trovato
+2015-12-12 19:44:46,861 - django-application - DEBUG - file trovato
+2015-12-12 19:44:46,861 - django-application - DEBUG - file trovato
+2015-12-12 19:44:46,882 - django-application - DEBUG - Errore di validazione'actions' is a required property
+2015-12-12 19:44:46,882 - django-application - DEBUG - Errore di validazione'actions' is a required property
+2015-12-12 20:06:05,440 - django-application - DEBUG - file trovato
+2015-12-12 20:06:05,440 - django-application - DEBUG - file trovato
+2015-12-12 20:06:05,440 - django-application - DEBUG - file trovato
+2015-12-12 20:06:05,447 - django-application - DEBUG - Errore di validazione'actions' is a required property
+2015-12-12 20:06:05,447 - django-application - DEBUG - Errore di validazione'actions' is a required property
+2015-12-12 20:06:05,447 - django-application - DEBUG - Errore di validazione'actions' is a required property
+2015-12-12 20:06:26,276 - django-application - DEBUG - file trovato
+2015-12-12 20:06:26,276 - django-application - DEBUG - file trovato
+2015-12-12 20:06:26,276 - django-application - DEBUG - file trovato
+2015-12-12 20:06:26,276 - django-application - DEBUG - file trovato
+2015-12-12 20:06:26,290 - django-application - DEBUG - Errore di validazione'actions' is a required property
+2015-12-12 20:06:26,290 - django-application - DEBUG - Errore di validazione'actions' is a required property
+2015-12-12 20:06:26,290 - django-application - DEBUG - Errore di validazione'actions' is a required property
+2015-12-12 20:06:26,290 - django-application - DEBUG - Errore di validazione'actions' is a required property
+2015-12-12 20:06:30,628 - django-application - DEBUG - file trovato
+2015-12-12 20:06:30,628 - django-application - DEBUG - file trovato
+2015-12-12 20:06:30,628 - django-application - DEBUG - file trovato
+2015-12-12 20:06:30,628 - django-application - DEBUG - file trovato
+2015-12-12 20:06:30,628 - django-application - DEBUG - file trovato
+2015-12-12 20:06:30,635 - django-application - DEBUG - Errore di validazione'actions' is a required property
+2015-12-12 20:06:30,635 - django-application - DEBUG - Errore di validazione'actions' is a required property
+2015-12-12 20:06:30,635 - django-application - DEBUG - Errore di validazione'actions' is a required property
+2015-12-12 20:06:30,635 - django-application - DEBUG - Errore di validazione'actions' is a required property
+2015-12-12 20:06:30,635 - django-application - DEBUG - Errore di validazione'actions' is a required property
+2015-12-12 20:06:44,276 - django-application - DEBUG - file trovato
+2015-12-12 20:06:44,276 - django-application - DEBUG - file trovato
+2015-12-12 20:06:44,276 - django-application - DEBUG - file trovato
+2015-12-12 20:06:44,276 - django-application - DEBUG - file trovato
+2015-12-12 20:06:44,276 - django-application - DEBUG - file trovato
+2015-12-12 20:06:44,276 - django-application - DEBUG - file trovato
+2015-12-12 20:06:44,285 - django-application - DEBUG - Errore di validazione'actions' is a required property
+2015-12-12 20:06:44,285 - django-application - DEBUG - Errore di validazione'actions' is a required property
+2015-12-12 20:06:44,285 - django-application - DEBUG - Errore di validazione'actions' is a required property
+2015-12-12 20:06:44,285 - django-application - DEBUG - Errore di validazione'actions' is a required property
+2015-12-12 20:06:44,285 - django-application - DEBUG - Errore di validazione'actions' is a required property
+2015-12-12 20:06:44,285 - django-application - DEBUG - Errore di validazione'actions' is a required property
+2015-12-12 20:06:53,539 - django-application - DEBUG - file trovato
+2015-12-12 20:06:53,539 - django-application - DEBUG - file trovato
+2015-12-12 20:06:53,539 - django-application - DEBUG - file trovato
+2015-12-12 20:06:53,539 - django-application - DEBUG - file trovato
+2015-12-12 20:06:53,539 - django-application - DEBUG - file trovato
+2015-12-12 20:06:53,539 - django-application - DEBUG - file trovato
+2015-12-12 20:06:53,539 - django-application - DEBUG - file trovato
+2015-12-12 20:06:53,575 - django-application - DEBUG - Download Riuscito
+2015-12-12 20:06:53,575 - django-application - DEBUG - Download Riuscito
+2015-12-12 20:06:53,575 - django-application - DEBUG - Download Riuscito
+2015-12-12 20:06:53,575 - django-application - DEBUG - Download Riuscito
+2015-12-12 20:06:53,575 - django-application - DEBUG - Download Riuscito
+2015-12-12 20:06:53,575 - django-application - DEBUG - Download Riuscito
+2015-12-12 20:06:53,575 - django-application - DEBUG - Download Riuscito
+2015-12-12 20:07:13,660 - django-application - DEBUG - file trovato
+2015-12-12 20:07:13,660 - django-application - DEBUG - file trovato
+2015-12-12 20:07:13,660 - django-application - DEBUG - file trovato
+2015-12-12 20:07:13,660 - django-application - DEBUG - file trovato
+2015-12-12 20:07:13,660 - django-application - DEBUG - file trovato
+2015-12-12 20:07:13,660 - django-application - DEBUG - file trovato
+2015-12-12 20:07:13,660 - django-application - DEBUG - file trovato
+2015-12-12 20:07:13,660 - django-application - DEBUG - file trovato
+2015-12-12 20:07:13,671 - django-application - DEBUG - Download Riuscito
+2015-12-12 20:07:13,671 - django-application - DEBUG - Download Riuscito
+2015-12-12 20:07:13,671 - django-application - DEBUG - Download Riuscito
+2015-12-12 20:07:13,671 - django-application - DEBUG - Download Riuscito
+2015-12-12 20:07:13,671 - django-application - DEBUG - Download Riuscito
+2015-12-12 20:07:13,671 - django-application - DEBUG - Download Riuscito
+2015-12-12 20:07:13,671 - django-application - DEBUG - Download Riuscito
+2015-12-12 20:07:13,671 - django-application - DEBUG - Download Riuscito
+2015-12-12 20:07:17,520 - django-application - DEBUG - file trovato
+2015-12-12 20:07:17,520 - django-application - DEBUG - file trovato
+2015-12-12 20:07:17,520 - django-application - DEBUG - file trovato
+2015-12-12 20:07:17,520 - django-application - DEBUG - file trovato
+2015-12-12 20:07:17,520 - django-application - DEBUG - file trovato
+2015-12-12 20:07:17,520 - django-application - DEBUG - file trovato
+2015-12-12 20:07:17,520 - django-application - DEBUG - file trovato
+2015-12-12 20:07:17,520 - django-application - DEBUG - file trovato
+2015-12-12 20:07:17,520 - django-application - DEBUG - file trovato
+2015-12-12 20:07:17,532 - django-application - DEBUG - file di posizionamento trovato
+2015-12-12 20:07:17,532 - django-application - DEBUG - file di posizionamento trovato
+2015-12-12 20:07:17,532 - django-application - DEBUG - file di posizionamento trovato
+2015-12-12 20:07:17,532 - django-application - DEBUG - file di posizionamento trovato
+2015-12-12 20:07:17,532 - django-application - DEBUG - file di posizionamento trovato
+2015-12-12 20:07:17,532 - django-application - DEBUG - file di posizionamento trovato
+2015-12-12 20:07:17,532 - django-application - DEBUG - file di posizionamento trovato
+2015-12-12 20:07:17,532 - django-application - DEBUG - file di posizionamento trovato
+2015-12-12 20:07:17,532 - django-application - DEBUG - file di posizionamento trovato
+2015-12-12 20:07:48,894 - django-application - DEBUG - file trovato
+2015-12-12 20:07:48,894 - django-application - DEBUG - file trovato
+2015-12-12 20:07:48,894 - django-application - DEBUG - file trovato
+2015-12-12 20:07:48,894 - django-application - DEBUG - file trovato
+2015-12-12 20:07:48,894 - django-application - DEBUG - file trovato
+2015-12-12 20:07:48,894 - django-application - DEBUG - file trovato
+2015-12-12 20:07:48,894 - django-application - DEBUG - file trovato
+2015-12-12 20:07:48,894 - django-application - DEBUG - file trovato
+2015-12-12 20:07:48,894 - django-application - DEBUG - file trovato
+2015-12-12 20:07:48,894 - django-application - DEBUG - file trovato
+2015-12-12 20:07:48,903 - django-application - DEBUG - Errore di validazione'actions' is a required property
+2015-12-12 20:07:48,903 - django-application - DEBUG - Errore di validazione'actions' is a required property
+2015-12-12 20:07:48,903 - django-application - DEBUG - Errore di validazione'actions' is a required property
+2015-12-12 20:07:48,903 - django-application - DEBUG - Errore di validazione'actions' is a required property
+2015-12-12 20:07:48,903 - django-application - DEBUG - Errore di validazione'actions' is a required property
+2015-12-12 20:07:48,903 - django-application - DEBUG - Errore di validazione'actions' is a required property
+2015-12-12 20:07:48,903 - django-application - DEBUG - Errore di validazione'actions' is a required property
+2015-12-12 20:07:48,903 - django-application - DEBUG - Errore di validazione'actions' is a required property
+2015-12-12 20:07:48,903 - django-application - DEBUG - Errore di validazione'actions' is a required property
+2015-12-12 20:07:48,903 - django-application - DEBUG - Errore di validazione'actions' is a required property
+2015-12-12 20:11:04,591 - django-application - DEBUG - file trovato
+2015-12-12 20:11:04,601 - django-application - DEBUG - Errore di validazione'actions' is a required property
+2015-12-12 20:11:12,138 - django-application - DEBUG - file trovato
+2015-12-12 20:11:12,138 - django-application - DEBUG - file trovato
+2015-12-12 20:11:12,157 - django-application - DEBUG - file di posizionamento trovato
+2015-12-12 20:11:12,157 - django-application - DEBUG - file di posizionamento trovato
+2015-12-12 20:15:41,596 - django-application - DEBUG - file trovato
+2015-12-12 20:15:41,609 - django-application - DEBUG - Errore di validazione'actions' is a required property
+2015-12-12 20:15:55,645 - django-application - DEBUG - file trovato
+2015-12-12 20:15:55,645 - django-application - DEBUG - file trovato
+2015-12-12 20:15:55,654 - django-application - DEBUG - Errore di validazione'actions' is a required property
+2015-12-12 20:15:55,654 - django-application - DEBUG - Errore di validazione'actions' is a required property
+2015-12-12 20:15:59,857 - django-application - DEBUG - file trovato
+2015-12-12 20:15:59,857 - django-application - DEBUG - file trovato
+2015-12-12 20:15:59,857 - django-application - DEBUG - file trovato
+2015-12-12 20:15:59,871 - django-application - DEBUG - Errore di validazione'actions' is a required property
+2015-12-12 20:15:59,871 - django-application - DEBUG - Errore di validazione'actions' is a required property
+2015-12-12 20:15:59,871 - django-application - DEBUG - Errore di validazione'actions' is a required property
+2015-12-12 20:16:16,757 - django-application - DEBUG - file trovato
+2015-12-12 20:16:16,757 - django-application - DEBUG - file trovato
+2015-12-12 20:16:16,757 - django-application - DEBUG - file trovato
+2015-12-12 20:16:16,757 - django-application - DEBUG - file trovato
+2015-12-12 20:16:16,766 - django-application - DEBUG - Errore di validazione'actions' is a required property
+2015-12-12 20:16:16,766 - django-application - DEBUG - Errore di validazione'actions' is a required property
+2015-12-12 20:16:16,766 - django-application - DEBUG - Errore di validazione'actions' is a required property
+2015-12-12 20:16:16,766 - django-application - DEBUG - Errore di validazione'actions' is a required property
+2015-12-12 20:21:25,664 - django-application - DEBUG - file trovato
+2015-12-12 20:21:25,664 - django-application - DEBUG - file trovato
+2015-12-12 20:21:25,664 - django-application - DEBUG - file trovato
+2015-12-12 20:21:25,664 - django-application - DEBUG - file trovato
+2015-12-12 20:21:25,664 - django-application - DEBUG - file trovato
+2015-12-12 20:21:25,681 - django-application - DEBUG - Errore di validazione'actions' is a required property
+2015-12-12 20:21:25,681 - django-application - DEBUG - Errore di validazione'actions' is a required property
+2015-12-12 20:21:25,681 - django-application - DEBUG - Errore di validazione'actions' is a required property
+2015-12-12 20:21:25,681 - django-application - DEBUG - Errore di validazione'actions' is a required property
+2015-12-12 20:21:25,681 - django-application - DEBUG - Errore di validazione'actions' is a required property
+2015-12-12 20:21:29,275 - django-application - DEBUG - file trovato
+2015-12-12 20:21:29,275 - django-application - DEBUG - file trovato
+2015-12-12 20:21:29,275 - django-application - DEBUG - file trovato
+2015-12-12 20:21:29,275 - django-application - DEBUG - file trovato
+2015-12-12 20:21:29,275 - django-application - DEBUG - file trovato
+2015-12-12 20:21:29,275 - django-application - DEBUG - file trovato
+2015-12-12 20:21:29,286 - django-application - DEBUG - Errore di validazione'actions' is a required property
+2015-12-12 20:21:29,286 - django-application - DEBUG - Errore di validazione'actions' is a required property
+2015-12-12 20:21:29,286 - django-application - DEBUG - Errore di validazione'actions' is a required property
+2015-12-12 20:21:29,286 - django-application - DEBUG - Errore di validazione'actions' is a required property
+2015-12-12 20:21:29,286 - django-application - DEBUG - Errore di validazione'actions' is a required property
+2015-12-12 20:21:29,286 - django-application - DEBUG - Errore di validazione'actions' is a required property
+2015-12-12 20:21:35,131 - django-application - DEBUG - file trovato
+2015-12-12 20:21:35,131 - django-application - DEBUG - file trovato
+2015-12-12 20:21:35,131 - django-application - DEBUG - file trovato
+2015-12-12 20:21:35,131 - django-application - DEBUG - file trovato
+2015-12-12 20:21:35,131 - django-application - DEBUG - file trovato
+2015-12-12 20:21:35,131 - django-application - DEBUG - file trovato
+2015-12-12 20:21:35,131 - django-application - DEBUG - file trovato
+2015-12-12 20:21:35,144 - django-application - DEBUG - Errore di validazione'actions' is a required property
+2015-12-12 20:21:35,144 - django-application - DEBUG - Errore di validazione'actions' is a required property
+2015-12-12 20:21:35,144 - django-application - DEBUG - Errore di validazione'actions' is a required property
+2015-12-12 20:21:35,144 - django-application - DEBUG - Errore di validazione'actions' is a required property
+2015-12-12 20:21:35,144 - django-application - DEBUG - Errore di validazione'actions' is a required property
+2015-12-12 20:21:35,144 - django-application - DEBUG - Errore di validazione'actions' is a required property
+2015-12-12 20:21:35,144 - django-application - DEBUG - Errore di validazione'actions' is a required property
+2015-12-12 20:21:38,437 - django-application - DEBUG - file trovato
+2015-12-12 20:21:38,437 - django-application - DEBUG - file trovato
+2015-12-12 20:21:38,437 - django-application - DEBUG - file trovato
+2015-12-12 20:21:38,437 - django-application - DEBUG - file trovato
+2015-12-12 20:21:38,437 - django-application - DEBUG - file trovato
+2015-12-12 20:21:38,437 - django-application - DEBUG - file trovato
+2015-12-12 20:21:38,437 - django-application - DEBUG - file trovato
+2015-12-12 20:21:38,437 - django-application - DEBUG - file trovato
+2015-12-12 20:21:38,450 - django-application - DEBUG - Errore di validazione'actions' is a required property
+2015-12-12 20:21:38,450 - django-application - DEBUG - Errore di validazione'actions' is a required property
+2015-12-12 20:21:38,450 - django-application - DEBUG - Errore di validazione'actions' is a required property
+2015-12-12 20:21:38,450 - django-application - DEBUG - Errore di validazione'actions' is a required property
+2015-12-12 20:21:38,450 - django-application - DEBUG - Errore di validazione'actions' is a required property
+2015-12-12 20:21:38,450 - django-application - DEBUG - Errore di validazione'actions' is a required property
+2015-12-12 20:21:38,450 - django-application - DEBUG - Errore di validazione'actions' is a required property
+2015-12-12 20:21:38,450 - django-application - DEBUG - Errore di validazione'actions' is a required property
+2015-12-12 20:21:46,892 - django-application - DEBUG - file trovato
+2015-12-12 20:21:46,892 - django-application - DEBUG - file trovato
+2015-12-12 20:21:46,892 - django-application - DEBUG - file trovato
+2015-12-12 20:21:46,892 - django-application - DEBUG - file trovato
+2015-12-12 20:21:46,892 - django-application - DEBUG - file trovato
+2015-12-12 20:21:46,892 - django-application - DEBUG - file trovato
+2015-12-12 20:21:46,892 - django-application - DEBUG - file trovato
+2015-12-12 20:21:46,892 - django-application - DEBUG - file trovato
+2015-12-12 20:21:46,892 - django-application - DEBUG - file trovato
+2015-12-12 20:21:46,904 - django-application - DEBUG - Errore di validazione'actions' is a required property
+2015-12-12 20:21:46,904 - django-application - DEBUG - Errore di validazione'actions' is a required property
+2015-12-12 20:21:46,904 - django-application - DEBUG - Errore di validazione'actions' is a required property
+2015-12-12 20:21:46,904 - django-application - DEBUG - Errore di validazione'actions' is a required property
+2015-12-12 20:21:46,904 - django-application - DEBUG - Errore di validazione'actions' is a required property
+2015-12-12 20:21:46,904 - django-application - DEBUG - Errore di validazione'actions' is a required property
+2015-12-12 20:21:46,904 - django-application - DEBUG - Errore di validazione'actions' is a required property
+2015-12-12 20:21:46,904 - django-application - DEBUG - Errore di validazione'actions' is a required property
+2015-12-12 20:21:46,904 - django-application - DEBUG - Errore di validazione'actions' is a required property
+2015-12-12 20:22:43,318 - django-application - DEBUG - file non trovato
+2015-12-12 20:22:55,730 - django-application - DEBUG - file trovato
+2015-12-12 20:22:55,730 - django-application - DEBUG - file trovato
+2015-12-12 20:22:55,750 - django-application - DEBUG - Errore di validazione'actions' is a required property
+2015-12-12 20:22:55,750 - django-application - DEBUG - Errore di validazione'actions' is a required property
+2015-12-12 20:23:07,506 - django-application - DEBUG - file non trovato
+2015-12-12 20:23:07,506 - django-application - DEBUG - file non trovato
+2015-12-12 20:23:07,506 - django-application - DEBUG - file non trovato
+2015-12-12 20:23:16,569 - django-application - DEBUG - file trovato
+2015-12-12 20:23:16,569 - django-application - DEBUG - file trovato
+2015-12-12 20:23:16,569 - django-application - DEBUG - file trovato
+2015-12-12 20:23:16,569 - django-application - DEBUG - file trovato
+2015-12-12 20:23:16,576 - django-application - DEBUG - Errore di validazione'actions' is a required property
+2015-12-12 20:23:16,576 - django-application - DEBUG - Errore di validazione'actions' is a required property
+2015-12-12 20:23:16,576 - django-application - DEBUG - Errore di validazione'actions' is a required property
+2015-12-12 20:23:16,576 - django-application - DEBUG - Errore di validazione'actions' is a required property
+2015-12-12 20:24:53,578 - django-application - DEBUG - file trovato
+2015-12-12 20:24:53,578 - django-application - DEBUG - file trovato
+2015-12-12 20:24:53,578 - django-application - DEBUG - file trovato
+2015-12-12 20:24:53,578 - django-application - DEBUG - file trovato
+2015-12-12 20:24:53,578 - django-application - DEBUG - file trovato
+2015-12-12 20:24:53,601 - django-application - DEBUG - Download Riuscito
+2015-12-12 20:24:53,601 - django-application - DEBUG - Download Riuscito
+2015-12-12 20:24:53,601 - django-application - DEBUG - Download Riuscito
+2015-12-12 20:24:53,601 - django-application - DEBUG - Download Riuscito
+2015-12-12 20:24:53,601 - django-application - DEBUG - Download Riuscito
+2015-12-12 20:24:58,815 - django-application - DEBUG - file trovato
+2015-12-12 20:24:58,815 - django-application - DEBUG - file trovato
+2015-12-12 20:24:58,815 - django-application - DEBUG - file trovato
+2015-12-12 20:24:58,815 - django-application - DEBUG - file trovato
+2015-12-12 20:24:58,815 - django-application - DEBUG - file trovato
+2015-12-12 20:24:58,815 - django-application - DEBUG - file trovato
+2015-12-12 20:24:58,828 - django-application - DEBUG - file di posizionamento non presente
+2015-12-12 20:24:58,828 - django-application - DEBUG - file di posizionamento non presente
+2015-12-12 20:24:58,828 - django-application - DEBUG - file di posizionamento non presente
+2015-12-12 20:24:58,828 - django-application - DEBUG - file di posizionamento non presente
+2015-12-12 20:24:58,828 - django-application - DEBUG - file di posizionamento non presente
+2015-12-12 20:24:58,828 - django-application - DEBUG - file di posizionamento non presente
+2015-12-12 20:28:51,819 - django-application - DEBUG - file non trovato
+2015-12-12 20:28:51,819 - django-application - DEBUG - file non trovato
+2015-12-12 20:28:51,819 - django-application - DEBUG - file non trovato
+2015-12-12 20:28:51,819 - django-application - DEBUG - file non trovato
+2015-12-12 20:28:51,819 - django-application - DEBUG - file non trovato
+2015-12-12 20:28:51,819 - django-application - DEBUG - file non trovato
+2015-12-12 20:28:51,819 - django-application - DEBUG - file non trovato
+2015-12-12 20:29:01,660 - django-application - DEBUG - file trovato
+2015-12-12 20:29:01,660 - django-application - DEBUG - file trovato
+2015-12-12 20:29:01,660 - django-application - DEBUG - file trovato
+2015-12-12 20:29:01,660 - django-application - DEBUG - file trovato
+2015-12-12 20:29:01,660 - django-application - DEBUG - file trovato
+2015-12-12 20:29:01,660 - django-application - DEBUG - file trovato
+2015-12-12 20:29:01,660 - django-application - DEBUG - file trovato
+2015-12-12 20:29:01,660 - django-application - DEBUG - file trovato
+2015-12-12 20:29:01,687 - django-application - DEBUG - Download Riuscito
+2015-12-12 20:29:01,687 - django-application - DEBUG - Download Riuscito
+2015-12-12 20:29:01,687 - django-application - DEBUG - Download Riuscito
+2015-12-12 20:29:01,687 - django-application - DEBUG - Download Riuscito
+2015-12-12 20:29:01,687 - django-application - DEBUG - Download Riuscito
+2015-12-12 20:29:01,687 - django-application - DEBUG - Download Riuscito
+2015-12-12 20:29:01,687 - django-application - DEBUG - Download Riuscito
+2015-12-12 20:29:01,687 - django-application - DEBUG - Download Riuscito
+2015-12-12 20:29:07,341 - django-application - DEBUG - file trovato
+2015-12-12 20:29:07,341 - django-application - DEBUG - file trovato
+2015-12-12 20:29:07,341 - django-application - DEBUG - file trovato
+2015-12-12 20:29:07,341 - django-application - DEBUG - file trovato
+2015-12-12 20:29:07,341 - django-application - DEBUG - file trovato
+2015-12-12 20:29:07,341 - django-application - DEBUG - file trovato
+2015-12-12 20:29:07,341 - django-application - DEBUG - file trovato
+2015-12-12 20:29:07,341 - django-application - DEBUG - file trovato
+2015-12-12 20:29:07,341 - django-application - DEBUG - file trovato
+2015-12-12 20:29:07,361 - django-application - DEBUG - file di posizionamento non presente
+2015-12-12 20:29:07,361 - django-application - DEBUG - file di posizionamento non presente
+2015-12-12 20:29:07,361 - django-application - DEBUG - file di posizionamento non presente
+2015-12-12 20:29:07,361 - django-application - DEBUG - file di posizionamento non presente
+2015-12-12 20:29:07,361 - django-application - DEBUG - file di posizionamento non presente
+2015-12-12 20:29:07,361 - django-application - DEBUG - file di posizionamento non presente
+2015-12-12 20:29:07,361 - django-application - DEBUG - file di posizionamento non presente
+2015-12-12 20:29:07,361 - django-application - DEBUG - file di posizionamento non presente
+2015-12-12 20:29:07,361 - django-application - DEBUG - file di posizionamento non presente
+2015-12-12 20:29:23,569 - django-application - DEBUG - file trovato
+2015-12-12 20:29:23,569 - django-application - DEBUG - file trovato
+2015-12-12 20:29:23,569 - django-application - DEBUG - file trovato
+2015-12-12 20:29:23,569 - django-application - DEBUG - file trovato
+2015-12-12 20:29:23,569 - django-application - DEBUG - file trovato
+2015-12-12 20:29:23,569 - django-application - DEBUG - file trovato
+2015-12-12 20:29:23,569 - django-application - DEBUG - file trovato
+2015-12-12 20:29:23,569 - django-application - DEBUG - file trovato
+2015-12-12 20:29:23,569 - django-application - DEBUG - file trovato
+2015-12-12 20:29:23,569 - django-application - DEBUG - file trovato
+2015-12-12 20:29:23,595 - django-application - DEBUG - Download Riuscito
+2015-12-12 20:29:23,595 - django-application - DEBUG - Download Riuscito
+2015-12-12 20:29:23,595 - django-application - DEBUG - Download Riuscito
+2015-12-12 20:29:23,595 - django-application - DEBUG - Download Riuscito
+2015-12-12 20:29:23,595 - django-application - DEBUG - Download Riuscito
+2015-12-12 20:29:23,595 - django-application - DEBUG - Download Riuscito
+2015-12-12 20:29:23,595 - django-application - DEBUG - Download Riuscito
+2015-12-12 20:29:23,595 - django-application - DEBUG - Download Riuscito
+2015-12-12 20:29:23,595 - django-application - DEBUG - Download Riuscito
+2015-12-12 20:29:23,595 - django-application - DEBUG - Download Riuscito
+2015-12-12 20:29:30,891 - django-application - DEBUG - file trovato
+2015-12-12 20:29:30,891 - django-application - DEBUG - file trovato
+2015-12-12 20:29:30,891 - django-application - DEBUG - file trovato
+2015-12-12 20:29:30,891 - django-application - DEBUG - file trovato
+2015-12-12 20:29:30,891 - django-application - DEBUG - file trovato
+2015-12-12 20:29:30,891 - django-application - DEBUG - file trovato
+2015-12-12 20:29:30,891 - django-application - DEBUG - file trovato
+2015-12-12 20:29:30,891 - django-application - DEBUG - file trovato
+2015-12-12 20:29:30,891 - django-application - DEBUG - file trovato
+2015-12-12 20:29:30,891 - django-application - DEBUG - file trovato
+2015-12-12 20:29:30,891 - django-application - DEBUG - file trovato
+2015-12-12 20:29:30,904 - django-application - DEBUG - file di posizionamento non presente
+2015-12-12 20:29:30,904 - django-application - DEBUG - file di posizionamento non presente
+2015-12-12 20:29:30,904 - django-application - DEBUG - file di posizionamento non presente
+2015-12-12 20:29:30,904 - django-application - DEBUG - file di posizionamento non presente
+2015-12-12 20:29:30,904 - django-application - DEBUG - file di posizionamento non presente
+2015-12-12 20:29:30,904 - django-application - DEBUG - file di posizionamento non presente
+2015-12-12 20:29:30,904 - django-application - DEBUG - file di posizionamento non presente
+2015-12-12 20:29:30,904 - django-application - DEBUG - file di posizionamento non presente
+2015-12-12 20:29:30,904 - django-application - DEBUG - file di posizionamento non presente
+2015-12-12 20:29:30,904 - django-application - DEBUG - file di posizionamento non presente
+2015-12-12 20:29:30,904 - django-application - DEBUG - file di posizionamento non presente
+2015-12-12 20:30:10,948 - django-application - DEBUG - file trovato
+2015-12-12 20:30:10,948 - django-application - DEBUG - file trovato
+2015-12-12 20:30:10,948 - django-application - DEBUG - file trovato
+2015-12-12 20:30:10,948 - django-application - DEBUG - file trovato
+2015-12-12 20:30:10,948 - django-application - DEBUG - file trovato
+2015-12-12 20:30:10,948 - django-application - DEBUG - file trovato
+2015-12-12 20:30:10,948 - django-application - DEBUG - file trovato
+2015-12-12 20:30:10,948 - django-application - DEBUG - file trovato
+2015-12-12 20:30:10,948 - django-application - DEBUG - file trovato
+2015-12-12 20:30:10,948 - django-application - DEBUG - file trovato
+2015-12-12 20:30:10,948 - django-application - DEBUG - file trovato
+2015-12-12 20:30:10,948 - django-application - DEBUG - file trovato
+2015-12-12 20:30:10,948 - django-application - DEBUG - file trovato
+2015-12-12 20:30:10,970 - django-application - DEBUG - file di posizionamento non presente
+2015-12-12 20:30:10,970 - django-application - DEBUG - file di posizionamento non presente
+2015-12-12 20:30:10,970 - django-application - DEBUG - file di posizionamento non presente
+2015-12-12 20:30:10,970 - django-application - DEBUG - file di posizionamento non presente
+2015-12-12 20:30:10,970 - django-application - DEBUG - file di posizionamento non presente
+2015-12-12 20:30:10,970 - django-application - DEBUG - file di posizionamento non presente
+2015-12-12 20:30:10,970 - django-application - DEBUG - file di posizionamento non presente
+2015-12-12 20:30:10,970 - django-application - DEBUG - file di posizionamento non presente
+2015-12-12 20:30:10,970 - django-application - DEBUG - file di posizionamento non presente
+2015-12-12 20:30:10,970 - django-application - DEBUG - file di posizionamento non presente
+2015-12-12 20:30:10,970 - django-application - DEBUG - file di posizionamento non presente
+2015-12-12 20:30:10,970 - django-application - DEBUG - file di posizionamento non presente
+2015-12-12 20:30:10,970 - django-application - DEBUG - file di posizionamento non presente
+2015-12-12 20:31:45,019 - django-application - DEBUG - file trovato
+2015-12-12 20:31:45,019 - django-application - DEBUG - file trovato
+2015-12-12 20:31:45,019 - django-application - DEBUG - file trovato
+2015-12-12 20:31:45,019 - django-application - DEBUG - file trovato
+2015-12-12 20:31:45,019 - django-application - DEBUG - file trovato
+2015-12-12 20:31:45,019 - django-application - DEBUG - file trovato
+2015-12-12 20:31:45,019 - django-application - DEBUG - file trovato
+2015-12-12 20:31:45,019 - django-application - DEBUG - file trovato
+2015-12-12 20:31:45,019 - django-application - DEBUG - file trovato
+2015-12-12 20:31:45,019 - django-application - DEBUG - file trovato
+2015-12-12 20:31:45,019 - django-application - DEBUG - file trovato
+2015-12-12 20:31:45,019 - django-application - DEBUG - file trovato
+2015-12-12 20:31:45,019 - django-application - DEBUG - file trovato
+2015-12-12 20:31:45,019 - django-application - DEBUG - file trovato
+2015-12-12 20:31:45,051 - django-application - DEBUG - file di posizionamento non presente
+2015-12-12 20:31:45,051 - django-application - DEBUG - file di posizionamento non presente
+2015-12-12 20:31:45,051 - django-application - DEBUG - file di posizionamento non presente
+2015-12-12 20:31:45,051 - django-application - DEBUG - file di posizionamento non presente
+2015-12-12 20:31:45,051 - django-application - DEBUG - file di posizionamento non presente
+2015-12-12 20:31:45,051 - django-application - DEBUG - file di posizionamento non presente
+2015-12-12 20:31:45,051 - django-application - DEBUG - file di posizionamento non presente
+2015-12-12 20:31:45,051 - django-application - DEBUG - file di posizionamento non presente
+2015-12-12 20:31:45,051 - django-application - DEBUG - file di posizionamento non presente
+2015-12-12 20:31:45,051 - django-application - DEBUG - file di posizionamento non presente
+2015-12-12 20:31:45,051 - django-application - DEBUG - file di posizionamento non presente
+2015-12-12 20:31:45,051 - django-application - DEBUG - file di posizionamento non presente
+2015-12-12 20:31:45,051 - django-application - DEBUG - file di posizionamento non presente
+2015-12-12 20:31:45,051 - django-application - DEBUG - file di posizionamento non presente
+2015-12-12 20:31:51,000 - django-application - DEBUG - file trovato
+2015-12-12 20:31:51,000 - django-application - DEBUG - file trovato
+2015-12-12 20:31:51,000 - django-application - DEBUG - file trovato
+2015-12-12 20:31:51,000 - django-application - DEBUG - file trovato
+2015-12-12 20:31:51,000 - django-application - DEBUG - file trovato
+2015-12-12 20:31:51,000 - django-application - DEBUG - file trovato
+2015-12-12 20:31:51,000 - django-application - DEBUG - file trovato
+2015-12-12 20:31:51,000 - django-application - DEBUG - file trovato
+2015-12-12 20:31:51,000 - django-application - DEBUG - file trovato
+2015-12-12 20:31:51,000 - django-application - DEBUG - file trovato
+2015-12-12 20:31:51,000 - django-application - DEBUG - file trovato
+2015-12-12 20:31:51,000 - django-application - DEBUG - file trovato
+2015-12-12 20:31:51,000 - django-application - DEBUG - file trovato
+2015-12-12 20:31:51,000 - django-application - DEBUG - file trovato
+2015-12-12 20:31:51,000 - django-application - DEBUG - file trovato
+2015-12-12 20:31:51,016 - django-application - DEBUG - file di posizionamento non presente
+2015-12-12 20:31:51,016 - django-application - DEBUG - file di posizionamento non presente
+2015-12-12 20:31:51,016 - django-application - DEBUG - file di posizionamento non presente
+2015-12-12 20:31:51,016 - django-application - DEBUG - file di posizionamento non presente
+2015-12-12 20:31:51,016 - django-application - DEBUG - file di posizionamento non presente
+2015-12-12 20:31:51,016 - django-application - DEBUG - file di posizionamento non presente
+2015-12-12 20:31:51,016 - django-application - DEBUG - file di posizionamento non presente
+2015-12-12 20:31:51,016 - django-application - DEBUG - file di posizionamento non presente
+2015-12-12 20:31:51,016 - django-application - DEBUG - file di posizionamento non presente
+2015-12-12 20:31:51,016 - django-application - DEBUG - file di posizionamento non presente
+2015-12-12 20:31:51,016 - django-application - DEBUG - file di posizionamento non presente
+2015-12-12 20:31:51,016 - django-application - DEBUG - file di posizionamento non presente
+2015-12-12 20:31:51,016 - django-application - DEBUG - file di posizionamento non presente
+2015-12-12 20:31:51,016 - django-application - DEBUG - file di posizionamento non presente
+2015-12-12 20:31:51,016 - django-application - DEBUG - file di posizionamento non presente
+2015-12-12 20:33:52,019 - django-application - DEBUG - file trovato
+2015-12-12 20:33:52,019 - django-application - DEBUG - file trovato
+2015-12-12 20:33:52,019 - django-application - DEBUG - file trovato
+2015-12-12 20:33:52,019 - django-application - DEBUG - file trovato
+2015-12-12 20:33:52,019 - django-application - DEBUG - file trovato
+2015-12-12 20:33:52,019 - django-application - DEBUG - file trovato
+2015-12-12 20:33:52,019 - django-application - DEBUG - file trovato
+2015-12-12 20:33:52,019 - django-application - DEBUG - file trovato
+2015-12-12 20:33:52,019 - django-application - DEBUG - file trovato
+2015-12-12 20:33:52,019 - django-application - DEBUG - file trovato
+2015-12-12 20:33:52,019 - django-application - DEBUG - file trovato
+2015-12-12 20:33:52,019 - django-application - DEBUG - file trovato
+2015-12-12 20:33:52,019 - django-application - DEBUG - file trovato
+2015-12-12 20:33:52,019 - django-application - DEBUG - file trovato
+2015-12-12 20:33:52,019 - django-application - DEBUG - file trovato
+2015-12-12 20:33:52,019 - django-application - DEBUG - file trovato
+2015-12-12 20:33:52,036 - django-application - DEBUG - file di posizionamento non presente
+2015-12-12 20:33:52,036 - django-application - DEBUG - file di posizionamento non presente
+2015-12-12 20:33:52,036 - django-application - DEBUG - file di posizionamento non presente
+2015-12-12 20:33:52,036 - django-application - DEBUG - file di posizionamento non presente
+2015-12-12 20:33:52,036 - django-application - DEBUG - file di posizionamento non presente
+2015-12-12 20:33:52,036 - django-application - DEBUG - file di posizionamento non presente
+2015-12-12 20:33:52,036 - django-application - DEBUG - file di posizionamento non presente
+2015-12-12 20:33:52,036 - django-application - DEBUG - file di posizionamento non presente
+2015-12-12 20:33:52,036 - django-application - DEBUG - file di posizionamento non presente
+2015-12-12 20:33:52,036 - django-application - DEBUG - file di posizionamento non presente
+2015-12-12 20:33:52,036 - django-application - DEBUG - file di posizionamento non presente
+2015-12-12 20:33:52,036 - django-application - DEBUG - file di posizionamento non presente
+2015-12-12 20:33:52,036 - django-application - DEBUG - file di posizionamento non presente
+2015-12-12 20:33:52,036 - django-application - DEBUG - file di posizionamento non presente
+2015-12-12 20:33:52,036 - django-application - DEBUG - file di posizionamento non presente
+2015-12-12 20:33:52,036 - django-application - DEBUG - file di posizionamento non presente
+2015-12-13 12:12:46,953 - django-application - DEBUG - file non trovato
+2015-12-13 12:12:57,961 - django-application - DEBUG - file trovato
+2015-12-13 12:12:57,961 - django-application - DEBUG - file trovato
+2015-12-13 12:12:57,979 - django-application - DEBUG - Download Riuscito
+2015-12-13 12:12:57,979 - django-application - DEBUG - Download Riuscito
+2015-12-13 12:13:01,257 - django-application - DEBUG - file trovato
+2015-12-13 12:13:01,257 - django-application - DEBUG - file trovato
+2015-12-13 12:13:01,257 - django-application - DEBUG - file trovato
+2015-12-13 12:13:01,270 - django-application - DEBUG - file di posizionamento non presente
+2015-12-13 12:13:01,270 - django-application - DEBUG - file di posizionamento non presente
+2015-12-13 12:13:01,270 - django-application - DEBUG - file di posizionamento non presente
+2015-12-13 12:14:47,730 - django-application - DEBUG - file trovato
+2015-12-13 12:14:47,730 - django-application - DEBUG - file trovato
+2015-12-13 12:14:47,730 - django-application - DEBUG - file trovato
+2015-12-13 12:14:47,730 - django-application - DEBUG - file trovato
+2015-12-13 12:14:47,743 - django-application - DEBUG - file di posizionamento non presente
+2015-12-13 12:14:47,743 - django-application - DEBUG - file di posizionamento non presente
+2015-12-13 12:14:47,743 - django-application - DEBUG - file di posizionamento non presente
+2015-12-13 12:14:47,743 - django-application - DEBUG - file di posizionamento non presente
