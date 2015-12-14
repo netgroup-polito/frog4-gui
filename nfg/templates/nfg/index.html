@@ -39,7 +39,8 @@
         <script type="text/javascript" src="{% static "nfg/js/lib/deleteElements.js" %}"></script>
         <script type="text/javascript" src="{% static "nfg/js/lib/drawInfoElements.js" %}"></script>
         <script type="text/javascript" src="{% static "nfg/js/lib/selectElements.js" %}"></script>
-		
+        <script type="text/javascript" src="{% static "nfg/js/lib/editFormVNF.js" %}"></script>
+
         <script type="text/javascript" src="{% static "nfg/js/lib/linkCreations.js" %}"></script>
         <script type="text/javascript" src="{% static "nfg/js/lib/showView.js" %}"></script>
         <script type="text/javascript" src="{% static "nfg/js/lib/keysBindings.js" %}"></script>
@@ -528,7 +529,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="setKeysWindowListener()">×</button>
-                <h4 class="modal-title">Save as... </h4>
+                <h4 class="modal-title" id="saveTitle">Save as... </h4>
             </div>
             <form class="form-horizontal" role="form" action="#" id="formSave" method="post" enctype="multipart/form-data" accept-charset="utf-8" name="formUpload">
                 <div class="modal-body">
@@ -541,6 +542,7 @@
                 </div>
 
                 <div class="modal-footer">
+                    <a href="#" id="EraseWithoutSaving" onclick="eraseAll();"  class="btn btn-primary" >Erase without saving</a>
                     <a href="#" id="Save" onclick="saveFile();"  class="btn btn-primary">Save</a>
 
                 </div>
@@ -574,6 +576,7 @@
 
                 <div class="modal-footer">
                     <a href="#" id="Change" onclick="changeIDFG();"  class="btn btn-primary">Change ID</a>
+                    <!--a href="#" id="newID" onclick="ajaxLastIdRequest();"  class="btn btn-primary">New ID</a-->
 
                 </div>
             </form>
@@ -876,68 +879,13 @@
 
                     <div id="infoPort">
 
-                        
-
-                    </div>
-
-            </form>
 
                         
-                        
-                                            
-
-                    <div>
-
-                        <div class="form-group" >
-                            <label class="control-label col-sm-2" for="swap">Port Info:</label>    
-                            <div class="col-sm-10">
-                                
-                            </div>
-                        </div> 
-
-                        <form class="form-inline">
-                        <div class="form-group" >
-                            <label  for="swap">Port #1:</label>    
-                            
-
-
-
-
-
-                                <input type="text" name="" class="form-control" id="" placeholder="" >
-
-                                
-                                
-                                <a href="#" id="prova" onclick=""  class="btn btn-primary" >x</a>
-
-                                
-                            
-                        </div> 
-                        </form>   
-
-                        <form class="form-inline">
-                        <div class="form-group" >
-                            <label  for="swap">Port #1:</label> 
-                                
-                            
-                                <select class="form-control" name="type" id="">
-                                    <option selected>option1</option>
-                                    <option selected>option2</option>
-                                </select>
-
-                                <select class="form-control" name="type" id="">
-                                    <option selected>option1</option>
-                                    <option selected>option2</option>
-                                </select>
-                                <a href="#" id="prova" onclick=""  class="btn btn-primary" >add</a>
-                                
-                           
-                        </div> 
-                        </form> 
-                         
 
                     </div>
                 </div>
+            
+            </form>
                 
             
 

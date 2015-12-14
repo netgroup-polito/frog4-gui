@@ -5,6 +5,7 @@
 
 
 function deleteVNF(){
+    isModified=true;
     VNF_text_section.select("#text_"+selected_node.id).remove();
     var vnf_int=svg.selectAll("[parent=vnf"+selected_node.id+"]");
     console.log(vnf_int);
@@ -46,6 +47,7 @@ function deleteVNF(){
     big_switch.interfaces= _.filter(big_switch.interfaces,function(e){return e.id!==select_node.fullId});
 }
 function deleteEP(){
+    isModified=true;
     d3.selectAll("[start=endpoint\\:"+selected_node.id).remove();
     d3.selectAll("[end=endpoint\\:"+selected_node.id).remove();
     d3.selectAll(".BS_interface#endpoint\\:"+selected_node.id).remove();
@@ -68,6 +70,7 @@ function deleteEP(){
     EP_list= _.filter(EP_list,function(e){return e.id!==selected_node.id;});
 }
 function deleteFR(){
+    isModified=true;
     console.log(selected_link);
     var idFR=selected_link.getAttribute("idfr");
     console.log(idFR);
@@ -77,6 +80,7 @@ function deleteFR(){
     flow_rules= _.filter(flow_rules,function(fr){
         return fr["id"]!==id_vet[1];
     });
+    //se era double settare la rimanente a non double con la freccia
 
     /*
      * QUA INSERIRE IL MESSAGGIO DI CONFERMA!
@@ -86,6 +90,8 @@ function deleteFR(){
 }
 
 function eraseAll(){
+    $("#SaveFG").modal("hide");
+    //ajaxLastIdRequest();
     flow_rules=[];
     big_switch.interfaces=[];
     NF_list=[];
@@ -94,8 +100,4 @@ function eraseAll(){
     $(".VNF_section").empty();
     $(".interfaces_section").empty();
     $(".VNF_text_section").empty();
-
-
-
-
 }

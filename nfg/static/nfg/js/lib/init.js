@@ -28,8 +28,11 @@ function elaborateFlowRules(){
     // 2. elimina l'info rindondante andata-ritorno, e setta un campo aggiuntivo che dice se è fullduplex o no
 
     flow_rules.forEach(function(fr,i){
+        
+        //0 setto un nuovo campo output
+        fr["output"]=setOutputFlowRule(fr);
         //1 setto la posizione delle interfacce
-
+        
         var pos=getLinkEndPositionById(fr["match"]["port_in"]);
         fr["match"]["interface_position_x"]=pos.x;
         fr["match"]["interface_position_y"]=pos.y;

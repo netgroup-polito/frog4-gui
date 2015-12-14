@@ -9,7 +9,15 @@ function hideDownloadFG(){
     $('#DownloadFG').modal('hide');
 }
 
-
+function ajaxLastIdRequest(){
+    $.ajax({
+        url: 'ajax_last_id/',
+        type: 'GET'
+    }).done(function(lastId){
+        console.log(lastId);
+        setIDFG(id);
+    });
+}
 
 function ajaxFilesRequest(){
     $.ajax({

@@ -39,6 +39,24 @@ function keyDown(){
             selected_link = null;
             selected_node = null;
             break;
+        case 68:
+            if(selected_node) {
+                /*
+                 * QUA INSERIRE IL MESSAGGIO DI CONFERMA!
+                 *
+                 */
+                if($(selected_node).attr("class")==="NetworkFunction"){
+                    deleteVNF();
+                }else{ //ep
+                    deleteEP();
+                }
+
+            } else if(selected_link) {
+                deleteFR();
+            }
+            selected_link = null;
+            selected_node = null;
+            break;
         case 66: // B
             //if(selected_link) {
             //    // set link direction to both left and right

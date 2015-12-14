@@ -95,9 +95,6 @@ $(document).ready(function(){
               /* file di posizionamento presente */
               isAlreadyPositioned = true;
               fg_pos = json_data["json_file_pos"];
-
-              
-              
               console.log("file di posizionamento");
               console.log(fg_pos);
             }else{

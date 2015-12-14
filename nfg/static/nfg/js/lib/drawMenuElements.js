@@ -52,6 +52,7 @@ function drawNewEP(){
     ep.isLinked=false;
     console.log(validateNewEndPoint(ep));
     if(validateNewEndPoint(ep)===true){
+        isModified=true;
         $('#FormEP').modal('hide');
         ele.push(ep);
 
@@ -178,6 +179,7 @@ function drawNewEP(){
 
 
 function drawNewNF(){
+    isModified=true;
     var vnf = fillNewVNF();
     $('#FormNF').modal('hide');
     setKeysWindowListener();
