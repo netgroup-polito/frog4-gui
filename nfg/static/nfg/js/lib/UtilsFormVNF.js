@@ -59,7 +59,8 @@ function addFormPort(){
                     '        <div class="col-sm-10">'+
                     '    </div>'+          
                     '</div>';
-          
+                    //da mettere a posto
+
                     port_template.forEach(function(port_t){
                     	console.log(port_t);
                     	$html +='<div class="form-group" >'+
@@ -110,6 +111,14 @@ function showEditInfoVNF(idVNF){
     //fillFormInfoEP(idVNF);
     
 }
+function showEditPort(port){
+    fillFormInfoPort(port);
+    $('#FormPort').modal('show');
+}
+
+function fillFormInfoPort(port){
+
+}
 
 function FillFormInfoVNF(idVNF){
     var template;
@@ -121,7 +130,7 @@ function FillFormInfoVNF(idVNF){
         }
     });
 
-    /* recuperato vnf da modificare */
+    /* rec1perato vnf da modificare */
     console.log(vnf);
      console.log(vnf.id);
     $("#idVNF").val(vnf.id);

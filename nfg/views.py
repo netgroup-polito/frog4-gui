@@ -290,37 +290,37 @@ def ajax_save_request(request):
   fg = NF_FG()
   val = ValidateNF_FG()
   msg = {}
-  logger = MyLogger("filelog.log","django-application").getMyLogger()
+  #logger = MyLogger("filelog.log","django-application").getMyLogger()
   if request.method == "POST":
-    
     directory = "users/upload@"+request.session["username"]
-
+    
     file_name_fg = request.POST["file_name_fg"]
     file_name_pos = request.POST["file_name_pos"]
 
     file_content_fg = request.POST["file_content_fg"]
     file_content_pos = request.POST["file_content_pos"]
-
+    print file_name_fg
+    print file_name_pos
+    print file_content_fg
+    print file_content_pos
     # memorizzo il filename nella varibile di sessione file_name
     request.session["file_name_fg"] = file_name_fg;
     request.session["file_name_pos"] = file_name_pos;
-
 
     json_data = json.loads(file_content_fg)
     try:
       val.validate(json_data)
     except ValidationError as err:
-
       msg["err"] = "Errore di validazione" + err.message
-      logger.debug(msg["err"])
+      #logger.debug(msg["err"])
       msg = json.dumps(msg)
       return HttpResponse("%s" % msg)
 
 
     (shortname, extension) = os.path.splitext(file_name_fg)
-
+    print "controllo ext"
     if(extension == ".json"):
-
+            
       out_file = open(directory+"/"+file_name_fg,"w")
       out_file.write(file_content_fg)
       out_file.close()
@@ -330,7 +330,8 @@ def ajax_save_request(request):
       out_file.close()
 
       msg["success"] = "Salvataggio Riuscito"
-      logger.debug(msg["success"])
+      print "pip"
+      #logger.debug(msg["success"])
       msg = json.dumps(msg)
 
       return HttpResponse("%s" % msg)

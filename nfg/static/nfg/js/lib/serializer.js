@@ -278,7 +278,7 @@ function saveFile(){
                       } 
 
             }).done(function(e){
-                                
+                isModified=false;
                 console.log("Success: Files sent!");
                 console.log(e);
                 e=JSON.parse(e);
@@ -309,7 +309,14 @@ function reloadPage(){
 	location.reload();
 }
 
-function showSaveForm(){
+function showSaveForm(title){
+	if(title!==undefined && title!==null){
+		$("#saveTitle").text(title);
+        $("#EraseWithoutSaving").show();
+	}else{
+        $("#saveTitle").text("Save as...");
+        $("#EraseWithoutSaving").hide();
+    }
     $("#SaveFG").modal("show");
     unSetKeysWindowListener()
 }

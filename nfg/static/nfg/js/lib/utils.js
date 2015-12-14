@@ -234,13 +234,16 @@ function disableTooltip(){
 }
 
 function newForwardingGraph(){
+    console.log(isModified);
     if(isModified){
         //messaggio di conferma
+        showSaveForm("Do you whant to save it first?");
+    }else{
+        eraseAll();
     }
-    eraseAll();
+    //eraseAll();
 
 }
-
 
 function highlightsFlowRule(id){
     console.log(id);
@@ -248,4 +251,14 @@ function highlightsFlowRule(id){
     $('#panel-h'+id).attr("class","panel-heading panel-h-info-select panel-heading ");
     $('#internal_panel'+id).attr("class","panel panel-info-select");
 
+}
+
+function setOutputFlowRule(fr){
+    var output;
+    fr.actions.forEach(function(d){
+        if(d.output!==undefined){
+            output= d.output;
+        }
+    });
+    return output;
 }

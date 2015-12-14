@@ -35,9 +35,7 @@ function DrawNewLink(){
     var newFR = fillNewFlowRule();
 
     if(validateNewFlowRule(newFR)){
-        /*
-        DA FARE-> CONTROLLO SE SI CREA UNO SPLIT SE SI->FORZARE A BIG SWITCH!
-        */
+        isModified=true;
         var duplex=isDuplex(newFR["match"]["port_in"],newFR["actions"][0]["output"]);
         newFR["full_duplex"]=duplex;
         flow_rules.push(newFR);
