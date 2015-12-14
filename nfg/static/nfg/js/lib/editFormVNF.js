@@ -2,6 +2,9 @@
  * Created by pc asus on 14/12/2015.
  */
 
+
+var labelList=[];
+
 function FillFormEditVNF(idVNF){
     console.log("ciao dani!!!");
     var template;
@@ -93,7 +96,7 @@ function addEditFormPort(idVNF){
     var vnf=getVNFById(idVNF);
     console.log(vnf);
     var port_template = template_js.ports;
-
+    $("#infoPort").empty();
     //$html = '<div class="boxPort">'+
     //    '    <div class="form-group">'+
     //    '        <label class="control-label col-sm-2" for="title" id="titleInterface"><a>Ports info:</a></label>'+
@@ -118,14 +121,18 @@ function addEditFormPort(idVNF){
 
         ' <a href="#" id="prova" onclick="deletePort('+port.fullId+')"  class="btn btn-danger" >x</a></div></form>';
     });
-    var labelList=[];
+
     template_js.ports.forEach(function(e){
         var label={};
         label.name=e["label"];
         var pos=e["position"];
         var pos_split=pos.split("-");
-        label.pos_min=pos_split[0];
-        label.pos_max=pos_split[1];
+        label.pos_min=parseInt(pos_split[0]);
+        if(pos_split[1]==='N'){
+            label.pos_max=62;
+        }else{
+            label.pos_max=parseInt(pos_split[1]);
+        }
         label.min=e["min"];
         labelList.push(label);
     });
@@ -134,38 +141,55 @@ function addEditFormPort(idVNF){
         '<div class="form-group" >'+
         '<input type="text" name="" class="form-control" id="" placeholder="port name" >'+
 
-
-        '<select class="form-control" name="type" id="selectLabel">';
+        '<div class="btn-group">'+
+        '<button type="button" class="btn btn-default dropdown-toggle"  data-toggle="dropdown" name="type" aria-haspopup="true" aria-expanded="false" id="selectLabel"> Label <span class="caret"></span></button>'+
+        '<ul class="dropdown-menu">';
     labelList.forEach(function(ele,i){
-        $html+='<option ';
-        if(i===0){ $html+='selected';}
-        $html+='>'+ele+'</option>';
+        $html+='<li><a href="#" id="option-'+ele.name+'" >'+ele.name+'</a></li>';
     });
 
-    $html+=
-        '</select>'+
-        '<select class="form-control" name="type" id="selectPosition">';
-
-        //'<option selected>option1</option>'+
-        //'<option selected>option2</option>'+
-
-    for(function(ele,i){
-        $html+='<option ';
-        if(i===0){ $html+='selected';}
-        $html+='>'+ele+'</option>';
-    });
-        $html+='</select>'+
+    $html+='</ul></div><div class="btn-group">' +
+        '<button type="button" class="btn btn-default dropdown-toggle"  data-toggle="dropdown" name="type" aria-haspopup="true" aria-expanded="false" id="selectPosition"> Id <span class="caret"></span></button>'+
+        '<ul class="dropdown-menu" id="positionMenu"></ul>'+
         '<a href="#" id="prova" onclick=""  class="btn btn-primary" >add</a>'+
-
-
         '</div>'+
         '</form>'+
-
-
         '</div>'+
         '</div>';
     //da mettere a posto
 
 
     $("#infoPort").append($html);
+    labelList.forEach(function(ele,i){
+        jQuery('#option-'+ele.name).click(setOptionsTemplateValues);
+    });
 }
+
+function setOptionsTemplateValues() {
+
+    console.log(this);
+    var labelType = $(this).text();
+    console.log(labelType);
+    $('#selectLabel').text(labelType);
+    var options='';
+    $('#positionMenu').empty();
+    labelList.forEach(function(label){
+        if(label.name===labelType){
+            for(var i=0;i<label.pos_max-label.pos_min+1;i++){
+                options+='<li><a hfref="#">'+i+'</a></li>';
+            }
+        }
+    });
+    $('#positionMenu').append(options);
+    //label.preventDefault();
+}
+    //
+    //    //'<option selected>option1</option>'+
+    //    //'<option selected>option2</option>'+
+    //
+    //for(function(ele,i){
+    //    $html+='<option ';
+    //    if(i===0){ $html+='selected';}
+    //    $html+='>'+ele+'</option>';
+    //});
+    //    $html+='</select>'+
