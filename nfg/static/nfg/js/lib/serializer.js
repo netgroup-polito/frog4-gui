@@ -278,23 +278,11 @@ function saveFile(){
                       } 
 
             }).done(function(e){
-                                
-                console.log("Success: Files sent!");
-                console.log(e);
-                e=JSON.parse(e);
-
-                $("#ModalMsgServer").modal("show");
-                $("#msg").empty();
+            	console.log("Success: Files sent!");
+            	console.log(e);
+    			e=JSON.parse(e);
+                showMessageServer(e);                
                 
-                if(e.success){
-            		$("#msg").append("<b>"+e.success+"</b>");
-            		$("#titleWarning").empty();
-            		$("#titleWarning").append('Message Info');
-        		}else{
-            		$("#msg").append("<b>"+e.err+"</b>");
-            		$("#titleWarning").empty();
-            		$("#titleWarning").append('<span class="glyphicon glyphicon-alert"></span>Warning');
-        		}
                 //location.reload();
             
             }).fail(function(){
@@ -313,3 +301,6 @@ function showSaveForm(){
     $("#SaveFG").modal("show");
     unSetKeysWindowListener()
 }
+
+
+

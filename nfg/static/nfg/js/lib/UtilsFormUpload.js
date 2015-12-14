@@ -67,14 +67,7 @@ function UploadFile(){
                 e=JSON.parse(e);
                 console.log(e);
 
-                $("#ModalMsgServer").modal("show");
-                $("#msg").empty();
-                console.log("Success: Files sent!");
-                if(e.success){
-                    $("#msg").append("<b>"+e.success+"</b>");
-                }else{
-                    $("#msg").append("<b>"+e.err+"</b>");
-                }
+                showMessageServer(e);
                 //location.reload();
             
             }).fail(function(){
