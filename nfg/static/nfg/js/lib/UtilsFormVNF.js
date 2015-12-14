@@ -59,8 +59,7 @@ function addFormPort(){
                     '        <div class="col-sm-10">'+
                     '    </div>'+          
                     '</div>';
-                    //da mettere a posto
-
+          
                     port_template.forEach(function(port_t){
                     	console.log(port_t);
                     	$html +='<div class="form-group" >'+
@@ -88,7 +87,7 @@ function addFormPort(){
                     '</div>';
 
                 $("#infoPort").append($html);            
-}
+            }
 
 function FuncSuccess(data){
 
@@ -112,7 +111,6 @@ function showEditInfoVNF(idVNF){
     
 }
 
-
 function FillFormInfoVNF(idVNF){
     var template;
     var vnf;
@@ -123,7 +121,7 @@ function FillFormInfoVNF(idVNF){
         }
     });
 
-    /* rec1perato vnf da modificare */
+    /* recuperato vnf da modificare */
     console.log(vnf);
      console.log(vnf.id);
     $("#idVNF").val(vnf.id);
@@ -183,7 +181,7 @@ function FillFormInfoVNF(idVNF){
 
     /*form per visualizzare porte */
 
-    
+
 
     /* cambio il bottone in save */
 

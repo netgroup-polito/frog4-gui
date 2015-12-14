@@ -33,8 +33,8 @@ function drawNFMenu(){
                 $('#seltemplateVNF' ).val('Firewall');
 
                 $("#idVNF").val(NextIdVNF());
-                $("#saveEP").attr("onclick","drawNewVNF()");
-                $("#saveEP").html("Add VNF");
+                $("#saveVNF").attr("onclick","drawNewNF()");
+                $("#saveVNF").html("Add VNF");
 
                 /* Template di default Firewall */
                 $.ajax({ type: "GET",url: "/nfg/ajax_template_request/firewall/",

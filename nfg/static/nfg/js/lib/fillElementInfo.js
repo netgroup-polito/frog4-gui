@@ -111,7 +111,7 @@ function fillNewVNF(){
     
     vnf["id"] = $("#idVNF").val();
     vnf["name"] = $("#nameVNF").val();
-    vnf["vnf_template"] = template_js.name+".json";
+    vnf["vnf_template"] = template_js.name;
     vnf["ports"] = [];
 
     var ports_template = template_js.ports;

@@ -6,7 +6,7 @@
 var labelList=[];
 
 function FillFormEditVNF(idVNF){
-    console.log("ciao dani!!!");
+    //console.log("ciao dani!!!");
     var template;
     var vnf;
     NF_list.forEach(function(ele){
@@ -25,43 +25,43 @@ function FillFormEditVNF(idVNF){
     console.log(vnf.vnf_template);
 
     switch(vnf.vnf_template){
-        case "firewall.json":
+        case "firewall":
             console.log("firewall");
             $('#seltemplateVNF' ).val('Firewall');
             template = "firewall";
             break;
 
-        case "firewall_web.json":
+        case "firewall_web":
             console.log("firewall-web");
             $("#seltemplateVNF").val("Firewall-web");
             template = "firewall_web";
             break;
 
-        case "ftp.json":
+        case "ftp":
             console.log("ftp");
             $("#seltemplateVNF").val("Ftp");
             template = "ftp";
             break;
 
-        case "nat.json":
+        case "nat":
             console.log("nat");
             $("#seltemplateVNF").val("Nat");
             template = "nat";
             break;
 
-        case "dhcp.json":
+        case "dhcp":
             console.log("dhcp");
             $("#seltemplateVNF").val("Dhcp");
             template = "dhcp";
             break;
 
-        case "switch.json":
+        case "switch":
             console.log("switch");
             $("#seltemplateVNF").val("Switch");
             template = "switch";
             break;
 
-        case "iptraf.json":
+        case "iptraf":
             console.log("iptraf");
             $("#seltemplateVNF").val("Iptraf");
             template = "iptraf";
