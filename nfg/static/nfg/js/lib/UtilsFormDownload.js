@@ -86,13 +86,7 @@ function DownloadFile(){
         e=JSON.parse(e);
         /*file restituito */
         hideDownloadFG();
-        $("#ModalMsgServer").modal("show");
-        $("#msg").empty();
-        if(e.success){
-            $("#msg").append("<b>"+e.success+"</b>");
-        }else{
-            $("#msg").append("<b>"+e.err+"</b>");
-        }
+        showMessageServer(e);
         
         //location.reload();
             
