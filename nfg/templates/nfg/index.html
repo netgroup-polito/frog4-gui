@@ -39,7 +39,8 @@
         <script type="text/javascript" src="{% static "nfg/js/lib/deleteElements.js" %}"></script>
         <script type="text/javascript" src="{% static "nfg/js/lib/drawInfoElements.js" %}"></script>
         <script type="text/javascript" src="{% static "nfg/js/lib/selectElements.js" %}"></script>
-		
+        <script type="text/javascript" src="{% static "nfg/js/lib/editFormVNF.js" %}"></script>
+
         <script type="text/javascript" src="{% static "nfg/js/lib/linkCreations.js" %}"></script>
         <script type="text/javascript" src="{% static "nfg/js/lib/showView.js" %}"></script>
         <script type="text/javascript" src="{% static "nfg/js/lib/keysBindings.js" %}"></script>
@@ -877,7 +878,11 @@
                     </div>
 
                     <div id="infoPort">
-
+                        <table class="table table-bordered">
+                            <tr><td>User:0</td><td><button type="button" class="btn btn-default" aria-label="Left Align">
+                                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                            </button></td></tr>
+                        </table>
                     </div>
                 </div>
                 

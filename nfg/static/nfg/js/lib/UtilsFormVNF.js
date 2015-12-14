@@ -88,7 +88,7 @@ function addFormPort(){
                     '</div>';
 
                 $("#infoPort").append($html);            
-            }
+}
 
 function FuncSuccess(data){
 
@@ -105,20 +105,13 @@ function FuncSuccess(data){
 
 function showEditInfoVNF(idVNF){
     $('#FormNF').modal('show');
-    FillFormInfoVNF(idVNF);
+    FillFormEditVNF(idVNF);
 
     //drawFormVNF();
     //fillFormInfoEP(idVNF);
     
 }
-function showEditPort(port){
-    fillFormInfoPort(port);
-    $('#FormPort').modal('show');
-}
 
-function fillFormInfoPort(port){
-
-}
 
 function FillFormInfoVNF(idVNF){
     var template;
