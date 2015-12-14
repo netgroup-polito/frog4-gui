@@ -173,9 +173,13 @@ function FillFormInfoVNF(idVNF){
                     
             }
 
+            $('#infoPort').empty();
+
     /* Template di default Firewall */
-    $.ajax({ type: "GET",url: "/nfg/ajax_template_request/"+template+"/",
-                success: function(data) {FuncSuccess(data);} });
+    /*$.ajax({ type: "GET",url: "/nfg/ajax_template_request/"+template+"/",
+                success: function(data) {FuncSuccess(data);} });*/
+
+    /*form per visualizzare porte */
 
     
 
