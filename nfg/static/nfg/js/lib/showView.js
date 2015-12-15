@@ -2,23 +2,25 @@
  * Created by pc asus on 25/11/2015.
  */
 function showBSView(bs_view){
-
-    if(bs_view===false && isSplitted===true){
-        $('#BSViewToogle').attr("class","btn btn-warning btn-lg");
-        $('#ModalWarning').modal('show');
-    }else if(isSplitted===false && bs_view===true){
-        $('#BSViewToogle').attr("class","btn btn-info btn-lg");
-    }
-    if(bs_view===false && isSplitted===false){
-        BS_view=false;
-        $('#BSViewToogle').attr("class","btn btn-default btn-lg");
-        $(".use_BIG,.BS_interface,.BS_line,.BS-line").hide();
-        $(".line").show();
-        $(".info").empty();
-    }else{
-        BS_view=true;
-        $(".use_BIG,.BS_interface,.BS_line,.BS-line").show();
-        $(".line").hide();
+    var debug=false;
+    if(!debug) {
+        if (bs_view === false && isSplitted === true) {
+            $('#BSViewToogle').attr("class", "btn btn-warning btn-lg");
+            $('#ModalWarning').modal('show');
+        } else if (isSplitted === false && bs_view === true) {
+            $('#BSViewToogle').attr("class", "btn btn-info btn-lg");
+        }
+        if (bs_view === false && isSplitted === false) {
+            BS_view = false;
+            $('#BSViewToogle').attr("class", "btn btn-default btn-lg");
+            $(".use_BIG,.BS_interface,.BS_line,.BS-line,.BS-line-selected").hide();
+            $(".line,.line-selected").show();
+            $(".info").empty();
+        } else {
+            BS_view = true;
+            $(".use_BIG,.BS_interface,.BS_line,.BS-line,.BS-line-selected").show();
+            $(".line,.line-selected").hide();
+        }
     }
 }
 

@@ -101,3 +101,35 @@ function eraseAll(){
     $(".interfaces_section").empty();
     $(".VNF_text_section").empty();
 }
+
+function deletePortById(portId,vnfId){
+    /*
+     1.elimino oggetti grafici:
+     */
+    var portId_mod=portId.replace(/:/g,"\\:");
+    //elimino porta e BS interface
+    interfaces_section.selectAll("#"+portId_mod).remove();
+    //delete link that start from port and that end to port
+    lines_section.selectAll("[start="+portId_mod+"]").remove();
+    lines_section.selectAll("[end="+portId_mod+"]").remove();
+    //delete link that start from bs port and that end to bs port
+    lines_section.selectAll("[start=bs-"+portId_mod+"]").remove();
+    lines_section.selectAll("[end=bs-"+portId_mod+"]").remove();
+
+    /*
+     2. delete js objects
+     // */
+    //delete port from vnf
+    var vnf_js=getVNFById(vnfId);
+    vnf_js.ports= _.filter(vnf_js.ports,function(e){
+        if(e.fullId===portId)return false;
+        return true;
+    });
+    //delete flow rules that start or end in that port
+    flow_rules= _.filter(flow_rules,function(fr){
+        var id_port_in=fr["match"]["port_in"],id_port_out= fr["actions"][0]["output"];
+        if(id_port_in===undefined || id_port_out===undefined) return true;
+        if(id_port_in===portId || id_port_out===portId) return false;
+        return true;
+    });
+}

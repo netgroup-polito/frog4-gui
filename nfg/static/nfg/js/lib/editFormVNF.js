@@ -113,10 +113,11 @@ function addEditFormPort(idVNF){
         '</div>';
     vnf.ports.forEach(function(port){
         console.log(port.id);
-        $html+='<div class="row port-i">'+
+        $html+='<div class="row port-i" id="delete'+port.fullId+'">'+
             '<div class="col-md-4"></div>'+
             '<div class="col-md-4"><label class="port-id">'+port.id+'</label></div>'+
-            '<div class="col-md-4"><a href="#" id="delete_port" onclick="deletePort('+port.fullId+')"  class="btn btn-danger" >x</a></div>'+
+            '<div class="col-md-4"><a href="#" onclick="deletePort(\''+port.fullId+"\',\'"+port.parent_NF_id+'\');"  ' +
+            'class="btn btn-danger" >x</a></div>'+
             '</div>';
     });
 
@@ -154,7 +155,7 @@ function addEditFormPort(idVNF){
     $html+='</select></div><div class="col-md-2">';
 
     $html+='<select class="form-control" name="type" id="selectPosition"></select></div>';
-    $html+='<div class="col-md-4"><a href="#" id="delete_port" onclick=""  class="btn btn-primary" >+</a></div>';
+    $html+='<div class="col-md-4"><a href="#" id="add_port" onclick="addPort()"  class="btn btn-primary" >+</a></div>';
     //da mettere a posto
 
     
@@ -211,3 +212,13 @@ function setOptionsTemplateValues() {
     //    $html+='>'+ele+'</option>';
     //});
     //    $html+='</select>'+
+
+function deletePort(portId,vnfId){
+    var portId_mod=portId.replace(/:/g,"\\:");
+    deletePortById(portId,vnfId);
+    $('#delete'+portId_mod).remove();
+}
+
+function addPort(){
+    console.log(this);
+}
