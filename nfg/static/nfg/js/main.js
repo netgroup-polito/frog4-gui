@@ -63,6 +63,9 @@ var NF_view=true;
 var isAlreadyPositioned=false;
 var isModified=false;
 
+
+var isReduced = false;
+
 /*
  * selected elements for deleting
  */

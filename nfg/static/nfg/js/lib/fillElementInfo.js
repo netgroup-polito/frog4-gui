@@ -154,7 +154,6 @@ function updateVNF(){
 
     console.log(vnf);
     vnf["name"] = $("#nameVNF").val();
-    vnf["ports"] = [];
     
     var ports_template = template_js.ports;
     var new_int=[];
@@ -167,26 +166,12 @@ function updateVNF(){
         console.log(num_port);
     });
 
-            //port.x =i*8;
-            //port.y = 0;
-            //port.parent_NF_x = vnf["x"];
-            //port.parent_NF_y = vnf["y"];
-
     console.log(num_port);
     console.log(vnf);     
 
-    if(vnf.ports.length>num_port){
-        /* numero di porte diminuito */
+    
 
-    }else if(vnf.ports.lenght<num_port){
-        /* numero di porte aumentato */
-
-    }else{
-        /* numero di porte invariato */
-        
-    }
-
-
+    $('#FormNF').modal('hide');
 
     return vnf;
 
