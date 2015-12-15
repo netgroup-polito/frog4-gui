@@ -21,7 +21,7 @@ function select_node(ele){
             console.log("showModalFlow");
 
 
-
+            $('#idPriority').val(1);
             $("#idFlowRule").val(NextIdFlowRule());
             $("#idPortIn").val(ele1_selected.id);
             $("#idOutput").val(ele2_selected.id);
@@ -44,7 +44,7 @@ function DrawNewLink(){
         createLink(duplex,newFR.id);
         $("#ModalFlowRules").modal("hide");
         setKeysWindowListener();
-
+        updateView();
     }else{
         console.log("validazione fallita");
     }
@@ -194,7 +194,7 @@ function createLink(duplex,idFR){
             return "url(#IntArrow)";
 
         })
-        .on("click",selectInternalBSLinks);
+        .on("click",selectNewInternalBSLinks);
 
 
     /* disegno il link tra i 2 elementi */

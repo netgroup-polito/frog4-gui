@@ -36,6 +36,8 @@ function keyDown(){
             } else if(selected_link) {
                 deleteFR();
             }
+            checkSplit();
+            updateView();
             selected_link = null;
             selected_node = null;
             break;
@@ -54,6 +56,8 @@ function keyDown(){
             } else if(selected_link) {
                 deleteFR();
             }
+            checkSplit();
+            updateView();
             selected_link = null;
             selected_node = null;
             break;

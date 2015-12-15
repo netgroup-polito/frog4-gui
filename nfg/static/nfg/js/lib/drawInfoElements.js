@@ -122,6 +122,12 @@ function Reduce(id){
 
 }
 
+function drawAnyItems(){
+    $('.info').empty();
+    $('.info').append('<a href="#"><i class="glyphicon glyphicon-exclamation-sign"></i><strong> No Items Selected</strong></a><div class="panel panel-default"><div class="panel-heading">How to Start</div><div class="panel-body"><p><b>jsdklhdsjalsgdjjk</b></p><p><b>jakfhojdklajkf</b></p></div></div>');
+
+}
+
 
 /*message info from the server */
 
@@ -140,6 +146,8 @@ function showMessageServer(e){
         $("#titleWarning").html('<span class="glyphicon glyphicon-alert"></span> Warning');
     }
 }
+
+
 
 
 

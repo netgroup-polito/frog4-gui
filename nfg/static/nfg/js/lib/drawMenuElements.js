@@ -171,6 +171,7 @@ function drawNewEP(){
             //    d3.selectAll(".BS-line[fullduplex=false]").attr("marker-end","url(#IntArrow)");
             //    //d3.select(this).attr("stroke","red");
             //});
+        updateView();
         updateTooltips();
     }else{
         console.log("validazione fallita");
@@ -355,6 +356,7 @@ function drawNewNF(){
         //    selected_link=this;
         //    d3.select(this).attr("stroke","red");
         //});
+    updateView();
     updateTooltips();
 
 }
