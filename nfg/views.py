@@ -118,7 +118,7 @@ def ajax_data_request(request):
     file_name_fg = request.session["file_name_fg"]
     print "file di sessione:" + file_name_fg
   else:
-    #file_name_fg = "00000001.json"      #file json di default
+    #file_name_fg = "00000001.json"      #file json che usiamo per testing
     file_name_fg = "default.json"        #file vuoto    
     request.session["file_name_fg"] = file_name_fg
   
@@ -154,18 +154,27 @@ def ajax_data_request(request):
 
 
         file_name_pos = request.session["file_name_pos"]
+
+        if os.path.isfile(directory+"/pos/"+file_name_pos) == False:
+
+
+          json_data['is_find_pos'] = 'false'
+          json_data['json_file_pos'] = {}  
+
+          logger.debug("file di posizionamento non trovato")
+
+        else:
         
-        json_file_pos = open(directory+"/pos/"+file_name_pos,"r")
-        json_data_pos = json.load(json_file_pos)
-        json_file_pos.close()
+          json_file_pos = open(directory+"/pos/"+file_name_pos,"r")
+          json_data_pos = json.load(json_file_pos)
+          json_file_pos.close()
 
-        json_data['is_find_pos'] = 'true'
-        json_data['json_file_pos'] = json_data_pos
-
-
-        logger.debug("file di posizionamento trovato nella sessione")
+          json_data['is_find_pos'] = 'true'
+          json_data['json_file_pos'] = json_data_pos
 
 
+          logger.debug("file di posizionamento trovato nella sessione")
+        
       else:
 
         len_file_name = len(file_name_fg)

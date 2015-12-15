@@ -122,6 +122,33 @@ function Reduce(id){
 
 }
 
+function drawAnyItems(){
+
+    /* deselect any items */
+
+    deselectAll();
+    $('.info').empty();
+
+    $html = '<a href="#"><i class="glyphicon glyphicon-exclamation-sign"></i><strong> No Items Selected</strong></a>'+
+            '<div class="panel panel-default">'+
+            '<div class="panel-heading">How to Start</div>'+
+            '<div class="panel-body">'+
+                '<p><b><i class="glyphicon glyphicon-file" aria-hidden="true"></i> New Document</b></p>'+
+                '<p><b><i class="glyphicon glyphicon-pencil" aria-hidden="true"></i> Draw </b></p>'+
+                '<p><b><i class="fa fa-square-o fa-lg" aria-hidden="true"></i> Change View </b></p>'+
+                '<p><b><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> Save Graph on Server</b></p>'+
+                '<p><b><span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span> Upload Graph </b></p>'+
+                '<p><b><span class="fa fa-server fa-lg" aria-hidden="true"></span> Download Graph on Server</b></p>'+
+                '<p><b><span class="glyphicon glyphicon-save" aria-hidden="true"></span> Download Graph on Client</b></p>'+
+            '</div>'+
+            '</div>';
+
+
+
+    $('.info').append($html);
+
+}
+
 
 /*message info from the server */
 
@@ -140,6 +167,8 @@ function showMessageServer(e){
         $("#titleWarning").html('<span class="glyphicon glyphicon-alert"></span> Warning');
     }
 }
+
+
 
 
 

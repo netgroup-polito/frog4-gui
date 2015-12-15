@@ -122,6 +122,8 @@ function DrawMenuBar(){
     drawEPMenu();
     drawNFMenu();
     drawLINEMenu();
+
+    drawAnyItems();
 }
 
 
