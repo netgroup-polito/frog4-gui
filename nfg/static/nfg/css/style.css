@@ -322,3 +322,17 @@ html{
   cursor: pointer;  
 }
 
+.port-i{
+  padding: 5px;
+  border: 1px solid #CCC;
+  margin-left: 2.5px;
+  margin-bottom: 5px;
+  background-color: #EEE;
+  border-radius: 5px;
+
+}
+
+.port-id{
+  padding-top: 10px; 
+}
+

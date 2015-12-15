@@ -4,7 +4,7 @@ function showPreviewFG(){
 }
 
 
-function previewFile(){                
+/*function previewFile(){                
     
     var file;
     var stringa;
@@ -20,7 +20,7 @@ function previewFile(){
                                 
         console.log("Success: Files sent!");
         console.log(e);
-        /*file restituito */
+        
         stringa = e;
         
         $('#file_content_preview').show();
@@ -31,6 +31,16 @@ function previewFile(){
                 
         console.log("An error occurred, the files couldn't be sent!");
     });      
+}*/
+
+function previewFile(){
+    my_fg = ser_fg();
+    console.log(my_fg);
+    stringa = JSON.stringify(my_fg);
+    $('#file_content_preview').show();
+    $('#file_content_preview').empty();
+    $('#file_content_preview').append(stringa);
+
 }
 
 function SelectText(element) {

@@ -6,7 +6,6 @@
 var labelList=[];
 
 function FillFormEditVNF(idVNF){
-    //console.log("ciao dani!!!");
     var template;
     var vnf;
     NF_list.forEach(function(ele){
@@ -106,21 +105,20 @@ function addEditFormPort(idVNF){
      $html=
         '<div>'+
         '<div class="form-group" >'+
-        '<label class="control-label col-sm-2" for="swap">Port Info:</label>'+
+        '<label class="control-label col-sm-2" >Port Info:</label>'+
         '<div class="col-sm-10">'+
         '</div>'+
         '</div>';
     vnf.ports.forEach(function(port){
         console.log(port.id);
-        $html+=
-        '<form class="form-inline">'+
-            '<div class="form-group" >'+
-                '<label  for="swap">'+port.id+'</label>'+
-
-
-
-        ' <a href="#" id="prova" onclick="deletePort('+port.fullId+')"  class="btn btn-danger" >x</a></div></form>';
+        $html+='<div class="row port-i">'+
+            '<div class="col-md-4"></div>'+
+            '<div class="col-md-4"><label class="port-id">'+port.id+'</label></div>'+
+            '<div class="col-md-4"><a href="#" id="prova" onclick="deletePort('+port.fullId+')"  class="btn btn-danger" >x</a></div>'+
+            '</div>';
     });
+
+
 
     template_js.ports.forEach(function(e){
         var label={};
@@ -137,11 +135,16 @@ function addEditFormPort(idVNF){
         labelList.push(label);
     });
     $html+=
-        '<form class="form-inline">'+
+        '<div>'+
         '<div class="form-group" >'+
-        '<input type="text" name="" class="form-control" id="" placeholder="port name" >'+
+        '<label class="control-label col-sm-2" >Add New Port:</label>'+
+        '<div class="col-sm-10">'+
+        '</div>'+
+        '</div>'+
+        '<div class="row port-i">'+
+        '<div class="col-md-4"><input type="text" name="" class="form-control" id="" placeholder="port name" ></div>'+
 
-        '<div class="btn-group">'+
+        '<div class="col-md-4"><div class="btn-group">'+
         '<button type="button" class="btn btn-default dropdown-toggle"  data-toggle="dropdown" name="type" aria-haspopup="true" aria-expanded="false" id="selectLabel"> Label <span class="caret"></span></button>'+
         '<ul class="dropdown-menu">';
     labelList.forEach(function(ele,i){
@@ -151,10 +154,8 @@ function addEditFormPort(idVNF){
     $html+='</ul></div><div class="btn-group">' +
         '<button type="button" class="btn btn-default dropdown-toggle"  data-toggle="dropdown" name="type" aria-haspopup="true" aria-expanded="false" id="selectPosition"> Id <span class="caret"></span></button>'+
         '<ul class="dropdown-menu" id="positionMenu"></ul>'+
-        '<a href="#" id="prova" onclick=""  class="btn btn-primary" >add</a>'+
-        '</div>'+
-        '</form>'+
-        '</div>'+
+        '</div></div>'+
+        '<div class="col-md-4"><a href="#" id="prova" onclick=""  class="btn btn-primary" >+</a></div>'+
         '</div>';
     //da mettere a posto
 
