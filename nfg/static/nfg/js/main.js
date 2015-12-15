@@ -109,7 +109,7 @@ $(document).ready(function(){
             DrawForwardingGraph(fg);
               showBSView(false);
           }
-
+          drawAnyItems();
           file_name_fg = json_data["file_name_fg"];
           $("#nameFile").val(file_name_fg);
           console.log(file_name_fg);
