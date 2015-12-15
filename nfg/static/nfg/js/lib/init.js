@@ -6,6 +6,7 @@
 
 
 function FG_init(){
+    console.log("isAlreadyPos :"+isAlreadyPositioned);
     if(!isAlreadyPositioned) {
         setRandomInitialNFPositions();
         setRandomInitialEPPositions();
@@ -327,6 +328,7 @@ function setInitialEPPositions(){
         EP_list[i].ref = "end-point";
         EP_list[i].fullId="endpoint:"+EP_list[i].id;
         EP_list[i].isLinked = false;
+        console.log(ep.x+" - "+ep.y);
     }
 }
 

@@ -97,3 +97,23 @@ function deselectAll(){
     d3.selectAll(".NetworkFunction").attr("xlink:href","#NF_node");
     d3.select(".use_BIG").attr("xlink:href","#BIG_SWITCH_node");
 }
+
+function selectNewInternalBSLinks(d){
+    console.log(this);
+    selected_link=this;
+    selected_node=undefined;
+    var id=$(this).attr('idfr');
+    var id_split=id.split('-');
+    id=id_split[1];
+    deselectAll();
+
+    if($(this).attr("fullduplex")==="false") {
+        $(this).attr("marker-end", "url(#IntArrowSelected)");
+    }
+    $(this).attr("class","BS-line-selected");
+    drawBigSwitchInfo(fg);
+
+    highlightsFlowRule(id);
+    if(getDualFR(id)!==undefined)
+        highlightsFlowRule(getDualFR(id).id);
+}

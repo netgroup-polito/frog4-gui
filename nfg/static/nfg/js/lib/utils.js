@@ -146,6 +146,7 @@ function isDuplex(sourceId,destId){
 }
 
 function checkSplit(){
+    isSplitted=false;
     for(var i=0;i<flow_rules.length;i++){
         for(var j=i+1;j<flow_rules.length;j++){
             if(

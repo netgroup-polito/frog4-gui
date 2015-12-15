@@ -59,7 +59,7 @@ var creating_link=false;
  * if it is set to true -> need to view with big switch
  */
 var isSplitted=false;
-var NF_view=true;
+var BS_view=false;
 var isAlreadyPositioned=false;
 var isModified=false;
 
@@ -104,7 +104,7 @@ $(document).ready(function(){
 
             DrawMenuBar();
             DrawForwardingGraph(fg);
-            showNFFG(false);
+              showBSView(false);
           }
 
           file_name_fg = json_data["file_name_fg"];
