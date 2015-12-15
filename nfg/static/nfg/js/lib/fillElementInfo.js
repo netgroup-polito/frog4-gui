@@ -145,11 +145,12 @@ function updateVNF(){
     var vnf = {};
     var port = {};
 
-    vnf["id"] = $("#idVNF").val();
-    
-    NF_list.forEach(function(ele){
-        if(vnf.id == ele.id) vnf = ele;
-    });
+    //vnf["id"] = $("#idVNF").val();
+    //
+    //NF_list.forEach(function(ele){
+    //    if(vnf.id == ele.id) vnf = ele;
+    //});
+    vnf=getVNFById($("#idVNF").val());
     /* recupero la VNF  da modificare */
 
     console.log(vnf);
@@ -169,7 +170,7 @@ function updateVNF(){
     console.log(num_port);
     console.log(vnf);     
 
-    
+    $('#text_'+vnf.id).text(vnf.name);
 
     $('#FormNF').modal('hide');
 
