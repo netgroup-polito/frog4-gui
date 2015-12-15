@@ -8,6 +8,7 @@ function drawEPMenu(){
             .attr("cx",200)
             .attr("cy",40)
             .on("click",function(){
+                    
                     $('#FormEP').modal('show');
                     unSetKeysWindowListener();
                     $('#seltypeEP' ).val('internal');
@@ -27,7 +28,8 @@ function drawNFMenu(){
             .attr("y",20)
             .attr("width",NF_width)
             .attr("height",NF_height)   
-            .on("click",function(){                
+            .on("click",function(){  
+                             
                 $('#FormNF').modal('show');
                 unSetKeysWindowListener();
                 $('#seltemplateVNF' ).val('Firewall');

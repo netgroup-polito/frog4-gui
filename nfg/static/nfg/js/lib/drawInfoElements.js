@@ -140,6 +140,7 @@ function drawAnyItems(){
                 '<p><b><span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span> Upload Graph </b></p>'+
                 '<p><b><span class="fa fa-server fa-lg" aria-hidden="true"></span> Download Graph on Server</b></p>'+
                 '<p><b><span class="glyphicon glyphicon-save" aria-hidden="true"></span> Download Graph on Client</b></p>'+
+                '<p><b>Press d or canc to delete an item</b></p>'+
             '</div>'+
             '</div>';
 
