@@ -63,6 +63,9 @@ var BS_view=false;
 var isAlreadyPositioned=false;
 var isModified=false;
 
+
+var isReduced = false;
+
 /*
  * selected elements for deleting
  */

@@ -98,9 +98,17 @@ function drawBigSwitchInfo(fg){
     });}
 
 function ReduceAll(){
-    fg["forwarding-graph"]["big-switch"]["flow-rules"].forEach(function(e){
-        $('#flowrule'+e.id).hide();
-    });
+    if(isReduced===false){
+        fg["forwarding-graph"]["big-switch"]["flow-rules"].forEach(function(e){
+            $('#flowrule'+e.id).hide();
+        });
+        isReduced = true;
+    }else{
+        fg["forwarding-graph"]["big-switch"]["flow-rules"].forEach(function(e){
+            $('#flowrule'+e.id).show();
+        });
+        isReduced = false;
+    }
 }
 
 function Reduce(id){

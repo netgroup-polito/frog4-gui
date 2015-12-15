@@ -20,7 +20,7 @@ function FillFormEditVNF(idVNF){
     console.log(vnf.id);
     $("#idVNF").val(vnf.id);
     $("#nameVNF").val(vnf.name);
-    //drawFormVNF();
+    $('#seltemplateVNF').attr('disabled', true);
     console.log(vnf.vnf_template);
 
     switch(vnf.vnf_template){
@@ -76,7 +76,7 @@ function FillFormEditVNF(idVNF){
 
     /* cambio il bottone in save */
 
-    $("#saveVNF").attr("onclick","saveNewVNF()");
+    $("#saveVNF").attr("onclick","updateVNF()");
     $("#saveVNF").html("Save VNF");
 
 }
@@ -96,6 +96,8 @@ function addEditFormPort(idVNF){
     console.log(vnf);
     var port_template = template_js.ports;
     $("#infoPort").empty();
+    $("#selectPosition").empty();
+    $("#selectLabel").empty();
     //$html = '<div class="boxPort">'+
     //    '    <div class="form-group">'+
     //    '        <label class="control-label col-sm-2" for="title" id="titleInterface"><a>Ports info:</a></label>'+
@@ -114,7 +116,7 @@ function addEditFormPort(idVNF){
         $html+='<div class="row port-i">'+
             '<div class="col-md-4"></div>'+
             '<div class="col-md-4"><label class="port-id">'+port.id+'</label></div>'+
-            '<div class="col-md-4"><a href="#" id="prova" onclick="deletePort('+port.fullId+')"  class="btn btn-danger" >x</a></div>'+
+            '<div class="col-md-4"><a href="#" id="delete_port" onclick="deletePort('+port.fullId+')"  class="btn btn-danger" >x</a></div>'+
             '</div>';
     });
 
@@ -144,28 +146,43 @@ function addEditFormPort(idVNF){
         '<div class="row port-i">'+
         '<div class="col-md-4"><input type="text" name="" class="form-control" id="" placeholder="port name" ></div>'+
 
-        '<div class="col-md-4"><div class="btn-group">'+
-        '<button type="button" class="btn btn-default dropdown-toggle"  data-toggle="dropdown" name="type" aria-haspopup="true" aria-expanded="false" id="selectLabel"> Label <span class="caret"></span></button>'+
-        '<ul class="dropdown-menu">';
+        '<div class="col-md-2">'+
+        '<select class="form-control" name="type" id="selectLabel">';
     labelList.forEach(function(ele,i){
-        $html+='<li><a href="#" id="option-'+ele.name+'" >'+ele.name+'</a></li>';
+        $html+='<option id="option-'+ele.name+'" >'+ele.name+'</option>';
     });
+    $html+='</select></div><div class="col-md-2">';
 
-    $html+='</ul></div><div class="btn-group">' +
-        '<button type="button" class="btn btn-default dropdown-toggle"  data-toggle="dropdown" name="type" aria-haspopup="true" aria-expanded="false" id="selectPosition"> Id <span class="caret"></span></button>'+
-        '<ul class="dropdown-menu" id="positionMenu"></ul>'+
-        '</div></div>'+
-        '<div class="col-md-4"><a href="#" id="prova" onclick=""  class="btn btn-primary" >+</a></div>'+
-        '</div>';
+    $html+='<select class="form-control" name="type" id="selectPosition"></select></div>';
+    $html+='<div class="col-md-4"><a href="#" id="delete_port" onclick=""  class="btn btn-primary" >+</a></div>';
     //da mettere a posto
 
-
+    
     $("#infoPort").append($html);
     labelList.forEach(function(ele,i){
         jQuery('#option-'+ele.name).click(setOptionsTemplateValues);
     });
+
 }
 
+function setOptionsTemplateValues(){
+    var labelType = $("#selectLabel").val();
+    console.log(labelType);
+    options="";
+
+    $("#selectPosition").empty();
+    labelList.forEach(function(label){
+        if(label.name===labelType){
+            for(var i=0;i<label.pos_max-label.pos_min+1;i++){
+                options+='<option>'+i+'</option>';
+            }
+        }
+    });
+    $('#selectPosition').append(options);
+    
+}
+
+/*
 function setOptionsTemplateValues() {
 
     console.log(this);
@@ -180,10 +197,10 @@ function setOptionsTemplateValues() {
                 options+='<li><a hfref="#">'+i+'</a></li>';
             }
         }
-    });
-    $('#positionMenu').append(options);
+    });*/
+   // $('#positionMenu').append(options);
     //label.preventDefault();
-}
+//}
     //
     //    //'<option selected>option1</option>'+
     //    //'<option selected>option2</option>'+

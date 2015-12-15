@@ -1,7 +1,7 @@
 function drawFormVNF(){
 	opt="";
 	var template = "";
-
+    $('#seltemplateVNF').removeAttr('disabled');
 	$(function(){
 		$("#seltemplateVNF").change(function(){
 			var opt_sel = $("#seltemplateVNF").val();
