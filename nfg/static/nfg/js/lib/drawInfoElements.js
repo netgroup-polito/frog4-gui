@@ -66,36 +66,49 @@ function drawVNFInfo(vnf,id){
 function drawBigSwitchInfo(fg){
     $('.info').empty();
     $('.info').append('<a onclick="ReduceAll()"><i class="glyphicon glyphicon-exclamation-sign"></i><strong> BigSwitch Info</strong></a>');
-    flow_rules.forEach(function(e){
-        /*$html = '<div class="panel panel-default"><div class="panel-heading"><a onclick="Reduce('+e.id+')">FlowRule Id: '+e.id+' (';*/
-        $html = '<div class="panel panel-default" id="panel'+e.id+'"><div class="panel-heading" id="panel-h'+e.id+'"><a onclick="Reduce('+e.id+')">FlowRule (';
-
-        $html+=e.actions[0].output+" ";
-
-        $html += ')</a></div><div id="flowrule'+e.id+'" class="panel-body"><p><b>Priority: '+e.priority+'</b> </p></div></div>';
+    if(flow_rules.length===0){
+        var $html='<a href="#"><i class="glyphicon glyphicon-exclamation-sign"></i><strong> No Items Selected</strong></a>'+
+            '<div class="panel panel-default">'+
+            '<div class="panel-heading">Info</div>'+
+            '<div class="panel-body">'+
+            '<p><b> No Flow-Rules</b></p>'+
+            '</div>'+
+            '</div>';
+        $('.info').empty();
         $('.info').append($html);
-        $('#flowrule'+e.id).append('<p><b>Action:</b></p>');
+    }else {
+        flow_rules.forEach(function (e) {
+            /*$html = '<div class="panel panel-default"><div class="panel-heading"><a onclick="Reduce('+e.id+')">FlowRule Id: '+e.id+' (';*/
+            var $html = '<div class="panel panel-default" id="panel' + e.id + '"><div class="panel-heading" id="panel-h' + e.id + '"><a onclick="Reduce(' + e.id + ')">FlowRule (';
 
-        $('#flowrule'+e.id).append('<div class="panel panel-default" id="internal_panel'+e.id+'"><div id="a_'+e.id +'"class="panel-body"></div></div>');
+            $html += e.actions[0].output + " ";
 
-        if(e.actions[0].output!=null)
-            $('#a_'+e.id).append('<p><b>Output: </b>'+e.actions[0].output+'</p>');
+            $html += ')</a></div><div id="flowrule' + e.id + '" class="panel-body"><p><b>Priority: ' + e.priority + '</b> </p></div></div>';
+            $('.info').append($html);
+            $('#flowrule' + e.id).append('<p><b>Action:</b></p>');
+
+            $('#flowrule' + e.id).append('<div class="panel panel-default" id="internal_panel' + e.id + '"><div id="a_' + e.id + '"class="panel-body"></div></div>');
+
+            if (e.actions[0].output != null)
+                $('#a_' + e.id).append('<p><b>Output: </b>' + e.actions[0].output + '</p>');
 
 
+            /* aggiungere gli altri*/
 
-        /* aggiungere gli altri*/
+            if (e.match.ether_type != null)
+                $('#flowrule' + e.id).append('<p><b>EtherType: </b>' + e.match.ether_type + '</p>');
+            if (e.match.protocol != null)
+                $('#flowrule' + e.id).append('<p><b>Protocol: </b>' + e.match.protocol + '</p>');
+            if (e.match.dest_port != null)
+                $('#flowrule' + e.id).append('<p><b>Destination Port: </b>' + e.match.dest_port + '</p>');
+            if (e.match.port_in != null)
+                $('#flowrule' + e.id).append('<p><b>Source Port: </b>' + e.match.port_in + '</p>');
 
-        if(e.match.ether_type!=null)
-            $('#flowrule'+e.id).append('<p><b>EtherType: </b>'+e.match.ether_type+'</p>');
-        if(e.match.protocol!=null)
-            $('#flowrule'+e.id).append('<p><b>Protocol: </b>'+e.match.protocol+'</p>');
-        if(e.match.dest_port!=null)
-            $('#flowrule'+e.id).append('<p><b>Destination Port: </b>'+e.match.dest_port+'</p>');
-        if(e.match.port_in!=null)
-            $('#flowrule'+e.id).append('<p><b>Source Port: </b>'+e.match.port_in+'</p>');
+            /* aggiungere gli altri*/
+        });
+    }
 
-        /* aggiungere gli altri*/
-    });}
+}
 
 function ReduceAll(){
     if(isReduced===false){

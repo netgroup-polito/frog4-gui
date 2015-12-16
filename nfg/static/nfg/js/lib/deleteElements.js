@@ -100,6 +100,8 @@ function eraseAll(){
     $(".VNF_section").empty();
     $(".interfaces_section").empty();
     $(".VNF_text_section").empty();
+    isSplitted=false;
+    updateView();
 }
 
 function deletePortById(portId,vnfId){
