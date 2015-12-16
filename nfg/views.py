@@ -115,11 +115,11 @@ def ajax_data_request(request):
   print directory
 
   if "file_name_fg" in request.session:
-    file_name_fg = request.session["file_name_fg"]
+    file_name_fg = request.session["file_name_fg"]+".json"
     print "file di sessione:" + file_name_fg
   else:
-    file_name_fg = "default.json"        #file vuoto    
-    request.session["file_name_fg"] = file_name_fg
+    file_name_fg = "default.json"         
+    request.session["file_name_fg"] = "default"
   
   print file_name_fg
   (shortname, extension) = os.path.splitext(file_name_fg)
@@ -149,10 +149,10 @@ def ajax_data_request(request):
         msg = json.dumps(msg) 
         return HttpResponse("%s" % msg)
       
-      if "file_name_pos" in request.session:
+      if "file_name_fg" in request.session:
 
 
-        file_name_pos = request.session["file_name_pos"]
+        file_name_pos = request.session["file_name_fg"]+"_pos.json"
 
         if os.path.isfile(directory+"/pos/"+file_name_pos) == False:
 
@@ -176,9 +176,9 @@ def ajax_data_request(request):
         
       else:
 
-        len_file_name = len(file_name_fg)
-        file_name_pos = file_name_fg[0:len_file_name-5]
-        file_name_pos += "_pos.json"
+        #len_file_name = len(file_name_fg)
+        #file_name_pos = file_name_fg[0:len_file_name-5]
+        file_name_pos = request.session["file_name_fg"] + "_pos.json"
 
         if os.path.isfile(directory+"/"+file_name_pos):
 
@@ -258,7 +258,7 @@ def ajax_upload_request(request):
       if(os.path.isfile(directory+"/pos/"+file_name_pos[0]+"_pos.json")):
         os.remove(directory+"/pos/"+file_name_pos[0]+"_pos.json")
 
-      request.session["file_name_fg"] = file_name_fg;
+      request.session["file_name_fg"] = file_name_pos[0];
 
       msg["success"] = "Upload Riuscito"
       logger.debug(msg["success"])
@@ -309,13 +309,16 @@ def ajax_save_request(request):
 
     file_content_fg = request.POST["file_content_fg"]
     file_content_pos = request.POST["file_content_pos"]
+
     print file_name_fg
     print file_name_pos
     print file_content_fg
     print file_content_pos
     # memorizzo il filename nella varibile di sessione file_name
-    request.session["file_name_fg"] = file_name_fg;
-    request.session["file_name_pos"] = file_name_pos;
+
+    file_name = file_name_fg.split(".")
+
+    request.session["file_name_fg"] = file_name[0];
 
     json_data = json.loads(file_content_fg)
     try:
@@ -367,7 +370,8 @@ def ajax_download_preview(request):
         #print "file trovato"
         logger.debug("file trovato")
 
-        request.session["file_name_fg"] = file_name_fg
+        file_name = file_name_fg.split(".")
+        request.session["file_name_fg"] = file_name[0]
 
         json_file_fg = open(directory+"/"+file_name_fg,"r")
         json_data_fg = json.load(json_file_fg)      
@@ -415,16 +419,16 @@ def ajax_download_request(request):
           msg = json.dumps(msg)
           return HttpResponse("%s" % msg)
 
+        file_name = file_name_fg.split(".")
+        request.session["file_name_fg"] = file_name[0]
 
-        request.session["file_name_fg"] = file_name_fg
-        len_file_name = len(file_name_fg)
-        file_name_pos = file_name_fg[0:len_file_name-5]
-        file_name_pos += "_pos.json"
+        
+        file_name_pos = file_name[0]+"_pos.json"
         print file_name_pos
 
         if os.path.isfile(directory+"/pos/"+file_name_pos):
           logger.debug("file di posizionamento presente")
-          request.session["file_name_pos"] = file_name_pos
+          #request.session["file_name_pos"] = file_name_pos
 
 
         print json_data
