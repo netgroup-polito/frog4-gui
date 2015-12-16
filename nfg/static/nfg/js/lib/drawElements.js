@@ -81,7 +81,7 @@ function drawEP(elements){
         .attr("cx",function(d){return d.x;})
         .attr("cy",function(d){return d.y;})
         .attr("title",function(d){return d.name;})
-        .style("fill",function(d){switch(d.name){
+        .style("fill",function(d){switch(d.icon){
                                     case "host":
                                         return "url(#host-icon)";
                                     case "internet":

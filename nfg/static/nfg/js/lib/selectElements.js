@@ -42,15 +42,15 @@ function selectEndPoints(d){
 
     deselectAll();
 
-    switch(d.name){
+    switch(d.icon){
         case "host":
-            d3.select(this).attr("class","end-points-select "+d.name).style("fill","url(#host-select-icon)");
+            d3.select(this).attr("class","end-points-select "+d.icon).style("fill","url(#host-select-icon)");
             break;
         case "internet":
-            d3.select(this).attr("class","end-points-select "+d.name).style("fill","url(#internet-select-icon)");
+            d3.select(this).attr("class","end-points-select "+d.icon).style("fill","url(#internet-select-icon)");
             break;
         default:
-            d3.select(this).attr("class","end-points-select "+d.name);
+            d3.select(this).attr("class","end-points-select "+d.icon);
             break;
     }
 

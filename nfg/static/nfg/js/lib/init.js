@@ -63,14 +63,6 @@ function elaborateFlowRules(){
             }
         }
 
-
-        //3 aggiunco alla lista delle interfacce del bs 2 nuovi elementi:
-        //var bs_x=300,bs_y=200;
-        //var int1={id:"bs-"+fr["match"]["port_in"],x:parseInt(Math.random()*BIG_SWITCH_width),y:0};
-        //var int2={id:"bs-"+fr["action"]["output"],x:parseInt(Math.random()*BIG_SWITCH_width),y:0};
-        //big_switch.interfaces.push(int1);
-        //big_switch.interfaces.push(int2);
-
     });
     //flow_rules= _.filter(flow_rules,function(e){return e["double"]!==undefined || e["full_duplex"]===false;});
     flow_rules.forEach(function(fr){
@@ -328,6 +320,7 @@ function setInitialEPPositions(){
         EP_list[i].ref = "end-point";
         EP_list[i].fullId="endpoint:"+EP_list[i].id;
         EP_list[i].isLinked = false;
+        EP_list[i].icon = ep.icon;
         console.log(ep.x+" - "+ep.y);
     }
 }
@@ -368,6 +361,8 @@ function setInitialBSPositions(){
     big_switch.interfaces=bs_interfaces;
 
 }
+
+
 
 
 

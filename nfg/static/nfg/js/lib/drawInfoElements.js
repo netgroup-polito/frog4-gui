@@ -83,7 +83,7 @@ function drawBigSwitchInfo(fg){
 
             $html += e.actions[0].output + " ";
 
-            $html += ')</a></div><div id="flowrule' + e.id + '" class="panel-body"><p><b>Priority: ' + e.priority + '</b> </p></div></div>';
+            $html += ')</a></div><div id="flowrule' + e.id + '" class="panel-body"><p><b>Description: ' + e.description + '</b> </p><p><b>Priority: ' + e.priority + '</b> </p></div></div>';
             $('.info').append($html);
             $('#flowrule' + e.id).append('<p><b>Action:</b></p>');
 

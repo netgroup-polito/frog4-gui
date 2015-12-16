@@ -183,35 +183,6 @@ function setOptionsTemplateValues(){
     
 }
 
-/*
-function setOptionsTemplateValues() {
-
-    console.log(this);
-    var labelType = $(this).text();
-    console.log(labelType);
-    $('#selectLabel').text(labelType);
-    var options='';
-    $('#positionMenu').empty();
-    labelList.forEach(function(label){
-        if(label.name===labelType){
-            for(var i=0;i<label.pos_max-label.pos_min+1;i++){
-                options+='<li><a hfref="#">'+i+'</a></li>';
-            }
-        }
-    });*/
-   // $('#positionMenu').append(options);
-    //label.preventDefault();
-//}
-    //
-    //    //'<option selected>option1</option>'+
-    //    //'<option selected>option2</option>'+
-    //
-    //for(function(ele,i){
-    //    $html+='<option ';
-    //    if(i===0){ $html+='selected';}
-    //    $html+='>'+ele+'</option>';
-    //});
-    //    $html+='</select>'+
 
 function deletePort(portId,vnfId){
     var portId_mod=portId.replace(/:/g,"\\:");

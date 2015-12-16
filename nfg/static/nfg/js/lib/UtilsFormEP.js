@@ -184,3 +184,7 @@ function resetValidation(){
     $("#vlanID").parent().parent().attr("class","form-group");
     $("#vlanInterface").parent().parent().attr("class","form-group");
 }
+
+
+
+

@@ -20,6 +20,7 @@ function ser_big(){
 		var flowrule = {};
 		flowrule["id"] = ele["id"];
 		flowrule["priority"] = ele["priority"];
+		flowrule["description"] = ele["description"];
 		flowrule["match"] = {};
 
 		var match = {};
@@ -173,7 +174,7 @@ function serialize_pos(){
     if(EP_list.length!=0){
         file["end-points"]=[];
         EP_list.forEach(function(ep,i){
-            file["end-points"][i]={id:ep.id,x:ep.x,y:ep.y};
+            file["end-points"][i]={id:ep.id,x:ep.x,y:ep.y,icon:ep.icon};
         });
     }
     if(big_switch!=undefined){
@@ -190,43 +191,6 @@ function serialize_pos(){
 
         	file["big-switch"]["interfaces"].push(inter);
         });
-
-        /*
-        file["big-switch"]["flow-rules"] = [];
-
-        flow_rules = big_switch["flow-rules"];
-
-        flow_rules.forEach(function(ele){
-        	flow_rule = {};
-        	flow_rule.id = ele.id;
-        	flow_rule.full_duplex = ele.full_duplex;
-
-        	flow_rule.action=[];
-        	ele.action.forEach(function(ele2){
-        		act = {};
-        		act.interface_position_x = ele2.interface_position_x;
-        		act.interface_position_y = ele2.interface_position_y;
-        		act.output = ele2.output;
-
-        		flow_rule.action.push(act);
-        	})
-
-        	flow_rule.match={};
-
-        	match={};
-        	match.interface_position_x=ele.match.interface_position_x;
-        	match.interface_position_y=ele.match.interface_position_y;
-        	
-        	match.port_in=ele.port_in;
-
-        	flow_rule.match = match;
-
-        	flow_rules.push(flow_rule);
-
-        });
-
-        file["big-switch"]["flow-rules"]=flow_rules;
-        */
 
 
     }

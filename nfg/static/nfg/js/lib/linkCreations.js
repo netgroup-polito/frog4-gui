@@ -27,6 +27,7 @@ function select_node(ele){
             $("#idOutput").val(ele2_selected.id);
             unSetKeysWindowListener();
             $("#ModalFlowRules").modal("show");
+            resetFormFlowRules();
             hideMatch();
             hideAction();
             $("#selLink").val("single-link");
@@ -47,6 +48,7 @@ function DrawNewLink(){
         checkSplit();
         createLink(duplex,newFR.id);
         $("#ModalFlowRules").modal("hide");
+        drawBigSwitchInfo(fg);
         setKeysWindowListener();
         updateView();
     }else{

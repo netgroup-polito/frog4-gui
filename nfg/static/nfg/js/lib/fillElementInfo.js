@@ -6,6 +6,7 @@ function fillNewEP(){
 	ep["type"] = $("#seltypeEP").val();
 	ep["remote_endpoint_id"] = $("#remoteEPid").val();
     ep["id"] = NextIdEP(); 
+    ep["icon"] = $("#selIconEP").val();
 
     $("#idEndPoint").val(ep["id"]);
 
@@ -328,6 +329,8 @@ function fillNewFlowRule(){
 
     flow_rule["id"] = NextIdFlowRule();
     flow_rule["priority"] = $("#idPriority").val();
+    flow_rule["description"] = $("#idDescription").val();
+    
 
     match["hard_timeout"] = $("#idHardTimeout").val();
     match["ether_type"] = $("#idEtherType").val();
@@ -353,9 +356,9 @@ function fillNewFlowRule(){
     action["set_vlan_id"] = $("#idSetVlanId").val();
     action["set_vlan_priority-id"] = $("#idSetVlanPriorityId").val();
     action["pop_vlan"] = $("#idPopVlan").val();
-    action["set_ethernet_src_address"] = $("#idSetEthernetSrcAddresss").val();
+    action["set_ethernet_src_address"] = $("#idSetEthernetSrcAddress").val();
     action["set_ethernet_dst_address"] = $("#idSetEthernetDstAddress").val();
-    action["set_ip_src_address"] = $("#idSetIpSrcAddresss").val();
+    action["set_ip_src_address"] = $("#idSetIpSrcAddress").val();
     action["set_ip_dst_address"] = $("#idSetIpDstAddress").val();
     action["set_ip_tos"] = $("#idSetIpTos").val();
     action["set_l4_src_port"] = $("#idSetL4SrcPort").val();

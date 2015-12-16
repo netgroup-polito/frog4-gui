@@ -49,3 +49,67 @@ function selOptionLink(){
 	});
 }
 
+function resetFormFlowRules(){
+	$("#idPriority").val(1);
+	$("#idDescription").val("");
+
+    $("#idHardTimeout").val("");
+    $("#idEtherType").val("");
+    $("#idVlanID").val("");
+    $("#idVlanPriority").val("");
+    $("#idSourceMac").val("");
+    $("#idDestinationMac").val("");
+    $("#idSourceIP").val("");
+   	$("#idDestinationIP").val("");
+    $("#idTosBits").val("");
+    $("#idSourcePort").val("");
+    $("#idDestinationPort").val("");
+    $("#idProtocol").val("");
+    
+    $("#idSetVlanId").val("");
+    $("#idSetVlanPriorityId").val("");
+    $("#idPopVlan").val("");
+    $("#idSetEthernetSrcAddress").val("");
+    $("#idSetEthernetDstAddress").val("");
+    $("#idSetIpSrcAddress").val("");
+    $("#idSetIpDstAddress").val("");
+    $("#idSetIpTos").val("");
+    $("#idSetL4SrcPort").val("");
+    $("#idSetL4DstPort").val("");
+    $("#idOutputToQueue").val("");
+
+
+
+
+
+    $("#idPriority2").val(1);
+	$("#idDescription2").val("");
+
+    $("#idHardTimeout2").val("");
+    $("#idEtherType2").val("");
+    $("#idVlanID2").val("");
+    $("#idVlanPriority2").val("");
+    $("#idSourceMac2").val("");
+    $("#idDestinationMac2").val("");
+    $("#idSourceIP2").val("");
+   	$("#idDestinationIP2").val("");
+    $("#idTosBits2").val("");
+    $("#idSourcePort2").val("");
+    $("#idDestinationPort2").val("");
+    $("#idProtocol2").val("");
+        
+    $("#idSetVlanId2").val("");
+    $("#idSetVlanPriorityId2").val("");
+    $("#idPopVlan2").val("");
+    $("#idSetEthernetSrcAddress2").val("");
+    $("#idSetEthernetDstAddress2").val("");
+    $("#idSetIpSrcAddress2").val("");
+    $("#idSetIpDstAddress2").val("");
+    $("#idSetIpTos2").val("");
+    $("#idSetL4SrcPort2").val("");
+    $("#idSetL4DstPort2").val("");
+    $("#idOutputToQueue2").val("");
+
+}
+
+
