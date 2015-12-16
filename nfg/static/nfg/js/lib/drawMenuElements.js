@@ -57,6 +57,7 @@ function drawNewEP(){
     if(validateNewEndPoint(ep)===true){
         isModified=true;
         $('#FormEP').modal('hide');
+        setKeysWindowListener();
         ele.push(ep);
 
         /* aggiungo l'oggetto ep appena creato alla lista degli ep */
