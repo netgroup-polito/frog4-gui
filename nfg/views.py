@@ -101,7 +101,7 @@ def ajax_data_request(request):
   logger = MyLogger("filelog.log","django-application").getMyLogger()
 
   if "err_msg" in request.session:
-    print "si"
+
     if request.session["err_msg"]!="":
 
       msg = request.session["err_msg"]
@@ -118,7 +118,6 @@ def ajax_data_request(request):
     file_name_fg = request.session["file_name_fg"]
     print "file di sessione:" + file_name_fg
   else:
-    #file_name_fg = "00000001.json"      #file json che usiamo per testing
     file_name_fg = "default.json"        #file vuoto    
     request.session["file_name_fg"] = file_name_fg
   
@@ -249,13 +248,15 @@ def ajax_upload_request(request):
 
 
     if(extension == ".json"):
-
-      #print request.POST["file_name_fg"]
-      #print request.POST["file_content_fg"]
       
       out_file = open(directory+"/"+file_name_fg,"w")
       out_file.write(content_file)
       out_file.close()
+
+      file_name_pos=file_name_fg.split(".");
+
+      if(os.path.isfile(directory+"/pos/"+file_name_pos[0]+"_pos.json")):
+        os.remove(directory+"/pos/"+file_name_pos[0]+"_pos.json")
 
       request.session["file_name_fg"] = file_name_fg;
 

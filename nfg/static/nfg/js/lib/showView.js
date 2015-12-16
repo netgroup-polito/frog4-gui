@@ -2,6 +2,7 @@
  * Created by pc asus on 25/11/2015.
  */
 function showBSView(bs_view){
+
     var debug=false;
     if(!debug) {
         if (bs_view === false && isSplitted === true) {
@@ -15,7 +16,8 @@ function showBSView(bs_view){
             $('#BSViewToogle').attr("class", "btn btn-default btn-lg");
             $(".use_BIG,.BS_interface,.BS_line,.BS-line,.BS-line-selected").hide();
             $(".line,.line-selected").show();
-            $(".info").empty();
+            //$(".info").empty();
+            
         } else {
             BS_view = true;
             $(".use_BIG,.BS_interface,.BS_line,.BS-line,.BS-line-selected").show();
@@ -36,7 +38,10 @@ function updateView(){
 function switchView(){
     //if(isSplitted){
     //    $('#BSViewToogle').prop('disabled', true);
+   
+    console.log("bho");
     console.log("isSplitted: "+isSplitted);
     console.log("siamo in view BS_view: "+BS_view);
     showBSView(!BS_view);
+
 }

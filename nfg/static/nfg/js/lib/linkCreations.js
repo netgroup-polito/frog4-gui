@@ -27,6 +27,10 @@ function select_node(ele){
             $("#idOutput").val(ele2_selected.id);
             unSetKeysWindowListener();
             $("#ModalFlowRules").modal("show");
+            hideMatch();
+            hideAction();
+            $("#selLink").val("single-link");
+            $(".duplicate").hide();
         }
     }
 }

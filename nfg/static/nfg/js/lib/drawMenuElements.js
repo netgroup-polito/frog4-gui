@@ -56,6 +56,7 @@ function drawNewEP(){
     console.log(validateNewEndPoint(ep));
     if(validateNewEndPoint(ep)===true){
         isModified=true;
+        setKeysWindowListener();
         $('#FormEP').modal('hide');
         setKeysWindowListener();
         ele.push(ep);
