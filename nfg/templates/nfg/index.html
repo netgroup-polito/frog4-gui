@@ -47,6 +47,7 @@
         <script type="text/javascript" src="{% static "nfg/js/lib/UtilsFormUpload.js" %}"></script>
         <script type="text/javascript" src="{% static "nfg/js/lib/UtilsFormDownload.js" %}"></script>
         <script type="text/javascript" src="{% static "nfg/js/lib/UtilsFormPreview.js" %}"></script>
+        <script type="text/javascript" src="{% static "nfg/js/lib/UtilsFormFlowRule.js" %}"></script>
         <script type="text/javascript" src="{% static "nfg/js/lib/utilsFormChangeIDFG.js" %}"></script>
 
         <script type="text/javascript" src="{% static "nfg/js/lib/init.js" %}"></script>
@@ -165,7 +166,21 @@
                 <h4 class="modal-title" id="titleFlowRules">Create FlowRule</h4>
             </div>
             <div class="modal-body">
-                <form class="form-horizontal" role="form" action="#" id="formDownload" method="post" enctype="multipart/form-data" accept-charset="utf-8" name="formUpload">
+                <form class="form-horizontal" role="form" action="#" id="formDownload" method="post" enctype="multipart/form-data" accept-charset="utf-8" name="">
+
+                <div class="form-group">
+                        <label class="control-label col-sm-2" for="type" >Type:</label>
+                        <div class="col-sm-10">
+
+                            <select class="form-control" name="type" id="selLink">
+                                <option selected>single-link</option>
+                                <option>full duplex</option>
+                                
+                            </select>
+                        </div>
+                    </div>
+
+
                 <div class="form-group">
                     <label class="control-label col-sm-2" for="idFlowRule">ID FlowRule:</label>    
                     <div class="col-sm-10">
@@ -173,10 +188,24 @@
                     </div>          
                 </div>
 
-                <div class="form-group">
+                <div class="form-group duplicate">
+                    <label class="control-label col-sm-2 ">ID FlowRule:</label>  
+                    <div class="col-sm-10">
+                        <input type="text" name="idEP" class="form-control " id="idFlowRule2" placeholder="" disabled value="">
+                    </div>          
+                </div>
+
+                <div class="form-group ">
                     <label class="control-label col-sm-2" for="idPriority">Priority:</label>    
                     <div class="col-sm-10">
                         <input type="text" name="idEP" class="form-control " id="idPriority" placeholder="" value="">
+                    </div>          
+                </div>
+
+                <div class="form-group duplicate">
+                    <label class="control-label col-sm-2" for="idPriority">Priority:</label> 
+                    <div class="col-sm-10">
+                        <input type="text" name="idEP" class="form-control " id="idPriority2" placeholder="" value="">
                     </div>          
                 </div>
 
@@ -187,12 +216,19 @@
                     </div>
                 </div>
 
-                <div class="match">
+            <div class="match">
 
                 <div class="form-group">
                     <label class="control-label col-sm-2" for="idHardTimeout">Hard Timeout:</label>    
                     <div class="col-sm-10">
                         <input type="text" name="idEP" class="form-control " id="idHardTimeout" placeholder="" value="">
+                    </div>          
+                </div>
+
+                <div class="form-group duplicate">
+                    <label class="control-label col-sm-2" for="idHardTimeout">Hard Timeout:</label>    
+                    <div class="col-sm-10">
+                        <input type="text" name="idEP" class="form-control " id="idHardTimeout2" placeholder="" value="">
                     </div>          
                 </div>
 
@@ -203,10 +239,24 @@
                     </div>          
                 </div>
 
+                <div class="form-group duplicate">
+                    <label class="control-label col-sm-2" for="idEtherType">Ether Type:</label>    
+                    <div class="col-sm-10">
+                        <input type="text" name="idEP" class="form-control " id="idEtherType2" placeholder="" value="">
+                    </div>          
+                </div>
+
                 <div class="form-group">
                     <label class="control-label col-sm-2" for="idVlanID">Vlan ID:</label>    
                     <div class="col-sm-10">
                         <input type="text" name="idEP" class="form-control " id="idVlanID" placeholder="" value="">
+                    </div>          
+                </div>
+
+                <div class="form-group duplicate">
+                    <label class="control-label col-sm-2" for="idVlanID">Vlan ID:</label>    
+                    <div class="col-sm-10">
+                        <input type="text" name="idEP" class="form-control " id="idVlanID2" placeholder="" value="">
                     </div>          
                 </div>
 
@@ -217,10 +267,24 @@
                     </div>          
                 </div>
 
+                <div class="form-group duplicate">
+                    <label class="control-label col-sm-2" for="idVlanPriority">Vlan Priority:</label>    
+                    <div class="col-sm-10">
+                        <input type="text" name="idEP" class="form-control " id="idVlanPriority2" placeholder="" value="">
+                    </div>          
+                </div>
+
                 <div class="form-group">
                     <label class="control-label col-sm-2" for="idSourceMac">Source Mac:</label>    
                     <div class="col-sm-10">
                         <input type="text" name="idEP" class="form-control " id="idSourceMac" placeholder="" value="">
+                    </div>          
+                </div>
+
+                <div class="form-group duplicate">
+                    <label class="control-label col-sm-2" for="idSourceMac">Source Mac:</label>    
+                    <div class="col-sm-10">
+                        <input type="text" name="idEP" class="form-control " id="idSourceMac2" placeholder="" value="">
                     </div>          
                 </div>
 
@@ -231,10 +295,24 @@
                     </div>          
                 </div>
 
+                <div class="form-group duplicate">
+                    <label class="control-label col-sm-2" for="idDestinationMac">Destination Mac:</label>    
+                    <div class="col-sm-10">
+                        <input type="text" name="idEP" class="form-control " id="idDestinationMac2" placeholder="" value="">
+                    </div>          
+                </div>
+
                 <div class="form-group">
                     <label class="control-label col-sm-2" for="idSourceIP">Source IP:</label>    
                     <div class="col-sm-10">
                         <input type="text" name="idEP" class="form-control " id="idSourceIP" placeholder="" value="">
+                    </div>          
+                </div>
+
+                <div class="form-group duplicate">
+                    <label class="control-label col-sm-2" for="idSourceIP">Source IP:</label>    
+                    <div class="col-sm-10">
+                        <input type="text" name="idEP" class="form-control " id="idSourceIP2" placeholder="" value="">
                     </div>          
                 </div>
 
@@ -245,10 +323,24 @@
                     </div>          
                 </div>
 
+                <div class="form-group duplicate">
+                    <label class="control-label col-sm-2" for="idDestinationIP">Destination Ip:</label>    
+                    <div class="col-sm-10">
+                        <input type="text" name="idEP" class="form-control " id="idDestinationIP2" placeholder="" value="">
+                    </div>          
+                </div>
+
                 <div class="form-group">
                     <label class="control-label col-sm-2" for="idTosBits">Tos bits:</label>    
                     <div class="col-sm-10">
                         <input type="text" name="idEP" class="form-control " id="idTosBits" placeholder="" value="">
+                    </div>          
+                </div>
+
+                <div class="form-group duplicate">
+                    <label class="control-label col-sm-2" for="idTosBits">Tos bits:</label>    
+                    <div class="col-sm-10">
+                        <input type="text" name="idEP" class="form-control " id="idTosBits2" placeholder="" value="">
                     </div>          
                 </div>
 
@@ -259,6 +351,13 @@
                     </div>          
                 </div>
 
+                <div class="form-group duplicate">
+                    <label class="control-label col-sm-2" for="idSourcePort">Source Port:</label>    
+                    <div class="col-sm-10">
+                        <input type="text" name="idEP" class="form-control " id="idSourcePort2" placeholder="" value="">
+                    </div>          
+                </div>
+
                 <div class="form-group">
                     <label class="control-label col-sm-2" for="idDestinationPort">Destination Port:</label>    
                     <div class="col-sm-10">
@@ -266,20 +365,41 @@
                     </div>          
                 </div>
 
-                <div class="form-group">
+                <div class="form-group duplicate">
+                    <label class="control-label col-sm-2" for="idDestinationPort">Destination Port:</label>    
+                    <div class="col-sm-10">
+                        <input type="text" name="idEP" class="form-control " id="idDestinationPort2" placeholder="" value="">
+                    </div>          
+                </div>
+
+                <div class="form-group ">
                     <label class="control-label col-sm-2" for="idProtocol">Protocol:</label>    
                     <div class="col-sm-10">
                         <input type="text" name="idEP" class="form-control " id="idProtocol" placeholder="" value="">
                     </div>          
                 </div>
 
+                <div class="form-group duplicate">
+                    <label class="control-label col-sm-2" for="idProtocol">Protocol:</label>    
+                    <div class="col-sm-10">
+                        <input type="text" name="idEP" class="form-control " id="idProtocol2" placeholder="" value="">
+                    </div>          
+                </div>
+            </div>
                 <div class="form-group">
                     <label class="control-label col-sm-2" for="idPortIn">Port In:</label>    
                     <div class="col-sm-10">
                         <input type="text" name="idEP" class="form-control " id="idPortIn" placeholder="" disabled value="">
                     </div>          
                 </div>
-            </div>
+
+                <div class="form-group duplicate">
+                    <label class="control-label col-sm-2" for="idPortIn">Port In:</label>    
+                    <div class="col-sm-10">
+                        <input type="text" name="idEP" class="form-control " id="idPortIn2" placeholder="" disabled value="">
+                    </div>          
+                </div>
+            
 
 
                 <div class="form-group" >
@@ -289,7 +409,7 @@
                     </div>
                 </div>
 
-            <div class="action">
+            
 
                 <div class="form-group">
                     <label class="control-label col-sm-2" for="idOutput">Output:</label>    
@@ -298,10 +418,25 @@
                     </div>          
                 </div>
 
+                <div class="form-group duplicate">
+                    <label class="control-label col-sm-2" for="idOutput2">Output:</label>    
+                    <div class="col-sm-10">
+                        <input type="text" name="idEP" class="form-control " id="idOutput2" placeholder="" disabled value="">
+                    </div>          
+                </div>
+            <div class="action">
+
                 <div class="form-group">
                     <label class="control-label col-sm-2" for="idSetVlanId">Set Vlan Id:</label>    
                     <div class="col-sm-10">
                         <input type="text" name="idEP" class="form-control " id="idSetVlanId" placeholder="" value="">
+                    </div>          
+                </div>
+
+                <div class="form-group duplicate">
+                    <label class="control-label col-sm-2" for="idSetVlanId">Set Vlan Id:</label>    
+                    <div class="col-sm-10">
+                        <input type="text" name="idEP" class="form-control " id="idSetVlanId2" placeholder="" value="">
                     </div>          
                 </div>
 
@@ -312,10 +447,24 @@
                     </div>          
                 </div>
 
+                <div class="form-group duplicate">
+                    <label class="control-label col-sm-2" for="idSetVlanPriorityId">Set VlanPriority ID:</label>    
+                    <div class="col-sm-10">
+                        <input type="text" name="idEP" class="form-control " id="idSetVlanPriorityId2" placeholder="" value="">
+                    </div>          
+                </div>
+
                 <div class="form-group">
                     <label class="control-label col-sm-2" for="idPopVlan">Pop Vlan:</label>    
                     <div class="col-sm-10">
                         <input type="text" name="idEP" class="form-control " id="idPopVlan" placeholder="" value="">
+                    </div>          
+                </div>
+
+                <div class="form-group duplicate">
+                    <label class="control-label col-sm-2" for="idPopVlan">Pop Vlan:</label>    
+                    <div class="col-sm-10">
+                        <input type="text" name="idEP" class="form-control " id="idPopVlan2" placeholder="" value="">
                     </div>          
                 </div>
 
@@ -326,10 +475,24 @@
                     </div>          
                 </div>
 
+                <div class="form-group duplicate">
+                    <label class="control-label col-sm-2" for="idSetEthernetSrcAddresss">Set Ethernet Src Address:</label>    
+                    <div class="col-sm-10">
+                        <input type="text" name="idEP" class="form-control " id="idSetEthernetSrcAddresss2" placeholder="" value="">
+                    </div>          
+                </div>
+
                 <div class="form-group">
                     <label class="control-label col-sm-2" for="idSetEthernetDstAddress">Set Ethernet Dst Address:</label>    
                     <div class="col-sm-10">
                         <input type="text" name="idEP" class="form-control " id="idSetEthernetDstAddress" placeholder="" value="">
+                    </div>          
+                </div>
+
+                <div class="form-group duplicate">
+                    <label class="control-label col-sm-2" for="idSetEthernetDstAddress">Set Ethernet Dst Address:</label>    
+                    <div class="col-sm-10">
+                        <input type="text" name="idEP" class="form-control " id="idSetEthernetDstAddress2" placeholder="" value="">
                     </div>          
                 </div>
 
@@ -340,10 +503,24 @@
                     </div>          
                 </div>
 
+                <div class="form-group duplicate">
+                    <label class="control-label col-sm-2" for="idSetIpSrcAddresss">Set IP Src Address:</label>    
+                    <div class="col-sm-10">
+                        <input type="text" name="idEP" class="form-control " id="idSetIpSrcAddresss2" placeholder="" value="">
+                    </div>          
+                </div>
+
                 <div class="form-group">
                     <label class="control-label col-sm-2" for="idSetIpDstAddress">Set IP Dst Address:</label>    
                     <div class="col-sm-10">
                         <input type="text" name="idEP" class="form-control " id="idSetIpDstAddress" placeholder="" value="">
+                    </div>          
+                </div>
+
+                <div class="form-group duplicate">
+                    <label class="control-label col-sm-2" for="idSetIpDstAddress">Set IP Dst Address:</label>    
+                    <div class="col-sm-10">
+                        <input type="text" name="idEP" class="form-control " id="idSetIpDstAddress2" placeholder="" value="">
                     </div>          
                 </div>
 
@@ -354,10 +531,24 @@
                     </div>          
                 </div>
 
+                <div class="form-group duplicate">
+                    <label class="control-label col-sm-2" for="idSetIpTos">Set IP TOS:</label>    
+                    <div class="col-sm-10">
+                        <input type="text" name="idEP" class="form-control " id="idSetIpTos2" placeholder="" value="">
+                    </div>          
+                </div>
+
                 <div class="form-group">
                     <label class="control-label col-sm-2" for="idSetL4SrcPort">Set L4 Src Port:</label>    
                     <div class="col-sm-10">
                         <input type="text" name="idEP" class="form-control " id="idSetL4SrcPort" placeholder="" value="">
+                    </div>          
+                </div>
+
+                <div class="form-group duplicate">
+                    <label class="control-label col-sm-2" for="idSetL4SrcPort">Set L4 Src Port:</label>    
+                    <div class="col-sm-10">
+                        <input type="text" name="idEP" class="form-control " id="idSetL4SrcPort2" placeholder="" value="">
                     </div>          
                 </div>
 
@@ -368,10 +559,24 @@
                     </div>          
                 </div>
 
+                <div class="form-group duplicate">
+                    <label class="control-label col-sm-2" for="idSetL4DstPort">Set L4 Dest Port:</label>    
+                    <div class="col-sm-10">
+                        <input type="text" name="idEP" class="form-control " id="idSetL4DstPort2" placeholder="" value="">
+                    </div>          
+                </div>
+
                 <div class="form-group">
                     <label class="control-label col-sm-2" for="idOutputToQueue">Output to queue:</label>    
                     <div class="col-sm-10">
                         <input type="text" name="idEP" class="form-control " id="idOutputToQueue" placeholder="" value="">
+                    </div>          
+                </div>
+
+                <div class="form-group duplicate">
+                    <label class="control-label col-sm-2" for="idOutputToQueue">Output to queue:</label>    
+                    <div class="col-sm-10">
+                        <input type="text" name="idEP" class="form-control " id="idOutputToQueue2" placeholder="" value="">
                     </div>          
                 </div>
 
@@ -914,15 +1119,10 @@
                 $('#box'+id).slideToggle("slow");
             }
 
+            hideMatch();
+            hideAction();
 
-            function showMatch(){
-                $(".match").slideToggle("slow");
-            }
-
-            function showAction(){
-                $(".action").slideToggle("slow");
-            }
-            
+            selOptionLink();
 
         </script>
 
