@@ -107,7 +107,7 @@ function drawBigSwitchInfo(fg){
             /* aggiungere gli altri*/
 
             /* edit */
-            $('#flowrule'+e.id).append('<br><p class="edit"><a href="#" onclick="showEditInfoFlowRule('+e.id+')"><strong><i class="glyphicon glyphicon-wrench"></i> Edit</strong></a></p>');
+            $('#flowrule'+e.id).append('<br><p class="edit"><a href="#" onclick="showEditInfoFlowRule(\''+e.id+'\')"><strong><i class="glyphicon glyphicon-wrench"></i> Edit</strong></a></p>');
 
         });
     }

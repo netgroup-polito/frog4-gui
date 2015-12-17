@@ -150,14 +150,10 @@ function fillFlowRule(flow_rule){
 }
 
 function showEditInfoFlowRule(id_flow){
-    if(id_flow<10){
-        id_flow = "0000000"+id_flow;
-    }else{
-        id_flow = "000000"+id_flow;
-    }
-
-    flow_rule = {};
+    console.log(id_flow);
+    var flow_rule = {};
     flow_rule = getFlowRulesById(id_flow);
+    console.log(flow_rule);
     fillFlowRule(flow_rule);
 
     console.log(flow_rule);
@@ -169,3 +165,33 @@ function showEditInfoFlowRule(id_flow){
 }
 
 
+function hideComplexFRFields(){
+    $("#idPriority").hide();
+
+
+    //$("#idHardTimeout").hide();
+    //$("#idEtherType").hide();
+    //$("#idVlanID").hide();
+    //$("#idVlanPriority").hide();
+    //$("#idSourceMac").hide();
+    //$("#idDestinationMac").hide();
+    //$("#idSourceIP").hide();
+    //$("#idDestinationIP").hide();
+    //$("#idTosBits").hide();
+    //$("#idSourcePort").hide();
+    //$("#idDestinationPort").hide();
+    //$("#idProtocol").hide();
+    //
+    //$("#idSetVlanId").hide();
+    //$("#idSetVlanPriorityId").hide();
+    //$("#idPopVlan").hide();
+    //$("#idSetEthernetSrcAddress").hide();
+    //$("#idSetEthernetDstAddress").hide();
+    //$("#idSetIpSrcAddress").hide();
+    //$("#idSetIpDstAddress").hide();
+    //$("#idSetIpTos").hide();
+    //$("#idSetL4SrcPort").hide();
+    //$("#idSetL4DstPort").hide();
+    //$("#idOutputToQueue").hide();
+    $(".complexFRFields").hide();
+}

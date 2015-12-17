@@ -1,50 +1,50 @@
-function drawEPMenu(){
-    //console.log("ciao");
+//function drawEPMenu(){
+//    //console.log("ciao");
+//
+//    svg_menu.append("circle")
+//            .attr("class","end-points")
+//            //.attr("id",function(d){return "endpoint:"+d.id;})
+//            .attr("r",r_endpoint)
+//            .attr("cx",200)
+//            .attr("cy",40)
+//            .on("click",function(){
+//
+//                    $('#FormEP').modal('show');
+//                    unSetKeysWindowListener();
+//                    $('#seltypeEP' ).val('internal');
+//                    /*reset*/
+//                    resetFormEp();
+//                    $("#idEndPoint").val(NextIdEP());
+//
+//                    $("#saveEP").attr("onclick","drawNewEP()");
+//                    $("#saveEP").html("Add End Point");
+//            });
+//}
 
-    svg_menu.append("circle")
-            .attr("class","end-points")
-            //.attr("id",function(d){return "endpoint:"+d.id;})
-            .attr("r",r_endpoint)
-            .attr("cx",200)
-            .attr("cy",40)
-            .on("click",function(){
-                    
-                    $('#FormEP').modal('show');
-                    unSetKeysWindowListener();
-                    $('#seltypeEP' ).val('internal');
-                    /*reset*/
-                    resetFormEp();
-                    $("#idEndPoint").val(NextIdEP());
-
-                    $("#saveEP").attr("onclick","drawNewEP()");
-                    $("#saveEP").html("Add End Point");
-            });
-}
-
-function drawNFMenu(){
-    svg_menu.append("rect")
-            .attr("class","nf")
-            .attr("x",400)
-            .attr("y",20)
-            .attr("width",NF_width)
-            .attr("height",NF_height)   
-            .on("click",function(){  
-                             
-                $('#FormNF').modal('show');
-                unSetKeysWindowListener();
-                $('#seltemplateVNF' ).val('Firewall');
-
-                $("#idVNF").val(NextIdVNF());
-                $("#saveVNF").attr("onclick","drawNewNF()");
-                $("#saveVNF").html("Add VNF");
-                $('#seltemplateVNF').removeAttr('disabled');
-
-                /* Template di default Firewall */
-                $.ajax({ type: "GET",url: "/nfg/ajax_template_request/firewall/",
-                         success: function(data) {FuncSuccess(data);} });
-
-            });}
-
+//function drawNFMenu(){
+//    svg_menu.append("rect")
+//            .attr("class","nf")
+//            .attr("x",400)
+//            .attr("y",20)
+//            .attr("width",NF_width)
+//            .attr("height",NF_height)
+//            .on("click",function(){
+//
+//                $('#FormNF').modal('show');
+//                unSetKeysWindowListener();
+//                $('#seltemplateVNF' ).val('Firewall');
+//
+//                $("#idVNF").val(NextIdVNF());
+//                $("#saveVNF").attr("onclick","drawNewNF()");
+//                $("#saveVNF").html("Add VNF");
+//                $('#seltemplateVNF').removeAttr('disabled');
+//
+//                /* Template di default Firewall */
+//                $.ajax({ type: "GET",url: "/nfg/ajax_template_request/firewall/",
+//                         success: function(data) {FuncSuccess(data);} });
+//
+//            });}
+//
 
 function drawNewEP(){
     var ele=[];
@@ -302,42 +302,80 @@ function saveNewVNF(){
 
 
 
-function drawLINEMenu(){
-    var link=svg_menu.append("g");
-    link.append("rect")
-        .attr("x",650)
-        .attr("y",25)
-        .attr("width",250)
-        .attr("height",30)
-        .attr("fill","#EEE")
-        .attr("stroke","#EEE");
+//function drawLINEMenu(){
+//    var link=svg_menu.append("g");
+//    link.append("rect")
+//        .attr("x",650)
+//        .attr("y",25)
+//        .attr("width",250)
+//        .attr("height",30)
+//        .attr("fill","#EEE")
+//        .attr("stroke","#EEE");
+//
+//    link.append("line")
+//            .attr("class","line_menu")
+//            .attr("stroke","black")
+//            .attr("x1",700)
+//            .attr("y1",40)
+//            .attr("x2",850)
+//            .attr("y2",40);
+//
+//    link.append("circle")
+//            .attr("r",5)
+//            .attr("cx",700)
+//            .attr("cy",40);
+//
+//    link.append("circle")
+//            .attr("r",5)
+//            .attr("cx",850)
+//            .attr("cy",40);
+//
+//    link.on("click",function(){
+//        $("#my_canvas").css("cursor","crosshair");
+//        ele1_selected=undefined;
+//        ele2_selected=undefined;
+//        creating_link=true;
+//
+//    });
+//
+//}
 
-    link.append("line")
-            .attr("class","line_menu")
-            .attr("stroke","black") 
-            .attr("x1",700)
-            .attr("y1",40)
-            .attr("x2",850)
-            .attr("y2",40);
 
-    link.append("circle")
-            .attr("r",5)
-            .attr("cx",700)
-            .attr("cy",40);
+function onClickDrawEP(){
 
-    link.append("circle")
-            .attr("r",5)
-            .attr("cx",850)
-            .attr("cy",40);
+        $('#FormEP').modal('show');
+        unSetKeysWindowListener();
+        $('#seltypeEP' ).val('internal');
+        /*reset*/
+        resetFormEp();
+        $("#idEndPoint").val(NextIdEP());
 
-    link.on("click",function(){
-        $("#my_canvas").css("cursor","crosshair");
-        ele1_selected=undefined;
-        ele2_selected=undefined;
-        creating_link=true;
-        
-    });
+        $("#saveEP").attr("onclick","drawNewEP()");
+        $("#saveEP").html("Add End Point");
+}
+
+function onClickDrawVNF(){
+
+    $('#FormNF').modal('show');
+    unSetKeysWindowListener();
+    $('#seltemplateVNF' ).val('Firewall');
+
+    $("#idVNF").val(NextIdVNF());
+    $("#saveVNF").attr("onclick","drawNewNF()");
+    $("#saveVNF").html("Add VNF");
+    $('#seltemplateVNF').removeAttr('disabled');
+
+    /* Template di default Firewall */
+    $.ajax({ type: "GET",url: "/nfg/ajax_template_request/firewall/",
+        success: function(data) {FuncSuccess(data);} });
 
 }
 
+function onClickDrawLink(){
+    $('#newLinkButton').attr("class","btn btn-warning btn-lg drawButton");
+    $("#my_canvas").css("cursor","crosshair");
+    ele1_selected=undefined;
+    ele2_selected=undefined;
+    creating_link=true;
 
+}

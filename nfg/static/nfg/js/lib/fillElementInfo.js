@@ -321,7 +321,10 @@ function fillNewFlowRule(){
     var match = {};
 
     var actions = [];
-    var action = {};    
+    var action = {};
+
+    flow_rule["double"] = false;            /*chiedere  a francesco settaggio iniziale*/
+    flow_rule["full_duplex"] = false;
     
     flow_rule["id"] = NextIdFlowRule();
     flow_rule["priority"] = $("#idPriority").val();
@@ -376,8 +379,11 @@ function fillNewFlowRule2(){
     var match = {};
 
     var actions = [];
-    var action = {};    
-    
+    var action = {};
+
+    flow_rule["double"] = false;            /*chiedere  a francesco settaggio iniziale*/
+    flow_rule["full_duplex"] = false;
+
     flow_rule["id"] = $("#idFlowRule2").val();
     flow_rule["priority"] = $("#idPriority2").val();
     flow_rule["description"] = $("#idDescription2").val();

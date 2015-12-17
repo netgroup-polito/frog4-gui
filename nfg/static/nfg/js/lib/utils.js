@@ -263,3 +263,7 @@ function setOutputFlowRule(fr){
     });
     return output;
 }
+
+function setPointerAtLines(){
+    $(".BS-line,.line,.BS-line-selected,.line-selected").css("cursor","pointer");
+}

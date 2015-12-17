@@ -20,7 +20,9 @@ function select_node(ele){
              */
             console.log("showModalFlow");
 
-
+            if(!BS_view){
+                hideComplexFRFields();
+            }
             $('#idPriority').val(1);
             $("#idFlowRule").val(NextIdFlowRule());
             $("#idPortIn").val(ele1_selected.id);
@@ -104,6 +106,7 @@ function DrawNewLink(){
 
 
 function deleteTempLink(){
+    $('#newLinkButton').attr("class","btn btn-success btn-lg drawButton");
     $("#my_canvas").css("cursor","default");
     creating_link=false;
     svg.on("mousemove",null);
@@ -272,5 +275,6 @@ function createLink(duplex,idFR,num){
         ele1_selected=undefined;
         ele2_selected=undefined;
     }
+    setPointerAtLines();
 
 }

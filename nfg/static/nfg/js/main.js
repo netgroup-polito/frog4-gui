@@ -103,7 +103,8 @@ $(document).ready(function(){
               isAlreadyPositioned = false;
             }
 
-            DrawMenuBar();
+            //DrawMenuBar();
+
             DrawForwardingGraph(fg);
               showBSView(false);
           }
@@ -199,7 +200,7 @@ function DrawForwardingGraph(fg){
     drawBSInterfaces(big_switch.interfaces);
 
     checkSplit();
-    $(".BS-line,.line").css("cursor","pointer");
+    setPointerAtLines();
     updateTooltips();
 
 }

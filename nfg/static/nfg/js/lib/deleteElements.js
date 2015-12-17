@@ -73,19 +73,24 @@ function deleteFR(){
     isModified=true;
     console.log(selected_link);
     var idFR=selected_link.getAttribute("idfr");
-    console.log(idFR);
-    var id_vet=idFR.split("-");
-    if(idFR===undefined)
-        return;
-    flow_rules= _.filter(flow_rules,function(fr){
-        return fr["id"]!==id_vet[1];
-    });
-    //se era double settare la rimanente a non double con la freccia
 
-    /*
-     * QUA INSERIRE IL MESSAGGIO DI CONFERMA!
-     *
-     */
+    var id_vet=idFR.split("-");
+
+    var dualFR=getDualFR(id_vet[1]);
+
+    if(dualFR!==undefined){
+        var dualFRId="fr-"+dualFR.id;
+        var dualId_vet=dualFRId.split("-");
+
+        flow_rules = _.filter(flow_rules,function(fr){
+            return fr["id"]!==dualId_vet[1] &&   fr["id"]!==id_vet[1];
+        });
+        lines_section.selectAll("[idfr="+dualFRId+"]").remove();
+    }else{
+        flow_rules= _.filter(flow_rules,function(fr){
+            return fr["id"]!==id_vet[1];
+        });
+    }
     lines_section.selectAll("[idfr="+idFR+"]").remove();
 }
 
