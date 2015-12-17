@@ -177,6 +177,10 @@ function hideComplexFRFields(){
     $(".complexFRFields").hide();
 }
 
+function showComplexFRFields(){
+    $("#idPriority").show();
+    $(".complexFRFields").show();
+}
 
 function editLink(id_flow){
 

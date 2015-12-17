@@ -22,6 +22,8 @@ function select_node(ele){
 
             if(!BS_view){
                 hideComplexFRFields();
+            }else{
+                showComplexFRFields();
             }
             $('#idPriority').val(1);
             $("#idFlowRule").val(NextIdFlowRule());
