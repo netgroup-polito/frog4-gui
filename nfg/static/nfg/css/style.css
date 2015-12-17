@@ -336,3 +336,14 @@ html{
   padding-top: 10px; 
 }
 
+.drawButton{
+  background-color: #5CB85C;
+  border-color: #4CAE4C;
+
+}
+
+.drawButton:hover{
+  background-color: #449D44;
+  border-color: #449D44;
+}
+
