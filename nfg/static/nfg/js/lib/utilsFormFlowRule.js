@@ -1,9 +1,21 @@
 function showMatch(){
+    if(!$(".match").is(":visible")){
+        $("#icon-match").attr("class","glyphicon glyphicon-chevron-down");
+    }else{
+        $("#icon-match").attr("class","glyphicon glyphicon-chevron-right");
+    }   
     $(".match").slideToggle("slow");
+    
 }
 
 function showAction(){
+    if(!$(".action").is(":visible")){
+        $("#icon-action").attr("class","glyphicon glyphicon-chevron-down");
+    }else{
+        $("#icon-action").attr("class","glyphicon glyphicon-chevron-right");
+    }
     $(".action").slideToggle("slow");
+    
 }
 
 function hideMatch(){
