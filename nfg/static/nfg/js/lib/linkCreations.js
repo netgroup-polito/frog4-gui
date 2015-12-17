@@ -37,23 +37,65 @@ function select_node(ele){
 }
 
 function DrawNewLink(){
-    var newFR = fillNewFlowRule();
 
-    if(validateNewFlowRule(newFR)){
-        isModified=true;
-        var duplex=isDuplex(newFR["match"]["port_in"],newFR["actions"][0]["output"]);
-        newFR["full_duplex"]=duplex;
-        flow_rules.push(newFR);
-        console.log(duplex);
-        checkSplit();
-        createLink(duplex,newFR.id);
-        $("#ModalFlowRules").modal("hide");
-        drawBigSwitchInfo(fg);
-        setKeysWindowListener();
-        updateView();
+    console.log($("#selLink").val());
+
+    if($("#selLink").val()==="full duplex"){
+        /* create two links */
+
+        var newFR = fillNewFlowRule();
+        var newFR2 = fillNewFlowRule2();
+
+        console.log(newFR2);
+        if(validateNewFlowRule(newFR) && validateNewFlowRule(newFR2)){
+            isModified=true;
+
+            var duplex=true;            
+            var duplex2=true;
+            
+            flow_rules.push(newFR);
+            flow_rules.push(newFR2);
+            
+            console.log(duplex);
+            checkSplit();
+            
+            createLink(duplex,newFR.id,2);            
+            createLink(duplex2,newFR2.id,1);
+            
+            $("#ModalFlowRules").modal("hide");
+            drawBigSwitchInfo(fg);
+            setKeysWindowListener();
+            updateView();
+        }else{
+            console.log("validazione fallita");
+        }
+
     }else{
-        console.log("validazione fallita");
+        /* create only one link */
+        var newFR = fillNewFlowRule();
+
+        if(validateNewFlowRule(newFR)){
+            isModified=true;
+            var duplex=isDuplex(newFR["match"]["port_in"],newFR["actions"][0]["output"]);
+            newFR["full_duplex"]=duplex;
+            
+            flow_rules.push(newFR);
+            console.log(duplex);
+            checkSplit();
+            createLink(duplex,newFR.id,1);
+            $("#ModalFlowRules").modal("hide");
+            drawBigSwitchInfo(fg);
+            setKeysWindowListener();
+            updateView();
+        }else{
+            console.log("validazione fallita");
+        }
     }
+    
+
+    
+
+    
 
 
     
@@ -104,7 +146,7 @@ function createTempLink(){
     });
 }
 
-function createLink(duplex,idFR){
+function createLink(duplex,idFR,num){
     console.log(ele1_selected);
     console.log(ele2_selected);
 
@@ -226,7 +268,9 @@ function createLink(duplex,idFR){
     //NB->DA FARE modificare il js!!!
     //svg.selectAll("line,circle").sort(function(a){console.log(a);});
     //svg.selectAll("line,circle").order();
-    ele1_selected=undefined;
-    ele2_selected=undefined;
+    if(num==1){
+        ele1_selected=undefined;
+        ele2_selected=undefined;
+    }
 
 }

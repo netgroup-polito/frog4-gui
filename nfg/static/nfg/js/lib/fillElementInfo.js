@@ -321,12 +321,8 @@ function fillNewFlowRule(){
     var match = {};
 
     var actions = [];
-    var action = {};
-
-    flow_rule["double"] = false;            /*chiedere  a francesco settaggio iniziale*/
-    flow_rule["full_duplex"] = false;
-
-
+    var action = {};    
+    
     flow_rule["id"] = NextIdFlowRule();
     flow_rule["priority"] = $("#idPriority").val();
     flow_rule["description"] = $("#idDescription").val();
@@ -368,6 +364,62 @@ function fillNewFlowRule(){
     actions.push(action);
     flow_rule["actions"] = actions;
 
+    console.log("flow rule appena creata");
+    console.log(flow_rule);
+
+    return flow_rule;
+}
+
+
+function fillNewFlowRule2(){
+    var flow_rule = {};
+    var match = {};
+
+    var actions = [];
+    var action = {};    
+    
+    flow_rule["id"] = $("#idFlowRule2").val();
+    flow_rule["priority"] = $("#idPriority2").val();
+    flow_rule["description"] = $("#idDescription2").val();
+    
+
+    match["hard_timeout"] = $("#idHardTimeout2").val();
+    match["ether_type"] = $("#idEtherType2").val();
+    match["vlan_id"] = $("#idVlanID2").val();
+    match["vlan_priority"] = $("#idVlanPriority2").val();
+    match["source_mac"] = $("#idSourceMac2").val();
+    match["dest_mac"] = $("#idDestinationMac2").val();
+    match["source_ip"] = $("#idSourceIP2").val();
+    match["dest_ip"] = $("#idDestinationIP2").val();
+    match["tos_bits"] = $("#idTosBits2").val();
+    match["source_port"] = $("#idSourcePort2").val();
+    match["dest_port"] = $("#idDestinationPort2").val();
+    match["protocol"] = $("#idProtocol2").val();
+    //match["port_in"] = $("#idPortIn").val();
+    match["port_in"] = ele2_selected.fullId;
+
+
+    flow_rule["match"] = match;
+
+    //action["output"] = $("#idOutput").val();
+    action["output"] = ele1_selected.fullId;
+
+    action["set_vlan_id"] = $("#idSetVlanId2").val();
+    action["set_vlan_priority-id"] = $("#idSetVlanPriorityId2").val();
+    action["pop_vlan"] = $("#idPopVlan").val();
+    action["set_ethernet_src_address"] = $("#idSetEthernetSrcAddress2").val();
+    action["set_ethernet_dst_address"] = $("#idSetEthernetDstAddress2").val();
+    action["set_ip_src_address"] = $("#idSetIpSrcAddress2").val();
+    action["set_ip_dst_address"] = $("#idSetIpDstAddress2").val();
+    action["set_ip_tos"] = $("#idSetIpTos2").val();
+    action["set_l4_src_port"] = $("#idSetL4SrcPort2").val();
+    action["set_l4_dst_port"] = $("#idSetL4DstPort2").val();
+    action["output_to_queue"] = $("#idOutputToQueue2").val();
+
+    actions.push(action);
+    flow_rule["actions"] = actions;
+
+    console.log("flow rule 2 appena creata");
     console.log(flow_rule);
 
     return flow_rule;

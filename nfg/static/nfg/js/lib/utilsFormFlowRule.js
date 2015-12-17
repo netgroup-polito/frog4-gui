@@ -50,6 +50,9 @@ function selOptionLink(){
 }
 
 function resetFormFlowRules(){
+
+    $("#selLink").val("single-link");
+
 	$("#idPriority").val(1);
 	$("#idDescription").val("");
 
@@ -109,6 +112,59 @@ function resetFormFlowRules(){
     $("#idSetL4SrcPort2").val("");
     $("#idSetL4DstPort2").val("");
     $("#idOutputToQueue2").val("");
+
+}
+
+function fillFlowRule(flow_rule){
+    $("#idPriority").val(flow_rule.priority);
+    $("#idDescription").val(flow_rule.description);
+
+    $("#idFlowRule").val(flow_rule.id);
+
+    $("#idHardTimeout").val(flow_rule.match.hard_timeout);
+    $("#idEtherType").val(flow_rule.match.ether_type);
+    $("#idVlanID").val(flow_rule.match.vlan_id);
+    $("#idVlanPriority").val(flow_rule.match.vlan_priority);
+    $("#idSourceMac").val(flow_rule.match.source_mac);
+    $("#idDestinationMac").val(flow_rule.match.dest_mac);
+    $("#idSourceIP").val(flow_rule.match.source_ip);
+    $("#idDestinationIP").val(flow_rule.match.dest_ip);
+    $("#idTosBits").val(flow_rule.match.tos_bits);
+    $("#idSourcePort").val(flow_rule.match.vlan_id);
+    $("#idDestinationPort").val(flow_rule.match.dest_port);
+    $("#idProtocol").val(flow_rule.match.protocol);
+    
+    $("#idSetVlanId").val(flow_rule.actions[0].set_vlan_id);
+    $("#idSetVlanPriorityId").val(flow_rule.actions[0]["set_vlan_priority-id"]);
+    $("#idPopVlan").val(flow_rule.actions[0].pop_vlan);
+    $("#idSetEthernetSrcAddress").val(flow_rule.actions[0].set_ethernet_src_address);
+    $("#idSetEthernetDstAddress").val(flow_rule.actions[0].set_ethernet_dst_address);
+    $("#idSetIpSrcAddress").val(flow_rule.actions[0].set_ip_src_address);
+    $("#idSetIpDstAddress").val(flow_rule.actions[0].set_ip_dst_address);
+    $("#idSetIpTos").val(flow_rule.actions[0].set_ip_tos);
+    $("#idSetL4SrcPort").val(flow_rule.actions[0].set_l4_src_port);
+    $("#idSetL4DstPort").val(flow_rule.actions[0].set_l4_dst_port);
+    $("#idOutputToQueue").val(flow_rule.actions[0].output_to_queue);
+
+
+}
+
+function showEditInfoFlowRule(id_flow){
+    if(id_flow<10){
+        id_flow = "0000000"+id_flow;
+    }else{
+        id_flow = "000000"+id_flow;
+    }
+
+    flow_rule = {};
+    flow_rule = getFlowRulesById(id_flow);
+    fillFlowRule(flow_rule);
+
+    console.log(flow_rule);
+
+    $("#ModalFlowRules").modal("show");
+    $(".duplicate").modal("hide");
+
 
 }
 
