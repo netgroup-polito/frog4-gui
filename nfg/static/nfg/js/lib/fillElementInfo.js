@@ -330,7 +330,6 @@ function fillNewFlowRule(){
     flow_rule["priority"] = $("#idPriority").val();
     flow_rule["description"] = $("#idDescription").val();
     
-
     match["hard_timeout"] = $("#idHardTimeout").val();
     match["ether_type"] = $("#idEtherType").val();
     match["vlan_id"] = $("#idVlanID").val();
