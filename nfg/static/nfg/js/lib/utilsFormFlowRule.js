@@ -150,6 +150,13 @@ function fillFlowRule(flow_rule){
 }
 
 function showEditInfoFlowRule(id_flow){
+
+    if(!BS_view){
+        hideComplexFRFields();
+    }else{
+        showComplexFRFields();
+    }
+    
     console.log(id_flow);
     var flow_rule = {};
     flow_rule = getFlowRulesById(id_flow);
