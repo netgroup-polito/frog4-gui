@@ -31,6 +31,7 @@ function select_node(ele){
             hideMatch();
             hideAction();
             $("#selLink").val("single-link");
+            $("#selLink").removeAttr("disabled");
             $(".duplicate").hide();
         }
     }

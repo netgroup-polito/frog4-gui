@@ -162,8 +162,14 @@ function showEditInfoFlowRule(id_flow){
 
     console.log(flow_rule);
 
+    $(".duplicate").hide();
     $("#ModalFlowRules").modal("show");
-    $(".duplicate").modal("hide");
+    $("#selLink").val("single-link");
+    $("#selLink").attr("disabled","disabled");
+
+    $("#saveRule").attr("onclick","EditLink()");
+    $("#saveRule").html("Edit Rule");
+    
 
 
 }
