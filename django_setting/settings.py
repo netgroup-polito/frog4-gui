@@ -126,12 +126,4 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = ( ('static', os.path.join(BASE_DIR+'/nfg', 'static')), os.path.join(BASE_DIR+'/nfg', 'static'),
 )
 
-TEMPLATE_LOADERS = (
-    'django.template.loaders.filesystem.Loader',
-    'django.template.loaders.app_directories.Loader',
-)
-
-TEMPLATE_DIRS = (
-    os.path.join(BASE_DIR+'/nfg',"templates"),
-)
 

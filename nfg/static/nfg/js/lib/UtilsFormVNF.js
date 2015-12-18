@@ -74,8 +74,13 @@ function addFormPort(){
                     							if(s_num == 'N'){s_num = 63;}
                     							console.log(s_num,p_num,s_num-p_num);
 
-                    							for(var i=0;i<=(s_num-p_num)+1;i++){
-                    								$html+= '<option selected>'+i+'</option>';
+                    							for(var i=0;i<=(s_num-p_num);i++){
+                                                    if(i==0){
+                                                        $html+= '<option selected>'+i+'</option>';
+                                                    }else{
+                                                        $html+= '<option>'+i+'</option>';
+                                                    }
+                    								
                     							}                                				
                             				$html +='</select>'+
                         				'</div>'+
@@ -106,9 +111,6 @@ function showEditInfoVNF(idVNF){
     $('#FormNF').modal('show');
     unSetKeysWindowListener();
     FillFormEditVNF(idVNF);
-
-    //drawFormVNF();
-    //fillFormInfoEP(idVNF);
     
 }
 
