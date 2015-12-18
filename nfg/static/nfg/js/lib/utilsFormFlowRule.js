@@ -145,6 +145,8 @@ function fillFlowRule(flow_rule){
     $("#idSourcePort").val(flow_rule.match.vlan_id);
     $("#idDestinationPort").val(flow_rule.match.dest_port);
     $("#idProtocol").val(flow_rule.match.protocol);
+
+    $("#idPortIn").val(flow_rule.match.port_in);
     
     $("#idSetVlanId").val(flow_rule.actions[0].set_vlan_id);
     $("#idSetVlanPriorityId").val(flow_rule.actions[0]["set_vlan_priority-id"]);
@@ -157,6 +159,8 @@ function fillFlowRule(flow_rule){
     $("#idSetL4SrcPort").val(flow_rule.actions[0].set_l4_src_port);
     $("#idSetL4DstPort").val(flow_rule.actions[0].set_l4_dst_port);
     $("#idOutputToQueue").val(flow_rule.actions[0].output_to_queue);
+
+    $("#idOutput").val(flow_rule.actions[0].output);
 
 
 }
@@ -172,10 +176,9 @@ function showEditInfoFlowRule(id_flow){
     console.log(id_flow);
     var flow_rule = {};
     flow_rule = getFlowRulesById(id_flow);
+    console.log("qua");
     console.log(flow_rule);
     fillFlowRule(flow_rule);
-
-    console.log(flow_rule);
 
     $(".duplicate").hide();
     $("#ModalFlowRules").modal("show");

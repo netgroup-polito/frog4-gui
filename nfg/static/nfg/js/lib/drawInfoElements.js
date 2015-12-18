@@ -65,7 +65,7 @@ function drawVNFInfo(vnf,id){
 }
 function drawBigSwitchInfo(fg){
     $('.info').empty();
-    $('.info').append('<a onclick="ReduceAll()"><i class="glyphicon glyphicon-exclamation-sign"></i><strong> BigSwitch Info</strong></a>');
+    $('.info').append('<a onclick="ReduceAll()"><strong>BigSwitch Info </strong><i class="glyphicon glyphicon-chevron-down" id="icon-bs"></i></a>');
     if(flow_rules.length===0){
         var $html='<a href="#"><i class="glyphicon glyphicon-exclamation-sign"></i><strong> No Items Selected</strong></a>'+
             '<div class="panel panel-default">'+
@@ -79,7 +79,7 @@ function drawBigSwitchInfo(fg){
     }else {
         flow_rules.forEach(function (e) {
             /*$html = '<div class="panel panel-default"><div class="panel-heading"><a onclick="Reduce('+e.id+')">FlowRule Id: '+e.id+' (';*/
-            var $html = '<div class="panel panel-default" id="panel' + e.id + '"><div class="panel-heading" id="panel-h' + e.id + '"><a onclick="Reduce(' + e.id + ')">FlowRule (';
+            var $html = '<div class="panel panel-default" id="panel' + e.id + '"><div class="panel-heading" id="panel-h' + e.id + '"><a onclick="Reduce(\''+e.id+'\')">FlowRule (';
 
             $html += e.actions[0].output + " ";
 
@@ -119,24 +119,19 @@ function ReduceAll(){
         fg["forwarding-graph"]["big-switch"]["flow-rules"].forEach(function(e){
             $('#flowrule'+e.id).hide();
         });
+        $("#icon-bs").attr("class","glyphicon glyphicon-chevron-right");
         isReduced = true;
     }else{
         fg["forwarding-graph"]["big-switch"]["flow-rules"].forEach(function(e){
             $('#flowrule'+e.id).show();
         });
+        $("#icon-bs").attr("class","glyphicon glyphicon-chevron-down");
         isReduced = false;
     }
 }
 
-function Reduce(id){
-    if(id<10){
-        id="00000000"+id;
-    }else{
-        id="0000000"+id;
-    }
-
-    $('#flowrule'+id).slideToggle("slow");
-
+function Reduce(id){    
+    $('#flowrule'+id).slideToggle("slow");    
 }
 
 function drawAnyItems(){
