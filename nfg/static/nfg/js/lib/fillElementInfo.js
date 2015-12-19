@@ -156,7 +156,9 @@ function updateVNF(){
 
     console.log(vnf);
     vnf["name"] = $("#nameVNF").val();
-    
+    if( vnf["name"]=== undefined ||  vnf["name"]===""){
+        vnf["name"]="Unnamed VNF";
+    }
     var ports_template = template_js.ports;
     var new_int=[];
     var new_bs_links=[];

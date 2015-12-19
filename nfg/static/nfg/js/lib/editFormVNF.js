@@ -3,7 +3,6 @@
  */
 
 
-var labelList=[];
 
 function FillFormEditVNF(idVNF){
     var template;
@@ -102,23 +101,30 @@ function addEditFormPort(idVNF){
     //    '        <div class="col-sm-10">'+
     //    '    </div>'+
     //    '</div>';
-     $html=
+     var $html=
         '<div>'+
         '<div class="form-group" >'+
         '<label class="control-label col-sm-2" >Port Info:</label>'+
         '<div class="col-sm-10">'+
         '</div>'+
         '</div>';
+    $html+=
+        '<div id="listPort"><div class="row port-i">'+
+            '<div class="col-md-4"><label class="port-id">Name:</label></div>'+
+            '<div class="col-md-4"><label class="port-id">Id:</label></div>'+
+            '<div class="col-md-4"></div>'+
+        '</div>';
     vnf.ports.forEach(function(port){
         console.log(port.id);
         $html+='<div class="row port-i" id="delete'+port.fullId+'">'+
-           '<div class="col-md-4"></div>'+
+           '<div class="col-md-4"><label class="port-id" style="font-weight:normal;">'+port.name+'</label></div>'+
             '<div class="col-md-4"><label class="port-id">'+port.id+'</label></div>'+
             '<div class="col-md-4"><a href="#" onclick="deletePort(\''+port.fullId+"\',\'"+port.parent_NF_id+'\');"  ' +
             'class="btn btn-danger" >x</a></div>'+
             '</div>';
     });
-
+    $html+='</div>';
+    var labelList=[];
     template_js.ports.forEach(function(e){
         var label={};
         label.name=e["label"];
@@ -142,7 +148,7 @@ function addEditFormPort(idVNF){
         '</div>'+
         '</div>'+
         '<div class="row port-i">'+
-        '<div class="col-md-4"><input type="text" name="" class="form-control" id="" placeholder="port name" ></div>'+
+        '<div class="col-md-4"><input type="text" name="" class="form-control" placeholder="port name" id="newPortName"></div>'+
 
         
         '<div class="col-md-4"><div class="btn-group">'+
@@ -155,37 +161,47 @@ function addEditFormPort(idVNF){
     $html+='</ul></div><div class="btn-group">' +
         '<button type="button" class="btn btn-default dropdown-toggle"  data-toggle="dropdown" name="type" aria-haspopup="true" aria-expanded="false" id="selectPosition"> Id <span class="caret"></span></button>'+
         '<ul class="dropdown-menu" id="positionMenu"></ul>'+
-        
+
         '</div></div>'+
-        '<div class="col-md-4"><a href="#" id="prova" onclick=""  class="btn btn-primary" >+</a></div>'+
+        '<div class="col-md-4"><a href="#" id="addPortButton" onclick="addPortToVNF(\''+""+idVNF+'\');"  class="btn btn-primary" >+</a></div>'+
         '</div>';
     //da mettere a posto
 
-
+    //$("#infoPort").empty();
     $("#infoPort").append($html);
+    $('#selectPosition').prop('disabled', true);
     labelList.forEach(function(ele,i){
-        jQuery('#option-'+ele.name).click(setOptionsTemplateValues);
-    });
-}
-
-function setOptionsTemplateValues() {
-
-    console.log(this);
-    var labelType = $(this).text();
-    console.log(labelType);
-    $('#selectLabel').text(labelType);
-    var options='';
-    $('#positionMenu').empty();
-    labelList.forEach(function(label){
-        if(label.name===labelType){
-            for(var i=0;i<label.pos_max-label.pos_min+1;i++){
-                options+='<li><a hfref="#">'+i+'</a></li>';
+        jQuery('#option-'+ele.name).click(function(){
+            console.log(this);
+            var labelType = $(this).text();
+            console.log(labelType);
+            $('#selectLabel').text(labelType);
+            var options='';
+            $('#positionMenu').empty();
+            $('#selectPosition').prop('disabled', false);
+            var atLeasOne=false;
+            labelList.forEach(function(label){
+                if(label.name===labelType){
+                    for(var i=0;i<label.pos_max-label.pos_min+1;i++){
+                        if(!portIdIsAlreadyTaken("vnf:"+idVNF+":"+label.name+":"+i)){
+                            options+='<li><a hfref="#" class="idSelect" id="idSelect'+i+'">'+i+'</a></li>';
+                            atLeasOne=true;
+                        }
+                    }
+                }
+            });
+            if(!atLeasOne){
+                options+='<li><a hfref="#"> no ports available for this label</a></li>';
             }
-        }
+            $('#positionMenu').append(options);
+            $('.idSelect').click(function(){
+                $('#selectPosition').text($(this).text());
+            });
+            //label.preventDefault();
+        });
     });
-    $('#positionMenu').append(options);
-    //label.preventDefault();
 }
+
 
 
 function deletePort(portId,vnfId){
@@ -194,8 +210,49 @@ function deletePort(portId,vnfId){
     $('#delete'+portId_mod).remove();
 }
 
-function addPort(){
+function addPortToVNF(idVNF){
 
+    var newPortName=$("#newPortName").val().trim();
+    if(newPortName===undefined || newPortName===""){
+        newPortName="Unnamed VNF";
+    }
+    var label=$("#selectLabel").text().trim();
+    if(label===undefined || label==="Label"){
+        return;
+    }
+    var positionId=$("#selectPosition").text().trim();
+    if(positionId===undefined || positionId==="Id"){
+        return;
+    }
+    var newInterfaceId=""+label+":"+positionId;
+    var vnf=getVNFById(idVNF);
+    console.log("vnf:");
+    console.log(vnf);
+    console.log(idVNF);
+    var newPort={
+        fullId:"vnf:"+idVNF+":"+newInterfaceId,
+        id:newInterfaceId,
+        isLinked:false,
+        name:newPortName,
+        parent_NF_id:idVNF,
+        parent_NF_x:vnf["x"],
+        parent_NF_y: vnf["y"],
+        x:Math.random()*NF_width,
+        y:0
+    };
+    vnf.ports.push(newPort);
+    var vect_port=[];
+    vect_port.push(newPort);
+    drawVNF_interfaces(vect_port);
+    //devo metterla in coda alla lista delle porte
+    var htmlNewPort='<div class="row port-i" id="delete'+newPort.fullId+'">'+
+    '<div class="col-md-4"><label class="port-id" style="font-weight:normal;">'+newPort.name+'</label></div>'+
+    '<div class="col-md-4"><label class="port-id">'+newPort.id+'</label></div>'+
+    '<div class="col-md-4"><a href="#" onclick="deletePort(\''+newPort.fullId+"\',\'"+newPort.parent_NF_id+'\');"  ' +
+    'class="btn btn-danger" >x</a></div>'+
+    '</div>';
+    $('#listPort').append(htmlNewPort);
+    $('#selectPosition').text("Id");
+    $('#selectLabel').text("Label");
 
-    console.log(this);
 }

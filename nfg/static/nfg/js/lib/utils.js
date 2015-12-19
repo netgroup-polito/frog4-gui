@@ -272,3 +272,12 @@ function setOutputFlowRule(fr){
 function setPointerAtLines(){
     $(".BS-line,.line,.BS-line-selected,.line-selected").css("cursor","pointer");
 }
+
+function portIdIsAlreadyTaken(id){
+    var ris=getInterfaceById(id);
+    if(ris===undefined){
+        return false;
+    }else{
+        return true;
+    }
+}
