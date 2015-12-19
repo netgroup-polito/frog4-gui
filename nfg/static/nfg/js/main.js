@@ -103,8 +103,6 @@ $(document).ready(function(){
               isAlreadyPositioned = false;
             }
 
-            //DrawMenuBar();
-
             DrawForwardingGraph(fg);
               showBSView(false);
           }
@@ -115,13 +113,6 @@ $(document).ready(function(){
       }
     });
 });
-
-function DrawMenuBar(){
-    svg_menu = d3.select("#draw_menu").append("svg").attr("width", svg_width_menu_p).attr("height", svg_height_menu);
-    drawEPMenu();
-    drawNFMenu();
-    drawLINEMenu();
-}
 
 
 function DrawForwardingGraph(fg){
@@ -150,7 +141,7 @@ function DrawForwardingGraph(fg){
     flow_rules = fg["forwarding-graph"]["big-switch"]["flow-rules"];
 
     /* chiamo la funzione per settare il posizionamento iniziale (ancora non prevede end point e big switch) */
-     FG_init();
+    FG_init();
 
     //se variabile gloabale è bigswitch cambio
 
@@ -180,6 +171,7 @@ function DrawForwardingGraph(fg){
     var IMG_PC_BLUE = defImgPcBlue();
     var IMG_INTERNET_RED = defImgInternetRed();
     var IMG_INTERNET_BLUE = defImgInternetBlue();
+    
     defArrow();
 
     /*

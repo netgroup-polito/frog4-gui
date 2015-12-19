@@ -228,6 +228,11 @@ function updateTooltips(){
         'container': 'body',
         'placement': 'top'
     });
+
+    $(".menu").tooltip({
+        'container': 'body',
+        'placement': 'top'
+    });
 }
 
 function disableTooltip(){

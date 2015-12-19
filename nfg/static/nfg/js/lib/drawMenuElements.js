@@ -285,6 +285,7 @@ function saveNewEp(){
 
 
     }
+    drawEndPointInfo(ep,ep.id);
 
     console.log(validateNewEndPoint(ep));
 

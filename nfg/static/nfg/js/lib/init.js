@@ -2,9 +2,6 @@
  * Created by pc asus on 05/12/2015.
  */
 
-
-
-
 function FG_init(){
     console.log("isAlreadyPos :"+isAlreadyPositioned);
     if(!isAlreadyPositioned) {

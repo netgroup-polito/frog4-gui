@@ -1,9 +1,21 @@
 function showMatch(){
+    if(!$(".match").is(":visible")){
+        $("#icon-match").attr("class","glyphicon glyphicon-chevron-down");
+    }else{
+        $("#icon-match").attr("class","glyphicon glyphicon-chevron-right");
+    }   
     $(".match").slideToggle("slow");
+    
 }
 
 function showAction(){
+    if(!$(".action").is(":visible")){
+        $("#icon-action").attr("class","glyphicon glyphicon-chevron-down");
+    }else{
+        $("#icon-action").attr("class","glyphicon glyphicon-chevron-right");
+    }
     $(".action").slideToggle("slow");
+    
 }
 
 function hideMatch(){
@@ -133,6 +145,8 @@ function fillFlowRule(flow_rule){
     $("#idSourcePort").val(flow_rule.match.vlan_id);
     $("#idDestinationPort").val(flow_rule.match.dest_port);
     $("#idProtocol").val(flow_rule.match.protocol);
+
+    $("#idPortIn").val(flow_rule.match.port_in);
     
     $("#idSetVlanId").val(flow_rule.actions[0].set_vlan_id);
     $("#idSetVlanPriorityId").val(flow_rule.actions[0]["set_vlan_priority-id"]);
@@ -146,24 +160,33 @@ function fillFlowRule(flow_rule){
     $("#idSetL4DstPort").val(flow_rule.actions[0].set_l4_dst_port);
     $("#idOutputToQueue").val(flow_rule.actions[0].output_to_queue);
 
+    $("#idOutput").val(flow_rule.actions[0].output);
+
 
 }
 
 function showEditInfoFlowRule(id_flow){
+
+    if(!BS_view){
+        hideComplexFRFields();
+    }else{
+        showComplexFRFields();
+    }
+    
     console.log(id_flow);
     var flow_rule = {};
     flow_rule = getFlowRulesById(id_flow);
+    console.log("qua");
     console.log(flow_rule);
     fillFlowRule(flow_rule);
 
-    console.log(flow_rule);
-
     $(".duplicate").hide();
     $("#ModalFlowRules").modal("show");
+    unSetKeysWindowListener();
     $("#selLink").val("single-link");
     $("#selLink").attr("disabled","disabled");
 
-    $("#saveRule").attr("onclick","EditLink()");
+    $("#saveRule").attr('onclick','editLink(\''+id_flow+'\')');
     $("#saveRule").html("Edit Rule");
     
 
@@ -173,31 +196,67 @@ function showEditInfoFlowRule(id_flow){
 
 function hideComplexFRFields(){
     $("#idPriority").hide();
-
-
-    //$("#idHardTimeout").hide();
-    //$("#idEtherType").hide();
-    //$("#idVlanID").hide();
-    //$("#idVlanPriority").hide();
-    //$("#idSourceMac").hide();
-    //$("#idDestinationMac").hide();
-    //$("#idSourceIP").hide();
-    //$("#idDestinationIP").hide();
-    //$("#idTosBits").hide();
-    //$("#idSourcePort").hide();
-    //$("#idDestinationPort").hide();
-    //$("#idProtocol").hide();
-    //
-    //$("#idSetVlanId").hide();
-    //$("#idSetVlanPriorityId").hide();
-    //$("#idPopVlan").hide();
-    //$("#idSetEthernetSrcAddress").hide();
-    //$("#idSetEthernetDstAddress").hide();
-    //$("#idSetIpSrcAddress").hide();
-    //$("#idSetIpDstAddress").hide();
-    //$("#idSetIpTos").hide();
-    //$("#idSetL4SrcPort").hide();
-    //$("#idSetL4DstPort").hide();
-    //$("#idOutputToQueue").hide();
     $(".complexFRFields").hide();
 }
+
+function showComplexFRFields(){
+    $("#idPriority").show();
+    $(".complexFRFields").show();
+}
+
+function editLink(id_flow){
+
+    flow_rule = getFlowRulesById(id_flow);
+    console.log(flow_rule);
+
+    var match={};
+    var actions=[];
+    var action={};
+    
+    flow_rule["priority"] = $("#idPriority").val();
+    flow_rule["description"] = $("#idDescription").val();
+    
+
+
+    match["hard_timeout"] = $("#idHardTimeout").val();
+    match["ether_type"] = $("#idEtherType").val();
+    match["vlan_id"] = $("#idVlanID").val();
+    match["vlan_priority"] = $("#idVlanPriority").val();
+    match["source_mac"] = $("#idSourceMac").val();
+    match["dest_mac"] = $("#idDestinationMac").val();
+    match["source_ip"] = $("#idSourceIP").val();
+    match["dest_ip"] = $("#idDestinationIP").val();
+    match["tos_bits"] = $("#idTosBits").val();
+    match["source_port"] = $("#idSourcePort").val();
+    match["dest_port"] = $("#idDestinationPort").val();
+    match["protocol"] = $("#idProtocol").val();
+    match["port_in"] = flow_rule.match["port_in"];
+    
+    flow_rule["match"] = match;
+    
+    action["output"] = flow_rule.actions[0]["output"];
+    action["set_vlan_id"] = $("#idSetVlanId").val();
+    action["set_vlan_priority-id"] = $("#idSetVlanPriorityId").val();
+    action["pop_vlan"] = $("#idPopVlan").val();
+    action["set_ethernet_src_address"] = $("#idSetEthernetSrcAddress").val();
+    action["set_ethernet_dst_address"] = $("#idSetEthernetDstAddress").val();
+    action["set_ip_src_address"] = $("#idSetIpSrcAddress").val();
+    action["set_ip_dst_address"] = $("#idSetIpDstAddress").val();
+    action["set_ip_tos"] = $("#idSetIpTos").val();
+    action["set_l4_src_port"] = $("#idSetL4SrcPort").val();
+    action["set_l4_dst_port"] = $("#idSetL4DstPort").val();
+    action["output_to_queue"] = $("#idOutputToQueue").val();
+
+    actions.push(action);
+    flow_rule["actions"] = actions;
+
+    console.log("flow rule appena creata");
+    console.log(flow_rule);
+
+    $("#ModalFlowRules").modal("hide");
+    setKeysWindowListener();
+    $("#saveRule").attr('onclick','DrawNewLink()');
+    $("#saveRule").html("Add Rule");
+
+}
+
