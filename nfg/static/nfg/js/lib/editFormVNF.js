@@ -191,5 +191,7 @@ function deletePort(portId,vnfId){
 }
 
 function addPort(){
+
+
     console.log(this);
 }

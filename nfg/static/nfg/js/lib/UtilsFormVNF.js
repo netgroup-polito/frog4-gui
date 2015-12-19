@@ -74,7 +74,7 @@ function addFormPort(){
                     							if(s_num == 'N'){s_num = 63;}
                     							console.log(s_num,p_num,s_num-p_num);
 
-                    							for(var i=0;i<=(s_num-p_num);i++){
+                    							for(var i=0;i<=(s_num-p_num+1);i++){
                                                     if(i==0){
                                                         $html+= '<option selected>'+i+'</option>';
                                                     }else{
@@ -85,7 +85,7 @@ function addFormPort(){
                             				$html +='</select>'+
                         				'</div>'+
                     			'</div>';                    				
-                   		})
+                   		});
                     
             $html+= '</div>'+
                     '</div>'+
