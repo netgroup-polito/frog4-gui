@@ -96,8 +96,6 @@ function addEditFormPort(idVNF){
     console.log(vnf);
     var port_template = template_js.ports;
     $("#infoPort").empty();
-    $("#selectPosition").empty();
-    $("#selectLabel").empty();
     //$html = '<div class="boxPort">'+
     //    '    <div class="form-group">'+
     //    '        <label class="control-label col-sm-2" for="title" id="titleInterface"><a>Ports info:</a></label>'+
@@ -114,14 +112,12 @@ function addEditFormPort(idVNF){
     vnf.ports.forEach(function(port){
         console.log(port.id);
         $html+='<div class="row port-i" id="delete'+port.fullId+'">'+
-            '<div class="col-md-4"></div>'+
+           '<div class="col-md-4"></div>'+
             '<div class="col-md-4"><label class="port-id">'+port.id+'</label></div>'+
             '<div class="col-md-4"><a href="#" onclick="deletePort(\''+port.fullId+"\',\'"+port.parent_NF_id+'\');"  ' +
             'class="btn btn-danger" >x</a></div>'+
             '</div>';
     });
-
-
 
     template_js.ports.forEach(function(e){
         var label={};
@@ -138,6 +134,7 @@ function addEditFormPort(idVNF){
         labelList.push(label);
     });
     $html+=
+        
         '<div>'+
         '<div class="form-group" >'+
         '<label class="control-label col-sm-2" >Add New Port:</label>'+
@@ -147,40 +144,47 @@ function addEditFormPort(idVNF){
         '<div class="row port-i">'+
         '<div class="col-md-4"><input type="text" name="" class="form-control" id="" placeholder="port name" ></div>'+
 
-        '<div class="col-md-2">'+
-        '<select class="form-control" name="type" id="selectLabel">';
+        
+        '<div class="col-md-4"><div class="btn-group">'+
+        '<button type="button" class="btn btn-default dropdown-toggle"  data-toggle="dropdown" name="type" aria-haspopup="true" aria-expanded="false" id="selectLabel"> Label <span class="caret"></span></button>'+
+        '<ul class="dropdown-menu">';
     labelList.forEach(function(ele,i){
-        $html+='<option id="option-'+ele.name+'" >'+ele.name+'</option>';
+        $html+='<li><a href="#" id="option-'+ele.name+'" >'+ele.name+'</a></li>';
     });
-    $html+='</select></div><div class="col-md-2">';
 
-    $html+='<select class="form-control" name="type" id="selectPosition"></select></div>';
-    $html+='<div class="col-md-4"><a href="#" id="add_port" onclick="addPort()"  class="btn btn-primary" >+</a></div>';
+    $html+='</ul></div><div class="btn-group">' +
+        '<button type="button" class="btn btn-default dropdown-toggle"  data-toggle="dropdown" name="type" aria-haspopup="true" aria-expanded="false" id="selectPosition"> Id <span class="caret"></span></button>'+
+        '<ul class="dropdown-menu" id="positionMenu"></ul>'+
+        
+        '</div></div>'+
+        '<div class="col-md-4"><a href="#" id="prova" onclick=""  class="btn btn-primary" >+</a></div>'+
+        '</div>';
     //da mettere a posto
 
-    
+
     $("#infoPort").append($html);
     labelList.forEach(function(ele,i){
         jQuery('#option-'+ele.name).click(setOptionsTemplateValues);
     });
-
 }
 
-function setOptionsTemplateValues(){
-    var labelType = $("#selectLabel").val();
-    console.log(labelType);
-    options="";
+function setOptionsTemplateValues() {
 
-    $("#selectPosition").empty();
+    console.log(this);
+    var labelType = $(this).text();
+    console.log(labelType);
+    $('#selectLabel').text(labelType);
+    var options='';
+    $('#positionMenu').empty();
     labelList.forEach(function(label){
         if(label.name===labelType){
             for(var i=0;i<label.pos_max-label.pos_min+1;i++){
-                options+='<option>'+i+'</option>';
+                options+='<li><a hfref="#">'+i+'</a></li>';
             }
         }
     });
-    $('#selectPosition').append(options);
-    
+    $('#positionMenu').append(options);
+    //label.preventDefault();
 }
 
 
