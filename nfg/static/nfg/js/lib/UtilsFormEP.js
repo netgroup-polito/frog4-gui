@@ -41,19 +41,29 @@ function drawFormEP(){
 
 
 function showEditInfoEP(idEP){
+    unSetKeysWindowListener();
     $('#FormEP').modal('show');
     fillFormInfoEP(idEP);
-    
 }
+
+/*function changeTitleEP(idEP,name){
+    console.log("quuuuu");
+    console.log(name);
+    $("#"+idEP).attr("title",name);
+    updateTooltips();
+
+}*/
+
 
 function fillFormInfoEP(idEP){
     var ep;
-    EP_list.forEach(function(ele){
+    /*EP_list.forEach(function(ele){
         if(parseInt(ele.id) == idEP){
             ep = ele;
             return;
         }
-    });
+    });*/
+    ep = getEndPointById(idEP);
 
     $("#nameEP").val(ep["name"]);
     $("#seltypeEP").val(ep["type"]);
@@ -97,6 +107,9 @@ function fillFormInfoEP(idEP){
             viewInputVlan();
             break;
     }
+
+    console.log("qua");
+    //changeTitleEP(idEP,$("#nameEP").val());
 
     $("#saveEP").attr("onclick","saveNewEp()");
     $("#saveEP").html("Save End Point");
