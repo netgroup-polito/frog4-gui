@@ -229,11 +229,13 @@ function addPortToVNF(idVNF){
     console.log("vnf:");
     console.log(vnf);
     console.log(idVNF);
+    //creating a new vnf port
     var newPort={
         fullId:"vnf:"+idVNF+":"+newInterfaceId,
         id:newInterfaceId,
         isLinked:false,
         name:newPortName,
+        ref:"NF_interface",
         parent_NF_id:idVNF,
         parent_NF_x:vnf["x"],
         parent_NF_y: vnf["y"],
@@ -244,6 +246,34 @@ function addPortToVNF(idVNF){
     var vect_port=[];
     vect_port.push(newPort);
     drawVNF_interfaces(vect_port);
+    //creating a new bs port
+    var newBSInt={};
+    newBSInt.ref = "bsInt";
+    newBSInt.id_vnf= vnf.id;
+    newBSInt.id = "vnf:"+vnf.id+":"+newPort.id;
+    newBSInt.fullId = "vnf:"+vnf.id+":"+newPort.id;
+    newBSInt.x=117*Math.random()%BIG_SWITCH_width;
+    newBSInt.y=0;
+    var newBSInt_vect=[];
+    newBSInt_vect.push(newBSInt);
+    big_switch.interfaces.push(newBSInt);
+
+    drawBSInterfaces(newBSInt_vect);
+    //creating a new external bs link
+
+    var newLink={};
+    var new_bs_links=[];
+    newLink.x1=parseInt(newPort.x)+newPort.parent_NF_x;
+    newLink.y1=parseInt(newPort.y)+newPort.parent_NF_y;
+    newLink.x2=newBSInt.x+big_switch.x;
+    newLink.y2=newBSInt.y+big_switch.y;
+    newLink.start=newBSInt.id;
+    newLink.end="bs-"+newBSInt.id;
+    newLink.external=true;
+
+    new_bs_links.push(newLink);
+    drawBSLinks(new_bs_links);
+
     //devo metterla in coda alla lista delle porte
     var htmlNewPort='<div class="row port-i" id="delete'+newPort.fullId+'">'+
     '<div class="col-md-4"><label class="port-id" style="font-weight:normal;">'+newPort.name+'</label></div>'+

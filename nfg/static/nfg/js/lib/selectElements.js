@@ -71,7 +71,11 @@ function selectSimpleLines(d){
     selected_node=undefined;
     deselectAll();
     if($(this).attr("fullduplex")==="false") {
-        $(this).attr("marker-end", "url(#EPArrowSelected)");
+        if($(this).attr("end").indexOf("vnf")===-1) {
+            $(this).attr("marker-end", "url(#EPArrowSelected)");
+        }else {
+            $(this).attr("marker-end", "url(#IntArrowSelected)");
+        }
     }
     $(this).attr("class","line-selected");
     console.log(d);
