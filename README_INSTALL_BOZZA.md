@@ -18,6 +18,7 @@ This document presents how to install the Virtualized Network Services GUI.
         $ pip install json-schema-validator
 ```
 * Create DataBase for Django and USERS table
+
 ```sh
         $ python manage.py migrate
 ```
