@@ -78,7 +78,11 @@ function selectSimpleLines(d){
         }
     }
     $(this).attr("class","line-selected");
-    console.log(d);
+    //console.log(d);
+    var full_id = $(this).attr("idfr");
+    var id_vect = full_id.split("-");
+    var id = id_vect[1];
+    drawLinkInfo(id);
 
 }
 

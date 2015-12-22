@@ -13,3 +13,4 @@ class User(models.Model):
 
 	def get_password(self):
 		return self.password
+
