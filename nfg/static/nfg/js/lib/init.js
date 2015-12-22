@@ -1,5 +1,8 @@
 /**
  * Created by pc asus on 05/12/2015.
+ *
+ * This file contains the FG_init function that initialize the canvas and all the JS object needed.
+ *
  */
 
 function FG_init(){
@@ -10,7 +13,7 @@ function FG_init(){
         setRandomInitialBSPositions();
         
     }else{
-        //settare con il file di posizionamento!!!
+        //the position is given by the file *_pos.json of the server reply
         setInitialEPPositions();
         setInitialNFPositions();
         setInitialBSPositions();
