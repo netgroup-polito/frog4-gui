@@ -65,6 +65,26 @@ function drawVNFInfo(vnf,id){
 
 
 }
+
+function drawLinkInfo(id){
+
+    var flow_rule = getFlowRulesById(id);
+    $('.info').empty();
+    
+    var $html='<a href="#"><i class="glyphicon glyphicon-exclamation-sign"></i><strong>Link Info</strong></a>'+
+            '<div class="panel panel-default">'+
+            '<div class="panel-heading">Info</div>'+
+            '<div class="panel-body">'+
+            '<p><b>Description: </b>'+flow_rule.description+'</p>'+
+            '<p><b>Source Port: </b>'+flow_rule.match.port_in+'</p>'+
+            '<p><b>Output: </b>'+flow_rule.actions[0].output+'</p>'+
+            '</div>'+
+            '</div>';
+        $('.info').append($html);
+        
+}
+
+
 function drawBigSwitchInfo(fg){
     $('.info').empty();
     $('.info').append('<a href="#" onclick="ReduceAll()"><strong>BigSwitch Info </strong><i class="glyphicon glyphicon-chevron-down" id="icon-bs"></i></a>');
@@ -131,6 +151,9 @@ function ReduceAll(){
         isReduced = false;
     }
 }
+
+
+
 
 function Reduce(id){    
     $('#flowrule'+id).slideToggle("slow");    

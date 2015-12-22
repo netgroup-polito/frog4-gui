@@ -37,6 +37,9 @@ function select_node(ele){
             $("#selLink").val("single-link");
             $("#selLink").removeAttr("disabled");
             $(".duplicate").hide();
+            
+            $("#saveRule").attr('onclick','DrawNewLink()');
+            $("#saveRule").html("Add Rule");
         }
     }
 }

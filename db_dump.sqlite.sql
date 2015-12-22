@@ -1,9 +1,10 @@
+--- Script for initialize the DB ---
+
 -- delete table if already exists --
 -- DROP TABLE IF EXISTS USERS_GRAPHS;
 
-
 --
--- Struttura della tabella `USERS_GRAPHS`
+-- `USERS_GRAPHS` table:
 --
 
 CREATE TABLE IF NOT EXISTS `users_graphs` (
@@ -15,5 +16,7 @@ CREATE TABLE IF NOT EXISTS `users_graphs` (
   PRIMARY KEY (`username`,`fgname`)
 );
 
+-- insert the default graph --
 INSERT INTO `USERS_GRAPHS`(`username`, `fgname`, `fgid`, `fg`, `fgpos`) VALUES (
 "father","default","00000000",'{"forwarding-graph":{"id":"00000000","name":"Forwarding graph","VNFs":[],"end-points":[],"big-switch":{"flow-rules":[]}}}',NULL);
+

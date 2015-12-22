@@ -1,5 +1,4 @@
 import json
-import os
 
 from DBManager import DBManager
 from django.shortcuts import render
@@ -15,7 +14,7 @@ from nffg_library.validator import ValidateNF_FG
 from jsonschema import ValidationError
 from create_logger import MyLogger
 
-
+dbm = DBManager("db.sqlite3")
 
 
 def index(request):
@@ -69,7 +68,7 @@ def login(request):
 
 
 def ajax_template_request(request, id_template):
-    print id_template;
+    print id_template
     file_directory = "templates_json/" + id_template + ".json"
     print file_directory
 
@@ -83,9 +82,9 @@ def ajax_template_request(request, id_template):
 
 
 def ajax_data_request(request):
-    dbm = DBManager("db.sqlite3")
+    
     msg = {}
-    print "entro"
+    
     logger = MyLogger("filelog.log", "django-application").getMyLogger()
 
     if "err_msg" in request.session:
@@ -98,144 +97,45 @@ def ajax_data_request(request):
         request.session["file_name_fg"] = "default"
 
     json_data = {}
-    print "prima del db: "+request.session["username"]+"   "+request.session["file_name_fg"]
-    print dbm
+    
     couple_fg = dbm.getFGByName(request.session["username"], request.session["file_name_fg"])
-    print "dopo il db"
+    if couple_fg is None:
+            msg["err"] = "File non trovato"
+            logger.debug(msg["err"])
+            msg = json.dumps(msg)
+            return HttpResponse("%s" % msg)
+
     json_data['file_name_fg'] = request.session["file_name_fg"]
-    json_data['json_file_fg'] = couple_fg[0].replace("\\", " ")
-    print json_data['json_file_fg']
+    json_data['json_file_fg'] = json.loads(couple_fg[0].replace("\\", " "))
 
     if couple_fg[1] is None:
+        print "valore null"
         json_data['json_file_pos'] = {}
         json_data['is_find_pos'] = 'false'
     else:
-        json_data['json_file_pos'] = couple_fg[1]
+        print "non null"
+        json_data['json_file_pos'] = json.loads(couple_fg[1].replace("\\", " "))
         json_data['is_find_pos'] = 'true'
 
-    print "sono dopo gli else"
+    jsonFG = json_data['json_file_fg']
+
+    print "arrivo dopo sjon.load"
+
+    json_data_string = json.dumps(json_data)
+
+    print json_data_string
+
+    val = ValidateNF_FG()
 
     try:
-      jsonFG = json.loads(json_data['json_file_fg'])
-
-      print "arrivo dopo sjon.load"
-
-      json_data_string = json.dumps(json_data)
-
-      print json_data_string
-
-      val = ValidateNF_FG()
-
-      try:
-          val.validate(jsonFG)
-      except ValidationError as err:
-          msg["err"] = "Errore di validazione" + err.message
-          logger.debug(msg["err"])
-          msg = json.dumps(msg)
-          return HttpResponse("%s" % msg)
-    except Exception as err2:
-       print("Something went wrong: {}".format(err2))
-
-
+        val.validate(jsonFG)
+    except ValidationError as err:
+        msg["err"] = "Errore di validazione" + err.message
+        logger.debug(msg["err"])
+        msg = json.dumps(msg)
+        return HttpResponse("%s" % msg)
 
     return HttpResponse("%s" % json_data_string)
-
-
-'''
-    directory = "users/upload@" + request.session["username"]
-    print directory
-
-    if "file_name_fg" in request.session:
-        file_name_fg = request.session["file_name_fg"] + ".json"
-        print "file di sessione:" + file_name_fg
-    else:
-        file_name_fg = "default.json"
-        request.session["file_name_fg"] = "default"
-
-    print file_name_fg
-    (shortname, extension) = os.path.splitext(file_name_fg)
-
-    print extension
-
-    json_data = {}
-
-    print directory + "/" + file_name_fg
-    if (extension == ".json"):
-        if os.path.isfile(directory + "/" + file_name_fg):
-            logger.debug("file trovato")
-            json_file_fg = open(directory + "/" + file_name_fg, "r")
-            json_data_fg = json.load(json_file_fg)
-
-            try:
-
-                val.validate(json_data_fg)
-                json_data['file_name_fg'] = file_name_fg
-                json_data['json_file_fg'] = json_data_fg
-                json_file_fg.close()
-
-
-            except ValidationError as err:
-                msg["err"] = "Errore di validazione" + err.message
-                logger.debug(msg["err"])
-                msg = json.dumps(msg)
-                return HttpResponse("%s" % msg)
-
-            if "file_name_fg" in request.session:
-
-                file_name_pos = request.session["file_name_fg"] + "_pos.json"
-
-                if os.path.isfile(directory + "/pos/" + file_name_pos) == False:
-
-                    json_data['is_find_pos'] = 'false'
-                    json_data['json_file_pos'] = {}
-
-                    logger.debug("file di posizionamento non trovato")
-
-                else:
-
-                    json_file_pos = open(directory + "/pos/" + file_name_pos, "r")
-                    json_data_pos = json.load(json_file_pos)
-                    json_file_pos.close()
-
-                    json_data['is_find_pos'] = 'true'
-                    json_data['json_file_pos'] = json_data_pos
-
-                    logger.debug("file di posizionamento trovato nella sessione")
-
-            else:
-
-                # len_file_name = len(file_name_fg)
-                # file_name_pos = file_name_fg[0:len_file_name-5]
-                file_name_pos = request.session["file_name_fg"] + "_pos.json"
-
-                if os.path.isfile(directory + "/" + file_name_pos):
-
-                    logger.debug("file di posizionamento trovato")
-                    json_file_pos = open(directory + "/pos/" + file_name_pos, "r")
-                    json_data_pos = json.load(json_file_pos)
-                    json_file_pos.close()
-
-                    json_data['is_find_pos'] = 'true'
-                    json_data['json_file_pos'] = json_data_pos
-
-
-                else:
-
-                    logger.debug("file di posizionamento non presente")
-                    json_data['is_find_pos'] = 'false'
-                    json_data['json_file_pos'] = {}
-
-        else:
-            logger.debug("file non trovato")
-
-
-    else:
-        logger.debug("formato file non valido")
-
-    json_data = json.dumps(json_data)
-
-    return HttpResponse("%s" % json_data)
-'''
 
 
 @csrf_exempt
@@ -247,22 +147,19 @@ def ajax_upload_request(request):
 
     if request.method == 'POST':
         # print "post"
-
-
-        directory = "users/upload@" + request.session["username"]
-        if not os.path.exists(directory):
-            os.makedirs(directory)
-
+        #directory = "users/upload@" + request.session["username"]
+        #if not os.path.exists(directory):
+        #    os.makedirs(directory)
         # memorizzo filename e contenuto del file inviato dall'utente
 
         file_name_fg = request.POST["file_name_fg"]
-        content_file = request.POST["file_content_fg"]
+        file_content_fg = request.POST["file_content_fg"]
         # memorizzo il filename nella varibile di sessione file_name
 
+        jsonFG = json.loads(file_content_fg)
 
-        json_data = json.loads(content_file)
         try:
-            val.validate(json_data)
+            val.validate(jsonFG)
         except ValidationError as err:
 
             msg["err"] = "Errore di validazione" + err.message
@@ -270,51 +167,32 @@ def ajax_upload_request(request):
             msg = json.dumps(msg)
             return HttpResponse("%s" % msg)
 
-        (shortname, extension) = os.path.splitext(file_name_fg)
+        file_name = file_name_fg.split(".")
+        request.session["file_name_fg"] = file_name[0]
 
-        if (extension == ".json"):
+        ris = dbm.getFGByName(request.session["username"], request.session["file_name_fg"])
 
-            out_file = open(directory + "/" + file_name_fg, "w")
-            out_file.write(content_file)
-            out_file.close()
-
-            file_name_pos = file_name_fg.split(".");
-
-            if (os.path.isfile(directory + "/pos/" + file_name_pos[0] + "_pos.json")):
-                os.remove(directory + "/pos/" + file_name_pos[0] + "_pos.json")
-
-            request.session["file_name_fg"] = file_name_pos[0];
-
-            msg["success"] = "Upload Riuscito"
-            logger.debug(msg["success"])
-            msg = json.dumps(msg)
-            return HttpResponse("%s" % msg)
-
+        if ris is None:
+            print "file nuovo"
+            dbm.insertFGInUser(request.session["username"], request.session["file_name_fg"],json.loads(file_content_fg), None)
         else:
-            logger.debug("formato non valido")
+            print "file modificato"
+            dbm.deleteFGByName(request.session["username"], request.session["file_name_fg"])
+            dbm.insertFGInUser(request.session["username"], request.session["file_name_fg"],json.loads(file_content_fg), None)
 
-        return HttpResponse("%s" % "post")
-    elif request.method == 'GET':
-        # form = NameForm(request.GET)
-        print request.GET
-        return HttpResponse("%s" % "get")
+        msg["success"] = "Upload Riuscito"
+        logger.debug(msg["success"])
+        msg = json.dumps(msg)
+        return HttpResponse("%s" % msg)
 
 
 def ajax_files_request(request):
     if request.method == "GET":  # sostituire con metodo post
-        directory = "users/upload@" + request.session["username"]
-        dirs = os.listdir(directory)
-
+        
         lista_file = []
-
-        for file in dirs:
-            (shortname, extension) = os.path.splitext(file)
-            if extension == ".json":
-                lista_file.append(file)
-                json_data = json.dumps(lista_file)
-
-        print json_data
-    return HttpResponse("%s" % json_data)
+        lista_file = dbm.getUserFG(request.session["username"])
+        json_data_string = json.dumps(lista_file)
+        return HttpResponse("%s" % json_data_string)
 
 
 @csrf_exempt
@@ -322,87 +200,81 @@ def ajax_save_request(request):
     fg = NF_FG()
     val = ValidateNF_FG()
     msg = {}
-    # logger = MyLogger("filelog.log","django-application").getMyLogger()
+    
+    logger = MyLogger("filelog.log", "django-application").getMyLogger()
     if request.method == "POST":
-        directory = "users/upload@" + request.session["username"]
-
+        
         file_name_fg = request.POST["file_name_fg"]
         file_name_pos = request.POST["file_name_pos"]
 
-        file_content_fg = request.POST["file_content_fg"]
-        file_content_pos = request.POST["file_content_pos"]
-
-        print file_name_fg
-        print file_name_pos
-        print file_content_fg
-        print file_content_pos
-        # memorizzo il filename nella varibile di sessione file_name
+        file_content_fg = json.loads(request.POST["file_content_fg"])
+        file_content_pos = json.loads(request.POST["file_content_pos"])
 
         file_name = file_name_fg.split(".")
+        request.session["file_name_fg"] = file_name[0]
 
-        request.session["file_name_fg"] = file_name[0];
-
-        json_data = json.loads(file_content_fg)
         try:
-            val.validate(json_data)
+            val.validate(file_content_fg)
         except ValidationError as err:
             msg["err"] = "Errore di validazione" + err.message
-            # logger.debug(msg["err"])
             msg = json.dumps(msg)
             return HttpResponse("%s" % msg)
 
-        (shortname, extension) = os.path.splitext(file_name_fg)
-        print "controllo ext"
-        if (extension == ".json"):
+        ris = dbm.getFGByName(request.session["username"], request.session["file_name_fg"])
 
-            out_file = open(directory + "/" + file_name_fg, "w")
-            out_file.write(file_content_fg)
-            out_file.close()
-
-            out_file = open(directory + "/pos/" + file_name_pos, "w")
-            out_file.write(file_content_pos)
-            out_file.close()
-
-            msg["success"] = "Salvataggio Riuscito"
-            print "pip"
-            # logger.debug(msg["success"])
-            msg = json.dumps(msg)
-
-            return HttpResponse("%s" % msg)
-
+        if ris is None:
+            print "file nuovo"
+            dbm.insertFGInUser(request.session["username"], request.session["file_name_fg"],file_content_fg, file_content_pos)
         else:
+            print "file modificato"
+            dbm.deleteFGByName(request.session["username"], request.session["file_name_fg"])
+            dbm.insertFGInUser(request.session["username"], request.session["file_name_fg"],file_content_fg, file_content_pos)
+        
+        msg["success"] = "Salvataggio Riuscito"            
+        msg = json.dumps(msg)
 
-            msg = "formato non valido"
-            logger.debug(msg)
+        return HttpResponse("%s" % msg)
 
 
 @csrf_exempt
 def ajax_download_preview(request):
+    msg={}
+    json_data={}
     logger = MyLogger("filelog.log", "django-application").getMyLogger()
     if request.method == "POST":
-        directory = "users/upload@" + request.session["username"]
+        
         file_name_fg = request.POST["file_name_fg"]
+        file_name = file_name_fg.split(".")
+        print file_name
 
-        (shortname, extension) = os.path.splitext(file_name_fg)
+        couple_fg = dbm.getFGByName(request.session["username"], file_name[0])
 
-        if (extension == ".json"):
-            if os.path.isfile(directory + "/" + file_name_fg):
-                # print "file trovato"
-                logger.debug("file trovato")
+        if couple_fg is None:
+            print "file non trovato"
+            msg["err"] = "File non trovato"
+            logger.debug(msg["err"])
+            msg = json.dumps(msg)
+            return HttpResponse("%s" % msg)
 
-                file_name = file_name_fg.split(".")
-                request.session["file_name_fg"] = file_name[0]
+        json_data['file_name_fg'] = file_name[0]
+        json_data['json_file_fg'] = json.loads(couple_fg[0].replace("\\", " "))
+    
+        json_data_string = json.dumps(json_data)
 
-                json_file_fg = open(directory + "/" + file_name_fg, "r")
-                json_data_fg = json.load(json_file_fg)
-                json_data = json.dumps(json_data_fg)
+        print json_data_string
+        jsonFG = json_data['json_file_fg']
 
-                return HttpResponse("%s" % json_data)
+        val = ValidateNF_FG()
 
-            else:
-                logger.debug("file non trovato")
-        else:
-            logger.debug("formato file non valido")
+        try:
+            val.validate(jsonFG)
+        except ValidationError as err:
+            msg["err"] = "Errore di validazione" + err.message
+            logger.debug(msg["err"])
+            msg = json.dumps(msg)
+            return HttpResponse("%s" % msg)
+
+        return HttpResponse("%s" % json_data_string)
 
 
 @csrf_exempt
@@ -410,50 +282,44 @@ def ajax_download_request(request):
     fg = NF_FG()
     val = ValidateNF_FG()
     msg = {}
+    json_data = {}
     logger = MyLogger("filelog.log", "django-application").getMyLogger()
 
     if request.method == "POST":
-        directory = "users/upload@" + request.session["username"]
         file_name_fg = request.POST["file_name_fg"]
+        file_name = file_name_fg.split(".")
+        print file_name
 
         print "ajax download request"
-        (shortname, extension) = os.path.splitext(file_name_fg)
 
-        if (extension == ".json"):
-            if os.path.isfile(directory + "/" + file_name_fg):
-                logger.debug("file trovato")
+        couple_fg = dbm.getFGByName(request.session["username"], file_name[0])
 
-                json_file_fg = open(directory + "/" + file_name_fg, "r")
-                json_data_fg = json.load(json_file_fg)
-                json_data = json.dumps(json_data_fg)
+        if couple_fg is None:
+            print "file non trovato"
+            msg["err"] = "File non trovato"
+            logger.debug(msg["err"])
+            msg = json.dumps(msg)
+            return HttpResponse("%s" % msg)
 
-                try:
-                    val.validate(json_data_fg)
-                except ValidationError as err:
+        json_data['file_name_fg'] = file_name[0]
+        json_data['json_file_fg'] = json.loads(couple_fg[0].replace("\\", " "))
+    
+        json_data_string = json.dumps(json_data)
+        jsonFG = json_data['json_file_fg']
 
-                    # msg = "errore di validazione:" + err.message
-                    msg["err"] = "Errore di validazione" + err.message
-                    logger.debug(msg["err"])
-                    msg = json.dumps(msg)
-                    return HttpResponse("%s" % msg)
+        try:
+            val.validate(jsonFG)
+        except ValidationError as err:
+            msg["err"] = "Errore di validazione" + err.message
+            logger.debug(msg["err"])
+            msg = json.dumps(msg)
+            return HttpResponse("%s" % msg)
 
-                file_name = file_name_fg.split(".")
-                request.session["file_name_fg"] = file_name[0]
+        file_name = file_name_fg.split(".")
+        request.session["file_name_fg"] = file_name[0]
 
-                file_name_pos = file_name[0] + "_pos.json"
-                print file_name_pos
-
-                if os.path.isfile(directory + "/pos/" + file_name_pos):
-                    logger.debug("file di posizionamento presente")
-                    # request.session["file_name_pos"] = file_name_pos
-
-                print json_data
-                msg["success"] = "Download Riuscito"
-                logger.debug(msg["success"])
-                msg = json.dumps(msg)
-                return HttpResponse("%s" % msg)
-
-            else:
-                logger.debug("file non trovato")
-        else:
-            logger.debug("formato file non valido")
+        print json_data
+        msg["success"] = "Download Riuscito"
+        logger.debug(msg["success"])
+        msg = json.dumps(msg)
+        return HttpResponse("%s" % msg)

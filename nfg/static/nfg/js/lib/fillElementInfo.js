@@ -143,6 +143,7 @@ function fillNewVNF(){
 }
 
 function updateVNF(){
+    setKeysWindowListener();
     var vnf = {};
     var port = {};
 
