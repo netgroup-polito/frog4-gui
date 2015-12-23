@@ -1,5 +1,7 @@
 /**
- * Created by pc asus on 11/12/2015.
+ *  In this file there are all the function needed for print on the left of the web page all the informations about the selected
+ *  graphical object.
+ *
  */
 
 

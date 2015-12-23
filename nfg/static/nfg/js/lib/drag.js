@@ -1,39 +1,37 @@
 /**
- * This file contains the drag functions: NetworkFunctions, EndPoint, Network Function's Interfaces and Big Switch's Interfaces
+ * This file contains the drag functions for all the graphical objects: NetworkFunctions, EndPoint, Network Function's Interfaces and
+ * Big Switch's Interfaces.
+ * As always changing the graphical object means also change the JS object that is referred.
+ *
+ * If you whant to put another graphical object you should implement here you own drag and drop function.
  *
  **/
-/*
- --->>>DA FARE<<<--- OGNI VOLTA CHE SPOSTO OLTRE A DISEGNARLO NELL'HTML ANCHE NEI CORRISPETTIVI CAMPI DEGLI OGGETTI HTML
- */
+//VNF
 function dragNF(){
     var drag_NF = d3.behavior.drag()
         .on("drag",function(d) {
-            //al drag riporto il centro dell'oggetto NF alle coordinate del mouse (trovate con d3.event.x/.y)
+            //at drag the VNF will be with its center to the mouse position (d3.event.x and .y)
             var x=parseInt(d3.event.x)-NF_width/2-NF_offset_x,
                 y=parseInt(d3.event.y)-NF_height/2-NF_offset_y;
             var VNF= d3.select(this);
-            //modifica elementi dell'html (grafici)
+            //change the graphical object
             VNF.attr("x",x).attr("y",y);
-            //modifica elementi javascript
+            //change the JS object
             var VNF_js=getVNFById(VNF.attr("id")); VNF_js.x=x;VNF_js.y=y;
-            //per ogni interfaccia dell'NF spostato setto la posizione assoluta dell'NF di cui fa parte rispetto al canvas la posizione
-            //assoluta dell'interfaccia all'interno del canvas si trova facendo  parent_NF_position_x+cx e parent_NF_position_y+cy
-            //console.log(svg.selectAll(".interface[parent=vnf"+VNF.attr("id")+"]"));
+            //now for all his VNF interfaces the new position is equals to the VNF current position plus the original offset of the interface
+            //on the VNF itself
             svg.selectAll(".interface[parent=vnf"+VNF.attr("id")+"]")[0].forEach(function(e){
                 var interface=d3.select(e);
                 var interface_js=getInterfaceById(interface.attr("id"));
                 interface_js.parent_NF_x=x;interface_js.parent_NF_y=y;
                 interface.attr("cx",parseInt(interface_js.x)+x);
                 interface.attr("cy",parseInt(interface_js.y)+y);
-                //console.log(interface);
-                //console.log(interface_js);
+                //set the new parent_NF_position
                 interface.attr("parent_NF_position_x",x);
                 interface.attr("parent_NF_position_y",y);
-                //se sposto l'NF cambia anche il posizionamento dell'oggetto grafico (dovrei cambiare anche l'oggetto js)
+                //change the JS vnf port object
                 var pos=interface.attr("id").replace(/:/g,"\\:");
-                console.log(pos);
                 var link1=svg.selectAll("[start="+pos+"]");
-                //console.log(interface.attr("cx"));
                 if(link1[0].length!==0){
                     link1.attr("x1",interface_js.x+x)
                         .attr("y1",interface_js.y+y)
@@ -43,46 +41,34 @@ function dragNF(){
                     link2.attr("x2",interface_js.x+x)
                         .attr("y2",interface_js.y+y)
                 }
-                //console.log(d3.selectAll("[end="+pos+"]").attr("x1"));
-                //var line
             });
-            //sposto anche l'etichetta ad essa associata
+            //change the position of the text
             VNF_text_section.select("#text_"+VNF.attr("id")).attr("x",x+20).attr("y",y+5+NF_height/2);
 
         })
-        .on("dragstart",function(d){
-            //console.log(this);
-        });
-
     return drag_NF;
 }
-
-
-
-
-
+// Big Switch
 function dragBIGSWITCH(){
     var drag_BIGSWITCH = d3.behavior.drag()
         .on("drag",function(d) {
-            //al drag riporto il centro dell'oggetto NF alle coordinate del mouse (trovate con d3.event.x/.y)
+            //at drag the BS will be with its center to the mouse position (d3.event.x and .y)
             var x=parseInt(d3.event.x)-BIG_SWITCH_width/2-NF_offset_x,
                 y=parseInt(d3.event.y)-BIG_SWITCH_height/2-NF_offset_y;
             var BIG= d3.select(this);
-            //modifica elementi dell'html (grafici)
+            //change the graphical object
             BIG.attr("x",x+NF_offset_x).attr("y",y+NF_offset_y);
-            //modifica elementi javascript
+            //change the JS object
             big_switch.x=x;big_switch.y=y;
-            //per ogni interfaccia dell'NF spostato setto la posizione assoluta dell'NF di cui fa parte rispetto al canvas la posizione
-            //assoluta dell'interfaccia all'interno del canvas si trova facendo  parent_NF_position_x+cx e parent_NF_position_y+cy
+            //now for all his VNF interfaces the new position is equals to the VNF current position plus the original offset of the interface
+            //on the VNF itself
             svg.selectAll(".BS_interface")[0].forEach(function(e){
                 var interface=d3.select(e);
-                //console.log(interface);
                 var interface_js = getBSInterfaceById(interface.attr("id"));
                 interface.attr("cx",interface_js.x+x);
                 interface.attr("cy",interface_js.y+y);
                 var pos=interface.attr("id").replace(/:/g,"\\:");
                 var link1=svg.selectAll("[start=bs-"+pos+"]");
-                //console.log(interface.attr("cx"));
                 if(link1[0].length!==0){
                     link1.attr("x1",interface_js.x+x)
                         .attr("y1",interface_js.y+y)
@@ -95,40 +81,10 @@ function dragBIGSWITCH(){
             });
 
         });
-        
-        //var drag_inteface_big = d3.behavior.drag()
-        //    .on("drag",function(d){
-        //        var x=d3.event.x,y=d3.event.y;
-        //        var interface = d3.select(this);
-        //        var interface_position_x,interface_position_y;
-        //        var interface_js=getBSInterfaceById(interface.attr("id"));
-        //        if(interface_js.x==0 || interface_js.x==BIG_SWITCH_width){
-        //            if(y<big_switch.y){
-        //                interface_position_y = big_switch.y;
-        //            }else if(y>big_switch.y+BIG_SWITCH_height){
-        //                interface_position_y = big_switch.y+BIG_SWITCH_height;
-        //            }else{
-        //                interface_position_y = y;
-        //            }
-        //            interface.attr("cy",interface_position_y);
-        //            interface_js.y = interface_position_y-big_switch.y;
-        //        }
-        //        if(interface_js.y===0 || interface_js.y===BIG_SWITCH_height){
-        //            if(x<big_switch.x){
-        //                interface_position_x = big_switch.x;
-        //            }else if(x>big_switch.x + BIG_SWITCH_width){
-        //                interface_position_x = big_switch.x +BIG_SWITCH_width;
-        //            }else{
-        //                interface_position_x = x;
-        //            }
-        //            interface.attr("cx",interface_position_x);
-        //            interface_js.x = interface_position_x - big_switch.x;
-        //        }
-        //
-        //    })
 
     return drag_BIGSWITCH;
 }
+// End Point
 function dragEP(){
     var drag_EP = d3.behavior.drag()
         .on("drag",function(d){
@@ -137,11 +93,7 @@ function dragEP(){
             interface.attr("cx",cx).attr("cy",cy);
             var EP_js=getEndPointById(interface.attr("id"));
             EP_js.x=cx;EP_js.y=cy;
-            //console.log(EP_js);
-            //var pos=interface.attr("id").replace(/:/g,"\\:");
-            //console.log(pos);
             var link1=svg.selectAll("[start=endpoint\\:"+interface.attr("id")+"]");
-            //console.log(interface.attr("cx"));
             if(link1[0].length!==0){
                 link1.attr("x1",parseInt(interface.attr("cx")))
                     .attr("y1",parseInt(interface.attr("cy")))
@@ -152,12 +104,11 @@ function dragEP(){
                     .attr("y2",parseInt(interface.attr("cy")))
             }
         }).on("dragstart",function(d){
-            //console.log(this);
             d3.event.sourceEvent.stopPropagation();
         });
     return drag_EP;
 }
-
+// Drag of the interfaces of the VNF are complex
 function dragINTERFACE(){
     var drag_inteface = d3.behavior.drag()
         .on("drag",function(d){
@@ -210,21 +161,7 @@ function dragINTERFACE(){
         });
     return drag_inteface;
 }
-
-/*function dragTEXT(){
-    var drag_TEXT = d3.behavior.drag()
-    .on("drag",function(d){
-            var x=parseInt(d3.event.x),y=parseInt(d3.event.y);
-            var text = d3.select(this);
-            text.attr("x",x).attr("y",y);
-            
-        }).on("dragstart",function(d){
-            d3.event.sourceEvent.stopPropagation();
-        });
-    return drag_TEXT;
-}*/
-
-
+//drag of BS interfaces similar to the VNF interfaces
 function dragINTERFACEBIGSWITCH(){
     var drag_inteface_big = d3.behavior.drag()
         .on("drag",function(d){
@@ -268,17 +205,6 @@ function dragINTERFACEBIGSWITCH(){
                 if(link2[0].length!==0){
                     link2.attr("x2",interface_position_x);
                 }
-                //if(interface_js.x===0 || interface_js.x===BIG_SWITCH_width){
-                //    if(y<0){ d3.select(this).attr("cy",0);}
-                //    else if(y>BIG_SWITCH_height){ d3.select(this).attr("cy",BIG_SWITCH_height);}
-                //    else d3.select(this).attr("cy",d3.event.y);
-                //}
-                //if(this.getAttribute("cy")===0 || this.getAttribute("cy")===BIG_SWITCH_height){
-                //
-                //    if(x<NF_offset_x){ d3.select(this).attr("cx",NF_offset_x);}
-                //    else if(x>BIG_SWITCH_width+NF_offset_x){ d3.select(this).attr("cx",BIG_SWITCH_width+NF_offset_x);}
-                //    else d3.select(this).attr("cx",d3.event.x);
-                //}
             }
 
         })
@@ -294,8 +220,6 @@ function dragINTERFACEBIGSWITCH(){
             }
         })
         .on("dragstart",function(d){
-            //console.log("->>>>");
-            //console.log(this);
             d3.event.sourceEvent.stopPropagation();
         });
     return drag_inteface_big;

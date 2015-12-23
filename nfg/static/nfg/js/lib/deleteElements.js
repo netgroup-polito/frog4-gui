@@ -1,5 +1,7 @@
 /**
- * Created by pc asus on 11/12/2015.
+ * Created by Francesco Pellerey and Daniele Bevilacqua on 11/12/2015.
+ * This file contains all the functions for deleting all of the graphical objects.
+ * As always deleting an object means remove the graphical object and the javascript object associated
  */
 
 
@@ -13,7 +15,8 @@ function deleteVNF(){
     var links_start,links_end;
 
     /*
-     * in this loop we delete all the dual bs_interface, links that start and finish to that vnf interface or to that dual bs interface
+     * in this loop we delete all the dual bs_interface links (i.e. the link that starts when the other link end and vice versa),
+     *  that start or finish to that vnf interface or to that dual bs interface
      */
     vnf_int[0].forEach(function(int){
         var id=int.id.replace(/:/g,"\\:");
@@ -31,7 +34,7 @@ function deleteVNF(){
     vnf_int.remove();
     $(selected_node).remove();
     /*
-     * ELIMINARLI DAGLI OGGETTI JS!!!!
+     * Now deleting the JS Object
      */
     flow_rules= _.filter(flow_rules,function(fr){
         var id_port_in=fr["match"]["port_in"],id_port_out= fr["actions"][0]["output"];
@@ -55,7 +58,7 @@ function deleteEP(){
     d3.selectAll("[end=bs-endpoint\\:"+selected_node.id).remove();
     $(selected_node).remove();
     /*
-     * ELIMINARLI DAGLI OGGETTI JS!!!!
+     * Now deleting the JS Object
      */
     flow_rules= _.filter(flow_rules,function(fr){
         var id_port_in=fr["match"]["port_in"],id_port_out= fr["actions"][0]["output"];
@@ -111,7 +114,7 @@ function eraseAll(){
 
 function deletePortById(portId,vnfId){
     /*
-     1.elimino oggetti grafici:
+     1.Deleting graphical object
      */
     var portId_mod=portId.replace(/:/g,"\\:");
     //elimino porta e BS interface
@@ -124,7 +127,7 @@ function deletePortById(portId,vnfId){
     lines_section.selectAll("[end=bs-"+portId_mod+"]").remove();
 
     /*
-     2. delete js objects
+     2. Now deleting the JS Object
      // */
     //delete port from vnf
     var vnf_js=getVNFById(vnfId);

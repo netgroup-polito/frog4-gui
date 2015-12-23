@@ -29,7 +29,29 @@ function getBSInterfaceById(id){
     });
     return inter;
 }
-
+function getTemplatePortByLabel(name){
+    var port=undefined;
+    console.log("------>"+name);
+    if(template_js===undefined) return;
+    template_js.ports.forEach(function(p){
+        if(p.label===name){
+            port=p;
+        }
+    });
+    return port;
+}
+function getNumberOfPortWithLabelInVNF(label,vnfId){
+    console.log(vnfId);
+    var vnf=getVNFById(vnfId);
+    var count=0;
+    vnf.ports.forEach(function(port){
+        var tmp_label=port.id.split(":")[0];
+        if(tmp_label===label){
+            count++;
+        }
+    });
+    return count;
+}
 function getFlowRulesById(id){
     var flowrule=undefined;
     flow_rules.forEach(function(e){

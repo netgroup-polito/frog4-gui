@@ -1,9 +1,11 @@
 /**
- * This file contains the definitions of NF and BIGSWITCH graphical objects
+ * This file contains the definitions of NF, BIGSWITCH and Arrow graphical objects, in terms of
+ * appearance on the canvas.
  *
+ * ----> Put at the end of this file any other icons <----
  **/
 
-
+//VNF
 function defNF(){
     var NF = defs_section.append("defs").append("g").attr("id","NF_node");
     NF.append("rect")
@@ -12,7 +14,9 @@ function defNF(){
         .attr("width",NF_width)
         .attr("height",NF_height)
         .attr("class","nf");
-    return NF;}
+    return NF;
+}
+//VNF selected
 function defNF_select(){
     var NF_select = defs_section.append("defs").append("g").attr("id","NF_select");
     NF_select.append("rect")
@@ -21,7 +25,9 @@ function defNF_select(){
         .attr("width",NF_width)
         .attr("height",NF_height)
         .attr("class","nf-select");
-    return NF_select;}
+    return NF_select;
+}
+//BigSwitch
 function defBIGSWITCH(){
     var BIG_SWITCH = defs_section.append("defs").append("g").attr("id","BIG_SWITCH_node");
     BIG_SWITCH.append("rect")
@@ -30,7 +36,9 @@ function defBIGSWITCH(){
         .attr("width",BIG_SWITCH_width)
         .attr("height",BIG_SWITCH_height)
         .attr("class","big-switch");
-    return BIG_SWITCH;}
+    return BIG_SWITCH;
+}
+//BigSwitch selected
 function defBIGSWITCH_select(){
     var BIG_SWITCH_select = defs_section.append("defs").append("g").attr("id","BIG_SWITCH_select");
     BIG_SWITCH_select.append("rect")
@@ -39,8 +47,9 @@ function defBIGSWITCH_select(){
         .attr("width",BIG_SWITCH_width)
         .attr("height",BIG_SWITCH_height)
         .attr("class","big-switch-select");
-    return BIG_SWITCH_select;}
-
+    return BIG_SWITCH_select;
+}
+//Host Icon Selected
 function defImgPcRed(){
     var ImgPcRed = defs_section.append("defs")
        .append('pattern')
@@ -56,7 +65,7 @@ function defImgPcRed(){
 
     return ImgPcRed;
 }
-
+//Host Icon
 function defImgPcBlue(){    
 
     var ImgPcBlue = defs_section.append("defs")
@@ -73,7 +82,7 @@ function defImgPcBlue(){
 
     return ImgPcBlue;
 }
-
+//Internet Icon
 function defImgInternetBlue(){    
 
     var ImgInternetBlue = defs_section.append("defs")
@@ -90,7 +99,7 @@ function defImgInternetBlue(){
 
     return ImgInternetBlue;
 }
-
+//Internet Icon Selected
 function defImgInternetRed(){    
 
     var ImgInternetRed = defs_section.append("defs")
@@ -107,7 +116,7 @@ function defImgInternetRed(){
 
     return ImgInternetRed;
 }
-
+//Arrows, the changes are few between the 4 types
 function defArrow(){
     defs_section.append("defs")
         .append("marker")

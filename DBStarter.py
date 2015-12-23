@@ -4,6 +4,7 @@ import sqlite3
 
 db_filename = "db.sqlite3"
 
+
 def session_create_database():
     # Relative file addresses
     dbdumpfile = "db_dump.sqlite.sql"
@@ -13,19 +14,14 @@ def session_create_database():
     if os.path.exists(dbdumpfile) == False:
         return
 
-    print "ho passato i 2 return"
-
     # Set write permissions on the database file
-    #new_db_filename = open(db_filename,'w')
     os.chmod(db_filename, 0o666)
-    #new_db_filename.close()
     # Read the dump file
-    in_file = open(dbdumpfile,"r")
+    in_file = open(dbdumpfile, "r")
     sqldump = in_file.read()
-    if len(sqldump)<1:
+    if len(sqldump) < 1:
         return
 
-    print "sto per creare il db"
     '''
     sqlite3.complete_statement(sql) returns True if the string sql
     contains
@@ -45,11 +41,12 @@ def session_create_database():
     print "db creato!"
     return
 
+
 def queryTest():
-    query="SELECT * FROM `users_graphs`"
-    conn=sqlite3.connect(db_filename)
+    query = "SELECT * FROM `users_graphs`"
+    conn = sqlite3.connect(db_filename)
     cursor = conn.cursor()
-    c=cursor.execute(query)
+    c = cursor.execute(query)
     print c.fetchone()
     conn.commit()
     conn.close()

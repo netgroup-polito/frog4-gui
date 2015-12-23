@@ -380,5 +380,3 @@ def ajax_download_request(request):
         logger.debug(msg["success"])
         msg = json.dumps(msg)
         return HttpResponse("%s" % msg)
-
-       

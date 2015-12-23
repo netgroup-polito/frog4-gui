@@ -118,7 +118,7 @@ function fillNewVNF(){
     var ports_template = template_js.ports;
 
     ports_template.forEach(function(port_t){
-        num_port = $("#MinMax"+port_t.label).val();
+        var num_port = $("#MinMax"+port_t.label).val();
         console.log(num_port);
         
         for(var i=0;i<num_port;i++){
@@ -126,8 +126,8 @@ function fillNewVNF(){
             port.id = port_t.label+":"+i;
             port.name = port_t.name+i;
 
-            port.x = 0+i*8;
-            port.y = "0";
+            port.x = i*8;
+            port.y = 0;
             port.parent_NF_x = vnf["x"];
             port.parent_NF_y = vnf["y"];
 
@@ -143,6 +143,7 @@ function fillNewVNF(){
 }
 
 function updateVNF(){
+    setKeysWindowListener();
     var vnf = {};
     var port = {};
 
@@ -159,18 +160,7 @@ function updateVNF(){
     if( vnf["name"]=== undefined ||  vnf["name"]===""){
         vnf["name"]="Unnamed VNF";
     }
-    var ports_template = template_js.ports;
-    var new_int=[];
-    var new_bs_links=[];
 
-    var num_port;
-
-    ports_template.forEach(function(port_t){
-        num_port += $("#MinMax"+port_t.label).val();
-        console.log(num_port);
-    });
-
-    console.log(num_port);
     console.log(vnf);     
 
     $('#text_'+vnf.id).text(vnf.name);

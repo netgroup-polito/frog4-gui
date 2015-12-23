@@ -1,6 +1,8 @@
 /**
  * This file contains the drawing functions, they get the graphical information from the java objectives and put them on the canvas.
  *
+ * If you want to implement aother type of graphical element put here your code.
+ *
  **/
 
 

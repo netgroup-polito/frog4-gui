@@ -36,7 +36,7 @@ This document presents how to install the Virtualized Network Services GUI.
 ```python
         >> from django.contrib.auth import authenticate
         >> from django.contrib.auth.models import User
-        >> u = User.object.create_use("username","email","password")
+        >> u = User.objects.create_user("username","email","password")
         >> u.save()
 ```
 
