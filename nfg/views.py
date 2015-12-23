@@ -1,3 +1,22 @@
+#########################################################################
+#                       Views django-application                        #
+#                                                                       #
+# This file contains the following views:                               #
+#                                                                       #
+#   -index                  --> GET: nfg/                               #
+#   -info                   --> GET: nfg/info/                          #
+#   -logout                 --> GET: nfg/logout/                        #
+#   -Login                  --> GET: nfg/login/  POST: nfg/login/       #
+#   -ajax_template_request  --> GET: nfg/ajax_template_request/?        #
+#   -ajax_data_request      --> GET: nfg/ajax_data_request/             #
+#   -ajax_upload_request    --> POST: nfg/ajax_upload_request/          #
+#   -ajax_files_request     --> GET: nfg/ajax_files_request/            #
+#   -ajax_save_request      --> POST: nfg/ajax_save_request/            #
+#   -ajax_download_preview  --> GET: nfg/ajax_download_preview/         #
+#   -ajax_download_request  --> POST: nfg/ajax_download_request/        #
+#                                                                       #
+#########################################################################
+
 import json
 import os
 
@@ -17,6 +36,7 @@ from create_logger import MyLogger
 
 dbm = DBManager("db.sqlite3")
 
+# index: It's a principal view, load gui if you are logged else redirect you at /nfg/login/.
 
 def index(request):
     if "username" not in request.session:
@@ -24,6 +44,7 @@ def index(request):
     else:
         return render(request, 'nfg/index.html', {'username': request.session['username']})
 
+# info: It loads the info page if you are logged else redirect you at /nfg/login/.
 
 def info(request):
     if "username" not in request.session:
@@ -31,6 +52,7 @@ def info(request):
     else:
         return render(request, 'nfg/info.html', {'username': request.session['username']})
 
+# logout: It destroys the session of current user and redirect you at /nfg/login.
 
 def logout(request):
     if request.method == 'GET':
@@ -39,6 +61,9 @@ def logout(request):
 
         return HttpResponseRedirect("/nfg/login")
 
+# login: It provides authentication a user and create the session variable
+#        If the authentication failed redirect you at /nfg/login/ and send 
+#        Authentication Error message.
 
 def login(request):
     if request.method == 'GET':
@@ -67,6 +92,8 @@ def login(request):
         else:
             return HttpResponseRedirect("/nfg/login?err_message=Authentication Error!")
 
+# ajax_template_request: It loads a vnf template specified through his id_template.
+#                        The template is in the template_json directory. 
 
 def ajax_template_request(request, id_template):
     print id_template;
@@ -81,12 +108,13 @@ def ajax_template_request(request, id_template):
 
     return HttpResponse("%s" % json_data)
 
+# ajax_data_request: It a heart of application. 
+#                    This view allows you to load the json from database (using a DBManager class)
+#                    and it also performs validation.
 
 def ajax_data_request(request):
     
     msg = {}
-    
-    #print "entro"
     
     logger = MyLogger("filelog.log", "django-application").getMyLogger()
 
@@ -100,10 +128,13 @@ def ajax_data_request(request):
         request.session["file_name_fg"] = "default"
 
     json_data = {}
-    #print "prima del db: "+request.session["username"]+"   "+request.session["file_name_fg"]
-    #print dbm
+    
     
     couple_fg = dbm.getFGByName(request.session["username"], request.session["file_name_fg"])
+
+    #couple_fg[0] ---> json forwarding graph
+    #couple_fg[1] ---> json file position 
+
     if couple_fg == None:
             msg["err"] = "File non trovato"
             logger.debug(msg["err"])
@@ -116,30 +147,27 @@ def ajax_data_request(request):
     #print json_data['json_file_fg']
 
     if couple_fg[1] is None:
-        print "valore null"
+        # Json file position is present
         json_data['json_file_pos'] = {}
         json_data['is_find_pos'] = 'false'
     else:
-        print "non null"
+        # Json file position is not present
         json_data['json_file_pos'] = json.loads(couple_fg[1].replace("\\", " "))
         json_data['is_find_pos'] = 'true'
 
-    #print "sono dopo gli else"
-
-    #try:
+    
     jsonFG = json_data['json_file_fg']
 
-    print "arrivo dopo sjon.load"
 
     json_data_string = json.dumps(json_data)
-
-    print json_data_string
-
+    
+    # Create a validator with use NFFG library
     val = ValidateNF_FG()
 
     try:
         val.validate(jsonFG)
     except ValidationError as err:
+        # If the validation failed return a error message
         msg["err"] = "Errore di validazione" + err.message
         logger.debug(msg["err"])
         msg = json.dumps(msg)
@@ -147,7 +175,7 @@ def ajax_data_request(request):
     
 
 
-
+    # If the validation success return a string of json forwarding graph 
     return HttpResponse("%s" % json_data_string)
 
 

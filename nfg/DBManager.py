@@ -1,3 +1,10 @@
+####################################################
+#               DataBase Manager Class             #
+#                                                  #
+# This class enables you to connect to DB sqlite3  #  
+####################################################
+
+
 import sqlite3
 import json
 
@@ -8,6 +15,9 @@ class DBManager:
 
     def __init__(self, filename):
         self.db_filename = filename
+
+    # This method returns all forwarding-graphs of a user and 
+    # eventually public forwarding-graphs.
 
     def getUserFG(self, username):
         conn = sqlite3.connect(self.db_filename)
@@ -23,6 +33,9 @@ class DBManager:
             conn.commit()
             conn.close()
             return ris
+
+    # This method returns a forwarding-graph of a user, 
+    # that has a specific name (nameFG) 
 
     def getFGByName(self, username, nameFG):
         print "hellooooooooo"
@@ -42,6 +55,8 @@ class DBManager:
             conn.commit()
             conn.close()
 
+    # This method insert a new forwarding-graph of user into Database
+
     def insertFGInUser(self, username, fgName, fg, fgPos):
         fgId=fg['forwarding-graph']['id']
         print fgId
@@ -60,6 +75,8 @@ class DBManager:
         conn.commit()
         conn.close()
         return
+
+    # This method delete a forwarding-graph of user
 
     def deleteFGByName(self, username, fgname):
         conn = sqlite3.connect(self.db_filename)
