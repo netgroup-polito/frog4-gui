@@ -68,14 +68,14 @@ function addFormPort(){
                             				'<select class="form-control" name="MInMax" id="MinMax'+port_t.label+'">';
 
                             					var split = port_t.position.split("-");
-                            					var p_num = split[0];
-                    							var s_num = split[1];
+                            					var p_num = parseInt(split[0]);
+                    							var s_num = parseInt(split[1]);
 
                     							if(s_num == 'N'){s_num = 63;}
                     							console.log(s_num,p_num,s_num-p_num);
 
-                    							for(var i=port_t.min;i<=(s_num-p_num+1);i++){
-                                                    if(i===port_t.min){
+                    							for(var i=parseInt(port_t.min);i<=parseInt(port_t.min)+(s_num-p_num);i++){
+                                                    if(i===parseInt(port_t.min)){
                                                         $html+= '<option selected>'+i+'</option>';
                                                     }else{
                                                         $html+= '<option>'+i+'</option>';
