@@ -5,6 +5,15 @@ function showUploadFG(){
 }
 
 function PreviewFileUpload(){
+
+    var file_name = $('#inputFile').val();
+
+    if(file_name === "" || file_name === null || file_name === undefined){
+        $('#file_content_upload').show();
+        $('#file_content_upload').empty();
+        $('#file_content_upload').append("No file selected");
+        return;
+    }
                 
     var files = document.getElementById('inputFile').files;
     var file = files[0];
@@ -40,6 +49,12 @@ function UploadFile(){
 
     var stringa;
     var file_name = $('#inputFile').val();
+        if(file_name === "" || file_name === null || file_name === undefined){
+            var err_msg = {};
+            err_msg["err"] = "No file selected";
+            showMessageServer(err_msg);
+            return;
+        }
         file_name = file_name.replace("C:\\fakepath\\","");
 
     var files = document.getElementById('inputFile').files;

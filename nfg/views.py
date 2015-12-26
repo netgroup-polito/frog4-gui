@@ -135,7 +135,7 @@ def ajax_data_request(request):
     #couple_fg[0] ---> json forwarding graph
     #couple_fg[1] ---> json file position 
 
-    if couple_fg == None:
+    if couple_fg is None:
             msg["err"] = "File non trovato"
             logger.debug(msg["err"])
             msg = json.dumps(msg)
@@ -200,9 +200,15 @@ def ajax_upload_request(request):
         file_content_fg = request.POST["file_content_fg"]
         # memorizzo il filename nella varibile di sessione file_name
 
+        try:
+            jsonFG = json.loads(file_content_fg)
+        except Exception as err:
 
-        jsonFG = json.loads(file_content_fg)
-        
+            msg["err"] = "Formato json non valido o file vuoto"
+            logger.debug(msg["err"])
+            msg = json.dumps(msg)
+            return HttpResponse("%s" % msg)
+
 
         try:
             val.validate(jsonFG)
@@ -220,13 +226,16 @@ def ajax_upload_request(request):
 
         ris = dbm.getFGByName(request.session["username"],request.session["file_name_fg"])
 
-        if ris == None:
+        if ris is None:
             print "file nuovo"
             dbm.insertFGInUser(request.session["username"],request.session["file_name_fg"],json.loads(file_content_fg),None)
         else:
             print "file modificato"
             dbm.deleteFGByName(request.session["username"],request.session["file_name_fg"])
             dbm.insertFGInUser(request.session["username"],request.session["file_name_fg"],json.loads(file_content_fg),None)
+
+
+        
 
 
         msg["success"] = "Upload Riuscito"

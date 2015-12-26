@@ -135,6 +135,26 @@ function DrawForwardingGraph(fg){
     /*
      * defined the main fields of the forwarding graph
      */
+
+    if(fg["forwarding-graph"]["VNFs"]=== undefined){
+      console.log("vettore dei vnf non presente nel fg ...");
+      console.log("lo definisco vuoto");
+      fg["forwarding-graph"]["VNFs"] = [];
+    }
+
+    if(fg["forwarding-graph"]["end-points"]=== undefined){
+      console.log("vettore degli end-points non presente nel fg ... ");
+      console.log("lo definisco vuoto");
+      fg["forwarding-graph"]["end-points"] = [];
+    }
+
+    if(fg["forwarding-graph"]["big-switch"] === undefined){
+      console.log("oggetto big switch non presente nel fg ...");
+      console.log("lo definisco vuoto");
+      fg["forwarding-graph"]["big-switch"] = {};
+      fg["forwarding-graph"]["big-switch"]["flow_rules"] = [];
+    }
+
     NF_list = fg["forwarding-graph"]["VNFs"];
     EP_list = fg["forwarding-graph"]["end-points"];
     big_switch = fg["forwarding-graph"]["big-switch"];
