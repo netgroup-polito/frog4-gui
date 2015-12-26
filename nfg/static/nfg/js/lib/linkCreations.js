@@ -71,7 +71,11 @@ function DrawNewLink(){
             createLink(duplex2,newFR2.id,1);
             
             $("#ModalFlowRules").modal("hide");
-            drawBigSwitchInfo(fg);
+            if(BS_view){
+                drawBigSwitchInfo(fg);
+            }else{
+                drawAnyItems();
+            }
             setKeysWindowListener();
             updateView();
         }else{
@@ -92,7 +96,11 @@ function DrawNewLink(){
             checkSplit();
             createLink(duplex,newFR.id,1);
             $("#ModalFlowRules").modal("hide");
-            drawBigSwitchInfo(fg);
+            if(BS_view){
+                drawBigSwitchInfo(fg);
+            }else{
+                drawAnyItems();
+            }
             setKeysWindowListener();
             updateView();
         }else{

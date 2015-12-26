@@ -1,10 +1,15 @@
+/* In this file thre are all functions to manage 
+   the VNF form */ 
+
+
+
 function drawFormVNF(){
 	opt="";
 	var template = "";
     $('#seltemplateVNF').removeAttr('disabled');
 	$(function(){
 		$("#seltemplateVNF").change(function(){
-			var opt_sel = $("#seltemplateVNF").val();
+			var opt_sel = $("#seltemplateVNF").val();            
 
 			switch(opt_sel){
 				case "Firewall":
@@ -42,7 +47,7 @@ function drawFormVNF(){
 					template = "iptraf";
 					
 			}
-
+            /* ajax request for json template VNF */
 			$.ajax({ type: "GET",url: "/nfg/ajax_template_request/"+template+"/",
       					success: function(data) {FuncSuccess(data);} });	
 		});
@@ -96,9 +101,8 @@ function addFormPort(){
 
 function FuncSuccess(data){
 
-    //data = data.replace(/'u/g,'"');
     data = data.replace(/'/g,'"');
-    /* definisco oggetto fg */
+
     template_js=JSON.parse(data);
     console.log(template_js);
     fillTemplateVNF(template_js);
@@ -124,12 +128,12 @@ function FillFormInfoVNF(idVNF){
         }
     });
 
-    /* recuperato vnf da modificare */
+    
     console.log(vnf);
      console.log(vnf.id);
     $("#idVNF").val(vnf.id);
     $("#nameVNF").val(vnf.name);
-    //drawFormVNF();
+    
     console.log(vnf.vnf_template);
 
     switch(vnf.vnf_template){
@@ -177,16 +181,6 @@ function FillFormInfoVNF(idVNF){
             }
 
             $('#infoPort').empty();
-
-    /* Template di default Firewall */
-    /*$.ajax({ type: "GET",url: "/nfg/ajax_template_request/"+template+"/",
-                success: function(data) {FuncSuccess(data);} });*/
-
-    /*form per visualizzare porte */
-
-
-
-    /* cambio il bottone in save */
 
     $("#saveVNF").attr("onclick","saveNewVNF()");
     $("#saveVNF").html("Save VNF");

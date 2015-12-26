@@ -359,6 +359,7 @@ function onClickDrawVNF(){
 
     $('#FormNF').modal('show');
     unSetKeysWindowListener();
+    $("#nameVNF").val("");
     $('#seltemplateVNF' ).val('Firewall');
 
     $("#idVNF").val(NextIdVNF());

@@ -1,7 +1,6 @@
 function showUploadFG(){
     $('#UploadFG').modal('show');
-    $('#file_content_upload').hide();            
-    //$('.form-control').val('');                
+    $('#file_content_upload').hide();                       
 }
 
 function PreviewFileUpload(){

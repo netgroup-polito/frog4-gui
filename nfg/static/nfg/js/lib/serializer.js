@@ -1,8 +1,18 @@
+/* In this file there are all functions to manage 
+   the serialation of graphic object in json object 
+	
+   In particular there are two functions:
+
+   	- serializer_fg() 	--> It serializes a forwarding-graph 
+   	- serializer_pos() 	--> It serializes the position of a forwarding-graph
+*/
+
+
+
 function serialize_fg(){
 	var file_fg = {};
 	
 	file_fg["forwarding-graph"] = ser_fg();
-	//file_fg["big-switch"] = ser_big();
 	
 	console.log(file_fg);
 	console.log(JSON.stringify(file_fg))
@@ -10,6 +20,8 @@ function serialize_fg(){
 	return JSON.stringify(file_fg);
 
 }
+
+/* function to serialize big switch object */
 
 function ser_big(){
 
@@ -42,9 +54,7 @@ function ser_big(){
 		flowrule["match"]= match;
 
 
-										 			   
-
-		/* ATTENZIONE: DA SISTEMARE CON VETTORE DI ACTION */
+										 		
 
 		var actions = [];
 
