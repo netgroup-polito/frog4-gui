@@ -1,5 +1,8 @@
 /**
- * Created by pc asus on 01/12/2015.
+ *  This file contains the functions for manage the key pressed behaviour.
+ *  For now only delete, "d"  and "esc" button are managed.
+ *
+ *  Put here your implementation for manage some other keys button.
  */
 
 function keyUp(){
@@ -24,7 +27,7 @@ function keyDown(){
         case 46: // delete
             if(selected_node) {
                 /*
-                 * QUA INSERIRE IL MESSAGGIO DI CONFERMA!
+                 * Confirmation Message maybe needed?
                  *
                  */
                 if($(selected_node).attr("class")==="NetworkFunction"){
@@ -44,7 +47,7 @@ function keyDown(){
         case 68:
             if(selected_node) {
                 /*
-                 * QUA INSERIRE IL MESSAGGIO DI CONFERMA!
+                 * Confirmation Message maybe needed?
                  *
                  */
                 if($(selected_node).attr("class")==="NetworkFunction"){
@@ -62,30 +65,10 @@ function keyDown(){
             selected_node = null;
             break;
         case 66: // B
-            //if(selected_link) {
-            //    // set link direction to both left and right
-            //    selected_link.left = true;
-            //    selected_link.right = true;
-            //}
             break;
         case 76: // L
-            //if(selected_link) {
-            //    // set link direction to left only
-            //    selected_link.left = true;
-            //    selected_link.right = false;
-            //}
-            //restart();
             break;
         case 82: // R
-            //if(selected_node) {
-            //    // toggle node reflexivity
-            //    selected_node.reflexive = !selected_node.reflexive;
-            //} else if(selected_link) {
-            //    // set link direction to right only
-            //    selected_link.left = false;
-            //    selected_link.right = true;
-            //}
-            //restart();
             break;
     }
 }
