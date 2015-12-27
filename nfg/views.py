@@ -82,6 +82,9 @@ def login(request):
 
         user = authenticate(username=username, password=password)
 
+        if "username" in request.session:
+            request.session.flush()
+
         if user is not None:
             request.session['password'] = password
             request.session['username'] = username
@@ -96,7 +99,7 @@ def login(request):
 #                        The template is in the template_json directory. 
 
 def ajax_template_request(request, id_template):
-    print id_template;
+    print id_template
     file_directory = "templates_json/" + id_template + ".json"
     print file_directory
 
@@ -113,7 +116,8 @@ def ajax_template_request(request, id_template):
 #                    and it also performs validation.
 
 def ajax_data_request(request):
-    
+
+    print "Entro in data_request"
     msg = {}
     
     logger = MyLogger("filelog.log", "django-application").getMyLogger()
@@ -129,13 +133,13 @@ def ajax_data_request(request):
 
     json_data = {}
     
-    
+    print request.session["file_name_fg"]
     couple_fg = dbm.getFGByName(request.session["username"], request.session["file_name_fg"])
 
     #couple_fg[0] ---> json forwarding graph
     #couple_fg[1] ---> json file position 
 
-    if couple_fg == None:
+    if couple_fg is None:
             msg["err"] = "File non trovato"
             logger.debug(msg["err"])
             msg = json.dumps(msg)
@@ -200,6 +204,8 @@ def ajax_upload_request(request):
         file_content_fg = request.POST["file_content_fg"]
         # memorizzo il filename nella varibile di sessione file_name
 
+        print "filecontent: "+file_content_fg
+        print "filenamefg: "+file_name_fg
 
         jsonFG = json.loads(file_content_fg)
         
@@ -215,8 +221,9 @@ def ajax_upload_request(request):
 
 
         file_name = file_name_fg.split(".")
-        request.session["file_name_fg"] = file_name[0];
+        request.session["file_name_fg"] = "" + file_name[0]
 
+        print "file_name: "+file_name[0]
 
         ris = dbm.getFGByName(request.session["username"],request.session["file_name_fg"])
 
@@ -262,7 +269,7 @@ def ajax_save_request(request):
         file_content_pos = json.loads(request.POST["file_content_pos"])
 
         file_name = file_name_fg.split(".")
-        request.session["file_name_fg"] = file_name[0];
+        request.session["file_name_fg"] = file_name[0]
 
         
         try:

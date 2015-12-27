@@ -295,6 +295,7 @@ function addPortToVNF(idVNF){
     '</div>';
     $('#listPort').append(htmlNewPort);
     $('#selectPosition').text("Id");
+    $('#positionMenu').empty();
     $('#selectLabel').text("Label");
     updateView();
 
