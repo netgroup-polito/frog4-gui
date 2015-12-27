@@ -207,8 +207,14 @@ def ajax_upload_request(request):
         print "filecontent: "+file_content_fg
         print "filenamefg: "+file_name_fg
 
-        jsonFG = json.loads(file_content_fg)
-        
+        try:
+            jsonFG = json.loads(file_content_fg)
+        except Exception as err:
+
+            msg["err"] = "Formato json non valido o file vuoto"
+            logger.debug(msg["err"])
+            msg = json.dumps(msg)
+            return HttpResponse("%s" % msg)
 
         try:
             val.validate(jsonFG)
@@ -219,7 +225,6 @@ def ajax_upload_request(request):
             msg = json.dumps(msg)
             return HttpResponse("%s" % msg)
 
-
         file_name = file_name_fg.split(".")
         request.session["file_name_fg"] = "" + file_name[0]
 
@@ -227,13 +232,16 @@ def ajax_upload_request(request):
 
         ris = dbm.getFGByName(request.session["username"],request.session["file_name_fg"])
 
-        if ris == None:
+        if ris is None:
             print "file nuovo"
             dbm.insertFGInUser(request.session["username"],request.session["file_name_fg"],json.loads(file_content_fg),None)
         else:
             print "file modificato"
             dbm.deleteFGByName(request.session["username"],request.session["file_name_fg"])
             dbm.insertFGInUser(request.session["username"],request.session["file_name_fg"],json.loads(file_content_fg),None)
+
+
+        
 
 
         msg["success"] = "Upload Riuscito"

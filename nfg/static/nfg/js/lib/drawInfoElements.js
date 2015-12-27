@@ -159,6 +159,9 @@ function Reduce(id){
     $('#flowrule'+id).slideToggle("slow");    
 }
 
+
+/* This function draw a left pannel with ad information of how to start */
+
 function drawAnyItems(){
 
     /* deselect any items */
@@ -171,12 +174,16 @@ function drawAnyItems(){
             '<div class="panel-heading">How to Start</div>'+
             '<div class="panel-body">'+
                 '<p><b><i class="glyphicon glyphicon-file" aria-hidden="true"></i> New Document</b></p>'+
-                '<p><b><i class="glyphicon glyphicon-pencil" aria-hidden="true"></i> Draw </b></p>'+
+                '<p><b><i class="glyphicon glyphicon-pencil" aria-hidden="true"></i> Enable Draw </b></p>'+
+                '<p><b><i class="fa fa-circle" aria-hidden="true"></i> Draw End Point </b></p>'+
+                '<p><b><i class="fa fa-square" aria-hidden="true"></i> Draw VNF </b></p>'+
+                '<p><b><i class="fa fa-arrows-h" aria-hidden="true"></i> Draw Link </b></p>'+
                 '<p><b><i class="fa fa-square-o fa-lg" aria-hidden="true"></i> Change View </b></p>'+
                 '<p><b><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> Save Graph on Server</b></p>'+
-                '<p><b><span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span> Upload Graph </b></p>'+
-                '<p><b><span class="fa fa-server fa-lg" aria-hidden="true"></span> Download Graph on Server</b></p>'+
-                '<p><b><span class="glyphicon glyphicon-save" aria-hidden="true"></span> Download Graph on Client</b></p>'+
+                '<p><b><span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span> Open Graph from Client</b></p>'+
+                '<p><b><span class="fa fa-server fa-lg" aria-hidden="true"></span> Open Graph from Server</b></p>'+
+                '<p><b><span class="glyphicon glyphicon-save" aria-hidden="true"></span> Preview Graph </b></p>'+
+                '<p><b><span class="fa fa-paper-plane" aria-hidden="true"></span> Deploy ( Test ) </b></p>'+
                 '<p><b>Press d or canc to delete an item</b></p>'+
             '</div>'+
             '</div>';

@@ -5,6 +5,9 @@
  *
  */
 
+
+ 
+
 function FG_init(){
     console.log("isAlreadyPos :"+isAlreadyPositioned);
     if(!isAlreadyPositioned) {

@@ -3,9 +3,16 @@
 -- delete table if already exists --
 -- DROP TABLE IF EXISTS USERS_GRAPHS;
 
---
--- `USERS_GRAPHS` table:
---
+-----------------------------------------------------------------
+-- `USERS_GRAPHS` table:                                       --
+--                                                             --
+-- username	:                                                  --
+-- fgname 	: forwarding-graph name                            --
+-- fgid 	: forwarding-graph id                              --
+-- fg    	: file json of the forwarding-graph                --
+-- fgpos 	: file json positioning of the forwarding-graph	   --
+--															   --
+-----------------------------------------------------------------
 
 CREATE TABLE IF NOT EXISTS `users_graphs` (
   `username` varchar(32) NOT NULL,
