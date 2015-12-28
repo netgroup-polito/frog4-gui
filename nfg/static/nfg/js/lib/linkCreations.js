@@ -1,5 +1,6 @@
 /**
- * Created by pc asus on 22/11/2015.
+ * This file contains the functions that manage the new link creation.
+ *
  */
 
 function select_node(ele){
@@ -107,17 +108,7 @@ function DrawNewLink(){
             console.log("validazione fallita");
         }
     }
-    
-
-    
-
-    
-
-
-    
 }
-
-
 
 function deleteTempLink(){
     $('#newLinkButton').attr("class","btn btn-success btn-lg drawButton");
@@ -126,6 +117,7 @@ function deleteTempLink(){
     svg.on("mousemove",null);
     lines_section.select("#newTmpLine").remove();
 }
+//temp link is the link that appear during the creation
 function createTempLink(){
     var x1,y1,x2,y2;
     if(ele1_selected.ref==="bsInt" ){
@@ -232,14 +224,7 @@ function createLink(duplex,idFR,num){
         bs_int2=getBSInterfaceById(ele2.id);
     }
 
-    /*
-    DA FARE -> SETTARE SE C'è GIà UN ALTRO LINK CON DIREZIONE OPPOSTA SE SI CAMBIARE A FULL DUPLEX =TRUE
-     */
-
-    //var duplex=isDuplex(ele1.id,ele2.id);
-    //console.log(duplex);
-
-    /*disegno il link interno al BS*/
+    /*draw bs internal link*/
     lines_section.append("line")
         .attr("class","BS-line")
         .attr("stroke","black")
@@ -262,7 +247,7 @@ function createLink(duplex,idFR,num){
         .on("click",selectNewInternalBSLinks);
 
 
-    /* disegno il link tra i 2 elementi */
+    /* draw the external link */
    lines_section.append("line")
         .attr("x1",ele1.x)
         .attr("y1",ele1.y)
@@ -282,9 +267,6 @@ function createLink(duplex,idFR,num){
        })
         .on("click",selectSimpleLines);
 
-    //NB->DA FARE modificare il js!!!
-    //svg.selectAll("line,circle").sort(function(a){console.log(a);});
-    //svg.selectAll("line,circle").order();
     if(num==1){
         ele1_selected=undefined;
         ele2_selected=undefined;

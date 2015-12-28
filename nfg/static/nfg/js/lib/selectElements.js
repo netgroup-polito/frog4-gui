@@ -1,5 +1,5 @@
 /**
- * Created by pc asus on 11/12/2015.
+ * This file contains the functions needed for selecting an element on the canvas.
  */
 
 function selectVNFs(d){

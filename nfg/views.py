@@ -132,7 +132,8 @@ def ajax_data_request(request):
         request.session["file_name_fg"] = "default"
 
     json_data = {}
-    
+
+    print "---->file_name:"
     print request.session["file_name_fg"]
     couple_fg = dbm.getFGByName(request.session["username"], request.session["file_name_fg"])
 

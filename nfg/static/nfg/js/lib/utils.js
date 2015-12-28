@@ -188,6 +188,7 @@ function isDuplex(sourceId,destId){
 }
 
 function checkSplit(){
+    var oldSplitted = isSplitted;
     isSplitted=false;
     for(var i=0;i<flow_rules.length;i++){
         for(var j=i+1;j<flow_rules.length;j++){
@@ -203,6 +204,9 @@ function checkSplit(){
                 flow_rules[j]["double"]=true;
             }
         }
+    }
+    if(oldSplitted!==undefined && oldSplitted===false && isSplitted===true){
+        showMSG("Splitted Created","You have created a split, only Complex View is avaiable!");
     }
     updateView();
 }
@@ -324,4 +328,14 @@ function portIdIsAlreadyTaken(id){
     }else{
         return true;
     }
+}
+
+function showMSG(title,msg){
+    console.log("title: "+title);
+    console.log("msg: "+msg);
+    $('#titleWarning2').empty();
+    $('#titleWarning2').append("<span class='glyphicon glyphicon-alert'></span> "+title);
+    $('#MSGContent').empty();
+    $('#MSGContent').append(msg);
+    $('#ModalWarning').modal("show");
 }

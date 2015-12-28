@@ -1,5 +1,7 @@
 /**
- * Created by pc asus on 14/12/2015.
+ *
+ * This file contains the functions for editing the VNF parameters (e.g. change name, add and delete vnf interface).
+ *
  */
 
 
@@ -14,7 +16,6 @@ function FillFormEditVNF(idVNF){
         }
     });
 
-    /* rec1perato vnf da modificare */
     console.log(vnf);
     console.log(vnf.id);
     $("#idVNF").val(vnf.id);
@@ -74,7 +75,7 @@ function FillFormEditVNF(idVNF){
 
 
 
-    /* cambio il bottone in save */
+    /* change button name in "Save VNF" */
 
     $("#saveVNF").attr("onclick","updateVNF()");
     $("#saveVNF").html("Save VNF");
@@ -83,7 +84,6 @@ function FillFormEditVNF(idVNF){
 
 function FuncEditSuccess(data,idVNF){
     data = data.replace(/'/g,'"');
-    /* definisco oggetto fg */
     template_js=JSON.parse(data);
     console.log(template_js);
     fillTemplateVNF(template_js);
@@ -96,12 +96,6 @@ function addEditFormPort(idVNF){
     console.log(vnf);
     var port_template = template_js.ports;
     $("#infoPort").empty();
-    //$html = '<div class="boxPort">'+
-    //    '    <div class="form-group">'+
-    //    '        <label class="control-label col-sm-2" for="title" id="titleInterface"><a>Ports info:</a></label>'+
-    //    '        <div class="col-sm-10">'+
-    //    '    </div>'+
-    //    '</div>';
      var $html=
         '<div>'+
         '<div class="form-group" >'+
@@ -166,9 +160,7 @@ function addEditFormPort(idVNF){
         '</div></div>'+
         '<div class="col-md-4"><a href="#" id="addPortButton" onclick="addPortToVNF(\''+""+idVNF+'\');"  class="btn btn-primary" >+</a></div>'+
         '</div>';
-    //da mettere a posto
 
-    //$("#infoPort").empty();
     $("#infoPort").append($html);
     $('#selectPosition').prop('disabled', true);
     labelList.forEach(function(ele,i){
@@ -286,7 +278,6 @@ function addPortToVNF(idVNF){
     new_bs_links.push(newLink);
     drawBSLinks(new_bs_links);
 
-    //devo metterla in coda alla lista delle porte
     var htmlNewPort='<div class="row port-i" id="delete'+newPort.fullId+'">'+
     '<div class="col-md-4"><label class="port-id" style="font-weight:normal;">'+newPort.name+'</label></div>'+
     '<div class="col-md-4"><label class="port-id">'+newPort.id+'</label></div>'+

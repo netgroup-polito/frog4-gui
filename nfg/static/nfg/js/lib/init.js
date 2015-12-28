@@ -1,5 +1,4 @@
 /**
- * Created by pc asus on 05/12/2015.
  *
  * This file contains the FG_init function that initialize the canvas and all the JS object needed.
  *

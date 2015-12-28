@@ -1,5 +1,8 @@
 /**
- * Created by pc asus on 25/11/2015.
+ * This file contains the functions for manage the view of the graph.
+ *
+ * There are 2 different view: BS_view (with Big Switch in the center) and simple_view.
+ *
  */
 function showBSView(bs_view){
 
