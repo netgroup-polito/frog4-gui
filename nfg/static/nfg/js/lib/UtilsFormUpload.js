@@ -1,7 +1,19 @@
+/* 
+*   This file contain the functions to manage to open 
+*   json file from the client and preview of json file     
+*
+*
+*/
+
+
+
+
 function showUploadFG(){
     $('#UploadFG').modal('show');
     $('#file_content_upload').hide();                       
 }
+
+/* this function shows a preview of the forwarding-graph */
 
 function PreviewFileUpload(){
 
@@ -43,6 +55,10 @@ function PreviewFileUpload(){
     reader.readAsBinaryString(blob);
 }
 
+/* This function opens a file from client and it sends his content
+   on the server. 
+*/
+
 function UploadFile(){
     console.log("Upload Ajax");
 
@@ -63,14 +79,15 @@ function UploadFile(){
     var start = 0;
     var stop = file.size - 1;
     reader.onloadend = function(evt) {
-        if (evt.target.readyState == FileReader.DONE) { // DONE == 2
-            //console.log(evt.target.result); 
+        if (evt.target.readyState == FileReader.DONE) {
+
             stringa = evt.target.result;
             console.log(stringa);
             console.log(file_name);
 
             $.ajax({
 
+                /* request view ajax_upload_request from server */
                 url: 'ajax_upload_request/', 
                 type: 'POST',
                 data: { "file_name_fg":file_name,
@@ -81,8 +98,8 @@ function UploadFile(){
                 e=JSON.parse(e);
                 console.log(e);
 
+                /* It views message from server */
                 showMessageServer(e);
-                //location.reload();
             
             }).fail(function(){
                 

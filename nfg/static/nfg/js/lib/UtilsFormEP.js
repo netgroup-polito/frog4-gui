@@ -1,3 +1,6 @@
+/* In this file there are all functions to manage 
+   the EndPoint form */
+
 function drawFormEP(){
     var opt = "";
 
@@ -46,23 +49,9 @@ function showEditInfoEP(idEP){
     fillFormInfoEP(idEP);
 }
 
-/*function changeTitleEP(idEP,name){
-    console.log("quuuuu");
-    console.log(name);
-    $("#"+idEP).attr("title",name);
-    updateTooltips();
-
-}*/
-
 
 function fillFormInfoEP(idEP){
     var ep;
-    /*EP_list.forEach(function(ele){
-        if(parseInt(ele.id) == idEP){
-            ep = ele;
-            return;
-        }
-    });*/
     ep = getEndPointById(idEP);
 
     $("#nameEP").val(ep["name"]);
@@ -107,10 +96,7 @@ function fillFormInfoEP(idEP){
             viewInputVlan();
             break;
     }
-
-    console.log("qua");
-    //changeTitleEP(idEP,$("#nameEP").val());
-
+    
     $("#saveEP").attr("onclick","saveNewEp()");
     $("#saveEP").html("Save End Point");
 

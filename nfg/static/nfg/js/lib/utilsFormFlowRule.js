@@ -1,3 +1,6 @@
+/* In this file there are all functions to manage 
+   the FlowRule form */
+
 function showMatch(){
     if(!$(".match").is(":visible")){
         $("#icon-match").attr("class","glyphicon glyphicon-chevron-down");
@@ -26,6 +29,8 @@ function hideAction(){
 	$(".action").hide();
 }
 
+
+/* functions to manage the duplicate fields of full duplex links */
 function AddDuplicateFields(){
 	$(".duplicate").show();
 }
@@ -33,6 +38,8 @@ function AddDuplicateFields(){
 function DeleteDuplicateFields(){
 	$(".duplicate").hide();
 }
+
+
 
 function NextIDFlowRule2(){
 	var id = NextIdFlowRule();
@@ -126,6 +133,8 @@ function resetFormFlowRules(){
     $("#idOutputToQueue2").val("");
 
 }
+
+/* This function fills the fields of flowrules */ 
 
 function fillFlowRule(flow_rule){
     $("#idPriority").val(flow_rule.priority);

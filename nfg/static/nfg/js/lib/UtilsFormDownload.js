@@ -1,7 +1,10 @@
+/* In this file there are all functions to manage 
+   the Download form (Open from server) */
+
+
 function showDownloadFG(){
     $('#DownloadFG').modal('show');
     $("#file_content_download").hide();            
-    //$(".form-control").val(""); 
     ajaxFilesRequest();
 }
 
@@ -9,6 +12,7 @@ function hideDownloadFG(){
     $('#DownloadFG').modal('hide');
 }
 
+/* This function returns the last id request. */
 function ajaxLastIdRequest(){
     $.ajax({
         url: 'ajax_last_id/',
@@ -19,6 +23,7 @@ function ajaxLastIdRequest(){
     });
 }
 
+/* This function return a list of files in the database */
 function ajaxFilesRequest(){
     $.ajax({
         url: 'ajax_files_request/', 
@@ -53,7 +58,6 @@ function PreviewFileDownload(){
                                 
         console.log("Success: Files sent!");
         console.log(e);
-        /*file restituito */
         stringa = e;
         
         $('#file_content_download').show();

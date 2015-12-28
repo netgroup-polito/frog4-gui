@@ -207,6 +207,10 @@ function serialize_pos(){
     return JSON.stringify(file);
 }
 
+
+/* This function save the json file of forwarding-graph 
+   on the sever */ 
+
 function saveFile(){
 	console.log("Save File Ajax");
 	$("#SaveFG").modal("hide");
@@ -215,7 +219,6 @@ function saveFile(){
 	var file_content_fg = serialize_fg();
 	var file_content_pos = serialize_pos();
 
-	//console.log(file_content_fg);
 	var file_name_pos;
 	var fileName=$("#nameFile").val().trim();
 	if(fileName===""){
@@ -238,11 +241,11 @@ function saveFile(){
 	}
 
 
-	var file_name_fg = fileName;//fg["forwarding-graph"]["id"]+".json";		/*file fg*/
+	var file_name_fg = fileName; /*file fg*/
 
 
 	 $.ajax({
-
+	 			/* ajax request */
         		url: 'ajax_save_request/', 
                 type: 'POST',
                 data: { "file_name_fg":file_name_fg,
@@ -269,9 +272,13 @@ function saveFile(){
 
 }
 
+/* This function reload the page */
+
 function reloadPage(){
 	location.reload();
 }
+
+/* Show form for Save json forwarding graph */
 
 function showSaveForm(title){
 	if(title!==undefined && title!==null){
