@@ -396,3 +396,11 @@ def ajax_download_request(request):
         logger.debug(msg["success"])
         msg = json.dumps(msg)
         return HttpResponse("%s" % msg)
+
+@csrf_exempt
+def deploy(request):
+    if request.method == "POST":
+
+        
+        return HttpResponse("%s" % msg)    
+

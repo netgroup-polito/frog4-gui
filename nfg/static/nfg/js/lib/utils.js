@@ -339,3 +339,26 @@ function showMSG(title,msg){
     $('#MSGContent').append(msg);
     $('#ModalWarning').modal("show");
 }
+
+
+
+/*message info from the server */
+
+function showMessageServer(e){
+
+    
+                
+    if(e.success === "Salvataggio Riuscito"){
+        $("#ModalMsgServer").modal("show");
+        $("#msg").empty();
+        $("#msg").append("<b>"+e.success+"</b>");
+        $("#titleWarning").empty();
+        $("#titleWarning").html('<span class="glyphicon glyphicon-ok-circle"></span> Message Info');
+    }else if(e.err){
+        $("#ModalMsgServer").modal("show");
+        $("#msg").empty();
+        $("#msg").append("<b>"+e.err+"</b>");
+        $("#titleWarning").empty();
+        $("#titleWarning").html('<span class="glyphicon glyphicon-alert"></span> Warning');
+    }
+}

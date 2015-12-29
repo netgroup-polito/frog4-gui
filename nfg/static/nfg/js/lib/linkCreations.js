@@ -35,7 +35,7 @@ function select_node(ele){
             resetFormFlowRules();
             hideMatch();
             hideAction();
-            $("#selLink").val("single-link");
+            $("#selLink").val("unidirectional link");
             $("#selLink").removeAttr("disabled");
             $(".duplicate").hide();
             
@@ -49,7 +49,7 @@ function DrawNewLink(){
 
     console.log($("#selLink").val());
 
-    if($("#selLink").val()==="full duplex"){
+    if($("#selLink").val()==="bidirectional link"){
         /* create two links */
 
         var newFR = fillNewFlowRule();

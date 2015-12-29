@@ -12,5 +12,6 @@ urlpatterns = [url(r'^$',views.index,name='index'),
 			   url(r'^ajax_download_request/$',views.ajax_download_request,name='ajax_download_request'),
 			   url(r'^ajax_files_request/$',views.ajax_files_request,name='ajax_files_request'),
 			   url(r'^ajax_save_request/$',views.ajax_save_request,name='ajax_save_request'),
-			   url(r'^info/$',views.info,name='info')
+			   url(r'^info/$',views.info,name='info'),
+			   url(r'^deploy/$',views.deploy,name='deploy')
 ]

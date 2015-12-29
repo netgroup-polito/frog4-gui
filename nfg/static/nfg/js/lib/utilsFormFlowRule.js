@@ -56,7 +56,7 @@ function NextIDFlowRule2(){
 function selOptionLink(){
 	$("#selLink").change(function(){
 		console.log($("#selLink").val());
-		if($("#selLink").val()==="single-link"){
+		if($("#selLink").val()==="unidirectional link"){
 			DeleteDuplicateFields();	
 		}else{
 			AddDuplicateFields();
@@ -70,7 +70,7 @@ function selOptionLink(){
 
 function resetFormFlowRules(){
 
-    $("#selLink").val("single-link");
+    $("#selLink").val("unidirectional link");
 
 	$("#idPriority").val(1);
 	$("#idDescription").val("");
@@ -192,7 +192,7 @@ function showEditInfoFlowRule(id_flow){
     $(".duplicate").hide();
     $("#ModalFlowRules").modal("show");
     unSetKeysWindowListener();
-    $("#selLink").val("single-link");
+    $("#selLink").val("unidirectional link");
     $("#selLink").attr("disabled","disabled");
 
     $("#saveRule").attr('onclick','editLink(\''+id_flow+'\')');

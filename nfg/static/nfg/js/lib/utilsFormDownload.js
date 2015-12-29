@@ -92,7 +92,7 @@ function DownloadFile(){
         hideDownloadFG();
         showMessageServer(e);
         
-        //location.reload();
+        location.reload();
             
     }).fail(function(){
                 

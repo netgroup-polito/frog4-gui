@@ -100,6 +100,7 @@ function UploadFile(){
 
                 /* It views message from server */
                 showMessageServer(e);
+                location.reload();
             
             }).fail(function(){
                 
