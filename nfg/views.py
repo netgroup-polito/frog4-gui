@@ -171,7 +171,7 @@ def ajax_data_request(request):
 
     try:
         val.validate(jsonFG)
-    except ValidationError as err:
+    except Exception as err:
         # If the validation failed return a error message
         msg["err"] = "Errore di validazione" + err.message
         logger.debug(msg["err"])
@@ -219,7 +219,7 @@ def ajax_upload_request(request):
 
         try:
             val.validate(jsonFG)
-        except ValidationError as err:
+        except Exception as err:
 
             msg["err"] = "Errore di validazione" + err.message
             logger.debug(msg["err"])
@@ -283,7 +283,7 @@ def ajax_save_request(request):
         
         try:
             val.validate(file_content_fg)
-        except ValidationError as err:
+        except Exception as err:
             msg["err"] = "Errore di validazione" + err.message
             msg = json.dumps(msg)
             return HttpResponse("%s" % msg)
@@ -339,7 +339,7 @@ def ajax_download_preview(request):
 
         try:
             val.validate(jsonFG)
-        except ValidationError as err:
+        except Exception as err:
             msg["err"] = "Errore di validazione" + err.message
             logger.debug(msg["err"])
             msg = json.dumps(msg)
@@ -382,7 +382,7 @@ def ajax_download_request(request):
 
         try:
             val.validate(jsonFG)
-        except ValidationError as err:
+        except Exception as err:
             msg["err"] = "Errore di validazione" + err.message
             logger.debug(msg["err"])
             msg = json.dumps(msg)
