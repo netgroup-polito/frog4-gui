@@ -9,9 +9,10 @@ from .exception import InexistentLabelFound, WrongNumberOfPorts
 class NF_FG(object):
     def __init__(self, _id = None, name = None,
                  vnfs = None, end_points = None,
-                 flow_rules = None):
+                 flow_rules = None, description = None):
         self.id = _id
         self.name = name
+        self.description = description
         self.vnfs = vnfs or []
         self.end_points = end_points or []
         self.flow_rules = flow_rules or []
@@ -20,6 +21,8 @@ class NF_FG(object):
         self.id = nffg_dict['forwarding-graph']['id']
         if 'name' in nffg_dict['forwarding-graph']:
             self.name = nffg_dict['forwarding-graph']['name']
+        if 'description' in nffg_dict['forwarding-graph']:
+            self.description = nffg_dict['forwarding-graph']['description']
         if 'VNFs' in nffg_dict['forwarding-graph']:
             for vnf_dict in nffg_dict['forwarding-graph']['VNFs']:
                 vnf = VNF()
@@ -44,6 +47,8 @@ class NF_FG(object):
             nffg_dict['forwarding-graph']['id'] = self.id 
         if self.name is not None:
             nffg_dict['forwarding-graph']['name'] = self.name
+        if self.description is not None:
+            nffg_dict['forwarding-graph']['description'] = self.description
         vnfs_dict = []
         for vnf in self.vnfs:
             vnfs_dict.append(vnf.getDict(extended))
@@ -386,7 +391,7 @@ class NF_FG(object):
             for new_endpoint in nffg_new.end_points:
                 if old_endpoint.id == new_endpoint.id and old_endpoint.type == new_endpoint.type\
                  and old_endpoint.vlan_id == new_endpoint.vlan_id and old_endpoint.remote_endpoint_id == new_endpoint.remote_endpoint_id\
-                 and old_endpoint.node == new_endpoint.node and old_endpoint.switch_id == new_endpoint.switch_id\
+                 and old_endpoint.node_id == new_endpoint.node_id and old_endpoint.switch_id == new_endpoint.switch_id\
                  and old_endpoint.interface == new_endpoint.interface and old_endpoint.remote_ip == new_endpoint.remote_ip\
                  and old_endpoint.local_ip == new_endpoint.local_ip and old_endpoint.ttl == new_endpoint.ttl\
                  and old_endpoint.local_ip == new_endpoint.local_ip and old_endpoint.ttl == new_endpoint.ttl:
@@ -937,8 +942,8 @@ class Port(object):
 
 class EndPoint(object):
     def __init__(self, _id = None, name = None, _type = None, 
-                 remote_endpoint_id = None, node = None, switch_id = None,
-                 interface = None, remote_ip = None, local_ip = None, ttl = None,
+                 remote_endpoint_id = None, node_id = None, switch_id = None,
+                 interface = None, remote_ip = None, local_ip = None, gre_key = None, ttl = None,
                  status = None, db_id = None, internal_id = None, vlan_id = None, 
                  interface_internal_id = None, 
                  prepare_connection_to_remote_endpoint_id = None,
@@ -965,7 +970,7 @@ class EndPoint(object):
         prepare_connection_to_remote_endpoint_id : string
             Is a field for the auto-generate 1 to 1 end-point (in the end-point switch model), and identifies
             the remote end-points where this end-point will be connected.
-        node : string
+        node_id : string
            Optional field. Its meaning depends on the value of field _type
         switch_id : string
            Optional field. Its meaning depends on the value of field _type
@@ -975,18 +980,21 @@ class EndPoint(object):
            Optional field. Its meaning depends on the value of field _type
         local_ip : string
            Optional field. Its meaning depends on the value of field _type
+        gre_key : string
+           Optional field. Its meaning depends on the value of field _type            
         ttl : string
-           Optional field. Its meaning depends on the value of field _type
+           Optional field. Its meaning depends on the value of field _type          
         '''
         self.id = _id
         self.name = name
         self.type = _type
         self.remote_endpoint_id = remote_endpoint_id
-        self.node = node
+        self.node_id = node_id
         self.switch_id = switch_id
         self.interface = interface
         self.remote_ip = remote_ip
         self.local_ip = local_ip
+        self.gre_key = gre_key
         self.ttl = ttl
         self.vlan_id = vlan_id
         self.status = status
@@ -1008,21 +1016,22 @@ class EndPoint(object):
             self.type = end_point_dict['type']
             if self.type == 'interface' or self.type == 'interface-out':
                 self.interface = end_point_dict[self.type]['interface']
-                if 'node' in end_point_dict[self.type]:
-                    self.node = end_point_dict[self.type]['node']
+                if 'node-id' in end_point_dict[self.type]:
+                    self.node_id = end_point_dict[self.type]['node-id']
                 if 'switch-id' in end_point_dict[self.type]:
                     self.switch_id = end_point_dict[self.type]['switch-id']
             elif self.type == 'gre-tunnel':
-                self.remote_ip = end_point_dict[self.type]['remote_ip']
-                self.local_ip = end_point_dict[self.type]['local_ip']
+                self.remote_ip = end_point_dict[self.type]['remote-ip']
+                self.local_ip = end_point_dict[self.type]['local-ip']
                 self.interface = end_point_dict[self.type]['interface']
+                self.gre_key = end_point_dict[self.type]['gre-key']                
                 if 'ttl' in end_point_dict[self.type]:
                     self.ttl = end_point_dict[self.type]['ttl']   
             elif self.type == 'vlan':
                 self.interface = end_point_dict[self.type]['interface']
                 self.vlan_id = end_point_dict[self.type]['vlan-id']
-                if 'node' in end_point_dict[self.type]:
-                    self.node = end_point_dict[self.type]['node']
+                if 'node-id' in end_point_dict[self.type]:
+                    self.node_id = end_point_dict[self.type]['node-id']
                 if 'switch-id' in end_point_dict[self.type]:
                     self.switch_id = end_point_dict[self.type]['switch-id']
          
@@ -1042,16 +1051,18 @@ class EndPoint(object):
             end_point_dict['type'] = self.type
             if self.type != 'internal' and self.type != 'shadow':
                 end_point_dict[self.type] = {}
-                if self.node is not None:
-                    end_point_dict[self.type]['node'] = self.node
+                if self.node_id is not None:
+                    end_point_dict[self.type]['node-id'] = self.node_id
                 if self.switch_id is not None:
                     end_point_dict[self.type]['switch-id'] = self.switch_id     
                 if self.interface is not None:
                     end_point_dict[self.type]['interface'] = self.interface
                 if self.remote_ip is not None:
-                    end_point_dict[self.type]['remote_ip'] = self.remote_ip  
+                    end_point_dict[self.type]['remote-ip'] = self.remote_ip  
                 if self.local_ip is not None:
-                    end_point_dict[self.type]['local_ip'] = self.local_ip     
+                    end_point_dict[self.type]['local-ip'] = self.local_ip     
+                if self.gre_key is not None:
+                    end_point_dict[self.type]['gre-key'] = self.gre_key                   
                 if self.ttl is not None:
                     end_point_dict[self.type]['ttl'] = self.ttl
                 if self.vlan_id is not None:
@@ -1070,8 +1081,10 @@ class EndPoint(object):
 class FlowRule(object):
     def __init__(self, _id = None, priority = None,
                  match = None, actions = None, status = None,
-                 db_id = None, internal_id = None, _type = None, node_id = None):
+                 db_id = None, internal_id = None, _type = None,
+                 node_id = None, description = None):
         self.id = _id
+        self.description = description
         self.priority = priority
         self.match = match
         self.actions = actions or []
@@ -1083,13 +1096,12 @@ class FlowRule(object):
     
     def parseDict(self, flow_rule_dict):
         self.id = flow_rule_dict['id']
+        if 'description' in flow_rule_dict:
+            self.description = flow_rule_dict['description']
         self.priority = flow_rule_dict['priority']
         match = Match()
         match.parseDict(flow_rule_dict['match'])
         self.match = match
-        ##########################################
-        #                mettere actions         #
-        ##########################################
         for action_dict in flow_rule_dict['actions']:
             action = Action()
             action.parseDict(action_dict)
@@ -1099,6 +1111,8 @@ class FlowRule(object):
         flow_rule_dict = {}
         if self.id is not None:
             flow_rule_dict['id'] = self.id
+        if self.description is not None:
+            flow_rule_dict['description'] = self.description
         if self.priority is not None:
             flow_rule_dict['priority'] = self.priority
         if self.match is not None:

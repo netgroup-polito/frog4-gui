@@ -65,14 +65,14 @@ function fillFormInfoEP(idEP){
             break;
 
         case "interface":
-            $("#node").val(ep["interface"]["node"]);
+            $("#node").val(ep["interface"]["node-id"]);
             $("#switch-id").val(ep["interface"]["switch-id"]);
             $("#interface").val(ep["interface"]["interface"]);
             viewInputInterface();
             break;
 
         case "interface-out":
-            $("#node").val(ep["interface-out"]["node"]);
+            $("#node").val(ep["interface-out"]["node-id"]);
             $("#switch").val(ep["interface-out"]["switch-id"]);
             $("#interface").val(ep["interface-out"]["interface"]);
             viewInputInterface();
@@ -84,6 +84,7 @@ function fillFormInfoEP(idEP){
             $("#remoteIP").val(ep["gre-tunnel"]["remote-ip"]);
             $("#greInterface").val(ep["gre-tunnel"]["interface"]);
             $("#ttl").val(ep["gre-tunnel"]["ttl"]);
+            /* campo da aggiungere gre-key*/
             viewInputGre();
             break;
 
@@ -92,7 +93,7 @@ function fillFormInfoEP(idEP){
             $("#vlanID").val(ep["vlan"]["vlan-id"]);
             $("#vlanInterface").val(ep["vlan"]["interface"]);
             $("#switch").val(ep["vlan"]["switch-id"]);
-            $("#vlanNode").val(ep["vlan"]["node"]);
+            $("#vlanNode").val(ep["vlan"]["node-id"]);
             viewInputVlan();
             break;
     }

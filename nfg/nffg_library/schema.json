@@ -1,0 +1,317 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "definitions": {
+    "interface": {
+      "type": "object",
+      "properties": {
+        "node-id": {
+          "type": "string"
+        },
+        "switch-id": {
+          "type": "string"
+        },
+        "interface": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "interface"
+      ],
+      "additionalProperties": false
+    },
+    "gre": {
+      "type": "object",
+      "properties": {
+        "local-ip": {
+          "type": "string"
+        },
+        "remote-ip": {
+          "type": "string"
+        },
+        "interface": {
+          "type": "string"
+        },
+        "ttl": {
+          "type": "string"
+        },
+        "gre-key": {
+          "type": "string"
+        }        
+      },
+      "required": [
+        "interface",
+        "remote-ip",
+        "local-ip",
+        "gre-key"
+      ],
+      "additionalProperties": false
+    },
+    "vlan": {
+      "type": "object",
+      "properties": {
+        "vlan-id": {
+          "type": "string"
+        },
+        "interface": {
+          "type": "string"
+        },
+        "switch-id": {
+          "type": "string"
+        },
+        "node-id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "vlan-id",
+        "interface"
+      ],
+      "additionalProperties": false
+    },
+    "match": {
+      "type": "object",
+      "properties": {
+        "hard_timeout": {
+          "type": "string"
+        },
+        "ether_type": {
+          "type": "string"
+        },
+        "vlan_id": {
+          "type": "string"
+        },
+        "vlan_priority": {
+          "type": "string"
+        },
+        "source_mac": {
+          "type": "string"
+        },
+        "dest_mac": {
+          "type": "string"
+        },
+        "source_ip": {
+          "type": "string"
+        },
+        "dest_ip": {
+          "type": "string"
+        },
+        "tos_bits": {
+          "type": "string"
+        },
+        "source_port": {
+          "type": "string"
+        },
+        "dest_port": {
+          "type": "string"
+        },
+        "protocol": {
+          "type": "string"
+        },
+        "port_in": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "action": {
+      "type": "object",
+      "properties": {
+        "output": {
+          "type": "string"
+        },
+        "set_vlan_id": {
+          "type": "string"
+        },
+        "set_vlan_priority-id": {
+          "type": "string"
+        },
+        "pop_vlan": {
+          "type": "string"
+        },
+        "set_ethernet_src_address": {
+          "type": "string"
+        },
+        "set_ethernet_dst_address": {
+          "type": "string"
+        },
+        "set_ip_src_address": {
+          "type": "string"
+        },
+        "set_ip_dst_address": {
+          "type": "string"
+        },
+        "set_ip_tos": {
+          "type": "string"
+        },
+        "set_l4_src_port": {
+          "type": "string"
+        },
+        "set_l4_dst_port": {
+          "type": "string"
+        },
+        "output_to_queue": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "properties": {
+    "forwarding-graph": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "VNFs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "vnf_template": {
+                "type": "string"
+              },
+              "ports": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "id"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "groups": {
+                "type": "array"
+              }
+            },
+            "required": [
+              "id",
+              "vnf_template",
+              "ports"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "end-points": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "type": {
+                "enum": [
+                  "internal",
+                  "interface",
+                  "interface-out",
+                  "gre-tunnel",
+                  "vlan"
+                ]
+              },
+              "remote_endpoint_id": {
+                "type": "string"
+              },
+              "prepare_connection_to_remote_endpoint_ids": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "internal": {},
+              "interface": {
+                "$ref": "#/definitions/interface"
+              },
+              "interface-out": {
+                "$ref": "#/definitions/interface"
+              },
+              "gre-tunnel": {
+                "$ref": "#/definitions/gre"
+              },
+              "vlan": {
+                "$ref": "#/definitions/vlan"
+              }
+            },
+            "required": [
+              "id"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "big-switch": {
+          "type": "object",
+          "properties": {
+            "flow-rules": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "priority": {
+                    "type": "integer"
+                  },
+                  "match": {
+                    "$ref": "#/definitions/match"
+                  },
+                  "actions": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/definitions/action"
+                    }
+                  }
+                },
+                "required": [
+                  "id",
+                  "priority",
+                  "match",
+                  "actions"
+                ]
+              }
+            }
+          },
+          "required": [
+            "flow-rules"
+          ]
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "forwarding-graph"
+  ],
+  "additionalProperties": false
+}

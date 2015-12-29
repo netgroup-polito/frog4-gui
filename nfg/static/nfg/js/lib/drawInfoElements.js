@@ -101,9 +101,14 @@ function drawBigSwitchInfo(fg){
     }else {
         flow_rules.forEach(function (e) {
             /*$html = '<div class="panel panel-default"><div class="panel-heading"><a onclick="Reduce('+e.id+')">FlowRule Id: '+e.id+' (';*/
-            var $html = '<div class="panel panel-default" id="panel' + e.id + '"><div class="panel-heading" id="panel-h' + e.id + '"><a href="#" onclick="Reduce(\''+e.id+'\')">FlowRule (';
-
-            $html += e.actions[0].output + " ";
+            var $html = '<div class="panel panel-default" id="panel' + e.id + '"><div class="panel-heading" id="panel-h' + e.id + '"><a href="#" onclick="Reduce(\''+e.id+'\')">(';
+            if(e.description===undefined || e.description === null || e.description ===""){
+                //$html += e.actions[0].output + " ";
+                $html += "Port_In: "+e.match.port_in + "<br>&nbsp&nbsp Output: " + e.actions[0].output + " ";
+            }else{
+                $html += "Descr: "+e.description + " ";
+            }
+            
 
             $html += ')</a></div><div id="flowrule' + e.id + '" class="panel-body"><p><b>Description: ' + e.description + '</b> </p><p><b>Priority: ' + e.priority + '</b> </p></div></div>';
             $('.info').append($html);
