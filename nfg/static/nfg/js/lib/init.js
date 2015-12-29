@@ -240,6 +240,7 @@ function setRandomInitialBSPositions(){
         var pos=getPos(ele,bs_x,bs_y);
         tmp.x=pos.x;
         tmp.y=pos.y;
+        tmp.fullId=tmp.id;
         bs_interfaces.push(tmp);
     });
     NF_list.forEach(function(ele1,index){
@@ -248,6 +249,8 @@ function setRandomInitialBSPositions(){
             tmp.ref = "bsInt";
             tmp.id_vnf= ele1.id;
             tmp.id = "vnf:"+ele1.id+":"+ele2.id;
+            tmp.fullId=tmp.id;
+
             var temp={x:parseInt(ele2.parent_NF_x)+parseInt(ele2.x),y:parseInt(ele2.parent_NF_y)+parseInt(ele2.y)};
             var pos=getPos(temp,bs_x,bs_y);
             tmp.x=pos.x;
@@ -361,6 +364,7 @@ function setInitialBSPositions(){
             tmp.id_vnf= ele1.id;
             tmp.id = "vnf:"+ele1.id+":"+ele2.id;
             tmp.fullId=tmp.id;
+
             var inter = getBSInterfaceByIdPos(tmp.id);
             tmp.x=inter.x;
             tmp.y=inter.y;
