@@ -1,3 +1,6 @@
+/* In this file there are all functions to manage 
+   the FlowRule form */
+
 function showMatch(){
     if(!$(".match").is(":visible")){
         $("#icon-match").attr("class","glyphicon glyphicon-chevron-down");
@@ -26,6 +29,8 @@ function hideAction(){
 	$(".action").hide();
 }
 
+
+/* functions to manage the duplicate fields of full duplex links */
 function AddDuplicateFields(){
 	$(".duplicate").show();
 }
@@ -33,6 +38,8 @@ function AddDuplicateFields(){
 function DeleteDuplicateFields(){
 	$(".duplicate").hide();
 }
+
+
 
 function NextIDFlowRule2(){
 	var id = NextIdFlowRule();
@@ -49,7 +56,7 @@ function NextIDFlowRule2(){
 function selOptionLink(){
 	$("#selLink").change(function(){
 		console.log($("#selLink").val());
-		if($("#selLink").val()==="single-link"){
+		if($("#selLink").val()==="unidirectional link"){
 			DeleteDuplicateFields();	
 		}else{
 			AddDuplicateFields();
@@ -63,7 +70,7 @@ function selOptionLink(){
 
 function resetFormFlowRules(){
 
-    $("#selLink").val("single-link");
+    $("#selLink").val("unidirectional link");
 
 	$("#idPriority").val(1);
 	$("#idDescription").val("");
@@ -127,6 +134,8 @@ function resetFormFlowRules(){
 
 }
 
+/* This function fills the fields of flowrules */ 
+
 function fillFlowRule(flow_rule){
     $("#idPriority").val(flow_rule.priority);
     $("#idDescription").val(flow_rule.description);
@@ -183,7 +192,7 @@ function showEditInfoFlowRule(id_flow){
     $(".duplicate").hide();
     $("#ModalFlowRules").modal("show");
     unSetKeysWindowListener();
-    $("#selLink").val("single-link");
+    $("#selLink").val("unidirectional link");
     $("#selLink").attr("disabled","disabled");
 
     $("#saveRule").attr('onclick','editLink(\''+id_flow+'\')');

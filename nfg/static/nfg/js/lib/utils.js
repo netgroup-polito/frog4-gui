@@ -3,6 +3,9 @@
  *
  **/
 
+
+/* This function return a vnf given an id */
+
 function getVNFById(id){
     var vnf=undefined;
     NF_list.forEach(function(e){
@@ -11,6 +14,8 @@ function getVNFById(id){
     return vnf;
 }
 
+/* This function return an end-point given an id */
+
 function getEndPointById(id){
     var endpoint=undefined;
     EP_list.forEach(function(e){
@@ -18,10 +23,16 @@ function getEndPointById(id){
     });
     return endpoint;
 }
+
+/* This function return an end-point given a complete id */
+
 function getEndPointByCompleteId(fullId){
     var chunk=fullId.split(":");
     return getEndPointById(chunk[1]);
 }
+
+/* This function return an BS-interface given an id */
+
 function getBSInterfaceById(id){
     var inter=undefined;
     big_switch.interfaces.forEach(function(e){
@@ -29,6 +40,7 @@ function getBSInterfaceById(id){
     });
     return inter;
 }
+
 function getTemplatePortByLabel(name){
     var port=undefined;
     console.log("------>"+name);
@@ -52,6 +64,10 @@ function getNumberOfPortWithLabelInVNF(label,vnfId){
     });
     return count;
 }
+
+
+/* This function return an flow-rule given an id */
+
 function getFlowRulesById(id){
     var flowrule=undefined;
     flow_rules.forEach(function(e){
@@ -87,7 +103,9 @@ function getLinkEndPositionById(id){
     return {x:x,y:y};
 }
 
-/* funzioni per leggere dal file di posizionamento */
+/* functions to read position json file: */
+
+/* This function return the VNF position given an id */
 
 function getVNFbyIdPos(id){
     var vnf ={};
@@ -100,6 +118,8 @@ function getVNFbyIdPos(id){
     return vnf; 
 }
 
+/* This function return the EndPoint position given an id */
+
 function getEndPointbyIdPos(id){
     var endpoint={};
     var ep_list = fg_pos["end-points"];
@@ -111,6 +131,8 @@ function getEndPointbyIdPos(id){
     return endpoint;
 }
 
+/* This function return the BS-interface position given an id */
+
 function getBSInterfaceByIdPos(id){
     var inter = {};
     var interfaces = fg_pos["big-switch"]["interfaces"];
@@ -121,6 +143,8 @@ function getBSInterfaceByIdPos(id){
 
     return inter;
 }
+
+/* This function return the VNF port position given an id */
 
 function getPortVnfbyId(vnf,id){
     var ports = vnf["ports"];
@@ -147,11 +171,7 @@ function isDuplex(sourceId,destId){
     var d=false;
     flow_rules.forEach(function(fr){
         if(fr["actions"][0]["output"]===sourceId && fr["match"]["port_in"]===destId){
-            //console.log("ci entro");
-            //console.log("in..: "+sourceId);
-            //console.log("out..: "+destId);
-            //console.log("in: "+fr["match"]["port_in"]);
-            //console.log("out: "+fr["actions"][0]["output"]);
+            
             d=true;
             var id_start_mod=sourceId.replace(/:/g,"\\:");
             var id_end_mod=destId.replace(/:/g,"\\:");
@@ -269,13 +289,15 @@ function newForwardingGraph(){
     console.log(isModified);
     if(isModified){
         //messaggio di conferma
-        showSaveForm("Do you whant to save it first?");
+        showSaveForm("Do you want to save it first?");
     }else{
         eraseAll();
     }
-    //eraseAll();
+    
 
 }
+
+/* this function shows a flow rule given an id */
 
 function highlightsFlowRule(id){
     console.log(id);
@@ -316,4 +338,27 @@ function showMSG(title,msg){
     $('#MSGContent').empty();
     $('#MSGContent').append(msg);
     $('#ModalWarning').modal("show");
+}
+
+
+
+/*message info from the server */
+
+function showMessageServer(e){
+
+    
+                
+    if(e.success === "Salvataggio Riuscito"){
+        $("#ModalMsgServer").modal("show");
+        $("#msg").empty();
+        $("#msg").append("<b>"+e.success+"</b>");
+        $("#titleWarning").empty();
+        $("#titleWarning").html('<span class="glyphicon glyphicon-ok-circle"></span> Message Info');
+    }else if(e.err){
+        $("#ModalMsgServer").modal("show");
+        $("#msg").empty();
+        $("#msg").append("<b>"+e.err+"</b>");
+        $("#titleWarning").empty();
+        $("#titleWarning").html('<span class="glyphicon glyphicon-alert"></span> Warning');
+    }
 }

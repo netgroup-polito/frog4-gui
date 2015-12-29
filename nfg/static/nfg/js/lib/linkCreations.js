@@ -35,7 +35,7 @@ function select_node(ele){
             resetFormFlowRules();
             hideMatch();
             hideAction();
-            $("#selLink").val("single-link");
+            $("#selLink").val("unidirectional link");
             $("#selLink").removeAttr("disabled");
             $(".duplicate").hide();
             
@@ -49,7 +49,7 @@ function DrawNewLink(){
 
     console.log($("#selLink").val());
 
-    if($("#selLink").val()==="full duplex"){
+    if($("#selLink").val()==="bidirectional link"){
         /* create two links */
 
         var newFR = fillNewFlowRule();
@@ -72,7 +72,11 @@ function DrawNewLink(){
             createLink(duplex2,newFR2.id,1);
             
             $("#ModalFlowRules").modal("hide");
-            drawBigSwitchInfo(fg);
+            if(BS_view){
+                drawBigSwitchInfo(fg);
+            }else{
+                drawAnyItems();
+            }
             setKeysWindowListener();
             updateView();
         }else{
@@ -93,7 +97,11 @@ function DrawNewLink(){
             checkSplit();
             createLink(duplex,newFR.id,1);
             $("#ModalFlowRules").modal("hide");
-            drawBigSwitchInfo(fg);
+            if(BS_view){
+                drawBigSwitchInfo(fg);
+            }else{
+                drawAnyItems();
+            }
             setKeysWindowListener();
             updateView();
         }else{
