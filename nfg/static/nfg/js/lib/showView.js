@@ -17,13 +17,13 @@ function showBSView(bs_view){
         if (bs_view === false && isSplitted === false) {
             BS_view = false;
             $('#BSViewToogle').attr("class", "menu btn btn-default btn-lg");
-            $(".use_BIG,.BS_interface,.BS_line,.BS-line,.BS-line-selected").hide();
+            $(".use_BIG,.BS_interface,.BS_line,.BS-line,.BS-line-selected,.externalBSLink").hide();
             $(".line,.line-selected").show();
             //$(".info").empty();
             
         } else {
             BS_view = true;
-            $(".use_BIG,.BS_interface,.BS_line,.BS-line,.BS-line-selected").show();
+            $(".use_BIG,.BS_interface,.BS_line,.BS-line,.BS-line-selected,.externalBSLink").show();
             $(".line,.line-selected").hide();
         }
     }

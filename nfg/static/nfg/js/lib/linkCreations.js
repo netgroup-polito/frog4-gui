@@ -234,7 +234,14 @@ function createLink(duplex,idFR,num){
         .attr("x2",bs_int2.x+big_switch.x)
         .attr("y2",bs_int2.y+big_switch.y)
         .attr("idfr","fr-"+idFR)
-        .attr("title","Source: "+bs_int1.id+" Action: "+bs_int2.id)
+        .attr("data-html","true")
+        .attr("title",function(){
+            if(duplex==true){
+                return ""+bs_int1.id+"<br> <---> <br>"+bs_int2.id+"<br> link full duplex";
+            }else{
+                return ""+bs_int1.id+"<br> ---> <br>"+bs_int2.id;
+            }
+        })
         //aggiungo l'info da chi parte a chi arriva
         .attr("start","bs-"+bs_int1.id)
         .attr("end","bs-"+bs_int2.id)
@@ -272,5 +279,5 @@ function createLink(duplex,idFR,num){
         ele2_selected=undefined;
     }
     setPointerAtLines();
-
+    updateTooltips();
 }

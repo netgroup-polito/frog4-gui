@@ -71,7 +71,9 @@ function FillFormEditVNF(idVNF){
     console.log("template ->>>: "+template);
     /* Template di default Firewall */
     $.ajax({ type: "GET",url: "/nfg/ajax_template_request/"+template+"/",
-        success: function(data) {FuncEditSuccess(data,idVNF);} });
+        success: function(data) {
+            console.log("ppppppp"+idVNF);
+            FuncEditSuccess(data,idVNF);} });
 
 
 
@@ -88,10 +90,11 @@ function FuncEditSuccess(data,idVNF){
     console.log(template_js);
     fillTemplateVNF(template_js);
     $('#infoPort').empty();
+    console.log("lalalalaal"+idVNF);
     addEditFormPort(idVNF);
 }
 function addEditFormPort(idVNF){
-
+    console.log("provaprova: "+idVNF);
     var vnf=getVNFById(idVNF);
     console.log(vnf);
     var port_template = template_js.ports;
@@ -215,7 +218,7 @@ function deletePort(portId,vnfId){
 }
 
 function addPortToVNF(idVNF){
-
+    console.log("idvnf---->"+idVNF);
     var newPortName=$("#newPortName").val().trim();
     if(newPortName===undefined || newPortName===""){
         newPortName="Unnamed VNF Port";

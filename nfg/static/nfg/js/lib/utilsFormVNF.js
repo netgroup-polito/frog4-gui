@@ -114,6 +114,7 @@ function FuncSuccess(data){
 function showEditInfoVNF(idVNF){
     $('#FormNF').modal('show');
     unSetKeysWindowListener();
+    console.log("hhhhh"+idVNF);
     FillFormEditVNF(idVNF);
     
 }

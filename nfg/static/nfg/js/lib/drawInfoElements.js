@@ -61,7 +61,7 @@ function drawVNFInfo(vnf,id){
         $('#vnf'+vnf.id).append('<div class="panel panel-default"><div class="panel-body"><p><b>Port: </b>'+porta.id+'</p><p><b>Name: </b>'+porta.name+'</p></div></div>');
     });
 
-    $('#vnf'+vnf.id).append('<p class="edit"><a href="#" onclick="showEditInfoVNF('+vnf.id+')"><strong><i class="glyphicon glyphicon-wrench"></i> Edit</strong></a></p>');
+    $('#vnf'+vnf.id).append('<p class="edit"><a href="#" onclick="showEditInfoVNF(\''+vnf.id+'\')"><strong><i class="glyphicon glyphicon-wrench"></i> Edit</strong></a></p>');
 
 
 }
