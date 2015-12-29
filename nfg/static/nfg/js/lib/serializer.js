@@ -92,6 +92,8 @@ function ser_fg(){
 
 	forwarding_graph["id"] = fg["forwarding-graph"]["id"];
 	forwarding_graph["name"] = fg["forwarding-graph"]["name"];
+	forwarding_graph["description"] = fg["forwarding-graph"]["description"];
+	console.log(fg["forwarding-graph"]["description"]);
 
 	forwarding_graph["VNFs"]=[];
 
@@ -131,13 +133,13 @@ function ser_fg(){
 				break;
 			case "interface":
 				ep["interface"]={};
-				ep["interface"]["node"] = ele["interface"]["node"];
+				ep["interface"]["node-id"] = ele["interface"]["node-id"];
 				ep["interface"]["switch-id"] = ele["interface"]["switch-id"];
 				ep["interface"]["interface"] = ele["interface"]["interface"];
 				break;
 			case "interface-out":
 				ep["interface-out"]={};
-				ep["interface-out"]["node"] = ele["interface-out"]["node"];
+				ep["interface-out"]["node-id"] = ele["interface-out"]["node-id"];
 				ep["interface-out"]["switch-id"] = ele["interface-out"]["switch-id"];
 				ep["interface-out"]["interface"] = ele["interface-out"]["interface"];
 				break;
@@ -153,7 +155,7 @@ function ser_fg(){
 				ep["vlan"]["vlan-id"] = ele["vlan"]["vlan-id"];
 				ep["vlan"]["interface"] = ele["vlan"]["interface"];
 				ep["vlan"]["switch-id"] = ele["vlan"]["switch-id"];
-				ep["vlan"]["node"] = ele["vlan"]["node"]
+				ep["vlan"]["node-id"] = ele["vlan"]["node-id"]
 				break;
 
 		}

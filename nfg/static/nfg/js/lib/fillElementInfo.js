@@ -22,7 +22,7 @@ function fillNewEP(){
 			break;
 		case "interface-out":
 			ep["interface-out"]={};
-			ep["interface-out"]["node"] = $("#node").val();
+			ep["interface-out"]["node-id"] = $("#node").val();
 			ep["interface-out"]["switch-id"] = $("#switch").val();
 			ep["interface-out"]["interface"] = $("#interface").val();
 			break;
@@ -38,7 +38,7 @@ function fillNewEP(){
 			ep["vlan"]["vlan-id"] = $("#vlanID").val();
 			ep["vlan"]["interface"] = $("#vlanInterface").val();
 			ep["vlan"]["switch-id"] = $("#switch").val();
-			ep["vlan"]["node"] = $("#vlanNode").val();
+			ep["vlan"]["node-id"] = $("#vlanNode").val();
 			break;
 
 	}
@@ -66,13 +66,13 @@ function updateEP(){
             break;
         case "interface":
             ep["interface"]={};
-            ep["interface"]["node"] = $("#node").val();
+            ep["interface"]["node-id"] = $("#node").val();
             ep["interface"]["switch-id"] = $("#switch").val();
             ep["interface"]["interface"] = $("#interface").val();
             break;
         case "interface-out":
             ep["interface-out"]={};
-            ep["interface-out"]["node"] = $("#node").val();
+            ep["interface-out"]["node-id"] = $("#node").val();
             ep["interface-out"]["switch-id"] = $("#switch").val();
             ep["interface-out"]["interface"] = $("#interface").val();
             break;
@@ -88,7 +88,7 @@ function updateEP(){
             ep["vlan"]["vlan-id"] = $("#vlanID").val();
             ep["vlan"]["interface"] = $("#vlanInterface").val();
             ep["vlan"]["switch-id"] = $("#switch").val();
-            ep["vlan"]["node"] = $("#vlanNode").val();
+            ep["vlan"]["node-id"] = $("#vlanNode").val();
             break;
 
     }

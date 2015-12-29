@@ -16,7 +16,7 @@ Create a new graph that directly connects two endpoints.
         "name": "ingress",
         "type": "interface",
         "interface": {
-          "node": "10.0.0.1",
+          "node-id": "10.0.0.1",
           "interface": "eth0"
         }
       },
@@ -25,7 +25,7 @@ Create a new graph that directly connects two endpoints.
         "name": "egress",
         "type": "interface",
         "interface": {
-          "node": "10.0.0.1",
+          "node-id": "10.0.0.1",
           "interface": "eth1"
         }
       }
@@ -110,7 +110,6 @@ Create a new graph that directly connects two endpoints.
         "name": "ingress",
         "type": "interface",
         "interface": {
-          "node": "10.0.0.1",
           "switch-id": "openflow:110953238266560",
           "interface": "300"
         }
@@ -246,7 +245,7 @@ Create a graph with end-points and VNFs.
         "name": "ingress",
         "type": "interface",
         "interface": {
-          "node": "10.0.0.1",
+          "node-id": "10.0.0.1",
           "interface": "eth0"
         }
       },
@@ -255,7 +254,7 @@ Create a graph with end-points and VNFs.
         "name": "egress",
         "type": "interface",
         "interface": {
-          "node": "10.0.0.1",
+          "node-id": "10.0.0.1",
           "interface": "eth1"
         }
       }
@@ -360,7 +359,7 @@ Create a graph with end-points and VNFs.
         "name": "ingress",
         "type": "interface",
         "interface": {
-          "node": "10.0.0.1",
+          "node-id": "10.0.0.1",
           "interface": "eth0"
         }
       },
@@ -369,7 +368,7 @@ Create a graph with end-points and VNFs.
         "name": "egress",
         "type": "interface",
         "interface": {
-          "node": "10.0.0.1",
+          "node-id": "10.0.0.1",
           "interface": "eth1"
         }
       }
@@ -547,7 +546,7 @@ Create a graph with end-points and VNFs.
         "name": "ingress",
         "type": "interface",
         "interface": {
-          "node": "130.192.225.193",
+          "node-id": "130.192.225.193",
           "interface": "to-br-usr"
         }
       },
@@ -556,7 +555,7 @@ Create a graph with end-points and VNFs.
         "name": "egress",
         "type": "interface-out",
         "interface-out": {
-          "node": "130.192.225.193",
+          "node-id": "130.192.225.193",
           "interface": "eth2"
         }
       }
