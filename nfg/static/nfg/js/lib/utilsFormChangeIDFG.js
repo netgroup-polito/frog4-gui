@@ -8,7 +8,7 @@ function showModelChangeIDFG(){
         $("#nameFG").val(fg["forwarding-graph"]["name"]);
     }
 
-    if(fg["forwarding-graph"]["descriptionFG"] === undefined || fg["forwarding-graph"]["descriptionFG"] === null){
+    if(fg["forwarding-graph"]["description"] === undefined || fg["forwarding-graph"]["description"] === null){
         $("#descriptionFG").val("");
     }else{
         $("#descriptionFG").val(fg["forwarding-graph"]["description"]);
@@ -21,8 +21,8 @@ function showModelChangeIDFG(){
 function changeIDFG(){
     var new_id;
     new_id = $("#newIDFG").val();
-    new_name = $("#nameFG").val();
-    new_description = $("#descriptionFG").val();
+    var new_name = $("#nameFG").val();
+    var new_description = $("#descriptionFG").val();
 
     fg["forwarding-graph"]["id"] = new_id;
     fg["forwarding-graph"]["name"] = new_name;

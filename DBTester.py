@@ -4,7 +4,7 @@ import sys
 
 def main():
     if len(sys.argv) != 2:
-        print "Wrong parameters, use DBTester <username> for retrieve all the user FG"
+        print "Wrong parameters, use python DBTester <username> for retrieve all the user FG"
         return
     username = sys.argv[1]
     conn = sqlite3.connect("db.sqlite3")
