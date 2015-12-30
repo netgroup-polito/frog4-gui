@@ -193,10 +193,7 @@ function checkSplit(){
     for(var i=0;i<flow_rules.length;i++){
         for(var j=i+1;j<flow_rules.length;j++){
             if(
-                flow_rules[i]["match"]["port_in"]===flow_rules[j]["match"]["port_in"] ||
-                flow_rules[i]["match"]["port_in"]===flow_rules[j]["actions"][0]["output"] ||
-                flow_rules[i]["actions"][0]["output"]===flow_rules[j]["match"]["port_in"] ||
-                flow_rules[i]["actions"][0]["output"]===flow_rules[j]["actions"][0]["output"]
+                flow_rules[i]["match"]["port_in"]===flow_rules[j]["match"]["port_in"]
             ){
                 isSplitted=true;
                 console.log("SPLITTT");
@@ -221,7 +218,7 @@ function showVNFPorts(){
             "<tr>" +
                 "<th>"+vnf.ports[i].id+"</th>" +
                 "<td><div onclick='removePort("+vnf.ports[i].id+"' >" +
-                    "<button type='button' class='btn btn-default btn-lg'><span class='glyphicon glyphicon-minus' aria-hidden='true'></span></button>"
+                    "<button type='button' class='btn btn-default btn-lg'><span class='glyphicon glyphicon-minus' aria-hidden='true'></span></button>"+
                 "</td>" +
             "</tr>";
     }
@@ -279,6 +276,11 @@ function updateTooltips(){
         'container': 'body',
         'placement': 'top'
     });
+
+    $(".interface").tooltip({
+        'container': 'body',
+        'placement': 'top'
+    });
 }
 
 function disableTooltip(){
@@ -330,13 +332,10 @@ function portIdIsAlreadyTaken(id){
     }
 }
 
-function showMSG(title,msg){
+function showMSG(title){
     console.log("title: "+title);
-    console.log("msg: "+msg);
     $('#titleWarning2').empty();
     $('#titleWarning2').append("<span class='glyphicon glyphicon-alert'></span> "+title);
-    $('#MSGContent').empty();
-    $('#MSGContent').append(msg);
     $('#ModalWarning').modal("show");
 }
 
