@@ -384,6 +384,7 @@ def ajax_download_request(request):
             val.validate(jsonFG)
         except ValidationError as err:
             msg["err"] = "Errore di validazione" + err.message
+            print err.message
             logger.debug(msg["err"])
             msg = json.dumps(msg)
             return HttpResponse("%s" % msg)

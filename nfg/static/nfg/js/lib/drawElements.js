@@ -213,6 +213,11 @@ function drawSingleBSInterfaceAndExternalLink(new_bs_int,ele){
 
 function drawLabelIdFG(){
      $("#fg_id").empty();
-     $("#fg_id").append("<b>ID: "+fg["forwarding-graph"]["id"]+"</b>");
+     if(fg["forwarding-graph"]["name"]===undefined || fg["forwarding-graph"]["name"]===null || fg["forwarding-graph"]["name"]===""){
+        $("#fg_id").append("<b>ID: "+fg["forwarding-graph"]["id"]+"</b>");
+     }else{
+        $("#fg_id").append("<b>"+fg["forwarding-graph"]["name"]+" (ID: "+fg["forwarding-graph"]["id"]+"</b>)");
+     }
+     
      $("#newIDFG").val(fg["forwarding-graph"]["id"]);
 }
