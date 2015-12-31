@@ -177,9 +177,11 @@
             .attr("data-html","true")
             .attr("title",function(d){
                 if(d.full_duplex==true){
-                    return "Bidirectional Link: <br>"+d.start.substring(3,d.start.length)+"<br> <i class='fa fa-exchange'></i> <br>"+d.end.substring(3,d.end.length);
+                    /* Bidirectional link */
+                    return d.start.substring(3,d.start.length)+"<br> <i class='fa fa-exchange'></i> <br>"+d.end.substring(3,d.end.length);
                 }else{
-                    return "Unidirectional Link: <br>"+d.start.substring(3,d.start.length)+"<br> <i class='fa fa-long-arrow-right'></i> <br>"+d.end.substring(3,d.end.length);
+                    /* Unidirectional link */
+                    return d.start.substring(3,d.start.length)+"<br> <i class='fa fa-long-arrow-right'></i> <br>"+d.end.substring(3,d.end.length);
                 }
             })
             //aggiungo l'info da chi parte a chi arriva
