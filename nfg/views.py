@@ -183,6 +183,9 @@ def ajax_data_request(request):
     # If the validation success return a string of json forwarding graph 
     return HttpResponse("%s" % json_data_string)
 
+# ajax_upload_request: 
+#                    This view memorize json into database (using a DBManager class)
+#                    and it also performs validation.
 
 @csrf_exempt
 def ajax_upload_request(request):
@@ -192,18 +195,11 @@ def ajax_upload_request(request):
     logger = MyLogger("filelog.log", "django-application").getMyLogger()
 
     if request.method == 'POST':
-        # print "post"
-
-
-        #directory = "users/upload@" + request.session["username"]
-        #if not os.path.exists(directory):
-        #    os.makedirs(directory)
-
-        # memorizzo filename e contenuto del file inviato dall'utente
+        
 
         file_name_fg = request.POST["file_name_fg"]
         file_content_fg = request.POST["file_content_fg"]
-        # memorizzo il filename nella varibile di sessione file_name
+        
 
         print "filecontent: "+file_content_fg
         print "filenamefg: "+file_name_fg
@@ -250,11 +246,11 @@ def ajax_upload_request(request):
         msg = json.dumps(msg)
         return HttpResponse("%s" % msg)
 
-    
-
+# ajax_files_request: 
+#                    This view return a list of json file memorize on database   
 
 def ajax_files_request(request):
-    if request.method == "GET":  # sostituire con metodo post
+    if request.method == "GET":  
         
         lista_file = []
         lista_file = dbm.getUserFG(request.session["username"])
@@ -357,7 +353,7 @@ def ajax_download_request(request):
     logger = MyLogger("filelog.log", "django-application").getMyLogger()
 
     if request.method == "POST":
-        #directory = "users/upload@" + request.session["username"]
+        
         file_name_fg = request.POST["file_name_fg"]
         file_name = file_name_fg.split(".")
         print file_name
@@ -398,10 +394,23 @@ def ajax_download_request(request):
         msg = json.dumps(msg)
         return HttpResponse("%s" % msg)
 
+# deploy : new view for extends the application 
+
 @csrf_exempt
 def deploy(request):
     if request.method == "POST":
+        file_content_fg = json.loads(request.POST["file_content_fg"])
+        msg={};
 
+        try:
+            val.validate(file_content_fg)
+        except Exception as err:
+            msg["err"] = "Errore di validazione" + err.message
+            msg = json.dumps(msg)
+            return HttpResponse("%s" % msg)
+
+        # Here insert your code to deploy your application 
+        # I suggest you to create a new python class 
         
         return HttpResponse("%s" % msg)    
 
