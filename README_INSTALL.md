@@ -22,7 +22,7 @@ This document presents how to install the Virtualized Network Services GUI.
 
 * Required NFFG_library 
 
-        The last version of this library is included in the project
+  The last version of this library is included in the project
 
 
 * Create DataBase for Django and USERS table
