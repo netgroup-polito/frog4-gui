@@ -9,3 +9,5 @@
 users/**
 users/
 *.log
+*.project
+*.pydevproject

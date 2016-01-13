@@ -85,8 +85,11 @@ $(document).ready(function(){
           data = data.replace(/'/g,'"');
           /* definisco oggetto fg */
           var json_data=JSON.parse(data);
+          var json_data1=JSON.parse(data);
            
           fg = json_data["json_file_fg"];
+          original_fg = json_data1["json_file_fg"];
+          
           if(fg == undefined){
               console.log("clicca qui per disegnaro un nuovo grafo");
           }else{

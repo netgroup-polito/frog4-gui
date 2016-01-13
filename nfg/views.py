@@ -33,6 +33,7 @@ from nffg_library.nffg import NF_FG
 from nffg_library.validator import ValidateNF_FG
 from jsonschema import ValidationError
 from create_logger import MyLogger
+import requests
 
 dbm = DBManager("db.sqlite3")
 
@@ -399,18 +400,45 @@ def ajax_download_request(request):
 @csrf_exempt
 def deploy(request):
     if request.method == "POST":
-        file_content_fg = json.loads(request.POST["file_content_fg"])
         msg={};
 
         try:
-            val.validate(file_content_fg)
+            '''
+            Expected a response object with the following fields:
+            - 'title' (e.g. "202 Accepted")
+            - 'message' (e.g. "Graph 977 succesfully processed.")
+            '''
+            
+            headers = { 'Accept': 'application/json', 'Content-Type': 'application/json', 
+                        'X-Auth-User': 'admin', 'X-Auth-Pass': 'admin', 'X-Auth-Tenant': 'admin_tenant'}
+            
+            # Temporary edits
+            # Waiting for support of the new NF-FG library
+            json_string = request.POST["file_content_fg"]
+            json_string = json_string.replace("output","output_to_port")
+            json_string = json_string.replace("controller","output_to_controller")
+            
+            response = requests.put("http://127.0.0.1:9000/NF-FG/", 
+                                    json_string, 
+                                    headers=headers)
+            
+            resp_obj = json.loads(response.text)
+            
+            if response.status_code >= 200 and response.status_code < 300:
+                msg["success"] = str(resp_obj['title'])
+            else:
+                msg["err"] = str(resp_obj['title'])
+            
+            msg["text"] = resp_obj['description']
+            
+            msg = json.dumps(msg)
+            return HttpResponse("%s " % msg)
         except Exception as err:
-            msg["err"] = "Errore di validazione" + err.message
+            msg["err"] = "Unexpected error"
+            if hasattr(err, "description"):
+                msg["text"] = err.message
+            elif hasattr(err, "args"):
+                msg["text"] = err.args[0]
             msg = json.dumps(msg)
             return HttpResponse("%s" % msg)
-
-        # Here insert your code to deploy your application 
-        # I suggest you to create a new python class 
-        
-        return HttpResponse("%s" % msg)    
 
