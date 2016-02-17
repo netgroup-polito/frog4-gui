@@ -22,7 +22,7 @@ class DBManager:
     def getUserFG(self, username):
         conn = sqlite3.connect(self.db_filename)
         cursor = conn.cursor()
-        query = 'SELECT fgname FROM users_graphs WHERE username=? or username = "pubblic"'
+        query = 'SELECT fgname FROM users_graphs WHERE username=? or username = "public"'
         try:
             c = cursor.execute(query, (username,))
             ris = c.fetchall()
@@ -42,7 +42,7 @@ class DBManager:
         conn = sqlite3.connect(self.db_filename)
         print "prova proav pria"
         cursor = conn.cursor()
-        query = 'SELECT fg, fgpos FROM users_graphs WHERE (username=? or username = "pubblic") AND fgname=?'
+        query = 'SELECT fg, fgpos FROM users_graphs WHERE (username=? or username = "public") AND fgname=?'
         try:
             c = cursor.execute(query, (username, nameFG))
             ris = c.fetchone()
