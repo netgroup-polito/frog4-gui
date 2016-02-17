@@ -32,23 +32,48 @@ function ser_big(){
 		var flowrule = {};
 		flowrule["id"] = ele["id"];
 		flowrule["priority"] = ele["priority"];
-		flowrule["description"] = ele["description"];
+		if(ele["description"] != undefined && ele["description"] != "")
+			flowrule["description"] = ele["description"];
 		flowrule["match"] = {};
 
 		var match = {};
 
-		match["hard_timeout"]   = ele["match"]["hard_timeout"];
-		match["ether_type"]		= ele["match"]["ether_type"];
-		match["vlan_id"]		= ele["match"]["vlan_id"];
-		match["vlan_priority"]	= ele["match"]["vlan_priority"];
-		match["source_mac"]		= ele["match"]["source_mac"];
-		match["dest_mac"]		= ele["match"]["dest_mac"];
-		match["source_ip"]		= ele["match"]["source_ip"];
-		match["dest_ip"]		= ele["match"]["dest_ip"];
-		match["tos_bits"]		= ele["match"]["tos_bits"];
-		match["source_port"]	= ele["match"]["source_port"];
-		match["dest_port"]		= ele["match"]["dest_port"];
-		match["protocol"]		= ele["match"]["protocol"];
+		if(ele["match"]["hard_timeout"] != undefined &&  ele["match"]["hard_timeout"] != "")
+			match["hard_timeout"]   = ele["match"]["hard_timeout"];
+
+		if(ele["match"]["ether_type"] != undefined && ele["match"]["ether_type"] != "")
+			match["ether_type"]		= ele["match"]["ether_type"];
+
+		if(ele["match"]["vlan_id"] != undefined && ele["match"]["vlan_id"] != "")
+			match["vlan_id"]		= ele["match"]["vlan_id"];
+
+		if(ele["match"]["vlan_priority"] != undefined && ele["match"]["vlan_priority"] != "")
+			match["vlan_priority"]	= ele["match"]["vlan_priority"];
+
+		if(ele["match"]["source_mac"] != undefined && ele["match"]["source_mac"] != "")
+			match["source_mac"]		= ele["match"]["source_mac"];
+
+		if(ele["match"]["dest_mac"] != undefined && ele["match"]["dest_mac"] != "")
+			match["dest_mac"]		= ele["match"]["dest_mac"];
+
+		if(ele["match"]["source_ip"] != undefined && ele["match"]["source_ip"] != "")
+			match["source_ip"]		= ele["match"]["source_ip"];
+
+		if(ele["match"]["dest_ip"] != undefined && ele["match"]["dest_ip"] != "")
+			match["dest_ip"]		= ele["match"]["dest_ip"];
+
+		if(ele["match"]["tos_bits"] != undefined && ele["match"]["tos_bits"] != "")
+			match["tos_bits"]		= ele["match"]["tos_bits"];
+
+		if(ele["match"]["source_port"] != undefined && ele["match"]["source_port"] != "")
+			match["source_port"]	= ele["match"]["source_port"];
+
+		if(ele["match"]["dest_port"] != undefined && ele["match"]["dest_port"] != "")
+			match["dest_port"]		= ele["match"]["dest_port"];
+
+		if(ele["match"]["protocol"] != undefined && ele["match"]["protocol"] != "")
+			match["protocol"]		= ele["match"]["protocol"];
+
 		match["port_in"]		= ele["match"]["port_in"];
 		
 		flowrule["match"]= match;
@@ -63,17 +88,39 @@ function ser_big(){
 		ele_action.forEach(function(ele2){
 			var action = {};
 			action["output"] = ele2["output"];
-			action["set_vlan_id"] = ele2["set_vlan_id"];
-			action["set_vlan_priority-id"] = ele2["set_vlan_priority-id"];
-			action["pop_vlan"] = ele2["pop_vlan"];
-			action["set_ethernet_src_address"] = ele2["set_ethernet_src_address"];
-			action["set_ethernet_dst_address"] = ele2["set_ethernet_dst_address"];
-			action["set_ip_src_address"] = ele2["set_ip_src_address"];
-			action["set_ip_dst_address"] = ele2["set_ip_dst_address"];
-			action["set_ip_tos"] = ele2["set_ip_tos"];
-			action["set_l4_src_port"] = ele2["set_l4_src_port"];
-			action["set_l4_dst_port"] = ele2["set_l4_dst_port"];
-			action["output_to_queue"] = ele2["output_to_queue"];
+
+			if(ele2["set_vlan_id"] != undefined && ele2["set_vlan_id"] != "")
+				action["set_vlan_id"] = ele2["set_vlan_id"];
+
+			if(ele2["set_vlan_priority-id"] != undefined && ele2["set_vlan_priority-id"] != "")
+				action["set_vlan_priority-id"] = ele2["set_vlan_priority-id"];
+
+			if(ele2["pop_vlan"] != undefined && ele2["pop_vlan"] != "")
+				action["pop_vlan"] = ele2["pop_vlan"];
+
+			if(ele2["set_ethernet_src_address"] != undefined && ele2["set_ethernet_src_address"] != "")
+				action["set_ethernet_src_address"] = ele2["set_ethernet_src_address"];
+
+			if(ele2["set_ethernet_dst_address"] != undefined && ele2["set_ethernet_dst_address"] != "")
+				action["set_ethernet_dst_address"] = ele2["set_ethernet_dst_address"];
+
+			if(ele2["set_ip_src_address"] != undefined && ele2["set_ip_src_address"] != "")
+				action["set_ip_src_address"] = ele2["set_ip_src_address"];
+
+			if(ele2["set_ip_dst_address"] != undefined && ele2["set_ip_dst_address"] != "")
+				action["set_ip_dst_address"] = ele2["set_ip_dst_address"];
+
+			if(ele2["set_ip_tos"] != undefined && ele2["set_ip_tos"] != "")
+				action["set_ip_tos"] = ele2["set_ip_tos"];
+
+			if(ele2["set_l4_src_port"] != undefined && ele2["set_l4_src_port"] != "")
+				action["set_l4_src_port"] = ele2["set_l4_src_port"];
+
+			if(ele2["set_l4_dst_port"] != undefined && ele2["set_l4_dst_port"] != "")
+				action["set_l4_dst_port"] = ele2["set_l4_dst_port"];
+
+			if(ele2["output_to_queue"] != undefined && ele2["output_to_queue"] != "")
+				action["output_to_queue"] = ele2["output_to_queue"];
 
 			actions.push(action);
 
@@ -92,23 +139,25 @@ function ser_fg(){
 
 	forwarding_graph["id"] = fg["forwarding-graph"]["id"];
 	forwarding_graph["name"] = fg["forwarding-graph"]["name"];
-	forwarding_graph["description"] = fg["forwarding-graph"]["description"];
-	console.log(fg["forwarding-graph"]["description"]);
+	if( fg["forwarding-graph"]["description"] != undefined &&  fg["forwarding-graph"]["description"] != "")
+		forwarding_graph["description"] = fg["forwarding-graph"]["description"];
+	//console.log(fg["forwarding-graph"]["description"]);
 
 	forwarding_graph["VNFs"]=[];
 
 	NF_list.forEach(function(ele){
 		var vnf = {};
 		vnf["id"]	=ele["id"];
-		vnf["name"]	=ele["name"];
+		if(ele["name"] != undefined && ele["name"] != "")
+			vnf["name"]	=ele["name"];
 		vnf["vnf_template"]=ele["vnf_template"];
 		vnf["ports"]=[];
 
 		ele.ports.forEach(function(ele2){
 			var port = {};
 			port["id"]	=ele2.id;
-			port["name"]=ele2.name;
-
+			if(ele2.name != undefined && ele2.name != "")
+				port["name"]=ele2.name;
 			vnf["ports"].push(port);
 		});
 		forwarding_graph["VNFs"].push(vnf);
@@ -119,45 +168,48 @@ function ser_fg(){
 	EP_list.forEach(function(ele){
 		var ep = {};
 		ep["id"] = ele["id"];
-		ep["name"] = ele["name"];
-		ep["type"] = ele["type"];
-		ep["remote_endpoint_id"] = ele["remote_endpoint_id"];
+		if(ele["name"] != undefined && ele["name"] != "")
+			ep["name"] = ele["name"];
+		if(ele["type"] != undefined && ele["type"] != "")
+			ep["type"] = ele["type"];
+		if(ele["remote_endpoint_id"] != undefined && ele["remote_endpoint_id"] != "")
+			ep["remote_endpoint_id"] = ele["remote_endpoint_id"];
 		//ep["prepare_connection_to_remote_endpoint_ids"] = ele["prepare_connection_to_remote_endpoint_ids"];
 		
 
 		/* controllo sul tipo di end point */
-
-		switch(ep["type"]){
-			case "internal":
-				ep["internal"]={}; 
-				break;
-			case "interface":
-				ep["interface"]={};
-				ep["interface"]["node-id"] = ele["interface"]["node-id"];
-				ep["interface"]["switch-id"] = ele["interface"]["switch-id"];
-				ep["interface"]["interface"] = ele["interface"]["interface"];
-				break;
-			case "interface-out":
-				ep["interface-out"]={};
-				ep["interface-out"]["node-id"] = ele["interface-out"]["node-id"];
-				ep["interface-out"]["switch-id"] = ele["interface-out"]["switch-id"];
-				ep["interface-out"]["interface"] = ele["interface-out"]["interface"];
-				break;
-			case "gre-tunnel":
-				ep["gre-tunnel"]={};
-				ep["gre-tunnel"]["local-ip"] = ele["gre-tunnel"]["local-ip"];
-				ep["gre-tunnel"]["remote-ip"] = ele["gre-tunnel"]["remote-ip"];
-				ep["gre-tunnel"]["interface"] = ele["gre-tunnel"]["interface"];
-				ep["gre-tunnel"]["ttl"] = ele["gre-tunnel"]["ttl"];
-				break;
-			case "vlan":
-				ep["vlan"]={};
-				ep["vlan"]["vlan-id"] = ele["vlan"]["vlan-id"];
-				ep["vlan"]["interface"] = ele["vlan"]["interface"];
-				ep["vlan"]["switch-id"] = ele["vlan"]["switch-id"];
-				ep["vlan"]["node-id"] = ele["vlan"]["node-id"]
-				break;
-
+		if(ele["type"] != undefined && ele["type"] != "") {
+			switch (ep["type"]) {
+				case "internal":
+					ep["internal"] = {};
+					break;
+				case "interface":
+					ep["interface"] = {};
+					ep["interface"]["node-id"] = ele["interface"]["node-id"];
+					ep["interface"]["switch-id"] = ele["interface"]["switch-id"];
+					ep["interface"]["interface"] = ele["interface"]["interface"];
+					break;
+				case "interface-out":
+					ep["interface-out"] = {};
+					ep["interface-out"]["node-id"] = ele["interface-out"]["node-id"];
+					ep["interface-out"]["switch-id"] = ele["interface-out"]["switch-id"];
+					ep["interface-out"]["interface"] = ele["interface-out"]["interface"];
+					break;
+				case "gre-tunnel":
+					ep["gre-tunnel"] = {};
+					ep["gre-tunnel"]["local-ip"] = ele["gre-tunnel"]["local-ip"];
+					ep["gre-tunnel"]["remote-ip"] = ele["gre-tunnel"]["remote-ip"];
+					ep["gre-tunnel"]["interface"] = ele["gre-tunnel"]["interface"];
+					ep["gre-tunnel"]["ttl"] = ele["gre-tunnel"]["ttl"];
+					break;
+				case "vlan":
+					ep["vlan"] = {};
+					ep["vlan"]["vlan-id"] = ele["vlan"]["vlan-id"];
+					ep["vlan"]["interface"] = ele["vlan"]["interface"];
+					ep["vlan"]["switch-id"] = ele["vlan"]["switch-id"];
+					ep["vlan"]["node-id"] = ele["vlan"]["node-id"]
+					break;
+			}
 		}
 
 		forwarding_graph["end-points"].push(ep);
@@ -195,7 +247,7 @@ function serialize_pos(){
         file["big-switch"]["interfaces"]= [];
 
         big_switch.interfaces.forEach(function(ele){
-        	inter = {}
+        	var inter = {};
         	inter.id = ele.id;
         	inter.ref = ele.ref;
         	inter.x = ele.x;
