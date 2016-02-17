@@ -215,14 +215,14 @@ function showComplexFRFields(){
 
 function editLink(id_flow){
 
-    flow_rule = getFlowRulesById(id_flow);
+     var flow_rule = getFlowRulesById(id_flow);
     console.log(flow_rule);
 
     var match={};
     var actions=[];
     var action={};
     
-    flow_rule["priority"] = $("#idPriority").val();
+    flow_rule["priority"] = parseInt($("#idPriority").val());
     flow_rule["description"] = $("#idDescription").val();
     
 
@@ -266,6 +266,7 @@ function editLink(id_flow){
     setKeysWindowListener();
     $("#saveRule").attr('onclick','DrawNewLink()');
     $("#saveRule").html("Add Rule");
+    drawBigSwitchInfo();
 
 }
 
