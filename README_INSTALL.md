@@ -55,8 +55,7 @@ This document presents how to install the Virtualized Network Services GUI.
         "father","default","00000000",'{"forwarding-graph":{"id":"00000000","name":"Forwarding graph","VNFs":[],"end-points":[],"big-switch":{"flow-rules":[]}}}',NULL);
 ```
 
-You have to change "father" to your user.  
-To run the script using the following command.  
+You have to change "father" to your user. In order to run the script using the following command:  
 
 ```sh
         $ python DBstarter.py
