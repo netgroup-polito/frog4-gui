@@ -9,12 +9,7 @@
 function FillFormEditVNF(idVNF){
     var template;
     var vnf;
-    NF_list.forEach(function(ele){
-        if(parseInt(ele.id) == idVNF){
-            vnf = ele;
-            return vnf;
-        }
-    });
+    vnf = getVNFById(idVNF);
 
     console.log(vnf);
     console.log(vnf.id);
