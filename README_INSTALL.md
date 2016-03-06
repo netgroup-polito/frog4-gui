@@ -46,9 +46,9 @@ This document presents how to install the Virtualized Network Services GUI.
 
 * Create USERS_GRAPHS Table and initialize fields. 
 
-In particular, DBstarter.py executes a sql script named db_dump.sqlite.sql.
-In this file, you have to change the insert query. 
-Default is :
+    In particular, DBstarter.py executes a sql script named db_dump.sqlite.sql.
+    In this file, you have to change the insert query. 
+    Default is :
 
 ```sql
 INSERT INTO `USERS_GRAPHS`(`username`, `fgname`, `fgid`, `fg`, `fgpos`) VALUES (
