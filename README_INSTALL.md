@@ -51,12 +51,12 @@ This document presents how to install the Virtualized Network Services GUI.
     Default is :  
 
 ```sql
-INSERT INTO `USERS_GRAPHS`(`username`, `fgname`, `fgid`, `fg`, `fgpos`) VALUES (
-"father","default","00000000",'{"forwarding-graph":{"id":"00000000","name":"Forwarding graph","VNFs":[],"end-points":[],"big-switch":{"flow-rules":[]}}}',NULL);
+        INSERT INTO `USERS_GRAPHS`(`username`, `fgname`, `fgid`, `fg`, `fgpos`) VALUES (
+        "father","default","00000000",'{"forwarding-graph":{"id":"00000000","name":"Forwarding graph","VNFs":[],"end-points":[],"big-switch":{"flow-rules":[]}}}',NULL);
 ```
 
-    You have to change "father" to your user.  
-    Yo run the script using the following command.  
+You have to change "father" to your user.  
+To run the script using the following command.  
 
 ```sh
         $ python DBstarter.py
