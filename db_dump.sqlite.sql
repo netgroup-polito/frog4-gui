@@ -27,3 +27,9 @@ CREATE TABLE IF NOT EXISTS `users_graphs` (
 INSERT INTO `USERS_GRAPHS`(`username`, `fgname`, `fgid`, `fg`, `fgpos`) VALUES (
 "father","default","00000000",'{"forwarding-graph":{"id":"00000000","name":"Forwarding graph","VNFs":[],"end-points":[],"big-switch":{"flow-rules":[]}}}',NULL);
 
+
+
+
+
+
+

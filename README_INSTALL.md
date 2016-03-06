@@ -22,31 +22,43 @@ This document presents how to install the Virtualized Network Services GUI.
 
 * Required NFFG_library 
 
-  The last version of this library is included in the project
+  The last version of this library is included in the project.
 
 
-* Create DataBase for Django and USERS table
+* Create DataBase for Django and USERS table.
 
 ```sh
         $ python manage.py migrate
 ```
 
-* Create USERS_GRAPHS Table and initialize fields  
-
-```sh
-        $ python DBstarter.py
-```
-
-* Create a new User in Database with python shell
+* Create a new User in Database with python shell.
 
 ```sh
         $ python manage.py shell
 ```
+
 ```python
         >> from django.contrib.auth import authenticate
         >> from django.contrib.auth.models import User
         >> u = User.objects.create_user("username","email","password")
         >> u.save()
+```
+
+* Create USERS_GRAPHS Table and initialize fields. 
+
+In particular, DBstarter.py executes a sql script named db_dump.sqlite.sql.
+In this file, you have to change the insert query. 
+Default is :
+
+```sql
+INSERT INTO `USERS_GRAPHS`(`username`, `fgname`, `fgid`, `fg`, `fgpos`) VALUES (
+"father","default","00000000",'{"forwarding-graph":{"id":"00000000","name":"Forwarding graph","VNFs":[],"end-points":[],"big-switch":{"flow-rules":[]}}}',NULL);
+```
+
+You have change "father" to your user. 
+
+```sh
+        $ python DBstarter.py
 ```
 
 

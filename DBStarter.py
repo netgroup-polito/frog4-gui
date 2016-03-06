@@ -47,9 +47,13 @@ def queryTest():
     conn = sqlite3.connect(db_filename)
     cursor = conn.cursor()
     c = cursor.execute(query)
-    print c.fetchone()
     conn.commit()
+    for row in c:
+        print row
+    return
+    
+   
     conn.close()
 
-session_create_database()
+'''session_create_database()'''
 queryTest()
