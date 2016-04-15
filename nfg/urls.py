@@ -13,5 +13,9 @@ urlpatterns = [url(r'^$',views.index,name='index'),
 			   url(r'^ajax_files_request/$',views.ajax_files_request,name='ajax_files_request'),
 			   url(r'^ajax_save_request/$',views.ajax_save_request,name='ajax_save_request'),
 			   url(r'^info/$',views.info,name='info'),
-			   url(r'^deploy/$',views.deploy,name='deploy')
+			   url(r'^deploy/$',views.deploy,name='deploy'),
+			   url(r'^view_templates_request/$',views.view_templates_request,name='view_templates_request'),
+			   url(r'^view_match_request/$', views.view_match_request, name='view_match_request'),
+				
+
 ]
