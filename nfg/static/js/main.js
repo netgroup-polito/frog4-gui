@@ -79,7 +79,7 @@ $(document).ready(function(){
     $("#draw_menu").hide();
     $("#file_content").hide();
     /* Richiesta Json */
-    $.ajax({ type: "GET",url: "/nfg/ajax_data_request",
+    $.ajax({ type: "GET",url: "/ajax_data_request",
       success: function(data) {
           console.log(data);
           data = data.replace(/'/g,'"');

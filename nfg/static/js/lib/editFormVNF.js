@@ -65,7 +65,7 @@ function FillFormEditVNF(idVNF){
 
     console.log("template ->>>: "+template);
     /* Template di default Firewall */
-    $.ajax({ type: "GET",url: "/nfg/ajax_template_request/"+template+"/",
+    $.ajax({ type: "GET",url: "/ajax_template_request/"+template+"/",
         success: function(data) {
             console.log("ppppppp"+idVNF);
             FuncEditSuccess(data,idVNF);} });

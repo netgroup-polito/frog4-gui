@@ -4,8 +4,8 @@
 (function(){
     "use strict";
 
-	var applicationViewBasePath = '/static/nfg/pages/';
-	//var applicationControllerBasePath = '/static/nfg/js/application/controller/';
+	var applicationViewBasePath = '/static/pages/';
+	//var applicationControllerBasePath = '/static/js/application/controller/';
 
 	var RouteProvider = function($routeProvider) {
 		$routeProvider.

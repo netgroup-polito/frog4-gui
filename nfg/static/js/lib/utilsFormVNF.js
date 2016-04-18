@@ -48,7 +48,7 @@ function drawFormVNF(){
 					
 			}
             /* ajax request for json template VNF */
-			$.ajax({ type: "GET",url: "/nfg/ajax_template_request/"+template+"/",
+			$.ajax({ type: "GET",url: "/ajax_template_request/"+template+"/",
       					success: function(data) {FuncSuccess(data);} });	
 		});
 	});

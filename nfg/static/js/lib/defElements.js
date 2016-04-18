@@ -58,7 +58,7 @@ function defImgPcRed(){
        .attr('height', 1)
        .attr('patternContentUnits', 'objectBoundingBox')
        .append("svg:image")
-       .attr("xlink:xlink:href", "/static/nfg/img/pc-red.png")
+       .attr("xlink:xlink:href", "/static/img/pc-red.png")
        .attr('width', 1)
        .attr('height', 1)
        .attr("preserveAspectRatio", "xMinYMin slice");
@@ -75,7 +75,7 @@ function defImgPcBlue(){
        .attr('height', 1)
        .attr('patternContentUnits', 'objectBoundingBox')
        .append("svg:image")
-       .attr("xlink:xlink:href", "/static/nfg/img/pc-blue.png")
+       .attr("xlink:xlink:href", "/static/img/pc-blue.png")
        .attr('width', 1)
        .attr('height', 1)
        .attr("preserveAspectRatio", "xMinYMin slice");
@@ -92,7 +92,7 @@ function defImgInternetBlue(){
        .attr('height', 1)
        .attr('patternContentUnits', 'objectBoundingBox')
        .append("svg:image")
-       .attr("xlink:xlink:href", "/static/nfg/img/internet_blue2.png")
+       .attr("xlink:xlink:href", "/static/img/internet_blue2.png")
        .attr('width', 1)
        .attr('height', 1)
        .attr("preserveAspectRatio", "xMinYMin slice");
@@ -109,7 +109,7 @@ function defImgInternetRed(){
        .attr('height', 1)
        .attr('patternContentUnits', 'objectBoundingBox')
        .append("svg:image")
-       .attr("xlink:xlink:href", "/static/nfg/img/internet_red2.png")
+       .attr("xlink:xlink:href", "/static/img/internet_red2.png")
        .attr('width', 1)
        .attr('height', 1)
        .attr("preserveAspectRatio", "xMinYMin slice");

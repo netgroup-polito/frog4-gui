@@ -7,14 +7,14 @@
 	  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	  <title>{{ title }}</title>
 
-	  <link href="{% static "nfg/css/login/login.css" %}" rel="stylesheet">
+	  <link href="{% static "css/login/login.css" %}" rel="stylesheet">
 	  
 	</head>
 	
 	<body>    
 		<div class="container">
         	<div class="login-container">
-            	<form class="form-signin" action="/nfg/login/" method="post">	
+            	<form class="form-signin" action="/login/" method="post">
 	            	{% if err_message %}
 					<div class="messageError" role="alert">{{ err_message }}</div>
 					{% endif %}
