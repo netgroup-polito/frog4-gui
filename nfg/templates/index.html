@@ -9,56 +9,54 @@
         <!--link rel="icon" href="{% static "img/logo_poli.ico" %}" /-->
 		<meta name="generator" content="Bootply" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-		<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-        <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="{% static "css/bootstrap.css" %}">
+        <link rel="stylesheet" href="{% static "css/font-awesome.css" %}">
+        <script type="text/javascript" src="{% static "js/libs/jquery/jquery.min.js" %}"></script>
+        <script type="text/javascript" src="{% static "js/libs/bootstrap/bootstrap.min.js" %}"></script>
 
-        <script src="https://d3js.org/d3.v3.min.js"></script>
-
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
+        <script type="text/javascript" src="{% static "js/libs/d3/d3.min.js" %}"></script>
 
 		<!--[if lt IE 9]>
 			<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
 		<![endif]-->
         
-		<link href="{% static "css/style.css" %}" rel="stylesheet">
-        <link href="{% static "css/graphElement.css" %}" rel="stylesheet">
+		<link rel="stylesheet" href="{% static "css/style.css" %}">
+        <link rel="stylesheet" href="{% static "css/graphElement.css" %}">
 
         <script type="text/javascript" src="{% static "js/scripts.js" %}"></script>
         <script type="text/javascript" src="{% static "js/main.js" %}"></script>
-        <script type="text/javascript" src="{% static "js/underscore-min.js" %}"></script>
-        <script type="text/javascript" src="{% static "js/lib/drag.js" %}"></script>
-        <script type="text/javascript" src="{% static "js/lib/drawElements.js" %}"></script>
-        <script type="text/javascript" src="{% static "js/lib/utils.js" %}"></script>
-        <script type="text/javascript" src="{% static "js/lib/defElements.js" %}"></script>
-        <script type="text/javascript" src="{% static "js/lib/drawMenuElements.js" %}"></script>
-        <script type="text/javascript" src="{% static "js/lib/fillElementInfo.js" %}"></script>
-        <script type="text/javascript" src="{% static "js/lib/utilsFormEP.js" %}"></script>
-        <script type="text/javascript" src="{% static "js/lib/utilsFormVNF.js" %}"></script>
-        <script type="text/javascript" src="{% static "js/lib/deleteElements.js" %}"></script>
-        <script type="text/javascript" src="{% static "js/lib/drawInfoElements.js" %}"></script>
-        <script type="text/javascript" src="{% static "js/lib/selectElements.js" %}"></script>
-        <script type="text/javascript" src="{% static "js/lib/editFormVNF.js" %}"></script>
+        <script type="text/javascript" src="{% static "js/libs/underscore-min.js" %}"></script>
+        <script type="text/javascript" src="{% static "js/libs/guiLib/drag.js" %}"></script>
+        <script type="text/javascript" src="{% static "js/libs/guiLib/drawElements.js" %}"></script>
+        <script type="text/javascript" src="{% static "js/libs/guiLib/utils.js" %}"></script>
+        <script type="text/javascript" src="{% static "js/libs/guiLib/defElements.js" %}"></script>
+        <script type="text/javascript" src="{% static "js/libs/guiLib/drawMenuElements.js" %}"></script>
+        <script type="text/javascript" src="{% static "js/libs/guiLib/fillElementInfo.js" %}"></script>
+        <script type="text/javascript" src="{% static "js/libs/guiLib/utilsFormEP.js" %}"></script>
+        <script type="text/javascript" src="{% static "js/libs/guiLib/utilsFormVNF.js" %}"></script>
+        <script type="text/javascript" src="{% static "js/libs/guiLib/deleteElements.js" %}"></script>
+        <script type="text/javascript" src="{% static "js/libs/guiLib/drawInfoElements.js" %}"></script>
+        <script type="text/javascript" src="{% static "js/libs/guiLib/selectElements.js" %}"></script>
+        <script type="text/javascript" src="{% static "js/libs/guiLib/editFormVNF.js" %}"></script>
 
-        <script type="text/javascript" src="{% static "js/lib/linkCreations.js" %}"></script>
-        <script type="text/javascript" src="{% static "js/lib/showView.js" %}"></script>
-        <script type="text/javascript" src="{% static "js/lib/keysBindings.js" %}"></script>
+        <script type="text/javascript" src="{% static "js/libs/guiLib/linkCreations.js" %}"></script>
+        <script type="text/javascript" src="{% static "js/libs/guiLib/showView.js" %}"></script>
+        <script type="text/javascript" src="{% static "js/libs/guiLib/keysBindings.js" %}"></script>
 
-        <script type="text/javascript" src="{% static "js/lib/utilsFormUpload.js" %}"></script>
-        <script type="text/javascript" src="{% static "js/lib/utilsFormDownload.js" %}"></script>
-        <script type="text/javascript" src="{% static "js/lib/utilsFormPreview.js" %}"></script>
-        <script type="text/javascript" src="{% static "js/lib/utilsFormFlowRule.js" %}"></script>
-        <script type="text/javascript" src="{% static "js/lib/utilsFormChangeIDFG.js" %}"></script>
-        <script type="text/javascript" src="{% static "js/lib/utilsDeploy.js" %}"></script>
+        <script type="text/javascript" src="{% static "js/libs/guiLib/utilsFormUpload.js" %}"></script>
+        <script type="text/javascript" src="{% static "js/libs/guiLib/utilsFormDownload.js" %}"></script>
+        <script type="text/javascript" src="{% static "js/libs/guiLib/utilsFormPreview.js" %}"></script>
+        <script type="text/javascript" src="{% static "js/libs/guiLib/utilsFormFlowRule.js" %}"></script>
+        <script type="text/javascript" src="{% static "js/libs/guiLib/utilsFormChangeIDFG.js" %}"></script>
+        <script type="text/javascript" src="{% static "js/libs/guiLib/utilsDeploy.js" %}"></script>
 
-        <script type="text/javascript" src="{% static "js/lib/init.js" %}"></script>
-        <script type="text/javascript" src="{% static "js/lib/serializer.js" %}"></script>
+        <script type="text/javascript" src="{% static "js/libs/guiLib/init.js" %}"></script>
+        <script type="text/javascript" src="{% static "js/libs/guiLib/serializer.js" %}"></script>
 
 
         <!-- librerie esterne -->
 
-        <script type="text/javascript" src="{% static "js/lib/bootstrap/bootstrap-filestyle.min.js" %}"></script>
+        <script type="text/javascript" src="{% static "js/libs/bootstrap/bootstrap-filestyle.min.js" %}"></script>
 
 	</head>
 	<body>

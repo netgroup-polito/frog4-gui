@@ -1,31 +1,26 @@
 {% load staticfiles %}
 <!DOCTYPE html>
-<html><head>
-<meta http-equiv="content-type" content="text/html; charset=UTF-8">
-	<title>NF-FG</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<!-- Bootstrap -->
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>NF-FG</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap -->
 
-	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-	<!--<link href="cover_files/bootstrap.css" rel="stylesheet">-->
-	<link href="{% static "css/style.css" %}" rel="stylesheet">
-	<link href="{% static "css/info/font-awesome.css" %}" rel="stylesheet">
+    <script type="text/javascript" src="{% static "js/libs/jquery/jquery.min.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/libs/bootstrap/bootstrap.min.js" %}"></script>
+    <link href="{% static "css/bootstrap.css" %}" rel="stylesheet">
+    <link href="{% static "css/style.css" %}" rel="stylesheet">
+    <link href="{% static "css/font-awesome.css" %}" rel="stylesheet">
+    <link href="{% static "css/info/css.css" %}" rel="stylesheet">
+    <link href="{% static "css/info/info.css" %}" rel="stylesheet">
 
-	<!--<link href="cover_files/font-awesome.css" rel="stylesheet">-->
-
-	<!--<link href="cover_files/css.css" rel="stylesheet">-->
-	<link href="{% static "css/info/css.css" %}" rel="stylesheet">
-	<link href="{% static "css/info/info.css" %}" rel="stylesheet">
-
-	
 
 </head>
 <body>
 
 
-	<!-- header -->
+<!-- header -->
 <div id="top-nav" class="navbar navbar-inverse navbar-static-top">
     <div class="container-fluid">
         <div class="navbar-header">
@@ -40,10 +35,10 @@
             <ul class="nav navbar-nav navbar-right">
 
                 <li class="dropdown">
-                     
 
 
-                    <a class="dropdown-toggle" role="button" data-toggle="dropdown" href="#"><i class="glyphicon glyphicon-user"></i> Profile<span class="caret"></span></a>
+                    <a class="dropdown-toggle" role="button" data-toggle="dropdown" href="#"><i
+                            class="glyphicon glyphicon-user"></i> Profile<span class="caret"></span></a>
 
                     <ul id="g-account-menu" class="dropdown-menu" role="menu">
                         <li><a href="#">Welcome {{ username }}</a></li>
@@ -63,42 +58,48 @@
 
 <div class="container-fluid">
 
-	<div class="container">
-		<div class="row">
-			<div class="col-md-6 col-md-offset-3 panel panel-default">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3 panel panel-default">
 
-				<h2 class="margin-base-vertical">Info Project:</h2>
+                <h2 class="margin-base-vertical">Info Project:</h2>
 
-				<p>
-					This software was created by <b>Daniele Bevilacqua</b> and <b>Francesco Pellerey</b>, under the supervision of Fabio Mignini and Fulvio Risso. 
-				</p>
+                <p>
+                    This software was created by <b>Daniele Bevilacqua</b> and <b>Francesco Pellerey</b>, under the
+                    supervision of Fabio Mignini and Fulvio Risso.
+                </p>
 
-				<p>
-					This software is in version <b>1.0 alfa-test</b>.
-				</p>
+                <p>
+                    This software is in version <b>1.0 alfa-test</b>.
+                </p>
 
-				<p>
-					The last update dates from <b> 31/12/2015 </b>
-				</p>
-
-				
-				<div class="margin-base-vertical">
-					<small class="text-muted">Application made with: <a href="http://getbootstrap.com/">Bootstrap CSS - HTML5</a>, <a href="http://d3js.org/">D3JS</a>, <a href="https://www.djangoproject.com/">Django Web Framework</a>.</small>
-				</div>
+                <p>
+                    The last update dates from <b> 31/12/2015 </b>
+                </p>
 
 
-				<form class="margin-base-vertical">
-					
-					<p class="text-center">
-						<a href="javascript:history.back()" class="btn btn-success btn"><i class="glyphicon glyphicon-chevron-left"></i> Back</a>
-					</p>
-					<div>
-					
-				</form>
+                <div class="margin-base-vertical">
+                    <small class="text-muted">Application made with: <a href="http://getbootstrap.com/">Bootstrap CSS -
+                        HTML5</a>, <a href="http://d3js.org/">D3JS</a>, <a href="https://www.djangoproject.com/">Django
+                        Web Framework</a>.
+                    </small>
+                </div>
 
-			</div><!-- //main content -->
-		</div><!-- //row -->
-	</div> <!-- //container -->
+
+                <form class="margin-base-vertical">
+
+                    <p class="text-center">
+                        <a href="javascript:history.back()" class="btn btn-success btn"><i
+                                class="glyphicon glyphicon-chevron-left"></i> Back</a>
+                    </p>
+                    <div>
+
+                </form>
+
+            </div><!-- //main content -->
+        </div><!-- //row -->
+    </div> <!-- //container -->
 </div>
 
-</body></html>
+</body>
+</html>
