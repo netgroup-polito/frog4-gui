@@ -20,31 +20,28 @@ class UserManager:
         response = requests.get(
             self.un_protocol + '://' + self.un_host + ':' + self.un_port + '/' + self.base_path + 'users',
             headers=headers)
-        # TODO: levare mock
-        return []
+        if response.status_code == 200:
+            return {"status": response.status_code, "users": json.loads(response.content)["users"]}
+        else:  # todo: gestione errori comuni
+            return {"status": response.status_code, "error": "Unknown Error"}
 
-    def add_user(self, username, password, token):
+    def add_user(self, username, password, group, token):
         # todo: chiamata a servizio
-        data = {'username': username, 'password': password}
+        data = {'group': group, 'password': password}
         data_json = json.dumps(data)
         headers = {'Content-type': 'application/json', 'X-Auth-Token': token}
         response = requests.put(
-            self.un_protocol + '://' + self.un_host + ':' + self.un_port + '/' + self.base_path + 'users',
+            self.un_protocol + '://' + self.un_host + ':' + self.un_port + '/' + self.base_path + 'users/' + username,
             data=data_json,
             headers=headers)
-        # TODO: levare mock
-        return True
+        return response
 
     def remove_user(self, username, token):
-        data = {'username': username}
-        data_json = json.dumps(data)
         headers = {'Content-type': 'application/json', 'X-Auth-Token': token}
         response = requests.delete(
-            self.un_protocol + '://' + self.un_host + ':' + self.un_port + '/' + self.base_path + 'users',
-            data=data_json,
+            self.un_protocol + '://' + self.un_host + ':' + self.un_port + '/' + self.base_path + 'users/' + username,
             headers=headers)
-        # TODO: levare mock
-        return True
+        return response
 
     def get_groups(self, token):
         # todo: chiamata a servizio
@@ -52,8 +49,10 @@ class UserManager:
         response = requests.get(
             self.un_protocol + '://' + self.un_host + ':' + self.un_port + '/' + self.base_path + 'groups',
             headers=headers)
-        # TODO: levare mock
-        return []
+        if response.status_code == 200:
+            return {"status": response.status_code, "users": json.loads(response.content)["groups"]}
+        else: # todo: gestione errori comuni
+            return {"status": response.status_code, "error": "Unknown Error"}
 
     def add_group(self, groupname, token):
         # todo: chiamata a servizio

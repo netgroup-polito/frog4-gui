@@ -14,7 +14,7 @@
 			}).
 			when('/', {
                 templateUrl: applicationViewBasePath + 'userList.html',
-                controller: 'userListController'/*,
+                controller: 'UserListController'/*,
                 resolve: {
 					loginControllHandler : controllIfLoggin
 				}*/

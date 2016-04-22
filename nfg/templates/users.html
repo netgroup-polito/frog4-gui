@@ -4,23 +4,34 @@
 <head>
     <meta charset="UTF-8">
     <title>User Management</title>
-    <link rel="stylesheet" href="{% static "css/bootstrap.min.css" %}">
+    <link rel="stylesheet" href="{% static "css/bootstrap.css" %}">
     <link rel="stylesheet" href="{% static "css/style.css" %}">
-    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{% static "css/font-awesome.css" %}">
+    <link rel="stylesheet" href="{% static "css/users/users.css" %}">
 
-    <script type="text/javascript" src="{% static "js/lib/jquery/jquery.min.js" %}"></script>
-    <script type="text/javascript" src="{% static "js/lib/bootstrap/bootstrap.min.js" %}"></script>
-    <script type="text/javascript" src="{% static "js/lib/bootstrap/bootstrap-filestyle.min.js" %}"></script>
 
-    <script type="text/javascript" src="{% static "js/lib/angular/angular.js" %}"></script>
-    <script type="text/javascript" src="{% static "js/lib/angular/angular-messages.js" %}"></script>
-    <script type="text/javascript" src="{% static "js/lib/angular/angular-mocks.js" %}"></script>
-    <script type="text/javascript" src="{% static "js/lib/angular/angular-route.js" %}"></script>
-    <script type="text/javascript" src="{% static "js/lib/bootstrap/ui-bootstrap-tpls-1.3.1.min.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/libs/jquery/jquery.min.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/libs/bootstrap/bootstrap.min.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/libs/bootstrap/bootstrap-filestyle.min.js" %}"></script>
 
-    <script type="text/javascript" src="{% static "js/application/appBootstrap.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/libs/angular/angular.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/libs/angular/angular-messages.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/libs/angular/angular-mocks.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/libs/angular/angular-route.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/libs/bootstrap/ui-bootstrap-tpls.min.js" %}"></script>
+
+    <!-- Angular JS application -->
+    <script type="text/javascript" src="{% static "js/application/app.js" %}"></script>
+    <!-- Angular Service -->
+    <script type="text/javascript" src="{% static "js/application/services/BackendCallService.js" %}"></script>
+    <!-- Angular Controller -->
+    <script type="text/javascript" src="{% static "js/application/controllers/userListController.js" %}"></script>
+    <!-- Angular Directive -->
+    <script type="text/javascript" src="{% static "js/application/directives/userListItemDirective.js" %}"></script>
+    <!-- Angular Route ( view - controller description ) -->
     <script type="text/javascript" src="{% static "js/application/routeProvider.js" %}"></script>
-    <script type="text/javascript" src="{% static "js/application/controller/userListController.js" %}"></script>
+    <!-- Angular Application Bootstrap -->
+    <script type="text/javascript" src="{% static "js/application/appBootstrap.js" %}"></script>
 </head>
 <body>
 <div id="top-nav" class="navbar navbar-inverse navbar-static-top">

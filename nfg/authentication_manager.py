@@ -28,9 +28,14 @@ class AuthenticationManager:
 
         if response.status_code == 200:
             if response.headers['content-type'] == 'application/token':
-                return response.content
+                return {"status": response.status_code, "token": response.content}
             else:
-                return
+                return {"status": response.status_code, "error": "No Token in the Response"}
         else:
-            return
-
+            if response.status_code == 403:
+                return {"status": response.status_code, "error": "User Already Logged"}
+            else:
+                if response.status_code == 401:
+                    return {"status": response.status_code, "error": "Username or password Incorrect"}
+                else:
+                    return {"status": response.status_code, "error": "Unknown Error"}

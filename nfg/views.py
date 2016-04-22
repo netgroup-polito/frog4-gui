@@ -35,18 +35,25 @@ from jsonschema import ValidationError
 from create_logger import MyLogger
 
 from django.contrib.auth.models import User
+from django.contrib.auth.models import Group
 from django.core import serializers
 import requests
 
 from authentication_manager import AuthenticationManager
+from user_library.user_manager import UserManager
 import settings
 
 dbm = DBManager("db.sqlite3")
-auth = AuthenticationManager(settings.authenticationManager['protocol'],
-                             settings.authenticationManager['host'],
-                             settings.authenticationManager['port'],
-                             settings.authenticationManager['basePath'])
-userm = None
+auth = AuthenticationManager(settings.authenticationManagerConfig['protocol'],
+                             settings.authenticationManagerConfig['host'],
+                             settings.authenticationManagerConfig['port'],
+                             settings.authenticationManagerConfig['basePath'])
+logger = MyLogger("filelog.log", "nffg-gui").get_my_logger()
+userm = UserManager(settings.userManagerConfig['protocol'],
+                    settings.userManagerConfig['host'],
+                    settings.userManagerConfig['port'],
+                    settings.userManagerConfig['basePath']
+                    )
 
 
 # index: It's a principal view, load gui if you are logged else redirect you at /login/.
@@ -93,13 +100,15 @@ def login(request):
         password = request.POST['password']
 
         # todo: sostiuire con autenticazione tramite orchestrator
-        token = auth.login(username, password)
+        result = auth.login(username, password)
+        # user = authenticate(username=username, password=password)
 
         if "username" in request.session:
             request.session.flush()
 
-        if token is not None:
-            request.session['token'] = token
+        if "token" in result:
+            # if user is not None:
+            request.session['token'] = result["token"]
             request.session['username'] = username
 
             # todo: sostituire con un valore sensato ( 300 = 5 Min)
@@ -107,7 +116,14 @@ def login(request):
 
             return HttpResponseRedirect("/")
         else:
-            return HttpResponseRedirect("/login?err_message=Authentication Error!")
+            logger.info("%s : %s", str(result["status"]), result["error"])
+            if result["status"] == 403:
+                if "token" in request.session:
+                    return HttpResponseRedirect("/")
+                else:
+                    return HttpResponseRedirect("/login?err_message=User already logged-in from another terminal!")
+            else:
+                return HttpResponseRedirect("/login?err_message=Authentication Error!")
 
 
 # ajax_template_request: It loads a vnf template specified through his id_template.
@@ -132,8 +148,6 @@ def ajax_template_request(request, id_template):
 def ajax_data_request(request):
     print "Entro in data_request"
     msg = {}
-
-    logger = MyLogger("filelog.log", "nffg-gui").get_my_logger()
 
     if "err_msg" in request.session:
         if request.session["err_msg"] != "":
@@ -452,9 +466,26 @@ def users(request):
         return render(request, 'users.html', {'username': request.session['username']})
 
 
-def ajax_get_user_list(request):
+def api_get_user_list(request):
     if request.method == "GET":
-        user_list = User.objects.all()
-        serialized_obj = serializers.serialize('json', user_list)
-        # users_string = json.dumps(user_list)
-        return HttpResponse("%s" % serialized_obj)  # users_string)
+        if "token" in request.session:
+            result = userm.get_users(request.session["token"])
+            serialized_obj = json.dumps(result)
+            return HttpResponse("%s" % serialized_obj, status=result["status"])
+        else:
+            return HttpResponse(status=401)
+    else:
+        return HttpResponse(status=501)
+
+
+def api_get_group_list(request):
+    if request.method == "GET":
+        if "token" in request.session:
+            result = userm.get_groups(request.session["token"])
+            serialized_obj = json.dumps(result)
+            return HttpResponse("%s" % serialized_obj, status=result["status"])
+        else:
+            return HttpResponse(status=401)
+    else:
+        return HttpResponse(status=501)
+
