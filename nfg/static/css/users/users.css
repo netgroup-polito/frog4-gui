@@ -1,0 +1,32 @@
+.list-table {
+    background-color: #EEE;
+    border: 2px solid #80A926;
+    border-top: 0px;
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
+    margin: 0;
+    overflow: scroll;
+    border-collapse: initial;
+}
+.list-menu {
+    border: 2px solid #80A926;
+    border-bottom: 0px;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    padding: 8px;
+    color: inherit;
+    background-color: #EEE;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 14px;
+    margin: 0px;
+}
+.btn-delete{
+
+}
+.btn-edit{
+    margin-right: 5px;
+}
+
+.glyphicon-group:before {
+  content: "\e284";
+}

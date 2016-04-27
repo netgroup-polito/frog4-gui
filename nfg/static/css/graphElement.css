@@ -1,0 +1,69 @@
+    .nf{
+        fill: #80A926;
+        stroke: #000;
+        stroke-width: 1px;
+    }
+
+    .nf-select{
+        fill: #ED571C;
+        stroke: #000;
+        stroke-width: 1px;
+
+    }
+   
+    .interface{
+        stroke-width:1px;
+        fill: #337AB7;
+        stroke: #000;       
+    }
+
+    .end-points{
+        fill:#013E72;
+        stroke: #000;
+        stroke-width: 0px;
+    }
+
+    .end-points-select{
+        fill:#ED571C;
+        stroke: #000;
+        stroke-width: 0px;
+    }
+
+    .big-switch{
+        fill: rgba(131, 176, 34, 0.7);
+        stroke: #000;
+        stroke-width: 3px;
+    }
+
+    .big-switch-select{
+        fill: rgba(237, 87, 28, 0.7);
+        stroke: #000;
+        stroke-width: 3px;
+    }
+
+    .line,.BS-line,.line_menu{
+       stroke-width: 2.5px;
+    }
+    #EPArrow{
+        color:greenyellow;
+    }
+    .line{
+        stroke: #000;
+    }
+
+    .line-selected{
+        stroke-width: 2.5px;
+        stroke: #ED571C;
+        color: #ED571C;
+    }
+
+    .BS-line-selected{
+        stroke-width: 2.5px;
+        stroke: #ED571C; 
+    }
+
+
+    .internet{
+        stroke: transparent;
+    }
+

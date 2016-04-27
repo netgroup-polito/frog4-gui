@@ -24,6 +24,76 @@ This document presents how to install the Virtualized Network Services GUI.
 
   The last version of this library is included in the project.
 
+* Required JS library,CSS,Font
+
+    You can find all the used library in the "contrib" folder.
+    Extract all the archives.
+   * ##### angular
+    ```
+        ./nfg/static
+        +-- js
+            +-- libs
+                +-- angular.js
+                +-- angular-message.js
+                +-- angular-mocks.js
+                +-- angular-route.js
+    ```
+   * ##### Bootstrap
+    ```
+        ./nfg/static
+        +-- css
+        |   +-- bootstrap.css
+        +-- fonts
+        |   +-- < All the fonts contained into the archive >
+        +-- js
+            +-- libs
+                +-- bootstrap
+                    +-- bootstrap.min.js
+    ```
+   * ##### bootstrap-filestyle
+    ```
+        ./nfg/static
+        +-- js
+            +-- bootstrap
+                +-- bootstrap-filestyle.min.js
+    ```
+   * ##### d3
+    ```
+        ./nfg/static
+        +-- js
+            +-- libs
+                +-- d3
+                    +-- d3.min.js
+    ```
+   * ##### font-awesome
+    ```
+        ./nfg/static
+        +-- css
+        |   +-- font-awesome.css
+        +-- fonts
+            +-- < All the fonts contained into the archive >
+    ```
+   * ##### jquery
+    ```
+        ./nfg/static
+        +-- js
+            +-- libs
+                +-- jquery
+                    +-- jquery.min.js
+    ```
+   * ##### ui-bootstrap-tpls
+    ```
+        ./nfg/static
+        +-- js
+            +-- bootstrap
+                +-- ui-bootstrap-tpls.min.js
+    ```
+   * ##### underscore
+    ```
+        ./nfg/static
+        +-- js
+            +-- underscore-min.js
+    ```
 
 * Create DataBase for Django and USERS table.
 
@@ -38,7 +108,6 @@ This document presents how to install the Virtualized Network Services GUI.
 ```
 
 ```python
-        >> from django.contrib.auth import authenticate
         >> from django.contrib.auth.models import User
         >> u = User.objects.create_user("username","email","password")
         >> u.save()

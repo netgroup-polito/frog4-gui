@@ -1,0 +1,105 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>NF-FG</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap -->
+
+    <script type="text/javascript" src="{% static "js/libs/jquery/jquery.min.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/libs/bootstrap/bootstrap.min.js" %}"></script>
+    <link href="{% static "css/bootstrap.css" %}" rel="stylesheet">
+    <link href="{% static "css/style.css" %}" rel="stylesheet">
+    <link href="{% static "css/font-awesome.css" %}" rel="stylesheet">
+    <link href="{% static "css/info/css.css" %}" rel="stylesheet">
+    <link href="{% static "css/info/info.css" %}" rel="stylesheet">
+
+
+</head>
+<body>
+
+
+<!-- header -->
+<div id="top-nav" class="navbar navbar-inverse navbar-static-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="../">Virtualized Network Services GUI</a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+
+                <li class="dropdown">
+
+
+                    <a class="dropdown-toggle" role="button" data-toggle="dropdown" href="#"><i
+                            class="glyphicon glyphicon-user"></i> Profile<span class="caret"></span></a>
+
+                    <ul id="g-account-menu" class="dropdown-menu" role="menu">
+                        <li><a href="#">Welcome {{ username }}</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="../../info">
+                        <i class="glyphicon glyphicon-info-sign"></i> Info</a>
+                <li>
+                <li><a href="../../logout/"><i class="glyphicon glyphicon-lock"></i> Logout</a></li>
+            </ul>
+        </div>
+    </div>
+    <!-- /container -->
+</div>
+<!-- /Header -->
+
+<div class="container-fluid">
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3 panel panel-default">
+
+                <h2 class="margin-base-vertical">Info Project:</h2>
+
+                <p>
+                    This software was created by <b>Daniele Bevilacqua</b> and <b>Francesco Pellerey</b>, under the
+                    supervision of Fabio Mignini and Fulvio Risso.
+                </p>
+
+                <p>
+                    This software is in version <b>1.0 alfa-test</b>.
+                </p>
+
+                <p>
+                    The last update dates from <b> 31/12/2015 </b>
+                </p>
+
+
+                <div class="margin-base-vertical">
+                    <small class="text-muted">Application made with: <a href="http://getbootstrap.com/">Bootstrap CSS -
+                        HTML5</a>, <a href="http://d3js.org/">D3JS</a>, <a href="https://www.djangoproject.com/">Django
+                        Web Framework</a>.
+                    </small>
+                </div>
+
+
+                <form class="margin-base-vertical">
+
+                    <p class="text-center">
+                        <a href="javascript:history.back()" class="btn btn-success btn"><i
+                                class="glyphicon glyphicon-chevron-left"></i> Back</a>
+                    </p>
+                    <div>
+
+                </form>
+
+            </div><!-- //main content -->
+        </div><!-- //row -->
+    </div> <!-- //container -->
+</div>
+
+</body>
+</html>
