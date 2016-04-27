@@ -41,12 +41,15 @@ from nffg_library.nffg import NF_FG
 from nffg_library.validator import ValidateNF_FG
 from jsonschema import ValidationError
 from create_logger import MyLogger
+
+from django.contrib.auth.models import User
+from django.core import serializers
 import requests
 
 dbm = DBManager("db.sqlite3")
 
-# index: It's a principal view, load gui if you are logged else redirect you at /nfg/login/.
 
+# index: It's a principal view, load gui if you are logged else redirect you at /nfg/login/.
 def index(request):
     templates_list=Templates.objects.all()
     if "username" not in request.session:
@@ -54,16 +57,16 @@ def index(request):
     else:
         return render(request, 'nfg/index.html', {'username': request.session['username']})
 
-# info: It loads the info page if you are logged else redirect you at /nfg/login/.
 
+# info: It loads the info page if you are logged else redirect you at /nfg/login/.
 def info(request):
     if "username" not in request.session:
         return HttpResponseRedirect("/nfg/login/")
     else:
         return render(request, 'nfg/info.html', {'username': request.session['username']})
 
-# logout: It destroys the session of current user and redirect you at /nfg/login.
 
+# logout: It destroys the session of current user and redirect you at /nfg/login.
 def logout(request):
     if request.method == 'GET':
         if "username" in request.session:
@@ -71,10 +74,10 @@ def logout(request):
 
         return HttpResponseRedirect("/nfg/login")
 
+
 # login: It provides authentication a user and create the session variable
 #        If the authentication failed redirect you at /nfg/login/ and send 
 #        Authentication Error message.
-
 def login(request):
     if request.method == 'GET':
         if "username" in request.session:
@@ -90,24 +93,26 @@ def login(request):
         username = request.POST['username']
         password = request.POST['password']
 
+        # todo: sostiuire con autenticazione tramite orchestrator
         user = authenticate(username=username, password=password)
 
         if "username" in request.session:
             request.session.flush()
 
         if user is not None:
-            request.session['password'] = password
+            # request.session['password'] = password
             request.session['username'] = username
 
+            # todo: sostituire con un valore sensato ( 300 = 5 Min)
             request.session.set_expiry(0)
 
             return HttpResponseRedirect("/nfg/")
         else:
             return HttpResponseRedirect("/nfg/login?err_message=Authentication Error!")
 
-# ajax_template_request: It loads a vnf template specified through his id_template.
-#                        The template is in the template_json directory. 
 
+# ajax_template_request: It loads a vnf template specified through his id_template.
+#                        The template is in the template_json directory.
 def ajax_template_request(request, id_template):
     print id_template
     file_directory = "templates_json/" + id_template + ".json"
@@ -121,10 +126,10 @@ def ajax_template_request(request, id_template):
 
     return HttpResponse("%s" % json_data)
 
+
 # ajax_data_request: It a heart of application. 
 #                    This view allows you to load the json from database (using a DBManager class)
 #                    and it also performs validation.
-
 def ajax_data_request(request):
 
     print "Entro in data_request"
@@ -193,10 +198,10 @@ def ajax_data_request(request):
     # If the validation success return a string of json forwarding graph 
     return HttpResponse("%s" % json_data_string)
 
+
 # ajax_upload_request: 
 #                    This view memorize json into database (using a DBManager class)
 #                    and it also performs validation.
-
 @csrf_exempt
 def ajax_upload_request(request):
     fg = NF_FG()
@@ -256,9 +261,9 @@ def ajax_upload_request(request):
         msg = json.dumps(msg)
         return HttpResponse("%s" % msg)
 
-# ajax_files_request: 
-#                    This view return a list of json file memorize on database   
 
+# ajax_files_request: 
+#                    This view return a list of json file memorize on database
 
 def view_templates_request(request):
     
@@ -286,6 +291,7 @@ def ajax_files_request(request):
         json_data_string = json.dumps(lista_file)
     
     return HttpResponse("%s" % json_data_string)
+
 
 @csrf_exempt
 def ajax_save_request(request):
@@ -327,8 +333,6 @@ def ajax_save_request(request):
         msg = json.dumps(msg)
 
         return HttpResponse("%s" % msg)
-
-        
 
 
 @csrf_exempt
@@ -423,8 +427,8 @@ def ajax_download_request(request):
         msg = json.dumps(msg)
         return HttpResponse("%s" % msg)
 
-# deploy : new view for extends the application 
 
+# deploy : new view for extends the application
 @csrf_exempt
 def deploy(request):
     if request.method == "POST":
@@ -474,3 +478,18 @@ def deploy(request):
 
 
 
+
+# users : view to manage users, group and permission
+def users(request):
+    if "username" not in request.session:
+        return HttpResponseRedirect("/nfg/login/")
+    else:
+        return render(request, 'nfg/users.html', {'username': request.session['username']})
+
+
+def ajax_get_user_list(request):
+    if request.method == "GET":
+        user_list = User.objects.all()
+        serialized_obj = serializers.serialize('json', user_list)
+        #users_string = json.dumps(user_list)
+        return HttpResponse("%s" % serialized_obj)  # users_string)

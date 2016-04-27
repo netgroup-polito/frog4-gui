@@ -6,8 +6,6 @@
 .DS_Store?
 .idea
 .idea/*
-users/**
-users/
 *.log
 *.project
 *.pydevproject

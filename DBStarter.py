@@ -55,5 +55,5 @@ def queryTest():
    
     conn.close()
 
-'''session_create_database()'''
+session_create_database()
 queryTest()
