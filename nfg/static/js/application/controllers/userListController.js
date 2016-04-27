@@ -4,16 +4,24 @@
 (function () {
     'use strict';
 
-    var UserListController = function (BackendCallService) {
-        var groupList;
+    var UserListController = function (BackendCallService, $modal) {
+        var ctrl = this;
+        ctrl.users = [];
         BackendCallService.getUsers().then(function (res) {
-            groupList = res;
+            ctrl.users = res.users;
         }, function (fail) {
             alert(JSON.stringify(fail));
-        })
+        });
+
+        ctrl.delete = function (user) {
+            //$modal
+        };
+        ctrl.update = function (user) {
+
+        }
     };
 
-    UserListController.$inject = ['BackendCallService'];
+    UserListController.$inject = ['BackendCallService', '$uibModal'];
     angular.module('fg-gui').controller('UserListController', UserListController);
 
 })();

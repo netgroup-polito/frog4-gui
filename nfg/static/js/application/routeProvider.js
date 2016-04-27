@@ -14,23 +14,12 @@
 			}).
 			when('/', {
                 templateUrl: applicationViewBasePath + 'userList.html',
-                controller: 'UserListController'/*,
-                resolve: {
-					loginControllHandler : controllIfLoggin
-				}*/
-
+                controller: 'UserListController',
+				controllerAs: 'UserListCtrl'
 			});
 	};
 
 	RouteProvider.$inject = ['$routeProvider'];
 
 	angular.module("fg-gui").config(RouteProvider);
-
-	/*function controllIfLoggin(sharedProperties) {
-		WL.Logger.info("(navigation)controllIfLoggin");
-		var mainScope = angular.element($("#mainContainer")).scope();
-		if(sharedProperties.isLoginOk() == false) {
-			mainScope.redirectToLogin();
-		}
-	};*/
 })();

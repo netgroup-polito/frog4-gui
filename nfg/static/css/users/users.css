@@ -26,3 +26,7 @@
 .btn-edit{
     margin-right: 5px;
 }
+
+.glyphicon-group:before {
+  content: "\e284";
+}
