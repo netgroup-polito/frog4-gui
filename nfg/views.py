@@ -20,12 +20,20 @@
 import json
 import os
 
+
+from django.core.serializers.json import DjangoJSONEncoder
+
+from django.http import HttpResponse
 from DBManager import DBManager
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 
 from django.contrib.auth import authenticate
+
+from nfg.models import Templates
+import json
+from django.core import serializers
 
 from django.views.decorators.csrf import csrf_exempt
 
@@ -58,6 +66,7 @@ userm = UserManager(settings.userManagerConfig['protocol'],
 
 # index: It's a principal view, load gui if you are logged else redirect you at /login/.
 def index(request):
+    templates_list=Templates.objects.all()
     if "username" not in request.session:
         return HttpResponseRedirect("/login/")
     else:
@@ -268,6 +277,25 @@ def ajax_upload_request(request):
 
 # ajax_files_request: 
 #                    This view return a list of json file memorize on database
+
+def view_templates_request(request):
+    
+    
+
+	with open('nfg/test.json') as data_file:
+              data = json.load(data_file)
+        return HttpResponse("%s" %json.dumps(data))
+
+
+def view_match_request(request):
+    with open('nfg/match.json') as data_file:
+        data = json.load(data_file)
+    return HttpResponse("%s" % json.dumps(data))
+    
+
+
+
+
 def ajax_files_request(request):
     if request.method == "GET":
         lista_file = []

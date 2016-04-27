@@ -64,7 +64,34 @@ function selectBS(d){
     deselectAll();
     d3.select(".use_BIG").attr("xlink:href","#BIG_SWITCH_select");
     drawBigSwitchInfo(fg);
+
+ 		$.ajax({
+      			  url: 'view_templates_request/', 
+     	       	          type: 'GET'                    
+                          }).done(function(data){
+
+                            $.ajax({
+      			                     url: 'view_match_request/',
+                                      type: 'GET'
+                                      }).done(function(data1){
+                                            editRule=JSON.parse(data1);
+                                            console.log(editRule);
+
+   					                     });
+                    infoRule=JSON.parse(data);
+                    console.log(infoRule)
+                    drawBigSwitchInfoModal(fg);
+   					 });
+
+
+
+
+
+	 
+           
 }
+
+
 
 function selectSimpleLines(d){
     selected_link=this;
