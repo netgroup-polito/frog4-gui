@@ -10,6 +10,6 @@
 *.pydevproject
 /nfg/static/css/font-awesome.css
 /nfg/static/css/bootstrap.css
-/nfg/static/css/dialog.css
+/nfg/static/css/dialogs.css
 /nfg/static/fonts
 /nfg/static/js/libs
