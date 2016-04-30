@@ -5,7 +5,6 @@
 .DS_Store
 .DS_Store?
 .idea
-.idea/*
 *.log
 *.project
 *.pydevproject
@@ -13,9 +12,4 @@
 /nfg/static/css/bootstrap.css
 /nfg/static/css/dialog.css
 /nfg/static/fonts
-/nfg/static/js/libs/angular
-/nfg/static/js/libs/jquery
-/nfg/static/js/libs/underscore-min.js
-/nfg/static/js/libs/dialog.js
-/nfg/static/js/libs/d3
-/nfg/static/js/libs/bootstrap
+/nfg/static/js/libs

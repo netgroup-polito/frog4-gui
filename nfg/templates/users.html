@@ -31,6 +31,7 @@
     <!-- Angular Service -->
     <script type="text/javascript" src="{% static "js/application/services/BackendCallService.js" %}"></script>
     <!-- Angular Controller -->
+    <script type="text/javascript" src="{% static "js/application/controllers/mainController.js" %}"></script>
     <script type="text/javascript" src="{% static "js/application/controllers/userListController.js" %}"></script>
     <script type="text/javascript" src="{% static "js/application/controllers/newUserController.js" %}"></script>
     <script type="text/javascript" src="{% static "js/application/controllers/groupListController.js" %}"></script>
@@ -41,7 +42,7 @@
     <!-- Angular Application Bootstrap -->
     <script type="text/javascript" src="{% static "js/application/appBootstrap.js" %}"></script>
 </head>
-<body>
+<body ng-controller="MainController as MainCtrl">
 <div id="top-nav" class="navbar navbar-inverse navbar-static-top">
     <div class="container-fluid">
         <div class="navbar-header">
