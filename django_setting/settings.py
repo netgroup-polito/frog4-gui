@@ -42,7 +42,6 @@ MIDDLEWARE_CLASSES = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -114,5 +113,4 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATICFILES_DIRS = (('static', os.path.join(BASE_DIR + '/nfg', 'static')), os.path.join(BASE_DIR + '/nfg', 'static'),
-                    )
+STATICFILES_DIRS = (('static', os.path.join(BASE_DIR + '/nfg', 'static')), os.path.join(BASE_DIR + '/nfg', 'static'))

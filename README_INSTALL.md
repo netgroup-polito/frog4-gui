@@ -37,6 +37,7 @@ This document presents how to install the Virtualized Network Services GUI.
                 +-- angular-message.js
                 +-- angular-mocks.js
                 +-- angular-route.js
+                +-- angular-sanitize.js
     ```
    * ##### Bootstrap
     ```
@@ -64,6 +65,15 @@ This document presents how to install the Virtualized Network Services GUI.
             +-- libs
                 +-- d3
                     +-- d3.min.js
+    ```
+   * ##### dialog
+    ```
+        ./nfg/static
+        +-- css
+        |   +-- dialog.css
+        +-- js
+            +-- libs
+                +-- dialog.js
     ```
    * ##### font-awesome
     ```

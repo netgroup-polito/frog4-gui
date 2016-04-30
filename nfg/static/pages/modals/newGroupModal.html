@@ -1,0 +1,22 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" aria-hidden="true" ng-click="NewGroupCtrl.cancel()">×</button>
+        <h4 class="modal-title">New Group</h4>
+    </div>
+    <div class="modal-body">
+        <form class="form-horizontal" role="form" id="formNewUser" method="post" name="formNewUser">
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="name">Name:</label>
+                <div class="col-sm-10">
+                    <input type="text" id="name" class="form-control " placeholder="" ng-model="NewGroupCtrl.newGroup.name">
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="modal-footer">
+        <button class="btn btn-primary" type="button" ng-click="NewGroupCtrl.create()">OK</button>
+        <button class="btn btn-danger" type="button" ng-click="NewGroupCtrl.cancel()">Cancel</button>
+    </div>
+
+</div>
