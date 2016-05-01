@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta charset="UTF-8">
     <title>User Management</title>
+    <link rel="icon" href="{% static "img/favicon.ico"%}">
     <link rel="stylesheet" href="{% static "css/bootstrap.css" %}">
     <link rel="stylesheet" href="{% static "css/dialogs.css" %}">
     <link rel="stylesheet" href="{% static "css/style.css" %}">
@@ -55,22 +56,22 @@
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
-
                 <li class="dropdown">
-
-                    <a class="dropdown-toggle" role="button" data-toggle="dropdown" href="#">
+                    <a class="dropdown-toggle" role="button" data-toggle="dropdown">
                         <i class="glyphicon glyphicon-user"></i>
-                        Profile
+                        User & Group
                         <span class="caret"></span>
                     </a>
 
                     <ul id="g-account-menu" class="dropdown-menu" role="menu">
-                        <li><a href="#">Welcome {{ username }}</a></li>
+                        <li><a href="#/">User</a></li>
+                        <li><a href="#/groups">Group</a></li>
                     </ul>
                 </li>
                 <li>
                     <a href="/info"><i class="glyphicon glyphicon-info-sign"></i> Info</a>
                 <li>
+                <li><a>Welcome {{ username }}</a></li>
                 <li><a href="/logout/"><i class="glyphicon glyphicon-lock"></i> Logout</a></li>
             </ul>
         </div>

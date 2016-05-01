@@ -1,70 +1,67 @@
 {% load staticfiles %}
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
-		<meta charset="utf-8">
-        
-		<title>NF-FG</title>
-        <!--link rel="icon" href="{% static "img/logo_poli.ico" %}" /-->
-		<meta name="generator" content="Bootply" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-        <link rel="stylesheet" href="{% static "css/bootstrap.css" %}">
-        <link rel="stylesheet" href="{% static "css/font-awesome.css" %}">
-        <script type="text/javascript" src="{% static "js/libs/jquery/jquery.min.js" %}"></script>
-        <script type="text/javascript" src="{% static "js/libs/bootstrap/bootstrap.min.js" %}"></script>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
 
-        <script type="text/javascript" src="{% static "js/libs/d3/d3.min.js" %}"></script>
+    <title>NF-FG</title>
+    <!--link rel="icon" href="{% static "img/logo_poli.ico" %}" /-->
+    <meta name="generator" content="Bootply"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="icon" href="{% static "img/favicon.ico" %}">
+    <link rel="stylesheet" href="{% static "css/bootstrap.css" %}">
+    <link rel="stylesheet" href="{% static "css/font-awesome.css" %}">
+    <script type="text/javascript" src="{% static "js/libs/jquery/jquery.min.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/libs/bootstrap/bootstrap.min.js" %}"></script>
 
-
-
+    <script type="text/javascript" src="{% static "js/libs/d3/d3.min.js" %}"></script>
 
 
-
-		<!--[if lt IE 9]>
+    <!--[if lt IE 9]>
 			<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
 		<![endif]-->
-        
-		<link rel="stylesheet" href="{% static "css/style.css" %}">
-        <link rel="stylesheet" href="{% static "css/graphElement.css" %}">
 
-        <script type="text/javascript" src="{% static "js/scripts.js" %}"></script>
-        <script type="text/javascript" src="{% static "js/main.js" %}"></script>
-        <script type="text/javascript" src="{% static "js/libs/underscore-min.js" %}"></script>
-        <script type="text/javascript" src="{% static "js/gui/drag.js" %}"></script>
-        <script type="text/javascript" src="{% static "js/gui/drawElements.js" %}"></script>
-        <script type="text/javascript" src="{% static "js/gui/utils.js" %}"></script>
-        <script type="text/javascript" src="{% static "js/gui/defElements.js" %}"></script>
-        <script type="text/javascript" src="{% static "js/gui/drawMenuElements.js" %}"></script>
-        <script type="text/javascript" src="{% static "js/gui/fillElementInfo.js" %}"></script>
-        <script type="text/javascript" src="{% static "js/gui/utilsFormEP.js" %}"></script>
-        <script type="text/javascript" src="{% static "js/gui/utilsFormVNF.js" %}"></script>
-        <script type="text/javascript" src="{% static "js/gui/deleteElements.js" %}"></script>
-        <script type="text/javascript" src="{% static "js/gui/drawInfoElements.js" %}"></script>
-        <script type="text/javascript" src="{% static "js/gui/selectElements.js" %}"></script>
-        <script type="text/javascript" src="{% static "js/gui/editFormVNF.js" %}"></script>
+    <link rel="stylesheet" href="{% static "css/style.css" %}">
+    <link rel="stylesheet" href="{% static "css/graphElement.css" %}">
 
-        <script type="text/javascript" src="{% static "js/gui/linkCreations.js" %}"></script>
-        <script type="text/javascript" src="{% static "js/gui/showView.js" %}"></script>
-        <script type="text/javascript" src="{% static "js/gui/keysBindings.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/scripts.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/main.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/libs/underscore-min.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/gui/drag.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/gui/drawElements.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/gui/utils.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/gui/defElements.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/gui/drawMenuElements.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/gui/fillElementInfo.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/gui/utilsFormEP.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/gui/utilsFormVNF.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/gui/deleteElements.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/gui/drawInfoElements.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/gui/selectElements.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/gui/editFormVNF.js" %}"></script>
 
-        <script type="text/javascript" src="{% static "js/gui/utilsFormUpload.js" %}"></script>
-        <script type="text/javascript" src="{% static "js/gui/utilsFormDownload.js" %}"></script>
-        <script type="text/javascript" src="{% static "js/gui/utilsFormPreview.js" %}"></script>
-        <script type="text/javascript" src="{% static "js/gui/utilsFormFlowRule.js" %}"></script>
-        <script type="text/javascript" src="{% static "js/gui/utilsFormChangeIDFG.js" %}"></script>
-        <script type="text/javascript" src="{% static "js/gui/utilsDeploy.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/gui/linkCreations.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/gui/showView.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/gui/keysBindings.js" %}"></script>
 
-        <script type="text/javascript" src="{% static "js/gui/init.js" %}"></script>
-        <script type="text/javascript" src="{% static "js/gui/serializer.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/gui/utilsFormUpload.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/gui/utilsFormDownload.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/gui/utilsFormPreview.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/gui/utilsFormFlowRule.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/gui/utilsFormChangeIDFG.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/gui/utilsDeploy.js" %}"></script>
+
+    <script type="text/javascript" src="{% static "js/gui/init.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/gui/serializer.js" %}"></script>
 
 
-        <!-- librerie esterne -->
+    <!-- librerie esterne -->
 
-        <script type="text/javascript" src="{% static "js/libs/bootstrap/bootstrap-filestyle.min.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/libs/bootstrap/bootstrap-filestyle.min.js" %}"></script>
 
-	</head>
-	<body>
+</head>
+<body>
 
 
 <!-- header -->
@@ -81,18 +78,24 @@
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
 
+                <
                 <li class="dropdown">
-                     
-                    <a class="dropdown-toggle" role="button" data-toggle="dropdown" href="#"><i class="glyphicon glyphicon-user"></i> Profile<span class="caret"></span></a>
+                    <a class="dropdown-toggle" role="button" data-toggle="dropdown">
+                        <i class="glyphicon glyphicon-user"></i>
+                        User & Group
+                        <span class="caret"></span>
+                    </a>
 
                     <ul id="g-account-menu" class="dropdown-menu" role="menu">
-                        <li><a href="#">Welcome {{ username }}</a></li>
+                        <li><a href="/users/#/">User</a></li>
+                        <li><a href="/users/#/groups">Group</a></li>
                     </ul>
                 </li>
                 <li>
-                    <a href="../info"><i class="glyphicon glyphicon-info-sign"></i> Info</a>
+                    <a href="/info"><i class="glyphicon glyphicon-info-sign"></i> Info</a>
                 <li>
-                <li><a href="../logout/"><i class="glyphicon glyphicon-lock"></i> Logout</a></li>
+                <li><a>Welcome {{ username }}</a></li>
+                <li><a href="/logout/"><i class="glyphicon glyphicon-lock"></i> Logout</a></li>
             </ul>
         </div>
     </div>
@@ -111,77 +114,97 @@
             <div class="info"></div>
 
 
-            
         </div>
         <!-- /col-3 -->
         <div class="col-sm-9">
             <div class="row">
-                <div class="col-md-12" >
+                <div class="col-md-12">
 
                     <!-- The icons used in this menubar you can find at: http://fortawesome.github.io/Font-Awesome/icons/ -->
 
-                    <div id ="menubar">
-                            <div class="btn-group" role="group" aria-label="...">
+                    <div id="menubar">
+                        <div class="btn-group" role="group" aria-label="...">
 
-                                <!-- Empty Document -->
-                                <button type="button" class="menu btn btn-default btn-lg" onclick="newForwardingGraph();" title="New Document"> <span class="glyphicon glyphicon-file" aria-hidden="true"></span></button>
+                            <!-- Empty Document -->
+                            <button type="button" class="menu btn btn-default btn-lg" onclick="newForwardingGraph();"
+                                    title="New Document"><span class="glyphicon glyphicon-file"
+                                                               aria-hidden="true"></span></button>
 
-                                <!-- Edit Button -->
-                                <button type="button" class="menu btn btn-default btn-lg" onclick="showMenuDraw();" title="Draw Menu"> <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button>
-
-
-                                <!-- Big Switch Button -->
-                                <button type="button" class="menu btn btn-default btn-lg" onclick="switchView()" title="Toggle Simple/Big Switch view" id="BSViewToogle"><i class="fa fa-square-o fa-lg"></i>
-                                </button>
-
-                                <!-- Save Button -->
-                                <button type="button" class="menu btn btn-default btn-lg" onclick="showSaveForm();" title="Save"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span></button>
-
-                                <!-- Open From Client Button -->
-                                <button type="button" class="menu btn btn-default btn-lg" onclick="showUploadFG();" title="Open from Client"><span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span></button>
-
-                                <!-- Open From Server Button -->
-                                <button type="button" class="menu btn btn-default btn-lg" onclick="showDownloadFG();" title="Open from Server"><i class="fa fa-server fa-lg"></i>
-                                </button>
-
-                                <!-- Preview Button -->
-                                <button type="button" class="menu btn btn-default btn-lg" onclick="showPreviewFG();" title="Preview"><i class="fa fa-code fa-lg"></i>
-                                </button>
-
-                                <!-- Deploy(Test) Button -->
-                                <button type="button" class="menu btn btn-default btn-lg" onclick="deploy();" title="Deploy(Test)"><i class="fa fa-paper-plane"></i>
-
-                                </button>
-
-                                <!-- New EP Button -->
-                                <button type="button" class="menu btn btn-success btn-lg drawButton" onclick="onClickDrawEP();" style="display:none" title="End-Point"><i class="fa fa-circle fa-lg"></i>
-                                </button>
-
-                                <!-- New VNF Button -->
-                                <button type="button" class="menu btn btn-lg btn-success drawButton" onclick="onClickDrawVNF();" style="display:none" title="Virtual Network Function"><i class="fa fa-square fa-lg"></i>
-                                </button>
-
-                                <!-- Create Link Button -->
-                                <button type="button" class="menu btn btn-lg btn-success drawButton" onclick="onClickDrawLink();" style="display:none" title="Create Link" id="newLinkButton"><i class="fa fa-arrows-h fa-lg"></i>
-                                </button>
-
-                                <!-- Info Button --> 
-                                <button type="button" class="menu btn btn-default btn-lg" onclick="drawAnyItems();" title="Help"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span></button>
+                            <!-- Edit Button -->
+                            <button type="button" class="menu btn btn-default btn-lg" onclick="showMenuDraw();"
+                                    title="Draw Menu"><span class="glyphicon glyphicon-pencil"
+                                                            aria-hidden="true"></span></button>
 
 
-                            </div>
+                            <!-- Big Switch Button -->
+                            <button type="button" class="menu btn btn-default btn-lg" onclick="switchView()"
+                                    title="Toggle Simple/Big Switch view" id="BSViewToogle"><i
+                                    class="fa fa-square-o fa-lg"></i>
+                            </button>
+
+                            <!-- Save Button -->
+                            <button type="button" class="menu btn btn-default btn-lg" onclick="showSaveForm();"
+                                    title="Save"><span class="glyphicon glyphicon-floppy-disk"
+                                                       aria-hidden="true"></span></button>
+
+                            <!-- Open From Client Button -->
+                            <button type="button" class="menu btn btn-default btn-lg" onclick="showUploadFG();"
+                                    title="Open from Client"><span class="glyphicon glyphicon-folder-open"
+                                                                   aria-hidden="true"></span></button>
+
+                            <!-- Open From Server Button -->
+                            <button type="button" class="menu btn btn-default btn-lg" onclick="showDownloadFG();"
+                                    title="Open from Server"><i class="fa fa-server fa-lg"></i>
+                            </button>
+
+                            <!-- Preview Button -->
+                            <button type="button" class="menu btn btn-default btn-lg" onclick="showPreviewFG();"
+                                    title="Preview"><i class="fa fa-code fa-lg"></i>
+                            </button>
+
+                            <!-- Deploy(Test) Button -->
+                            <button type="button" class="menu btn btn-default btn-lg" onclick="deploy();"
+                                    title="Deploy(Test)"><i class="fa fa-paper-plane"></i>
+
+                            </button>
+
+                            <!-- New EP Button -->
+                            <button type="button" class="menu btn btn-success btn-lg drawButton"
+                                    onclick="onClickDrawEP();" style="display:none" title="End-Point"><i
+                                    class="fa fa-circle fa-lg"></i>
+                            </button>
+
+                            <!-- New VNF Button -->
+                            <button type="button" class="menu btn btn-lg btn-success drawButton"
+                                    onclick="onClickDrawVNF();" style="display:none" title="Virtual Network Function"><i
+                                    class="fa fa-square fa-lg"></i>
+                            </button>
+
+                            <!-- Create Link Button -->
+                            <button type="button" class="menu btn btn-lg btn-success drawButton"
+                                    onclick="onClickDrawLink();" style="display:none" title="Create Link"
+                                    id="newLinkButton"><i class="fa fa-arrows-h fa-lg"></i>
+                            </button>
+
+                            <!-- Info Button -->
+                            <button type="button" class="menu btn btn-default btn-lg" onclick="drawAnyItems();"
+                                    title="Help"><span class="glyphicon glyphicon-exclamation-sign"
+                                                       aria-hidden="true"></span></button>
+
+
+                        </div>
                     </div>
                     <div id="draw_menu">
 
 
                     </div>
-                    
+
                 </div>
-                <div class="col-md-12" >
+                <div class="col-md-12">
                     <div id="my_canvas">
-                        
+
                         <p id="fg_id" onclick="showModelChangeIDFG();"></p>
-                        
+
                         <!--<div class="col-sm-6">
                             <img src="{% static "img/frog2.jpg" %}" />
                         </div>
@@ -193,7 +216,7 @@
                 </div>
 
             </div>
-            
+
         </div>
         <!--/col-span-9-->
     </div>
@@ -201,27 +224,26 @@
 </div>
 
 
-
-
 <!-- Modal Form FlowRules -->
 
 <!-- Modal Warning View -->
 
 <div class="modal" id="ModalWarning">
-    <div class="modal-dialog modal-lg" >
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                 <h4 class="modal-title" id="titleWarning2"><span class="glyphicon glyphicon-alert"></span> Warning </h4>
             </div>
             <div class="modal-body">
-                <p><!--b>Warning:</b> <span id="MSGContent"-->This graph can only be shown in the Big Switch view because at least a splitting exists in the flowrules.</p>
+                <p><!--b>Warning:</b> <span id="MSGContent"-->This graph can only be shown in the Big Switch view
+                    because at least a splitting exists in the flowrules.</p>
             </div>
 
             <div class="modal-footer">
-                <a href="#" data-dismiss="modal" class="btn btn-primary" >OK</a>
+                <a href="#" data-dismiss="modal" class="btn btn-primary">OK</a>
             </div>
-            
+
         </div>
         <!-- /.modal-content -->
     </div>
@@ -231,7 +253,7 @@
 <!-- Modal Error View -->
 
 <div class="modal" id="ModalMsgServer">
-    <div class="modal-dialog modal-lg" >
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -242,9 +264,9 @@
             </div>
 
             <div class="modal-footer">
-                <a href="#" data-dismiss="modal" onclick="reloadPage();"class="btn btn-primary" >OK</a>
+                <a href="#" data-dismiss="modal" onclick="reloadPage();" class="btn btn-primary">OK</a>
             </div>
-            
+
         </div>
         <!-- /.modal-content -->
     </div>
@@ -254,26 +276,27 @@
 <!-- Modal Previw -->
 
 <div class="modal" id="PreviewFG">
-    <div class="modal-dialog modal-lg" >
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                 <h4 class="modal-title" id="titleJson">Preview Json </h4>
             </div>
-            <form class="form-horizontal" role="form" action="#" id="formUpload" method="post" enctype="multipart/form-data" accept-charset="utf-8" name="formUpload">
+            <form class="form-horizontal" role="form" action="#" id="formUpload" method="post"
+                  enctype="multipart/form-data" accept-charset="utf-8" name="formUpload">
                 <div class="modal-body">
                     <!--<div id="file_content_preview">
                         <p>par</p>
                     </div>-->
                     <textarea id="file_content_preview" class="form-control" rows="18" id="comment"></textarea>
                 </div>
-                
+
                 <div class="modal-footer">
                     <!--<a href="#" id="Upload" onclick="copyOnClipboard();"  class="btn btn-primary" >Save</a>-->
-                    
+
                 </div>
             </form>
-            
+
         </div>
         <!-- /.modal-content -->
     </div>
@@ -284,27 +307,29 @@
 <!-- Modal Upload -->
 
 <div class="modal" id="UploadFG">
-    <div class="modal-dialog modal-lg" >
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                 <h4 class="modal-title" id="titleJson">Open Json from the client</h4>
             </div>
-            <form class="form-horizontal" role="form" action="#" id="formUpload" method="post" enctype="multipart/form-data" accept-charset="utf-8" name="formUpload">
+            <form class="form-horizontal" role="form" action="#" id="formUpload" method="post"
+                  enctype="multipart/form-data" accept-charset="utf-8" name="formUpload">
                 <div class="modal-body">
                     <div id="file_content_upload">
 
                     </div>
-                    <input id="inputFile" type="file" name="myfile" class="filestyle" data-buttonName="btn-primary">  
+                    <input id="inputFile" type="file" name="myfile" class="filestyle" data-buttonName="btn-primary">
                 </div>
-                
+
                 <div class="modal-footer">
-                    <a href="#" id="Preview" onclick="PreviewFileUpload();"  class="btn btn-primary" >Preview</a>
-                    <a href="#" id="Upload" onclick="UploadFile();"  class="btn btn-primary" data-dismiss="modal" >Open</a>
-                    
+                    <a href="#" id="Preview" onclick="PreviewFileUpload();" class="btn btn-primary">Preview</a>
+                    <a href="#" id="Upload" onclick="UploadFile();" class="btn btn-primary"
+                       data-dismiss="modal">Open</a>
+
                 </div>
             </form>
-            
+
         </div>
         <!-- /.modal-content -->
     </div>
@@ -314,13 +339,16 @@
 <!-- Modal for saving-->
 
 <div class="modal" id="SaveFG">
-    <div class="modal-dialog modal-lg" >
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="setKeysWindowListener()">×</button>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                        onclick="setKeysWindowListener()">×
+                </button>
                 <h4 class="modal-title" id="saveTitle">Save on the Server </h4>
             </div>
-            <form class="form-horizontal" role="form" action="#" id="formSave" method="post" enctype="multipart/form-data" accept-charset="utf-8" name="formUpload">
+            <form class="form-horizontal" role="form" action="#" id="formSave" method="post"
+                  enctype="multipart/form-data" accept-charset="utf-8" name="formUpload">
                 <div class="modal-body">
                     <div class="form-group">
                         <label class="control-label col-sm-2" for="nameFile">Name file</label>
@@ -331,8 +359,9 @@
                 </div>
 
                 <div class="modal-footer">
-                    <a href="#" id="EraseWithoutSaving" onclick="eraseAll();"  class="btn btn-primary" >Erase without saving</a>
-                    <a href="#" id="Save" onclick="saveFile();"  class="btn btn-primary">Save</a>
+                    <a href="#" id="EraseWithoutSaving" onclick="eraseAll();" class="btn btn-primary">Erase without
+                        saving</a>
+                    <a href="#" id="Save" onclick="saveFile();" class="btn btn-primary">Save</a>
 
                 </div>
             </form>
@@ -347,13 +376,16 @@
 <!-- Modal for Chancing FgId -->
 
 <div class="modal" id="ChangeFGID">
-    <div class="modal-dialog modal-lg" >
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="setKeysWindowListener()">×</button>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                        onclick="setKeysWindowListener()">×
+                </button>
                 <h4 class="modal-title">Change graph summary</h4>
             </div>
-            <form class="form-horizontal" role="form" action="#" id="formSave" method="post" enctype="multipart/form-data" accept-charset="utf-8" name="formUpload">
+            <form class="form-horizontal" role="form" action="#" id="formSave" method="post"
+                  enctype="multipart/form-data" accept-charset="utf-8" name="formUpload">
                 <div class="modal-body">
                     <div class="form-group">
                         <label class="control-label col-sm-2" for="nameFile">ID:</label>
@@ -370,13 +402,14 @@
                     <div class="form-group">
                         <label class="control-label col-sm-2" for="nameFile">Description:</label>
                         <div class="col-sm-10">
-                            <input type="text" name="idEP" class="form-control " id="descriptionFG" placeholder="" value="">
+                            <input type="text" name="idEP" class="form-control " id="descriptionFG" placeholder=""
+                                   value="">
                         </div>
                     </div>
                 </div>
 
                 <div class="modal-footer">
-                    <a href="#" id="Change" onclick="changeIDFG();"  class="btn btn-primary">Save</a>
+                    <a href="#" id="Change" onclick="changeIDFG();" class="btn btn-primary">Save</a>
                     <!--a href="#" id="newID" onclick="ajaxLastIdRequest();"  class="btn btn-primary">New ID</a-->
 
                 </div>
@@ -391,20 +424,21 @@
 <!-- Model Download -->
 
 <div class="modal" id="DownloadFG">
-    <div class="modal-dialog modal-lg" >
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                 <h4 class="modal-title" id="titleJson">Open Json from the server</h4>
             </div>
-            <form class="form-horizontal" role="form" action="#" id="formDownload" method="post" enctype="multipart/form-data" accept-charset="utf-8" name="formUpload">
+            <form class="form-horizontal" role="form" action="#" id="formDownload" method="post"
+                  enctype="multipart/form-data" accept-charset="utf-8" name="formUpload">
                 <div class="modal-body">
                     <div id="file_content_download">
-                        
+
                     </div>
 
                     <div class="form-group">
-                        <label class="control-label col-sm-2" for="type" >Select File:</label>
+                        <label class="control-label col-sm-2" for="type">Select File:</label>
                         <div class="col-sm-10">
                             <select class="form-control" name="type" id="selfileDownload">
                             </select>
@@ -412,14 +446,14 @@
                     </div>
 
                 </div>
-                
+
                 <div class="modal-footer">
-                    <a href="#" id="Preview" onclick="PreviewFileDownload();"  class="btn btn-primary" >Preview</a>
-                    <a href="#" id="Upload" onclick="DownloadFile();"  class="btn btn-primary" >Open</a>
-                    
+                    <a href="#" id="Preview" onclick="PreviewFileDownload();" class="btn btn-primary">Preview</a>
+                    <a href="#" id="Upload" onclick="DownloadFile();" class="btn btn-primary">Open</a>
+
                 </div>
             </form>
-            
+
         </div>
         <!-- /.modal-content -->
     </div>
@@ -430,16 +464,18 @@
 <!-- Model FormEP -->
 
 <div class="modal" id="FormEP">
-    <div class="modal-dialog modal-lg" >
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="setKeysWindowListener()" >×</button>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                        onclick="setKeysWindowListener()">×
+                </button>
                 <h4 class="modal-title">Info End Point</h4>
             </div>
-            
+
             <div class="modal-body">
                 <form class="form-horizontal" role="form" id="formEndPoint">
-                    
+
 
                     <div class="form-group ">
                         <label class="control-label col-sm-2" for="name">Name EP:</label>
@@ -449,7 +485,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="control-label col-sm-2" for="type" >Icon:</label>
+                        <label class="control-label col-sm-2" for="type">Icon:</label>
                         <div class="col-sm-10">
                             <select class="form-control" name="type" id="selIconEP">
                                 <option selected>default</option>
@@ -460,14 +496,15 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="control-label col-sm-2" for="idEndPoint">ID EndPoint</label>    
+                        <label class="control-label col-sm-2" for="idEndPoint">ID EndPoint</label>
                         <div class="col-sm-10">
-                            <input type="text" name="idEP" class="form-control " id="idEndPoint" placeholder="" disabled value="">
-                        </div>          
+                            <input type="text" name="idEP" class="form-control " id="idEndPoint" placeholder="" disabled
+                                   value="">
+                        </div>
                     </div>
 
                     <div class="form-group">
-                        <label class="control-label col-sm-2" for="type" >Type:</label>
+                        <label class="control-label col-sm-2" for="type">Type:</label>
                         <div class="col-sm-10">
 
                             <select class="form-control" name="type" id="seltypeEP">
@@ -488,9 +525,9 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="control-label col-sm-2" for="title" id="titleInterface">title</label>     
+                        <label class="control-label col-sm-2" for="title" id="titleInterface">title</label>
                         <div class="col-sm-10">
-                        </div>          
+                        </div>
                     </div>
 
                     <!--Interface-->
@@ -540,7 +577,8 @@
                         <div class="form-group">
                             <label class="control-label col-sm-2" for="interface">Interface:</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" name="gre:interface" id="greInterface" placeholder="">
+                                <input type="text" class="form-control" name="gre:interface" id="greInterface"
+                                       placeholder="">
                             </div>
                         </div>
 
@@ -565,14 +603,16 @@
                         <div class="form-group">
                             <label class="control-label col-sm-2" for="switchId">Switch ID:</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" name="vlanSwitch" id="vlanSwitch" placeholder="">
+                                <input type="text" class="form-control" name="vlanSwitch" id="vlanSwitch"
+                                       placeholder="">
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="control-label col-sm-2" for="interface">Interface:</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" name="vlanInterface" id="vlanInterface" placeholder="">
+                                <input type="text" class="form-control" name="vlanInterface" id="vlanInterface"
+                                       placeholder="">
                             </div>
                         </div>
 
@@ -585,29 +625,31 @@
 
 
                     </div>
-                    
+
                 </form>
             </div>
             <div class="modal-footer">
                 <!--<a href="#" data-dismiss="modal" class="btn">Close</a>-->
 
                 <!--data-dismiss="modal"-->
-                <a href="#" id="saveEP" onclick="drawNewEP()"  class="btn btn-primary" >Add EndPoint</a>
+                <a href="#" id="saveEP" onclick="drawNewEP()" class="btn btn-primary">Add EndPoint</a>
             </div>
-            
+
         </div>
         <!-- /.modal-content -->
     </div>
     <!-- /.modal-dalog -->
 </div>
-  
+
 <!-- Model Form VNF -->
 
 <div class="modal" id="FormNF">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="setKeysWindowListener()" >×</button>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                        onclick="setKeysWindowListener()">×
+                </button>
                 <h4 class="modal-title">Network Function properties</h4>
             </div>
             <form class="form-horizontal" role="form" id="formVNF">
@@ -618,15 +660,15 @@
                             <input type="text" name="nameVNF" class="form-control " id="nameVNF" placeholder="">
                         </div>
                     </div>
-                    <div class="form-group" >
-                        <label class="control-label col-sm-2" for="idVNF">ID VNF:</label>    
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="idVNF">ID VNF:</label>
                         <div class="col-sm-10">
                             <input type="text" name="idVNF" class="form-control " id="idVNF" placeholder="" disabled>
-                        </div>          
+                        </div>
                     </div>
 
                     <div class="form-group">
-                        <label class="control-label col-sm-2" for="vnf-template" >VNF Template:</label>
+                        <label class="control-label col-sm-2" for="vnf-template">VNF Template:</label>
                         <div class="col-sm-10">
 
                             <select class="form-control" name="type" id="seltemplateVNF">
@@ -642,50 +684,57 @@
                     </div>
 
                     <div class="form-group">
-                            <label class="control-label col-sm-2" for="title" id="titleInfo"><a onclick="showInfoVNF()">VNF Info:</a></label>
-                            <div class="col-sm-10">
-                            </div>          
+                        <label class="control-label col-sm-2" for="title" id="titleInfo"><a onclick="showInfoVNF()">VNF
+                            Info:</a></label>
+                        <div class="col-sm-10">
+                        </div>
                     </div>
 
                     <div id="infoTemplate">
 
-                        <div class="form-group" >
-                            <label class="control-label col-sm-2" for="expandable">Expandable:</label>    
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="expandable">Expandable:</label>
                             <div class="col-sm-10">
-                                <input type="text" name="idVNF" class="form-control " id="idExpandable" placeholder="" disabled>
-                            </div>
-                        </div> 
-
-                        <div class="form-group" >
-                            <label class="control-label col-sm-2" for="uri">Uri:</label>    
-                            <div class="col-sm-10">
-                                <input type="text" name="idVNF" class="form-control " id="idUri" placeholder="" disabled>
+                                <input type="text" name="idVNF" class="form-control " id="idExpandable" placeholder=""
+                                       disabled>
                             </div>
                         </div>
 
-                        <div class="form-group" >
-                            <label class="control-label col-sm-2" for="type">VNF-Type:</label>    
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="uri">Uri:</label>
                             <div class="col-sm-10">
-                                <input type="text" name="idVNF" class="form-control " id="idType" placeholder="" disabled>
-                            </div>
-                        </div>  
-
-                        <div class="form-group" >
-                            <label class="control-label col-sm-2" for="memory">Memory-Size:</label>    
-                            <div class="col-sm-10">
-                                <input type="text" name="idVNF" class="form-control " id="idMemorySize" placeholder="" disabled>
+                                <input type="text" name="idVNF" class="form-control " id="idUri" placeholder=""
+                                       disabled>
                             </div>
                         </div>
-                        <div class="form-group" >
-                            <label class="control-label col-sm-2" for="root">FileSystemSize:</label>    
+
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="type">VNF-Type:</label>
                             <div class="col-sm-10">
-                                <input type="text" name="idVNF" class="form-control " id="idRootFileSystemSize" placeholder="" disabled>
+                                <input type="text" name="idVNF" class="form-control " id="idType" placeholder=""
+                                       disabled>
                             </div>
-                        </div> 
-                        <div class="form-group" >
-                            <label class="control-label col-sm-2" for="swap">SwapDiskSize:</label>    
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="memory">Memory-Size:</label>
                             <div class="col-sm-10">
-                                <input type="text" name="idVNF" class="form-control " id="idSwapDiskSize" placeholder="" disabled>
+                                <input type="text" name="idVNF" class="form-control " id="idMemorySize" placeholder=""
+                                       disabled>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="root">FileSystemSize:</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="idVNF" class="form-control " id="idRootFileSystemSize"
+                                       placeholder="" disabled>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="swap">SwapDiskSize:</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="idVNF" class="form-control " id="idSwapDiskSize" placeholder=""
+                                       disabled>
                             </div>
                         </div>
 
@@ -694,70 +743,66 @@
                     <div id="infoPort">
 
 
-                        
-
                     </div>
                 </div>
-            
+
             </form>
-                
-            
+
 
             <div class="modal-footer">
-                    <a href="#" id="saveVNF" onclick="drawNewNF();" class="btn btn-primary">Add VNF</a>
+                <a href="#" id="saveVNF" onclick="drawNewNF();" class="btn btn-primary">Add VNF</a>
             </div>
 
         </div>
         <!-- /.modal-content -->
-        
-    
+
+
     </div>
     <!-- /.modal-dalog -->
 </div>
 
 <!-- /.modal -->
-	<!-- script references -->
-        		
+<!-- script references -->
 
-        <script>		
-            function showMenuDraw(){
-         
-                if($('.drawButton').is(':visible')) {
-                    $(".drawButton").hide();
-                }else{
-                    $(".drawButton").show();
-                }
 
-            }
-            function showPannelBody(){
-                $('.pannel-body').show();
-            }
+<script>
+    function showMenuDraw() {
 
-            function showInfoVNF(){
-                $("#infoTemplate").slideToggle("slow");
-            }
+        if ($('.drawButton').is(':visible')) {
+            $(".drawButton").hide();
+        } else {
+            $(".drawButton").show();
+        }
 
-            drawFormEP();
-            drawFormVNF();
-            
-            function showBoxPort(id){
-                $('#box'+id).slideToggle("slow");
-            }
+    }
+    function showPannelBody() {
+        $('.pannel-body').show();
+    }
 
-            hideMatch();
-            hideAction();
+    function showInfoVNF() {
+        $("#infoTemplate").slideToggle("slow");
+    }
 
-            selOptionLink();
+    drawFormEP();
+    drawFormVNF();
 
-        </script>
-	
+    function showBoxPort(id) {
+        $('#box' + id).slideToggle("slow");
+    }
+
+    hideMatch();
+    hideAction();
+
+    selOptionLink();
+
+</script>
+
 <div class="big_switch_modal">
-			
+
 </div>
 
 
-
-	</body>
+</body>
 
 </html>
         
