@@ -17,27 +17,24 @@
 #                                                                       #
 #########################################################################
 
+import os
 import json
-from django.http import HttpResponse
-from DBManager import DBManager
-from django.shortcuts import render
+import requests
+import logging
+
+from ConfigParser import SafeConfigParser
+
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
-import settings
+
 from DBManager import DBManager
-from authentication_manager import AuthenticationManager
-from create_logger import MyLogger
 from nffg_library.nffg import NF_FG
 from nffg_library.validator import ValidateNF_FG
+from authentication_manager import AuthenticationManager
 from nfg.nffg_manager import NFFGManager
-from django.core import serializers
-import requests
 from user_library.user_manager import UserManager
-import settings
-import os
-from ConfigParser import SafeConfigParser
 
 # reading config
 parser = SafeConfigParser()
@@ -50,14 +47,13 @@ auth = AuthenticationManager(parser.get('un_orchestrator', 'address'),
 userm = UserManager(parser.get('un_orchestrator', 'address'),
                     parser.get('un_orchestrator', 'port'))
 dbm = DBManager("db.sqlite3")
-graphm = NFFGManager(settings.nffgManagerConfig['protocol'],
-                     settings.nffgManagerConfig['host'],
-                     settings.nffgManagerConfig['port'],
-                     settings.nffgManagerConfig['basePath']
-                     )
+graphm = NFFGManager(parser.get('un_orchestrator', 'address'),
+                     parser.get('un_orchestrator', 'port'))
 
 
 # index: It's a principal view, load gui if you are logged else redirect you at /login/.
+
+
 def index(request):
     # templates_list = Templates.objects.all()
     if "username" not in request.session:
@@ -187,7 +183,7 @@ def ajax_data_request(request):
 
     # print "dopo il db"
     json_data['file_name_fg'] = request.session["file_name_fg"]
-    json_data['json_file_fg'] = json.loads(couple_fg[0].replace("\\", " "))
+    #json_data['json_file_fg'] = json.loads(couple_fg[0].replace("\\", " "))
     # print json_data['json_file_fg']
 
 
@@ -346,7 +342,7 @@ def ajax_save_request(request):
         json_string = json_string.replace("output", "output_to_port")
         json_string = json_string.replace("controller", "output_to_controller")
 
-        resp=graphm.add_user_graph(request.session["file_name_fg"], json.loads(json_string), request.session["token"])
+        resp = graphm.add_user_graph(request.session["file_name_fg"], json.loads(json_string), request.session["token"])
         if resp == 201:
             msg["success"] = "Salvataggio Riuscito"
             msg = json.dumps(msg)

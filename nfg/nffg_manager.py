@@ -3,11 +3,11 @@ import requests
 
 
 class NFFGManager:
-    def __init__(self, protocol, host, port, base_path):
-        self.un_protocol = protocol
+    def __init__(self, host, port):
+        self.un_protocol = 'http'
         self.un_host = host
         self.un_port = port
-        self.base_path = base_path
+        self.base_path = ''
 
     def get_user_graph(self, graphId, token):
         headers = {'Content-type': 'application/json', 'X-Auth-Token': token}
