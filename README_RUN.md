@@ -7,7 +7,7 @@ To run the application with the default settings:
 
 To run the application with a custom settings file:
 ```sh
-        $python manage.py runserver --d <configuration file>
+        $ python manage.py runserver --d <configuration file>
 ```
 
 To connect to application write http://[IP]:[Port]/ on the url of the browser.
