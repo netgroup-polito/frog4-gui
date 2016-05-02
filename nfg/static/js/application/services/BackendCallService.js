@@ -16,28 +16,84 @@
         var _getUser = function (username) {
 
         };
-        var _addUser = function (username, password) {
-
+        var _addUser = function (user) {
+            var deferred = $q.defer();
+            $http.post("/api/v1/users_api/add_user/",
+                user,
+                {
+                    headers: {
+                        'Content-type': 'application/json'
+                    }
+                })
+                .success(function (result) {
+                    deferred.resolve(result);
+                })
+                .error(function (err) {
+                    deferred.reject(err);
+                });
+            return deferred.promise;
         };
-        var _deleteUser = function (username) {
-
+        var _deleteUser = function (user) {
+            var deferred = $q.defer();
+            $http.delete("/api/v1/users_api/delete_user/",
+                {
+                    headers: {
+                        'Content-type': 'application/json'
+                    },
+                    data :user
+                })
+                .success(function (result) {
+                    deferred.resolve(result);
+                })
+                .error(function (err) {
+                    deferred.reject(err);
+                });
+            return deferred.promise;
         };
 
         var _getGroups = function () {
             var deferred = $q.defer();
-            $http.get("/api/v1/users_api/get_group_list/").then(function (result) {
+            $http.get("/api/v1/users_api/get_group_list/").success(function (result) {
                 deferred.resolve(result);
-            }).fail(function (err) {
+            }).error(function (err) {
                 deferred.reject(err);
             });
             return deferred.promise;
         };
-        var _addGroups = function (groupname) {
-
+        var _addGroup = function (group) {
+            var deferred = $q.defer();
+            $http.put("/api/v1/users_api/add_group/",
+                group,
+                {
+                    headers: {
+                        'Content-type': 'application/json'
+                    }
+                })
+                .success(function (result) {
+                    deferred.resolve(result);
+                })
+                .error(function (err) {
+                    deferred.reject(err);
+                });
+            return deferred.promise;
         };
 
-        var _deleteGroups = function (groupname) {
-
+        var _deleteGroup = function (group) {
+            var deferred = $q.defer();
+            $http.delete("/api/v1/users_api/delete_group/",
+                {
+                    headers: {
+                        'Content-type': 'application/json'
+                    },
+                    data :group
+                })
+                .success(function (result) {
+                    deferred.resolve(result);
+                })
+                .error(function (err) {
+                    deferred.reject(err);
+                });
+            return deferred.promise;
         };
 
         return {
@@ -46,8 +102,8 @@
             addUser: _addUser,
             deleteUser: _deleteUser,
             getGroups: _getGroups,
-            addGroups: _addGroups,
-            deleteGroups: _deleteGroups
+            addGroup: _addGroup,
+            deleteGroup: _deleteGroup
         };
     };
 

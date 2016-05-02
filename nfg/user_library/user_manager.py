@@ -6,16 +6,16 @@ Created on 14/04/16
 import json
 import requests
 
-
+# class to handle the comunication with the UN-Orchestrator in order to manage users and groups
 class UserManager:
-    def __init__(self, protocol, host, port, base_path):
-        self.un_protocol = protocol
+    def __init__(self, host, port):
+        self.un_protocol = 'http'
         self.un_host = host
         self.un_port = port
-        self.base_path = base_path
+        self.base_path = ''
 
+    # get list of available user
     def get_users(self, token):
-        # todo: chiamata a servizio
         headers = {'Content-type': 'application/json', 'X-Auth-Token': token}
         response = requests.get(
             self.un_protocol + '://' + self.un_host + ':' + self.un_port + '/' + self.base_path + 'users',
@@ -25,58 +25,66 @@ class UserManager:
         else:  # todo: gestione errori comuni
             return {"status": response.status_code, "error": "Unknown Error"}
 
+    # add a new user to UN-orchestrator
     def add_user(self, username, password, group, token):
         # todo: chiamata a servizio
         data = {'group': group, 'password': password}
         data_json = json.dumps(data)
         headers = {'Content-type': 'application/json', 'X-Auth-Token': token}
-        response = requests.put(
+        response = requests.post(
             self.un_protocol + '://' + self.un_host + ':' + self.un_port + '/' + self.base_path + 'users/' + username,
             data=data_json,
             headers=headers)
-        return response
+        if response.status_code == 201:
+            return {"status": response.status_code}
+        else:  # todo: gestione errori comuni
+            return {"status": response.status_code, "error": "Unknown Error"}
 
+    # remove a user from UN-orchestrator
     def remove_user(self, username, token):
         headers = {'Content-type': 'application/json', 'X-Auth-Token': token}
         response = requests.delete(
             self.un_protocol + '://' + self.un_host + ':' + self.un_port + '/' + self.base_path + 'users/' + username,
             headers=headers)
-        return response
+        if response.status_code == 202:
+            return {"status": response.status_code}
+        else:  # todo: gestione errori comuni
+            return {"status": response.status_code, "error": "Unknown Error"}
 
+    # get list of available groups
     def get_groups(self, token):
-        # todo: chiamata a servizio
         headers = {'Content-type': 'application/json', 'X-Auth-Token': token}
         response = requests.get(
             self.un_protocol + '://' + self.un_host + ':' + self.un_port + '/' + self.base_path + 'groups',
             headers=headers)
         if response.status_code == 200:
-            return {"status": response.status_code, "users": json.loads(response.content)["groups"]}
-        else: # todo: gestione errori comuni
+            return {"status": response.status_code, "groups": json.loads(response.content)["groups"]}
+        else:  # todo: gestione errori comuni
             return {"status": response.status_code, "error": "Unknown Error"}
 
+    # add a new group to UN-orchestrator
     def add_group(self, groupname, token):
-        # todo: chiamata a servizio
-        data = {'name': groupname}
-        data_json = json.dumps(data)
         headers = {'Content-type': 'application/json', 'X-Auth-Token': token}
         response = requests.put(
-            self.un_protocol + '://' + self.un_host + ':' + self.un_port + '/' + self.base_path + 'groups',
-            data=data_json,
+            self.un_protocol + '://' + self.un_host + ':' + self.un_port + '/' + self.base_path + 'groups/' + groupname,
             headers=headers)
-        # TODO: levare mock
-        return True
+        if response.status_code == 201:
+            return {"status": response.status_code}
+        else:  # todo: gestione errori comuni
+            return {"status": response.status_code, "error": "Unknown Error"}
 
+    # remove a group from UN-orchestrator
     def remove_group(self, groupname, token):
-        data = {'name': groupname}
-        data_json = json.dumps(data)
         headers = {'Content-type': 'application/json', 'X-Auth-Token': token}
         response = requests.delete(
-            self.un_protocol + '://' + self.un_host + ':' + self.un_port + '/' + self.base_path + 'removeGroup',
-            data=data_json,
+            self.un_protocol + '://' + self.un_host + ':' + self.un_port + '/' + self.base_path + 'groups/' + groupname,
             headers=headers)
-        # TODO: levare mock
-        return True
+        if response.status_code == 202:
+            return {"status": response.status_code}
+        else:  # todo: gestione errori comuni
+            return {"status": response.status_code, "error": "Unknown Error"}
 
+    # currenly not implemented
     def add_user_to_group(self, username, groupname, token):
         data = {'groupname': groupname, 'username': username}
         data_json = json.dumps(data)

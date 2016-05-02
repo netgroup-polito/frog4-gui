@@ -2,9 +2,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta charset="UTF-8">
     <title>User Management</title>
+    <link rel="icon" href="{% static "img/favicon.ico"%}">
     <link rel="stylesheet" href="{% static "css/bootstrap.css" %}">
+    <link rel="stylesheet" href="{% static "css/dialogs.css" %}">
     <link rel="stylesheet" href="{% static "css/style.css" %}">
     <link rel="stylesheet" href="{% static "css/font-awesome.css" %}">
     <link rel="stylesheet" href="{% static "css/users/users.css" %}">
@@ -14,25 +17,33 @@
     <script type="text/javascript" src="{% static "js/libs/bootstrap/bootstrap.min.js" %}"></script>
     <script type="text/javascript" src="{% static "js/libs/bootstrap/bootstrap-filestyle.min.js" %}"></script>
 
+    <script type="text/javascript" src="{% static "js/extensionUtils.js" %}"></script>
+
     <script type="text/javascript" src="{% static "js/libs/angular/angular.js" %}"></script>
     <script type="text/javascript" src="{% static "js/libs/angular/angular-messages.js" %}"></script>
     <script type="text/javascript" src="{% static "js/libs/angular/angular-mocks.js" %}"></script>
     <script type="text/javascript" src="{% static "js/libs/angular/angular-route.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/libs/angular/angular-sanitize.js" %}"></script>
     <script type="text/javascript" src="{% static "js/libs/bootstrap/ui-bootstrap-tpls.min.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/libs/dialogs.js" %}"></script>
 
     <!-- Angular JS application -->
     <script type="text/javascript" src="{% static "js/application/app.js" %}"></script>
     <!-- Angular Service -->
     <script type="text/javascript" src="{% static "js/application/services/BackendCallService.js" %}"></script>
     <!-- Angular Controller -->
+    <script type="text/javascript" src="{% static "js/application/controllers/mainController.js" %}"></script>
     <script type="text/javascript" src="{% static "js/application/controllers/userListController.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/application/controllers/newUserController.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/application/controllers/groupListController.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/application/controllers/newGroupController.js" %}"></script>
     <!-- Angular Directive -->
     <!-- Angular Route ( view - controller description ) -->
     <script type="text/javascript" src="{% static "js/application/routeProvider.js" %}"></script>
     <!-- Angular Application Bootstrap -->
     <script type="text/javascript" src="{% static "js/application/appBootstrap.js" %}"></script>
 </head>
-<body>
+<body ng-controller="MainController as MainCtrl">
 <div id="top-nav" class="navbar navbar-inverse navbar-static-top">
     <div class="container-fluid">
         <div class="navbar-header">
@@ -45,22 +56,22 @@
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
-
                 <li class="dropdown">
-
-                    <a class="dropdown-toggle" role="button" data-toggle="dropdown" href="#">
+                    <a class="dropdown-toggle" role="button" data-toggle="dropdown">
                         <i class="glyphicon glyphicon-user"></i>
-                        Profile
+                        User & Group
                         <span class="caret"></span>
                     </a>
 
                     <ul id="g-account-menu" class="dropdown-menu" role="menu">
-                        <li><a href="#">Welcome {{ username }}</a></li>
+                        <li><a href="#/">User</a></li>
+                        <li><a href="#/groups">Group</a></li>
                     </ul>
                 </li>
                 <li>
                     <a href="/info"><i class="glyphicon glyphicon-info-sign"></i> Info</a>
                 <li>
+                <li><a>Welcome {{ username }}</a></li>
                 <li><a href="/logout/"><i class="glyphicon glyphicon-lock"></i> Logout</a></li>
             </ul>
         </div>

@@ -18,13 +18,13 @@
 #########################################################################
 
 import json
-import requests
-
+from django.http import HttpResponse
+from DBManager import DBManager
+from django.shortcuts import render
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
-
 import settings
 from DBManager import DBManager
 from authentication_manager import AuthenticationManager
@@ -32,19 +32,24 @@ from create_logger import MyLogger
 from nffg_library.nffg import NF_FG
 from nffg_library.validator import ValidateNF_FG
 from nfg.nffg_manager import NFFGManager
+from django.core import serializers
+import requests
 from user_library.user_manager import UserManager
+import settings
+import os
+from ConfigParser import SafeConfigParser
 
+# reading config
+parser = SafeConfigParser()
+parser.read(os.environ["FG-GUI_CONF"])
+
+logging.basicConfig(filename=parser.get('logging', 'filename'), format='%(asctime)s %(levelname)s:%(message)s',
+                    level=parser.get('logging', 'level'))
+auth = AuthenticationManager(parser.get('un_orchestrator', 'address'),
+                             parser.get('un_orchestrator', 'port'))
+userm = UserManager(parser.get('un_orchestrator', 'address'),
+                    parser.get('un_orchestrator', 'port'))
 dbm = DBManager("db.sqlite3")
-auth = AuthenticationManager(settings.authenticationManagerConfig['protocol'],
-                             settings.authenticationManagerConfig['host'],
-                             settings.authenticationManagerConfig['port'],
-                             settings.authenticationManagerConfig['basePath'])
-logger = MyLogger("filelog.log", "nffg-gui").get_my_logger()
-userm = UserManager(settings.userManagerConfig['protocol'],
-                    settings.userManagerConfig['host'],
-                    settings.userManagerConfig['port'],
-                    settings.userManagerConfig['basePath']
-                    )
 graphm = NFFGManager(settings.nffgManagerConfig['protocol'],
                      settings.nffgManagerConfig['host'],
                      settings.nffgManagerConfig['port'],
@@ -113,7 +118,7 @@ def login(request):
 
             return HttpResponseRedirect("/")
         else:
-            logger.info("%s : %s", str(result["status"]), result["error"])
+            logging.info("%s : %s", str(result["status"]), result["error"])
             if result["status"] == 403:
                 if "token" in request.session:
                     return HttpResponseRedirect("/")
@@ -126,15 +131,15 @@ def login(request):
 # ajax_template_request: It loads a vnf template specified through his id_template.
 #                        The template is in the template_json directory.
 def ajax_template_request(request, id_template):
-    print id_template
+    logging.debug(id_template)
     file_directory = "templates_json/" + id_template + ".json"
-    print file_directory
+    logging.debug(file_directory)
 
     with open(file_directory) as json_file:
         json_data = json.load(json_file)
         json_data = json.dumps(json_data)
 
-        print(json_data)
+        logging.debug(json_data)
 
     return HttpResponse("%s" % json_data)
 
@@ -143,13 +148,13 @@ def ajax_template_request(request, id_template):
 #                    This view allows you to load the json from database (using a DBManager class)
 #                    and it also performs validation.
 def ajax_data_request(request):
-    print "Entro in data_request"
+    logging.debug("Entro in data_request")
     msg = {}
 
     if "err_msg" in request.session:
         if request.session["err_msg"] != "":
             msg = request.session["err_msg"]
-            logger.debug(msg)
+            logging.debug(msg)
             return HttpResponse("%s" % msg)
 
     if "file_name_fg" not in request.session:
@@ -157,8 +162,8 @@ def ajax_data_request(request):
 
     json_data = {}
 
-    print "---->file_name:"
-    print request.session["file_name_fg"]
+    logging.debug("---->file_name:")
+    logging.debug(request.session["file_name_fg"])
     # couple_fg = dbm.getFGByName(request.session["username"], request.session["file_name_fg"])
 
 
@@ -174,7 +179,16 @@ def ajax_data_request(request):
     # couple_fg[0] ---> json forwarding graph
     # couple_fg[1] ---> json file position
 
+    if couple_fg is None:
+        msg["err"] = "File non trovato"
+        logging.debug(msg["err"])
+        msg = json.dumps(msg)
+        return HttpResponse("%s" % msg)
 
+    # print "dopo il db"
+    json_data['file_name_fg'] = request.session["file_name_fg"]
+    json_data['json_file_fg'] = json.loads(couple_fg[0].replace("\\", " "))
+    # print json_data['json_file_fg']
 
 
     # Json file position is present
@@ -200,7 +214,7 @@ def ajax_data_request(request):
     # except Exception as err:
     #     # If the validation failed return a error message
     #     msg["err"] = "Errore di validazione" + err.message
-    #     logger.debug(msg["err"])
+    #    logging.debug(msg["err"])
     #     msg = json.dumps(msg)
     #     return HttpResponse("%s" % msg)
 
@@ -216,22 +230,22 @@ def ajax_upload_request(request):
     fg = NF_FG()
     val = ValidateNF_FG()
     msg = {}
-    logger = MyLogger("filelog.log", "nffg-gui").get_my_logger()
+    # logger = MyLogger("filelog.log", "nffg-gui").get_my_logger()
 
     if request.method == 'POST':
 
         file_name_fg = request.POST["file_name_fg"]
         file_content_fg = request.POST["file_content_fg"]
 
-        print "filecontent: " + file_content_fg
-        print "filenamefg: " + file_name_fg
+        logging.debug("filecontent: " + file_content_fg)
+        logging.debug("filenamefg: " + file_name_fg)
 
         try:
             jsonFG = json.loads(file_content_fg)
         except Exception as err:
 
             msg["err"] = "Formato json non valido o file vuoto"
-            logger.debug(msg["err"])
+            logging.debug(msg["err"])
             msg = json.dumps(msg)
             return HttpResponse("%s" % msg)
 
@@ -240,29 +254,29 @@ def ajax_upload_request(request):
         except Exception as err:
 
             msg["err"] = "Errore di validazione" + err.message
-            logger.debug(msg["err"])
+            logging.debug(msg["err"])
             msg = json.dumps(msg)
             return HttpResponse("%s" % msg)
 
         file_name = file_name_fg.split(".")
         request.session["file_name_fg"] = "" + file_name[0]
 
-        print "file_name: " + file_name[0]
+        logging.debug("file_name: " + file_name[0])
 
         ris = dbm.getFGByName(request.session["username"], request.session["file_name_fg"])
 
         if ris is None:
-            print "file nuovo"
+            logging.debug("file nuovo")
             dbm.insertFGInUser(request.session["username"], request.session["file_name_fg"],
                                json.loads(file_content_fg), None)
         else:
-            print "file modificato"
+            logging.debug("file modificato")
             dbm.deleteFGByName(request.session["username"], request.session["file_name_fg"])
             dbm.insertFGInUser(request.session["username"], request.session["file_name_fg"],
                                json.loads(file_content_fg), None)
 
         msg["success"] = "Upload Riuscito"
-        logger.debug(msg["success"])
+        logging.debug(msg["success"])
         msg = json.dumps(msg)
         return HttpResponse("%s" % msg)
 
@@ -297,7 +311,7 @@ def ajax_save_request(request):
     val = ValidateNF_FG()
     msg = {}
 
-    logger = MyLogger("filelog.log", "nffg-gui").get_my_logger()
+    # logger = MyLogger("filelog.log", "nffg-gui").get_my_logger()
     if request.method == "POST":
 
         file_name_fg = request.POST["file_name_fg"]
@@ -319,11 +333,11 @@ def ajax_save_request(request):
         ris = dbm.getFGByName(request.session["username"], request.session["file_name_fg"])
 
         if ris == None:
-            print "file nuovo"
+            logging.debug("file nuovo")
             dbm.insertFGInUser(request.session["username"], request.session["file_name_fg"], file_content_fg,
                                file_content_pos)
         else:
-            print "file modificato"
+            logging.debug("file modificato")
             dbm.deleteFGByName(request.session["username"], request.session["file_name_fg"])
             dbm.insertFGInUser(request.session["username"], request.session["file_name_fg"], file_content_fg,
                                file_content_pos)
@@ -347,19 +361,19 @@ def ajax_save_request(request):
 def ajax_download_preview(request):
     msg = {}
     json_data = {}
-    logger = MyLogger("filelog.log", "nffg-gui").get_my_logger()
+    # logger = MyLogger("filelog.log", "nffg-gui").get_my_logger()
     if request.method == "POST":
 
         file_name_fg = request.POST["file_name_fg"]
         file_name = file_name_fg.split(".")
-        print file_name
+        logging.debug(file_name)
 
         couple_fg = dbm.getFGByName(request.session["username"], file_name[0])
 
         if couple_fg == None:
-            print "file non trovato"
+            logging.debug("file non trovato")
             msg["err"] = "File non trovato"
-            logger.debug(msg["err"])
+            logging.debug(msg["err"])
             msg = json.dumps(msg)
             return HttpResponse("%s" % msg)
 
@@ -368,7 +382,7 @@ def ajax_download_preview(request):
 
         json_data_string = json.dumps(json_data)
 
-        print json_data_string
+        logging.debug(json_data_string)
         jsonFG = json_data['json_file_fg']
 
         val = ValidateNF_FG()
@@ -377,7 +391,7 @@ def ajax_download_preview(request):
             val.validate(jsonFG)
         except Exception as err:
             msg["err"] = "Errore di validazione" + err.message
-            logger.debug(msg["err"])
+            logging.debug(msg["err"])
             msg = json.dumps(msg)
             return HttpResponse("%s" % msg)
 
@@ -390,22 +404,22 @@ def ajax_download_request(request):
     val = ValidateNF_FG()
     msg = {}
     json_data = {}
-    logger = MyLogger("filelog.log", "nffg-gui").get_my_logger()
+    # logger = MyLogger("filelog.log", "nffg-gui").get_my_logger()
 
     if request.method == "POST":
 
         file_name_fg = request.POST["file_name_fg"]
         file_name = file_name_fg.split(".")
-        print file_name
+        logging.debug(file_name)
 
-        print "ajax download request"
+        logging.debug("ajax download request")
 
         couple_fg = dbm.getFGByName(request.session["username"], file_name[0])
 
         if couple_fg == None:
-            print "file non trovato"
+            logging.debug("file non trovato")
             msg["err"] = "File non trovato"
-            logger.debug(msg["err"])
+            logging.debug(msg["err"])
             msg = json.dumps(msg)
             return HttpResponse("%s" % msg)
 
@@ -419,17 +433,17 @@ def ajax_download_request(request):
             val.validate(jsonFG)
         except Exception as err:
             msg["err"] = "Errore di validazione" + err.message
-            print err.message
-            logger.debug(msg["err"])
+            logging.debug(err.message)
+            logging.debug(msg["err"])
             msg = json.dumps(msg)
             return HttpResponse("%s" % msg)
 
         file_name = file_name_fg.split(".")
         request.session["file_name_fg"] = file_name[0]
 
-        print json_data
+        logging.debug(json_data)
         msg["success"] = "Download Riuscito"
-        logger.debug(msg["success"])
+        logging.debug(msg["success"])
         msg = json.dumps(msg)
         return HttpResponse("%s" % msg)
 
@@ -438,7 +452,7 @@ def ajax_download_request(request):
 @csrf_exempt
 def deploy(request):
     if request.method == "POST":
-        msg = {};
+        msg = {}
 
         try:
             '''
@@ -501,10 +515,76 @@ def api_get_user_list(request):
         return HttpResponse(status=501)
 
 
+def api_add_user(request):
+    if request.method == "POST":
+        if "token" in request.session:
+
+            new_user = json.loads(request.body)
+
+            result = userm.add_user(new_user["username"],
+                                    new_user["password"],
+                                    new_user["group"],
+                                    request.session["token"])
+            serialized_obj = json.dumps(result)
+            return HttpResponse("%s" % serialized_obj, status=result["status"])
+        else:
+            return HttpResponse(status=401)
+    else:
+        return HttpResponse(status=501)
+
+
+def api_delete_user(request):
+    if request.method == "DELETE":
+        if "token" in request.session:
+
+            user_to_remove = json.loads(request.body)
+
+            result = userm.remove_user(user_to_remove["username"],
+                                       request.session["token"])
+            serialized_obj = json.dumps(result)
+            return HttpResponse("%s" % serialized_obj, status=result["status"])
+        else:
+            return HttpResponse(status=401)
+    else:
+        return HttpResponse(status=501)
+
+
 def api_get_group_list(request):
     if request.method == "GET":
         if "token" in request.session:
             result = userm.get_groups(request.session["token"])
+            serialized_obj = json.dumps(result)
+            return HttpResponse("%s" % serialized_obj, status=result["status"])
+        else:
+            return HttpResponse(status=401)
+    else:
+        return HttpResponse(status=501)
+
+
+def api_add_group(request):
+    if request.method == "PUT":
+        if "token" in request.session:
+
+            new_group = json.loads(request.body)
+
+            result = userm.add_group(new_group["name"],
+                                     request.session["token"])
+            serialized_obj = json.dumps(result)
+            return HttpResponse("%s" % serialized_obj, status=result["status"])
+        else:
+            return HttpResponse(status=401)
+    else:
+        return HttpResponse(status=501)
+
+
+def api_delete_group(request):
+    if request.method == "DELETE":
+        if "token" in request.session:
+
+            group_to_remove = json.loads(request.body)
+
+            result = userm.remove_group(group_to_remove["name"],
+                                        request.session["token"])
             serialized_obj = json.dumps(result)
             return HttpResponse("%s" % serialized_obj, status=result["status"])
         else:

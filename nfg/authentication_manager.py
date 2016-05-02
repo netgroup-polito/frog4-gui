@@ -9,11 +9,11 @@ import json
 
 
 class AuthenticationManager:
-    def __init__(self, protocol, host, port, path):
-        self.un_protocol = protocol
+    def __init__(self, host, port):
+        self.un_protocol = 'http'
         self.un_host = host
         self.un_port = port
-        self.path = path
+        self.path = ''
 
     def login(self, username, password):
         # todo: chiamata a servizio

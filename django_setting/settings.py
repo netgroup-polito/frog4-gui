@@ -113,5 +113,4 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATICFILES_DIRS = (('static', os.path.join(BASE_DIR + '/nfg', 'static')), os.path.join(BASE_DIR + '/nfg', 'static'),
-                    )
+STATICFILES_DIRS = (('static', os.path.join(BASE_DIR + '/nfg', 'static')), os.path.join(BASE_DIR + '/nfg', 'static'))
