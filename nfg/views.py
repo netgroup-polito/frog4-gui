@@ -18,38 +18,21 @@
 #########################################################################
 
 import json
-import os
-
-
-from django.core.serializers.json import DjangoJSONEncoder
-
-from django.http import HttpResponse
-from DBManager import DBManager
-from django.shortcuts import render
-from django.http import HttpResponse
-from django.http import HttpResponseRedirect
-
-from django.contrib.auth import authenticate
-
-from nfg.models import Templates
-import json
-from django.core import serializers
-
-from django.views.decorators.csrf import csrf_exempt
-
-from nffg_library.nffg import NF_FG
-from nffg_library.validator import ValidateNF_FG
-from jsonschema import ValidationError
-from create_logger import MyLogger
-
-from django.contrib.auth.models import User
-from django.contrib.auth.models import Group
-from django.core import serializers
 import requests
 
-from authentication_manager import AuthenticationManager
-from user_library.user_manager import UserManager
+from django.http import HttpResponse
+from django.http import HttpResponseRedirect
+from django.shortcuts import render
+from django.views.decorators.csrf import csrf_exempt
+
 import settings
+from DBManager import DBManager
+from authentication_manager import AuthenticationManager
+from create_logger import MyLogger
+from nffg_library.nffg import NF_FG
+from nffg_library.validator import ValidateNF_FG
+from nfg.nffg_manager import NFFGManager
+from user_library.user_manager import UserManager
 
 dbm = DBManager("db.sqlite3")
 auth = AuthenticationManager(settings.authenticationManagerConfig['protocol'],
@@ -62,11 +45,16 @@ userm = UserManager(settings.userManagerConfig['protocol'],
                     settings.userManagerConfig['port'],
                     settings.userManagerConfig['basePath']
                     )
+graphm = NFFGManager(settings.nffgManagerConfig['protocol'],
+                     settings.nffgManagerConfig['host'],
+                     settings.nffgManagerConfig['port'],
+                     settings.nffgManagerConfig['basePath']
+                     )
 
 
 # index: It's a principal view, load gui if you are logged else redirect you at /login/.
 def index(request):
-    templates_list=Templates.objects.all()
+    # templates_list = Templates.objects.all()
     if "username" not in request.session:
         return HttpResponseRedirect("/login/")
     else:
@@ -165,52 +153,56 @@ def ajax_data_request(request):
             return HttpResponse("%s" % msg)
 
     if "file_name_fg" not in request.session:
-        request.session["file_name_fg"] = "default"
+        request.session["file_name_fg"] = "default1"
 
     json_data = {}
 
     print "---->file_name:"
     print request.session["file_name_fg"]
-    couple_fg = dbm.getFGByName(request.session["username"], request.session["file_name_fg"])
+    # couple_fg = dbm.getFGByName(request.session["username"], request.session["file_name_fg"])
+
+
+    couple_fg = graphm.get_user_graph(request.session["file_name_fg"], request.session["token"])
+
+    if couple_fg["status"] != 200:
+        res = json.dumps(couple_fg)
+        return HttpResponse("%s" % res, status=couple_fg["status"])
+
+    json_data['file_name_fg'] = request.session["file_name_fg"]
+    json_data['json_file_fg'] = {"forwarding-graph": couple_fg["forwarding-graph"]}
 
     # couple_fg[0] ---> json forwarding graph
     # couple_fg[1] ---> json file position
 
-    if couple_fg is None:
-        msg["err"] = "File non trovato"
-        logger.debug(msg["err"])
-        msg = json.dumps(msg)
-        return HttpResponse("%s" % msg)
 
-    # print "dopo il db"
-    json_data['file_name_fg'] = request.session["file_name_fg"]
-    json_data['json_file_fg'] = json.loads(couple_fg[0].replace("\\", " "))
-    # print json_data['json_file_fg']
 
-    if couple_fg[1] is None:
-        # Json file position is present
-        json_data['json_file_pos'] = {}
-        json_data['is_find_pos'] = 'false'
-    else:
-        # Json file position is not present
-        json_data['json_file_pos'] = json.loads(couple_fg[1].replace("\\", " "))
-        json_data['is_find_pos'] = 'true'
+
+    # Json file position is present
+    json_data['json_file_pos'] = {}
+    json_data['is_find_pos'] = 'false'
+
+    # Json file position is not present
+    # json_data['json_file_pos'] = json.loads(couple_fg[1].replace("\\", " "))
+    # json_data['is_find_pos'] = 'true'
 
     jsonFG = json_data['json_file_fg']
 
     json_data_string = json.dumps(json_data)
+    # TODO da rimuovere assolutamente
+    json_data_string = json_data_string.replace("output_to_port", "output")
+    json_data_string = json_data_string.replace("output_to_controller", "controller")
 
     # Create a validator with use NFFG library
     val = ValidateNF_FG()
 
-    try:
-        val.validate(jsonFG)
-    except Exception as err:
-        # If the validation failed return a error message
-        msg["err"] = "Errore di validazione" + err.message
-        logger.debug(msg["err"])
-        msg = json.dumps(msg)
-        return HttpResponse("%s" % msg)
+    # try:
+    #     #val.validate(jsonFG)
+    # except Exception as err:
+    #     # If the validation failed return a error message
+    #     msg["err"] = "Errore di validazione" + err.message
+    #     logger.debug(msg["err"])
+    #     msg = json.dumps(msg)
+    #     return HttpResponse("%s" % msg)
 
     # If the validation success return a string of json forwarding graph 
     return HttpResponse("%s" % json_data_string)
@@ -279,21 +271,15 @@ def ajax_upload_request(request):
 #                    This view return a list of json file memorize on database
 
 def view_templates_request(request):
-    
-    
-
-	with open('nfg/test.json') as data_file:
-              data = json.load(data_file)
-        return HttpResponse("%s" %json.dumps(data))
+    with open('nfg/test.json') as data_file:
+        data = json.load(data_file)
+    return HttpResponse("%s" % json.dumps(data))
 
 
 def view_match_request(request):
     with open('nfg/match.json') as data_file:
         data = json.load(data_file)
     return HttpResponse("%s" % json.dumps(data))
-    
-
-
 
 
 def ajax_files_request(request):
@@ -342,8 +328,17 @@ def ajax_save_request(request):
             dbm.insertFGInUser(request.session["username"], request.session["file_name_fg"], file_content_fg,
                                file_content_pos)
 
-        msg["success"] = "Salvataggio Riuscito"
-        msg = json.dumps(msg)
+        json_string = request.POST["file_content_fg"]
+        json_string = json_string.replace("output", "output_to_port")
+        json_string = json_string.replace("controller", "output_to_controller")
+
+        resp=graphm.add_user_graph(request.session["file_name_fg"], json.loads(json_string), request.session["token"])
+        if resp == 201:
+            msg["success"] = "Salvataggio Riuscito"
+            msg = json.dumps(msg)
+        else:
+            msg["err"] = "errore di salvataggio"
+            msg = json.dumps(msg)
 
         return HttpResponse("%s" % msg)
 
@@ -486,11 +481,6 @@ def deploy(request):
             return HttpResponse("%s" % msg)
 
 
-<<<<<<< Temporary merge branch 1
-
-
-
-
 # users : view to manage users, group and permission
 def users(request):
     if "username" not in request.session:
@@ -509,6 +499,8 @@ def api_get_user_list(request):
             return HttpResponse(status=401)
     else:
         return HttpResponse(status=501)
+
+
 def api_get_group_list(request):
     if request.method == "GET":
         if "token" in request.session:

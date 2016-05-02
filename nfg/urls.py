@@ -16,6 +16,8 @@ urlpatterns = [url(r'^$', views.index, name='index'),
                url(r'^deploy/$', views.deploy, name='deploy'),
                url(r'^users/$', views.users, name='users'),
                url(r'^api/v1/users_api/get_user_list/$', views.api_get_user_list, name='get_user_list'),
-               url(r'^api/v1/users_api/get_group_list/$', views.api_get_group_list, name='get_group_list')
+               url(r'^api/v1/users_api/get_group_list/$', views.api_get_group_list, name='get_group_list'),
+               url(r'^view_templates_request/$', views.view_templates_request, name='view_templates_request'),
+               url(r'^view_match_request/$', views.view_match_request, name='view_match_request')
 
                ]

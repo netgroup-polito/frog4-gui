@@ -16,3 +16,10 @@ userManagerConfig = dict(
     port="8888",
     basePath=""
 )
+
+nffgManagerConfig = dict(
+    protocol="http",
+    host="localhost",
+    port="8888",
+    basePath=""
+)
