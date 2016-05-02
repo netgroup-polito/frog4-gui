@@ -5,15 +5,15 @@ var svg_width = 960,
     svg_width_menu = 960,
     svg_width_menu_p = "100%",
     svg_height_menu = 100,
-    NF_width=150,
-    NF_height=60,
-    NF_offset_x=0,
-    NF_offset_y=0,
-    r_interface=8,
-    r_endpoint=22,
-    r_endpoint_draw=10,
-    BIG_SWITCH_width=200,
-    BIG_SWITCH_height=130;
+    NF_width = 150,
+    NF_height = 60,
+    NF_offset_x = 0,
+    NF_offset_y = 0,
+    r_interface = 8,
+    r_endpoint = 22,
+    r_endpoint_draw = 10,
+    BIG_SWITCH_width = 200,
+    BIG_SWITCH_height = 130;
 
 
 /*
@@ -28,13 +28,13 @@ var svg,
 var svg_menu;
 
 /* vettore NF */
-var NF_list=[];
+var NF_list = [];
 
-var EP_list=[];
+var EP_list = [];
 
 var big_switch;
-var flow_rules=[];
-var bs_links=[];
+var flow_rules = [];
+var bs_links = [];
 
 var drag_NF;
 var drag_EP;
@@ -53,15 +53,15 @@ var lastKeyDown = -1;
 
 var ele1_selected;
 var ele2_selected;
-var creating_link=false;
+var creating_link = false;
 /*
  * global variable that says if in the forwarding graph there is a split
  * if it is set to true -> need to view with big switch
  */
-var isSplitted=false;
-var BS_view=false;
-var isAlreadyPositioned=false;
-var isModified=false;
+var isSplitted = false;
+var BS_view = false;
+var isAlreadyPositioned = false;
+var isModified = false;
 
 
 var isReduced = false;
@@ -74,51 +74,52 @@ var num = 0;
 
 /* main */
 
-$(document).ready(function(){
+$(document).ready(function () {
 
     $("#draw_menu").hide();
     $("#file_content").hide();
     /* Richiesta Json */
-    $.ajax({ type: "GET",url: "/ajax_data_request",
-      success: function(data) {
-          console.log(data);
-          data = data.replace(/'/g,'"');
-          /* definisco oggetto fg */
-          var json_data=JSON.parse(data);
-          var json_data1=JSON.parse(data);
-           
-          fg = json_data["json_file_fg"];
-          original_fg = json_data1["json_file_fg"];
-          
-          if(fg == undefined){
-              console.log("clicca qui per disegnaro un nuovo grafo");
-          }else{
-            console.log(fg["forwarding-graph"]["id"]);
-            drawLabelIdFG();
-            if(json_data["is_find_pos"]==="true"){
-              /* file di posizionamento presente */
-              isAlreadyPositioned = true;
-              fg_pos = json_data["json_file_pos"];
-              console.log("file di posizionamento");
-              console.log(fg_pos);
-            }else{
-              /* file di posizionamento non presente */ 
-              isAlreadyPositioned = false;
-            }
+    $.ajax({
+        type: "GET", url: "/ajax_data_request",
+        success: function (data) {
+            console.log(data);
+            data = data.replace(/'/g, '"');
+            /* definisco oggetto fg */
+            var json_data = JSON.parse(data);
+            var json_data1 = JSON.parse(data);
 
-            DrawForwardingGraph(fg);
-              showBSView(false);
-          }
-          drawAnyItems();
-          file_name_fg = json_data["file_name_fg"];
-          $("#nameFile").val(file_name_fg);
-          console.log(file_name_fg);
-      }
+            fg = json_data["json_file_fg"];
+            original_fg = json_data1["json_file_fg"];
+
+            if (fg == undefined) {
+                console.log("clicca qui per disegnaro un nuovo grafo");
+            } else {
+                console.log(fg["forwarding-graph"]["id"]);
+                drawLabelIdFG();
+                if (json_data["is_find_pos"] === "true") {
+                    /* file di posizionamento presente */
+                    isAlreadyPositioned = true;
+                    fg_pos = json_data["json_file_pos"];
+                    console.log("file di posizionamento");
+                    console.log(fg_pos);
+                } else {
+                    /* file di posizionamento non presente */
+                    isAlreadyPositioned = false;
+                }
+
+                DrawForwardingGraph(fg);
+                showBSView(false);
+            }
+            drawAnyItems();
+            file_name_fg = json_data["file_name_fg"];
+            $("#nameFile").val(file_name_fg);
+            console.log(file_name_fg);
+        }
     });
 });
 
 
-function DrawForwardingGraph(fg){
+function DrawForwardingGraph(fg) {
     /*--->>>DA FARE<<<---
      *controllo degli oggetti se sono undefined occorre vedere lo schema per capire quale campo può non essere presente!
      */
@@ -127,35 +128,35 @@ function DrawForwardingGraph(fg){
     /*
      * svg now is divided in 3 sections
      */
-    bs_section=svg.append("g").attr("class","bs_section");
-    defs_section=svg.append("g").attr("class","defs_section");
-    VNF_section=svg.append("g").attr("class","VNF_section");
+    bs_section = svg.append("g").attr("class", "bs_section");
+    defs_section = svg.append("g").attr("class", "defs_section");
+    VNF_section = svg.append("g").attr("class", "VNF_section");
 
-    VNF_text_section = svg.append("g").attr("class","VNF_text_section");
-    
-    lines_section=svg.append("g").attr("class","lines_section");
-    interfaces_section=svg.append("g").attr("class","interfaces_section");
+    VNF_text_section = svg.append("g").attr("class", "VNF_text_section");
+
+    lines_section = svg.append("g").attr("class", "lines_section");
+    interfaces_section = svg.append("g").attr("class", "interfaces_section");
     /*
      * defined the main fields of the forwarding graph
      */
 
-    if(fg["forwarding-graph"]["VNFs"]=== undefined){
-      console.log("vettore dei vnf non presente nel fg ...");
-      console.log("lo definisco vuoto");
-      fg["forwarding-graph"]["VNFs"] = [];
+    if (fg["forwarding-graph"]["VNFs"] === undefined) {
+        console.log("vettore dei vnf non presente nel fg ...");
+        console.log("lo definisco vuoto");
+        fg["forwarding-graph"]["VNFs"] = [];
     }
 
-    if(fg["forwarding-graph"]["end-points"]=== undefined){
-      console.log("vettore degli end-points non presente nel fg ... ");
-      console.log("lo definisco vuoto");
-      fg["forwarding-graph"]["end-points"] = [];
+    if (fg["forwarding-graph"]["end-points"] === undefined) {
+        console.log("vettore degli end-points non presente nel fg ... ");
+        console.log("lo definisco vuoto");
+        fg["forwarding-graph"]["end-points"] = [];
     }
 
-    if(fg["forwarding-graph"]["big-switch"] === undefined){
-      console.log("oggetto big switch non presente nel fg ...");
-      console.log("lo definisco vuoto");
-      fg["forwarding-graph"]["big-switch"] = {};
-      fg["forwarding-graph"]["big-switch"]["flow_rules"] = [];
+    if (fg["forwarding-graph"]["big-switch"] === undefined) {
+        console.log("oggetto big switch non presente nel fg ...");
+        console.log("lo definisco vuoto");
+        fg["forwarding-graph"]["big-switch"] = {};
+        fg["forwarding-graph"]["big-switch"]["flow_rules"] = [];
     }
 
     NF_list = fg["forwarding-graph"]["VNFs"];
@@ -170,13 +171,13 @@ function DrawForwardingGraph(fg){
 
     //getVNFById("00000001");
     /*
-    in drag.js
+     in drag.js
      */
     drag_NF = dragNF();
     drag_EP = dragEP();
     drag_INTERFACE = dragINTERFACE();
     drag_INTERFACEBIGSWITCH = dragINTERFACEBIGSWITCH();
-    drag_BIGSWITCH=dragBIGSWITCH();
+    drag_BIGSWITCH = dragBIGSWITCH();
     //drag_TEXT = dragTEXT();
     /*
      * Defining of keyBindings
@@ -184,7 +185,7 @@ function DrawForwardingGraph(fg){
 
     setKeysWindowListener();
     /*
-    in defElements
+     in defElements
      */
     var NF = defNF();
     var NF_select = defNF_select();
@@ -194,11 +195,11 @@ function DrawForwardingGraph(fg){
     var IMG_PC_BLUE = defImgPcBlue();
     var IMG_INTERNET_RED = defImgInternetRed();
     var IMG_INTERNET_BLUE = defImgInternetBlue();
-    
+
     defArrow();
 
     /*
-    in drawElements.js
+     in drawElements.js
      */
 
     drawNF(NF_list);
@@ -206,8 +207,12 @@ function DrawForwardingGraph(fg){
     drawLINE(flow_rules);
     drawBSLinks(bs_links);
 
-    var interfaces=[];
-    NF_list.forEach(function(d){d.ports.forEach(function(e){interfaces.push(e)});});
+    var interfaces = [];
+    NF_list.forEach(function (d) {
+        d.ports.forEach(function (e) {
+            interfaces.push(e)
+        });
+    });
 
     drawVNF_interfaces(interfaces);
     drawEP(EP_list);

@@ -62,6 +62,15 @@ def index(request):
         return render(request, 'index.html', {'username': request.session['username']})
 
 
+# index: It's a principal view, load gui if you are logged else redirect you at /login/.
+def refactor(request):
+    # templates_list = Templates.objects.all()
+    if "username" not in request.session:
+        return HttpResponseRedirect("/login/")
+    else:
+        return render(request, 'refactor.html', {'username': request.session['username']})
+
+
 # info: It loads the info page if you are logged else redirect you at /login/.
 def info(request):
     if "username" not in request.session:
