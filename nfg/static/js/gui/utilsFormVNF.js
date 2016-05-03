@@ -96,18 +96,62 @@ function addFormPort(){
                     '</div>'+
                     '</div>';
 
-                $("#infoPort").append($html);            
+                $("#infoPort").append($html);
             }
+
+
+
+function fillInTemplate(templ) {
+    $("#idVNF").val(templ.id);//set a id
+    $("#nameVNF").val(templ.template.name);//set a nameVNF
+}
+
+function addVNFModalInfo() {
+
+
+
+    $('.selectMenu').empty();
+    var $html = '<select class="form-control" name="type" id="seltemplateVNF">';
+
+
+    for(var i=0;i<template_js.length;i++){
+        var obj = template_js[i].template;
+
+        for(var temp in obj)
+        console.log(obj[temp]);
+        if(i==0){
+            $html+='<option selected>'+obj.name+'</option>';
+            console.log(obj.name);
+            fillInTemplate(template_js[i]);
+        }
+        else
+        $html+='<option>'+obj.name+'</option>';
+        console.log(obj.name);
+
+    }
+     $html+='</select>';
+
+
+    $('.selectMenu').append($html);
+
+
+
+}
+
+
+
+
 
 function FuncSuccess(data){
 
-    data = data.replace(/'/g,'"');
+    console.log(data);
 
     template_js=JSON.parse(data);
     console.log(template_js);
     fillTemplateVNF(template_js);
     $('#infoPort').empty();
-    addFormPort();
+    //addFormPort();
+    addVNFModalInfo();
 
 }
 
