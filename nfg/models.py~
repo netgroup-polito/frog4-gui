@@ -1,0 +1,23 @@
+from __future__ import unicode_literals
+
+from django.db import models
+
+# Create your models here.
+
+class User(models.Model):
+	username = models.CharField(max_length=200)
+	password = models.CharField(max_length=200)
+
+	def get_username(self):
+		return self.username
+
+	def get_password(self):
+		return self.password
+
+
+
+class Templates(models.Model):
+	json_string =models.CharField(max_length=1000000)
+        name=models.CharField(max_length=200,default="")
+	def __str__(self):
+        	return self.choice_text
