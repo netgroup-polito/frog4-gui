@@ -2,6 +2,10 @@
     min-width: 100%;
 }
 
+.dialog-header-confirm {
+    background-color: #80A926;
+}
+
 .navbar-static-top {
     margin-bottom: 20px;
     padding-top: 5px;
@@ -335,6 +339,13 @@ html {
 
 .port-id {
     padding-top: 10px;
+}
+
+.message {
+  font-size: smaller;
+  padding-top: 5px;
+  padding-bottom: 10px;
+  color: #a94442;
 }
 
 

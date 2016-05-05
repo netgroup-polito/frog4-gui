@@ -14,9 +14,9 @@
         });
 
         ctrl.delete = function (user) {
-            var confirm = $dialogs.confirm('Please Confirm', 'Do you want to delete the user "' + user.username + '"');
+            var confirm = $dialogs.confirm('Please Confirm', 'Do you want to delete the user "' + user.username + '"?');
             confirm.result.then(function () {
-                BackendCallService.deleteGroup(user).then(function () {
+                BackendCallService.deleteUser(user).then(function () {
                     ctrl.users.splice(ctrl.users.indexOf(user), 1);
                 });
             });
@@ -34,7 +34,7 @@
             });
             addModal.result.then(
                 function (newUser) {
-                    ctrl.groups.push(newUser);
+                    ctrl.users.push(newUser);
                 }
             )
         };
