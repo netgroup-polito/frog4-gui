@@ -1,0 +1,1226 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+		<meta charset="utf-8">
+        
+		<title>NF-FG</title>
+        <!--link rel="icon" href="{% static "/img/logo_poli.ico" %}" /-->
+		<meta name="generator" content="Bootply" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+        <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+
+
+
+
+
+
+        <script src="https://d3js.org/d3.v3.min.js"></script>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
+
+		<!--[if lt IE 9]>
+			<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+		<![endif]-->
+        
+		<link href="{% static "nfg/css/style.css" %}" rel="stylesheet">
+        <link href="{% static "nfg/css/graphElement.css" %}" rel="stylesheet">
+
+        <script type="text/javascript" src="{% static "nfg/js/scripts.js" %}"></script>
+        <script type="text/javascript" src="{% static "nfg/js/main.js" %}"></script>
+        <script type="text/javascript" src="{% static "nfg/js/underscore-min.js" %}"></script>
+        <script type="text/javascript" src="{% static "nfg/js/lib/drag.js" %}"></script>
+        <script type="text/javascript" src="{% static "nfg/js/lib/drawElements.js" %}"></script>
+        <script type="text/javascript" src="{% static "nfg/js/lib/utils.js" %}"></script>
+        <script type="text/javascript" src="{% static "nfg/js/lib/defElements.js" %}"></script>
+        <script type="text/javascript" src="{% static "nfg/js/lib/drawMenuElements.js" %}"></script>
+        <script type="text/javascript" src="{% static "nfg/js/lib/fillElementInfo.js" %}"></script>
+        <script type="text/javascript" src="{% static "nfg/js/lib/utilsFormEP.js" %}"></script>
+        <script type="text/javascript" src="{% static "nfg/js/lib/utilsFormVNF.js" %}"></script>
+        <script type="text/javascript" src="{% static "nfg/js/lib/deleteElements.js" %}"></script>
+        <script type="text/javascript" src="{% static "nfg/js/lib/drawInfoElements.js" %}"></script>
+        <script type="text/javascript" src="{% static "nfg/js/lib/selectElements.js" %}"></script>
+        <script type="text/javascript" src="{% static "nfg/js/lib/editFormVNF.js" %}"></script>
+
+        <script type="text/javascript" src="{% static "nfg/js/lib/linkCreations.js" %}"></script>
+        <script type="text/javascript" src="{% static "nfg/js/lib/showView.js" %}"></script>
+        <script type="text/javascript" src="{% static "nfg/js/lib/keysBindings.js" %}"></script>
+
+        <script type="text/javascript" src="{% static "nfg/js/lib/utilsFormUpload.js" %}"></script>
+        <script type="text/javascript" src="{% static "nfg/js/lib/utilsFormDownload.js" %}"></script>
+        <script type="text/javascript" src="{% static "nfg/js/lib/utilsFormPreview.js" %}"></script>
+        <script type="text/javascript" src="{% static "nfg/js/lib/utilsFormFlowRule.js" %}"></script>
+        <script type="text/javascript" src="{% static "nfg/js/lib/utilsFormChangeIDFG.js" %}"></script>
+        <script type="text/javascript" src="{% static "nfg/js/lib/utilsDeploy.js" %}"></script>
+
+        <script type="text/javascript" src="{% static "nfg/js/lib/init.js" %}"></script>
+        <script type="text/javascript" src="{% static "nfg/js/lib/serializer.js" %}"></script>
+
+
+        <!-- librerie esterne -->
+
+        <script type="text/javascript" src="{% static "nfg/js/bootstrap-filestyle.min.js" %}"></script>
+
+	</head>
+	<body>
+
+
+<!-- header -->
+<div id="top-nav" class="navbar navbar-inverse navbar-static-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="../nfg/">Virtualized Network Services GUI</a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+
+                <li class="dropdown">
+                     
+                    <a class="dropdown-toggle" role="button" data-toggle="dropdown" href="#"><i class="glyphicon glyphicon-user"></i> Profile<span class="caret"></span></a>
+
+                    <ul id="g-account-menu" class="dropdown-menu" role="menu">
+                        <li><a href="#">Welcome {{ username }}</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="../nfg/info"><i class="glyphicon glyphicon-info-sign"></i> Info</a>
+                <li>
+                <li><a href="../nfg/logout/"><i class="glyphicon glyphicon-lock"></i> Logout</a></li>
+            </ul>
+        </div>
+    </div>
+    <!-- /container -->
+</div>
+<!-- /Header -->
+
+<!-- Main -->
+<div class="container-fluid">
+    <div class="row">
+
+        <div class="col-sm-3">
+            <!-- Left column -->
+            <br>
+
+            <div class="info"></div>
+
+
+            
+        </div>
+        <!-- /col-3 -->
+        <div class="col-sm-9">
+            <div class="row">
+                <div class="col-md-12" >
+
+                    <!-- The icons used in this menubar you can find at: http://fortawesome.github.io/Font-Awesome/icons/ -->
+
+                    <div id ="menubar">
+                            <div class="btn-group" role="group" aria-label="...">
+
+                                <!-- Empty Document -->
+                                <button type="button" class="menu btn btn-default btn-lg" onclick="newForwardingGraph();" title="New Document"> <span class="glyphicon glyphicon-file" aria-hidden="true"></span></button>
+
+                                <!-- Edit Button -->
+                                <button type="button" class="menu btn btn-default btn-lg" onclick="showMenuDraw();" title="Draw Menu"> <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button>
+
+
+                                <!-- Big Switch Button -->
+                                <button type="button" class="menu btn btn-default btn-lg" onclick="switchView()" title="Toggle Simple/Big Switch view" id="BSViewToogle"><i class="fa fa-square-o fa-lg"></i>
+                                </span></button>
+
+                                <!-- Save Button -->
+                                <button type="button" class="menu btn btn-default btn-lg" onclick="showSaveForm();" title="Save"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span></button>
+
+                                <!-- Open From Client Button -->
+                                <button type="button" class="menu btn btn-default btn-lg" onclick="showUploadFG();" title="Open from Client"><span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span></button>
+
+                                <!-- Open From Server Button -->
+                                <button type="button" class="menu btn btn-default btn-lg" onclick="showDownloadFG();" title="Open from Server"><i class="fa fa-server fa-lg"></i>
+                                </button>
+
+                                <!-- Preview Button -->
+                                <button type="button" class="menu btn btn-default btn-lg" onclick="showPreviewFG();" title="Preview"><i class="fa fa-code fa-lg"></i>
+                                </button>
+
+                                <!-- Deploy(Test) Button -->
+                                <button type="button" class="menu btn btn-default btn-lg" onclick="deploy();" title="Deploy(Test)"><i class="fa fa-paper-plane"></i>
+
+                                </button>
+
+                                <!-- New EP Button -->
+                                <button type="button" class="menu btn btn-success btn-lg drawButton" onclick="onClickDrawEP();" style="display:none" title="End-Point"><i class="fa fa-circle fa-lg"></i>
+                                </button>
+
+                                <!-- New VNF Button -->
+                                <button type="button" class="menu btn btn-lg btn-success drawButton" onclick="onClickDrawVNF();" style="display:none" title="Virtual Network Function"><i class="fa fa-square fa-lg"></i>
+                                </button>
+
+                                <!-- Create Link Button -->
+                                <button type="button" class="menu btn btn-lg btn-success drawButton" onclick="onClickDrawLink();" style="display:none" title="Create Link" id="newLinkButton"><i class="fa fa-arrows-h fa-lg"></i>
+                                </button>
+
+                                <!-- Info Button --> 
+                                <button type="button" class="menu btn btn-default btn-lg" onclick="drawAnyItems();" title="Help"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span></button>
+
+
+                            </div>
+                    </div>
+                    <div id="draw_menu">
+
+
+                    </div>
+                    
+                </div>
+                <div class="col-md-12" >
+                    <div id="my_canvas">
+                        
+                        <p id="fg_id" onclick="showModelChangeIDFG();"></p>
+                        
+                        <!--<div class="col-sm-6">
+                            <img src="{% static "nfg/img/frog2.jpg" %}" />
+                        </div>
+                        <div class="col-sm-6">
+                            <br><br><br><br><br><br>
+                            <h3><b>Clicca qui per iniziare a creare un nuovo grafo.</b></h3>
+                        </div>-->
+                    </div>
+                </div>
+
+            </div>
+            
+        </div>
+        <!--/col-span-9-->
+    </div>
+
+</div>
+
+
+
+
+<!-- Modal Form FlowRules -->
+
+<div class="modal" id="ModalFlowRules">
+    <div class="modal-dialog modal-lg" >
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" onclick="setKeysWindowListener()" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="titleFlowRules">FlowRule properties</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form" action="#" id="formDownload" method="post" enctype="multipart/form-data" accept-charset="utf-8" name="">
+
+                <div class="form-group">
+                        <label class="control-label col-sm-2" for="type" >Type:</label>
+                        <div class="col-sm-10">
+
+                            <select class="form-control" name="type" id="selLink">
+                                <option selected>unidirectional link</option>
+                                <option>bidirectional link</option>
+                                
+                            </select>
+                        </div>
+                    </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="idDescription">Description (Direct):</label>    
+                    <div class="col-sm-10">
+                        <input type="text" name="idEP" class="form-control " id="idDescription" placeholder="" value="">
+                    </div>          
+                </div>
+
+                <div class="form-group duplicate">
+                    <label class="control-label col-sm-2" for="idDescription">Description (Reverse):</label>    
+                    <div class="col-sm-10">
+                        <input type="text" name="idEP" class="form-control " id="idDescription2" placeholder="" value="">
+                    </div>          
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="idFlowRule">ID FlowRule (Direct):</label>    
+                    <div class="col-sm-10">
+                        <input type="text" name="idEP" class="form-control " id="idFlowRule" placeholder="" disabled value="">
+                    </div>          
+                </div>
+
+                <div class="form-group duplicate">
+                    <label class="control-label col-sm-2 ">ID FlowRule (Reverse):</label>  
+                    <div class="col-sm-10">
+                        <input type="text" name="idEP" class="form-control " id="idFlowRule2" placeholder="" disabled value="">
+                    </div>          
+                </div>
+
+                <div class="form-group ">
+                    <label class="control-label col-sm-2 complexFRFields" for="idPriority">Priority (Direct):</label>
+                    <div class="col-sm-10">
+                        <input type="text" name="idEP" class="form-control " id="idPriority" placeholder="" value="">
+                    </div>          
+                </div>
+
+                <div class="form-group duplicate">
+                    <label class="control-label col-sm-2" for="idPriority">Priority (Reverse):</label> 
+                    <div class="col-sm-10">
+                        <input type="text" name="idEP" class="form-control " id="idPriority2" placeholder="" value="">
+                    </div>          
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2 complexFRFields" for="match"><a onclick="showMatch()">Match <i class="glyphicon glyphicon-chevron-right" id="icon-match"></i></a></label>
+                    <div class="col-sm-10">
+                        
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="idPortIn">Port In (Direct):</label>    
+                    <div class="col-sm-10">
+                        <input type="text" name="idEP" class="form-control " id="idPortIn" placeholder="" disabled value="">
+                    </div>          
+                </div>
+
+                <div class="form-group duplicate">
+                    <label class="control-label col-sm-2" for="idPortIn">Port In (Reverse):</label>    
+                    <div class="col-sm-10">
+                        <input type="text" name="idEP" class="form-control " id="idPortIn2" placeholder="" disabled value="">
+                    </div>          
+                </div>
+
+            <div class="match">
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="idHardTimeout">Hard Timeout (Direct):</label>    
+                    <div class="col-sm-10">
+                        <input type="text" name="idEP" class="form-control " id="idHardTimeout" placeholder="" value="">
+                    </div>          
+                </div>
+
+                <div class="form-group duplicate">
+                    <label class="control-label col-sm-2" for="idHardTimeout">Hard Timeout (Reverse):</label>    
+                    <div class="col-sm-10">
+                        <input type="text" name="idEP" class="form-control " id="idHardTimeout2" placeholder="" value="">
+                    </div>          
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="idEtherType">Ether Type (Direct):</label>    
+                    <div class="col-sm-10">
+                        <input type="text" name="idEP" class="form-control " id="idEtherType" placeholder="" value="">
+                    </div>          
+                </div>
+
+                <div class="form-group duplicate">
+                    <label class="control-label col-sm-2" for="idEtherType">Ether Type (Reverse):</label>    
+                    <div class="col-sm-10">
+                        <input type="text" name="idEP" class="form-control " id="idEtherType2" placeholder="" value="">
+                    </div>          
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="idVlanID">Vlan ID (Direct):</label>    
+                    <div class="col-sm-10">
+                        <input type="text" name="idEP" class="form-control " id="idVlanID" placeholder="" value="">
+                    </div>          
+                </div>
+
+                <div class="form-group duplicate">
+                    <label class="control-label col-sm-2" for="idVlanID">Vlan ID (Reverse):</label>    
+                    <div class="col-sm-10">
+                        <input type="text" name="idEP" class="form-control " id="idVlanID2" placeholder="" value="">
+                    </div>          
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="idVlanPriority">Vlan Priority (Direct):</label>    
+                    <div class="col-sm-10">
+                        <input type="text" name="idEP" class="form-control " id="idVlanPriority" placeholder="" value="">
+                    </div>          
+                </div>
+
+                <div class="form-group duplicate">
+                    <label class="control-label col-sm-2" for="idVlanPriority">Vlan Priority (Reverse):</label>    
+                    <div class="col-sm-10">
+                        <input type="text" name="idEP" class="form-control " id="idVlanPriority2" placeholder="" value="">
+                    </div>          
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="idSourceMac">Source Mac (Direct):</label>    
+                    <div class="col-sm-10">
+                        <input type="text" name="idEP" class="form-control " id="idSourceMac" placeholder="00:00:00:00:00:00" value="">
+                    </div>          
+                </div>
+
+                <div class="form-group duplicate">
+                    <label class="control-label col-sm-2" for="idSourceMac">Source Mac (Reverse):</label>    
+                    <div class="col-sm-10">
+                        <input type="text" name="idEP" class="form-control " id="idSourceMac2" placeholder="00:00:00:00:00:00" value="">
+                    </div>          
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="idDestinationMac">Destination Mac (Direct):</label>    
+                    <div class="col-sm-10">
+                        <input type="text" name="idEP" class="form-control " id="idDestinationMac" placeholder="00:00:00:00:00:00" value="">
+                    </div>          
+                </div>
+
+                <div class="form-group duplicate">
+                    <label class="control-label col-sm-2" for="idDestinationMac">Destination Mac (Reverse):</label>    
+                    <div class="col-sm-10">
+                        <input type="text" name="idEP" class="form-control " id="idDestinationMac2" placeholder="00:00:00:00:00:00" value="">
+                    </div>          
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="idSourceIP">Source IP (Direct):</label>    
+                    <div class="col-sm-10">
+                        <input type="text" name="idEP" class="form-control " id="idSourceIP" placeholder="0.0.0.0" value="">
+                    </div>          
+                </div>
+
+                <div class="form-group duplicate">
+                    <label class="control-label col-sm-2" for="idSourceIP">Source IP (Reverse):</label>    
+                    <div class="col-sm-10">
+                        <input type="text" name="idEP" class="form-control " id="idSourceIP2" placeholder="0.0.0.0" value="">
+                    </div>          
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="idDestinationIP">Destination Ip (Direct):</label>    
+                    <div class="col-sm-10">
+                        <input type="text" name="idEP" class="form-control " id="idDestinationIP" placeholder="0.0.0.0" value="">
+                    </div>          
+                </div>
+
+                <div class="form-group duplicate">
+                    <label class="control-label col-sm-2" for="idDestinationIP">Destination Ip (Reverse):</label>    
+                    <div class="col-sm-10">
+                        <input type="text" name="idEP" class="form-control " id="idDestinationIP2" placeholder="0.0.0.0" value="">
+                    </div>          
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="idTosBits">Tos bits (Direct):</label>    
+                    <div class="col-sm-10">
+                        <input type="text" name="idEP" class="form-control " id="idTosBits" placeholder="" value="">
+                    </div>          
+                </div>
+
+                <div class="form-group duplicate">
+                    <label class="control-label col-sm-2" for="idTosBits">Tos bits (Reverse):</label>    
+                    <div class="col-sm-10">
+                        <input type="text" name="idEP" class="form-control " id="idTosBits2" placeholder="" value="">
+                    </div>          
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="idSourcePort">Source Port (Direct):</label>    
+                    <div class="col-sm-10">
+                        <input type="text" name="idEP" class="form-control " id="idSourcePort" placeholder="" value="">
+                    </div>          
+                </div>
+
+                <div class="form-group duplicate">
+                    <label class="control-label col-sm-2" for="idSourcePort">Source Port (Reverse):</label>    
+                    <div class="col-sm-10">
+                        <input type="text" name="idEP" class="form-control " id="idSourcePort2" placeholder="" value="">
+                    </div>          
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="idDestinationPort">Destination Port (Direct):</label>    
+                    <div class="col-sm-10">
+                        <input type="text" name="idEP" class="form-control " id="idDestinationPort" placeholder="" value="">
+                    </div>          
+                </div>
+
+                <div class="form-group duplicate">
+                    <label class="control-label col-sm-2" for="idDestinationPort">Destination Port (Reverse):</label>    
+                    <div class="col-sm-10">
+                        <input type="text" name="idEP" class="form-control " id="idDestinationPort2" placeholder="" value="">
+                    </div>          
+                </div>
+
+                <div class="form-group ">
+                    <label class="control-label col-sm-2" for="idProtocol">Protocol (Direct):</label>    
+                    <div class="col-sm-10">
+                        <input type="text" name="idEP" class="form-control " id="idProtocol" placeholder="" value="">
+                    </div>          
+                </div>
+
+                <div class="form-group duplicate">
+                    <label class="control-label col-sm-2" for="idProtocol">Protocol (Reverse):</label>    
+                    <div class="col-sm-10">
+                        <input type="text" name="idEP" class="form-control " id="idProtocol2" placeholder="" value="">
+                    </div>          
+                </div>
+            </div>
+                
+            
+
+
+                <div class="form-group" >
+                    <label class="control-label col-sm-2  complexFRFields" for="action" ><a onclick="showAction()">Action <i class="glyphicon glyphicon-chevron-right" id="icon-action"></i></a></label>
+                    <div class="col-sm-10">
+
+                    </div>
+                </div>
+
+            
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="idOutput">Output (Direct):</label>    
+                    <div class="col-sm-10">
+                        <input type="text" name="idEP" class="form-control " id="idOutput" placeholder="" disabled value="">
+                    </div>          
+                </div>
+
+                <div class="form-group duplicate">
+                    <label class="control-label col-sm-2" for="idOutput2">Output (Reverse):</label>    
+                    <div class="col-sm-10">
+                        <input type="text" name="idEP" class="form-control " id="idOutput2" placeholder="" disabled value="">
+                    </div>          
+                </div>
+            <div class="action">
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="idSetVlanId">Set Vlan Id (Direct):</label>    
+                    <div class="col-sm-10">
+                        <input type="text" name="idEP" class="form-control " id="idSetVlanId" placeholder="" value="">
+                    </div>          
+                </div>
+
+                <div class="form-group duplicate">
+                    <label class="control-label col-sm-2" for="idSetVlanId">Set Vlan Id (Reverse):</label>    
+                    <div class="col-sm-10">
+                        <input type="text" name="idEP" class="form-control " id="idSetVlanId2" placeholder="" value="">
+                    </div>          
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="idSetVlanPriorityId">Set VlanPriority ID (Direct):</label>    
+                    <div class="col-sm-10">
+                        <input type="text" name="idEP" class="form-control " id="idSetVlanPriorityId" placeholder="" value="">
+                    </div>          
+                </div>
+
+                <div class="form-group duplicate">
+                    <label class="control-label col-sm-2" for="idSetVlanPriorityId">Set VlanPriority ID (Reverse):</label>    
+                    <div class="col-sm-10">
+                        <input type="text" name="idEP" class="form-control " id="idSetVlanPriorityId2" placeholder="" value="">
+                    </div>          
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="idPopVlan">Pop Vlan (Direct):</label>    
+                    <div class="col-sm-10">
+                        <input type="text" name="idEP" class="form-control " id="idPopVlan" placeholder="" value="">
+                    </div>          
+                </div>
+
+                <div class="form-group duplicate">
+                    <label class="control-label col-sm-2" for="idPopVlan">Pop Vlan (Reverse):</label>    
+                    <div class="col-sm-10">
+                        <input type="text" name="idEP" class="form-control " id="idPopVlan2" placeholder="" value="">
+                    </div>          
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="idSetEthernetSrcAddresss">Set Ethernet Src Address (Direct):</label>    
+                    <div class="col-sm-10">
+                        <input type="text" name="idEP" class="form-control " id="idSetEthernetSrcAddress" placeholder="" value="">
+                    </div>          
+                </div>
+
+                <div class="form-group duplicate">
+                    <label class="control-label col-sm-2" for="idSetEthernetSrcAddresss">Set Ethernet Src Address (Reverse):</label>    
+                    <div class="col-sm-10">
+                        <input type="text" name="idEP" class="form-control " id="idSetEthernetSrcAddress2" placeholder="" value="">
+                    </div>          
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="idSetEthernetDstAddress">Set Ethernet Dst Address (Direct):</label>    
+                    <div class="col-sm-10">
+                        <input type="text" name="idEP" class="form-control " id="idSetEthernetDstAddress" placeholder="" value="">
+                    </div>          
+                </div>
+
+                <div class="form-group duplicate">
+                    <label class="control-label col-sm-2" for="idSetEthernetDstAddress">Set Ethernet Dst Address (Reverse):</label>    
+                    <div class="col-sm-10">
+                        <input type="text" name="idEP" class="form-control " id="idSetEthernetDstAddress2" placeholder="" value="">
+                    </div>          
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="idSetIpSrcAddresss">Set IP Src Address (Direct):</label>    
+                    <div class="col-sm-10">
+                        <input type="text" name="idEP" class="form-control " id="idSetIpSrcAddress" placeholder="" value="">
+                    </div>          
+                </div>
+
+                <div class="form-group duplicate">
+                    <label class="control-label col-sm-2" for="idSetIpSrcAddresss">Set IP Src Address (Reverse):</label>    
+                    <div class="col-sm-10">
+                        <input type="text" name="idEP" class="form-control " id="idSetIpSrcAddress2" placeholder="" value="">
+                    </div>          
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="idSetIpDstAddress">Set IP Dst Address (Direct):</label>    
+                    <div class="col-sm-10">
+                        <input type="text" name="idEP" class="form-control " id="idSetIpDstAddress" placeholder="" value="">
+                    </div>          
+                </div>
+
+                <div class="form-group duplicate">
+                    <label class="control-label col-sm-2" for="idSetIpDstAddress">Set IP Dst Address (Reverse):</label>    
+                    <div class="col-sm-10">
+                        <input type="text" name="idEP" class="form-control " id="idSetIpDstAddress2" placeholder="" value="">
+                    </div>          
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="idSetIpTos">Set IP TOS (Direct):</label>    
+                    <div class="col-sm-10">
+                        <input type="text" name="idEP" class="form-control " id="idSetIpTos" placeholder="" value="">
+                    </div>          
+                </div>
+
+                <div class="form-group duplicate">
+                    <label class="control-label col-sm-2" for="idSetIpTos">Set IP TOS (Reverse):</label>    
+                    <div class="col-sm-10">
+                        <input type="text" name="idEP" class="form-control " id="idSetIpTos2" placeholder="" value="">
+                    </div>          
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="idSetL4SrcPort">Set L4 Src Port (Direct):</label>    
+                    <div class="col-sm-10">
+                        <input type="text" name="idEP" class="form-control " id="idSetL4SrcPort" placeholder="" value="">
+                    </div>          
+                </div>
+
+                <div class="form-group duplicate">
+                    <label class="control-label col-sm-2" for="idSetL4SrcPort">Set L4 Src Port (Reverse):</label>    
+                    <div class="col-sm-10">
+                        <input type="text" name="idEP" class="form-control " id="idSetL4SrcPort2" placeholder="" value="">
+                    </div>          
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="idSetL4DstPort">Set L4 Dest Port (Direct):</label>    
+                    <div class="col-sm-10">
+                        <input type="text" name="idEP" class="form-control " id="idSetL4DstPort" placeholder="" value="">
+                    </div>          
+                </div>
+
+                <div class="form-group duplicate">
+                    <label class="control-label col-sm-2" for="idSetL4DstPort">Set L4 Dest Port (Reverse):</label>    
+                    <div class="col-sm-10">
+                        <input type="text" name="idEP" class="form-control " id="idSetL4DstPort2" placeholder="" value="">
+                    </div>          
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="idOutputToQueue">Output to queue (Direct):</label>    
+                    <div class="col-sm-10">
+                        <input type="text" name="idEP" class="form-control " id="idOutputToQueue" placeholder="" value="">
+                    </div>          
+                </div>
+
+                <div class="form-group duplicate">
+                    <label class="control-label col-sm-2" for="idOutputToQueue">Output to queue (Reverse):</label>    
+                    <div class="col-sm-10">
+                        <input type="text" name="idEP" class="form-control " id="idOutputToQueue2" placeholder="" value="">
+                    </div>          
+                </div>
+
+            </div>
+            </form>
+
+
+               
+            </div>
+
+            <div class="modal-footer">
+                <a href="#" id="saveRule" onclick="DrawNewLink()" class="btn btn-primary" >Add Rule</a>
+            </div>
+            
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dalog -->
+</div>
+
+<!-- Modal Warning View -->
+
+<div class="modal" id="ModalWarning">
+    <div class="modal-dialog modal-lg" >
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="titleWarning2"><span class="glyphicon glyphicon-alert"></span> Warning </h4>
+            </div>
+            <div class="modal-body">
+                <p><!--b>Warning:</b> <span id="MSGContent"-->This graph can only be shown in the Big Switch view because at least a splitting exists in the flowrules.</span></p>
+            </div>
+
+            <div class="modal-footer">
+                <a href="#" data-dismiss="modal" class="btn btn-primary" >OK</a>
+            </div>
+            
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dalog -->
+</div>
+
+<!-- Modal Error View -->
+
+<div class="modal" id="ModalMsgServer">
+    <div class="modal-dialog modal-lg" >
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="titleWarning"></h4>
+            </div>
+            <div class="modal-body">
+                <p id="msg"></p>
+            </div>
+
+            <div class="modal-footer">
+                <a href="#" data-dismiss="modal" onclick="reloadPage();"class="btn btn-primary" >OK</a>
+            </div>
+            
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dalog -->
+</div>
+
+<!-- Modal Previw -->
+
+<div class="modal" id="PreviewFG">
+    <div class="modal-dialog modal-lg" >
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="titleJson">Preview Json </h4>
+            </div>
+            <form class="form-horizontal" role="form" action="#" id="formUpload" method="post" enctype="multipart/form-data" accept-charset="utf-8" name="formUpload">
+                <div class="modal-body">
+                    <!--<div id="file_content_preview">
+                        <p>par</p>
+                    </div>-->
+                    <textarea id="file_content_preview" class="form-control" rows="18" id="comment"></textarea>
+                </div>
+                
+                <div class="modal-footer">
+                    <!--<a href="#" id="Upload" onclick="copyOnClipboard();"  class="btn btn-primary" >Save</a>-->
+                    
+                </div>
+            </form>
+            
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dalog -->
+</div>
+
+
+<!-- Modal Upload -->
+
+<div class="modal" id="UploadFG">
+    <div class="modal-dialog modal-lg" >
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="titleJson">Open Json from the client</h4>
+            </div>
+            <form class="form-horizontal" role="form" action="#" id="formUpload" method="post" enctype="multipart/form-data" accept-charset="utf-8" name="formUpload">
+                <div class="modal-body">
+                    <div id="file_content_upload">
+
+                    </div>
+                    <input id="inputFile" type="file" name="myfile" class="filestyle" data-buttonName="btn-primary">  
+                </div>
+                
+                <div class="modal-footer">
+                    <a href="#" id="Preview" onclick="PreviewFileUpload();"  class="btn btn-primary" >Preview</a>
+                    <a href="#" id="Upload" onclick="UploadFile();"  class="btn btn-primary" data-dismiss="modal" >Open</a>
+                    
+                </div>
+            </form>
+            
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dalog -->
+</div>
+
+<!-- Modal for saving-->
+
+<div class="modal" id="SaveFG">
+    <div class="modal-dialog modal-lg" >
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="setKeysWindowListener()">×</button>
+                <h4 class="modal-title" id="saveTitle">Save on the Server </h4>
+            </div>
+            <form class="form-horizontal" role="form" action="#" id="formSave" method="post" enctype="multipart/form-data" accept-charset="utf-8" name="formUpload">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="nameFile">Name file</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="idEP" class="form-control " id="nameFile" placeholder="" value="">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <a href="#" id="EraseWithoutSaving" onclick="eraseAll();"  class="btn btn-primary" >Erase without saving</a>
+                    <a href="#" id="Save" onclick="saveFile();"  class="btn btn-primary">Save</a>
+
+                </div>
+            </form>
+
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dalog -->
+</div>
+
+
+<!-- Modal for Chancing FgId -->
+
+<div class="modal" id="ChangeFGID">
+    <div class="modal-dialog modal-lg" >
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="setKeysWindowListener()">×</button>
+                <h4 class="modal-title">Change graph summary</h4>
+            </div>
+            <form class="form-horizontal" role="form" action="#" id="formSave" method="post" enctype="multipart/form-data" accept-charset="utf-8" name="formUpload">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="nameFile">ID:</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="idEP" class="form-control " id="newIDFG" placeholder="" value="">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="nameFile">Name:</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="idEP" class="form-control " id="nameFG" placeholder="" value="">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="nameFile">Description:</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="idEP" class="form-control " id="descriptionFG" placeholder="" value="">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <a href="#" id="Change" onclick="changeIDFG();"  class="btn btn-primary">Save</a>
+                    <!--a href="#" id="newID" onclick="ajaxLastIdRequest();"  class="btn btn-primary">New ID</a-->
+
+                </div>
+            </form>
+
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dalog -->
+</div>
+
+<!-- Model Download -->
+
+<div class="modal" id="DownloadFG">
+    <div class="modal-dialog modal-lg" >
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="titleJson">Open Json from the server</h4>
+            </div>
+            <form class="form-horizontal" role="form" action="#" id="formDownload" method="post" enctype="multipart/form-data" accept-charset="utf-8" name="formUpload">
+                <div class="modal-body">
+                    <div id="file_content_download">
+                        
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="type" >Select File:</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" name="type" id="selfileDownload">
+                            </select>
+                        </div>
+                    </div>
+
+                </div>
+                
+                <div class="modal-footer">
+                    <a href="#" id="Preview" onclick="PreviewFileDownload();"  class="btn btn-primary" >Preview</a>
+                    <a href="#" id="Upload" onclick="DownloadFile();"  class="btn btn-primary" >Open</a>
+                    
+                </div>
+            </form>
+            
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dalog -->
+</div>
+
+
+<!-- Model FormEP -->
+
+<div class="modal" id="FormEP">
+    <div class="modal-dialog modal-lg" >
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="setKeysWindowListener()" >×</button>
+                <h4 class="modal-title">Info End Point</h4>
+            </div>
+            
+            <div class="modal-body">
+                <form class="form-horizontal" role="form" id="formEndPoint">
+                    
+
+                    <div class="form-group ">
+                        <label class="control-label col-sm-2" for="name">Name EP:</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="nameEP" class="form-control " id="nameEP" placeholder="">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="type" >Icon:</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" name="type" id="selIconEP">
+                                <option selected>default</option>
+                                <option>host</option>
+                                <option>internet</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="idEndPoint">ID EndPoint</label>    
+                        <div class="col-sm-10">
+                            <input type="text" name="idEP" class="form-control " id="idEndPoint" placeholder="" disabled value="">
+                        </div>          
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="type" >Type:</label>
+                        <div class="col-sm-10">
+
+                            <select class="form-control" name="type" id="seltypeEP">
+                                <option selected>internal</option>
+                                <option>interface</option>
+                                <option>interface-out</option>
+                                <option>gre-tunnel</option>
+                                <option>vlan</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="name">Remote EP id:</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="remoteEPid" id="remoteEPid" placeholder="">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="title" id="titleInterface">title</label>     
+                        <div class="col-sm-10">
+                        </div>          
+                    </div>
+
+                    <!--Interface-->
+
+                    <!--<hr>-->
+
+                    <div id="boxInterface">
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="node">Node:</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="node" id="node" placeholder="">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="switch">Switch ID:</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="switch" id="switch" placeholder="">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="interface">Interface:</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="interface" id="interface" placeholder="">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Gre -->
+
+                    <div id="boxGre">
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="localIP">Local IP:</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="localIP" id="localIP" placeholder="">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="remoteIP">Remote IP:</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="remoteIP" id="remoteIP" placeholder="">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="interface">Interface:</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="gre:interface" id="greInterface" placeholder="">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="ttl">TTL:</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="ttl" id="ttl" placeholder="">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- VLAN -->
+
+                    <div id="boxVlan">
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="vlanID">Vlan ID:</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="vlanID" id="vlanID" placeholder="">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="switchId">Switch ID:</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="vlanSwitch" id="vlanSwitch" placeholder="">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="interface">Interface:</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="vlanInterface" id="vlanInterface" placeholder="">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="node">Node:</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="vlanNode" id="vlanNode" placeholder="">
+                            </div>
+                        </div>
+
+
+                    </div>
+                    
+                </form>
+            </div>
+            <div class="modal-footer">
+                <!--<a href="#" data-dismiss="modal" class="btn">Close</a>-->
+
+                <!--data-dismiss="modal"-->
+                <a href="#" id="saveEP" onclick="drawNewEP()"  class="btn btn-primary" >Add EndPoint</a>
+            </div>
+            
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dalog -->
+</div>
+  
+<!-- Model Form VNF -->
+
+<div class="modal" id="FormNF">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="setKeysWindowListener()" >×</button>
+                <h4 class="modal-title">Network Function properties</h4>
+            </div>
+            <form class="form-horizontal" role="form" id="formVNF">
+                <div class="modal-body">
+                    <div class="form-group ">
+                        <label class="control-label col-sm-2" for="name">Name VNF:</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="nameVNF" class="form-control " id="nameVNF" placeholder="">
+                        </div>
+                    </div>
+                    <div class="form-group" >
+                        <label class="control-label col-sm-2" for="idVNF">ID VNF:</label>    
+                        <div class="col-sm-10">
+                            <input type="text" name="idVNF" class="form-control " id="idVNF" placeholder="" disabled>
+                        </div>          
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="vnf-template" >VNF Template:</label>
+                        <div class="col-sm-10">
+
+                            <select class="form-control" name="type" id="seltemplateVNF">
+                                <option selected>Firewall</option>      <!--firewall.json-->
+                                <option>Firewall-web</option>           <!--firewall-web.json-->
+                                <option>Ftp</option>                    <!--ftp.json-->
+                                <option>Nat</option>                    <!--nat.json-->
+                                <option>Dhcp</option>                   <!--dhcp.json-->
+                                <option>Switch</option>                 <!--switch.json-->
+                                <option>Iptraf</option>                 <!--iptraf.json-->
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                            <label class="control-label col-sm-2" for="title" id="titleInfo"><a onclick="showInfoVNF()">VNF Info:</a></label>
+                            <div class="col-sm-10">
+                            </div>          
+                    </div>
+
+                    <div id="infoTemplate">
+
+                        <div class="form-group" >
+                            <label class="control-label col-sm-2" for="expandable">Expandable:</label>    
+                            <div class="col-sm-10">
+                                <input type="text" name="idVNF" class="form-control " id="idExpandable" placeholder="" disabled>
+                            </div>
+                        </div> 
+
+                        <div class="form-group" >
+                            <label class="control-label col-sm-2" for="uri">Uri:</label>    
+                            <div class="col-sm-10">
+                                <input type="text" name="idVNF" class="form-control " id="idUri" placeholder="" disabled>
+                            </div>
+                        </div>
+
+                        <div class="form-group" >
+                            <label class="control-label col-sm-2" for="type">VNF-Type:</label>    
+                            <div class="col-sm-10">
+                                <input type="text" name="idVNF" class="form-control " id="idType" placeholder="" disabled>
+                            </div>
+                        </div>  
+
+                        <div class="form-group" >
+                            <label class="control-label col-sm-2" for="memory">Memory-Size:</label>    
+                            <div class="col-sm-10">
+                                <input type="text" name="idVNF" class="form-control " id="idMemorySize" placeholder="" disabled>
+                            </div>
+                        </div>
+                        <div class="form-group" >
+                            <label class="control-label col-sm-2" for="root">FileSystemSize:</label>    
+                            <div class="col-sm-10">
+                                <input type="text" name="idVNF" class="form-control " id="idRootFileSystemSize" placeholder="" disabled>
+                            </div>
+                        </div> 
+                        <div class="form-group" >
+                            <label class="control-label col-sm-2" for="swap">SwapDiskSize:</label>    
+                            <div class="col-sm-10">
+                                <input type="text" name="idVNF" class="form-control " id="idSwapDiskSize" placeholder="" disabled>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div id="infoPort">
+
+
+                        
+
+                    </div>
+                </div>
+            
+            </form>
+                
+            
+
+            <div class="modal-footer">
+                    <a href="#" id="saveVNF" onclick="drawNewNF();" class="btn btn-primary">Add VNF</a>
+            </div>
+
+        </div>
+        <!-- /.modal-content -->
+        
+    
+    </div>
+    <!-- /.modal-dalog -->
+</div>
+
+<!-- /.modal -->
+	<!-- script references -->
+        		
+
+        <script>		
+            function showMenuDraw(){
+         
+                if($('.drawButton').is(':visible')) {
+                    $(".drawButton").hide();
+                }else{
+                    $(".drawButton").show();
+                }
+
+            }
+            function showPannelBody(){
+                $('.pannel-body').show();
+            }
+
+            function showInfoVNF(){
+                $("#infoTemplate").slideToggle("slow");
+            }
+
+            drawFormEP();
+            drawFormVNF();
+            
+            function showBoxPort(id){
+                $('#box'+id).slideToggle("slow");
+            }
+
+            hideMatch();
+            hideAction();
+
+            selOptionLink();
+
+        </script>
+
+
+	
+<div class="big_switch_modal">
+			
+</div>
+
+
+
+	</body>
+
+</html>
+        
+
+
+
+
