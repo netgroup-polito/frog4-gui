@@ -14,7 +14,7 @@
         });
 
         ctrl.delete = function (group) {
-            var confirm = $dialogs.confirm('Please Confirm', 'Do you want to delete the group "' + group.name + '"');
+            var confirm = $dialogs.confirm('Please Confirm', 'Do you want to delete the group "' + group.name + '"?');
             confirm.result.then(function () {
                 BackendCallService.deleteGroup(group).then(function () {
                     ctrl.groups.splice(ctrl.groups.indexOf(group), 1);

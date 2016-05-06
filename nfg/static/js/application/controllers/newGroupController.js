@@ -6,17 +6,19 @@
     var NewGroupController = function ($uibModalInstance, BackendCallService) {
         var ctrl = this;
 
-        this.create = function () {
-            BackendCallService.addGroup(ctrl.newGroup).then(
-                function (result) {
-                    $uibModalInstance.close(ctrl.newGroup);
-                },
-                function (error) {
-                    if (error && error.error)
-                        alert(JSON.stringify(error.error));
-                    else
-                        alert("An Unexpected Error Occured");
-                });
+        this.create = function (form) {
+            if (form.$valid) {
+                BackendCallService.addGroup(ctrl.newGroup).then(
+                    function (result) {
+                        $uibModalInstance.close(ctrl.newGroup);
+                    },
+                    function (error) {
+                        if (error && error.error)
+                            alert(JSON.stringify(error.error));
+                        else
+                            alert("An Unexpected Error Occured");
+                    });
+            }
 
         };
         this.cancel = function () {
