@@ -11,18 +11,20 @@
             ctrl.availableGroups = result.groups;
         });
 
-        this.create = function () {
-            BackendCallService.addUser(ctrl.newUser).then(
-                function () {
-                    $uibModalInstance.close({username: ctrl.newUser.username, group: ctrl.newUser.group});
-                },
-                function (error) {
-                    if (error && error.error)
-                        alert(JSON.stringify(error.error));
-                    else
-                        alert("An Unexpected Error Occured");
-                }
-            );
+        this.create = function (form) {
+            if(form.$valid) {
+                BackendCallService.addUser(ctrl.newUser).then(
+                    function () {
+                        $uibModalInstance.close({username: ctrl.newUser.username, group: ctrl.newUser.group});
+                    },
+                    function (error) {
+                        if (error && error.error)
+                            alert(JSON.stringify(error.error));
+                        else
+                            alert("An Unexpected Error Occured");
+                    }
+                );
+            }
         };
         this.cancel = function () {
             $uibModalInstance.dismiss('cancel');
