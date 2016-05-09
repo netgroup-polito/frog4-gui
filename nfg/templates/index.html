@@ -670,16 +670,8 @@
                     <div class="form-group">
                         <label class="control-label col-sm-2" for="vnf-template">VNF Template:</label>
                         <div class="col-sm-10">
+                            <div id="selectMenu"></div>
 
-                            <select class="form-control" name="type" id="seltemplateVNF">
-                                <option selected>Firewall</option>      <!--firewall.json-->
-                                <option>Firewall-web</option>           <!--firewall-web.json-->
-                                <option>Ftp</option>                    <!--ftp.json-->
-                                <option>Nat</option>                    <!--nat.json-->
-                                <option>Dhcp</option>                   <!--dhcp.json-->
-                                <option>Switch</option>                 <!--switch.json-->
-                                <option>Iptraf</option>                 <!--iptraf.json-->
-                            </select>
                         </div>
                     </div>
 
@@ -692,51 +684,6 @@
 
                     <div id="infoTemplate">
 
-                        <div class="form-group">
-                            <label class="control-label col-sm-2" for="expandable">Expandable:</label>
-                            <div class="col-sm-10">
-                                <input type="text" name="idVNF" class="form-control " id="idExpandable" placeholder=""
-                                       disabled>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="control-label col-sm-2" for="uri">Uri:</label>
-                            <div class="col-sm-10">
-                                <input type="text" name="idVNF" class="form-control " id="idUri" placeholder=""
-                                       disabled>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="control-label col-sm-2" for="type">VNF-Type:</label>
-                            <div class="col-sm-10">
-                                <input type="text" name="idVNF" class="form-control " id="idType" placeholder=""
-                                       disabled>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="control-label col-sm-2" for="memory">Memory-Size:</label>
-                            <div class="col-sm-10">
-                                <input type="text" name="idVNF" class="form-control " id="idMemorySize" placeholder=""
-                                       disabled>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-sm-2" for="root">FileSystemSize:</label>
-                            <div class="col-sm-10">
-                                <input type="text" name="idVNF" class="form-control " id="idRootFileSystemSize"
-                                       placeholder="" disabled>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-sm-2" for="swap">SwapDiskSize:</label>
-                            <div class="col-sm-10">
-                                <input type="text" name="idVNF" class="form-control " id="idSwapDiskSize" placeholder=""
-                                       disabled>
-                            </div>
-                        </div>
 
                     </div>
 
@@ -779,12 +726,9 @@
         $('.pannel-body').show();
     }
 
-    function showInfoVNF() {
-        $("#infoTemplate").slideToggle("slow");
-    }
+
 
     drawFormEP();
-    drawFormVNF();
 
     function showBoxPort(id) {
         $('#box' + id).slideToggle("slow");

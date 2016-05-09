@@ -166,8 +166,10 @@ function onClickDrawVNF(){
     $('#seltemplateVNF').removeAttr('disabled');
 
     /* Default Firewall Template */
-    $.ajax({ type: "GET",url: "/ajax_template_request/firewall/",
-        success: function(data) {FuncSuccess(data);} });
+    $.ajax({ type: "GET",url: "/ajax_template_request/all/",
+        success: function(data) {
+            console.log(data);
+            FuncSuccess(data);} });
 
 }
 

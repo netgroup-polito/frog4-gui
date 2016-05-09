@@ -15,8 +15,12 @@ class NFFGManager:
             self.un_protocol + '://' + self.un_host + ':' + self.un_port + '/' + self.base_path + 'NF-FG/' + graphId,
             headers=headers)
         if response.status_code == 200:
-            return {"status": response.status_code,
-                    "forwarding-graph": json.loads(response.content)["forwarding-graph"]}
+            if graphId!="":
+                return {"status": response.status_code,
+                        "forwarding-graph": json.loads(response.content)["forwarding-graph"]}
+            else:
+                 return {"status": response.status_code,
+                    "forwarding-graph": json.loads(response.content)["NF-FG"]}
         else:  # todo: gestione errori comuni
             return {"status": response.status_code, "error": "Unknown Error"}
 

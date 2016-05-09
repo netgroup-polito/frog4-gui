@@ -34,6 +34,7 @@ from nffg_library.nffg import NF_FG
 from nffg_library.validator import ValidateNF_FG
 from authentication_manager import AuthenticationManager
 from nfg.nffg_manager import NFFGManager
+from nfg.template_manager import TemplateManager
 from user_library.user_manager import UserManager
 
 # reading config
@@ -49,6 +50,11 @@ userm = UserManager(parser.get('un_orchestrator', 'address'),
 dbm = DBManager("db.sqlite3")
 graphm = NFFGManager(parser.get('un_orchestrator', 'address'),
                      parser.get('un_orchestrator', 'port'))
+
+
+
+templatem=TemplateManager(parser.get('vnf-template', 'address'),
+                     parser.get('vnf-template', 'port'))
 
 
 # index: It's a principal view, load gui if you are logged else redirect you at /login/.
@@ -136,17 +142,13 @@ def login(request):
 # ajax_template_request: It loads a vnf template specified through his id_template.
 #                        The template is in the template_json directory.
 def ajax_template_request(request, id_template):
-    logging.debug(id_template)
-    file_directory = "templates_json/" + id_template + ".json"
-    logging.debug(file_directory)
+    data=templatem.get_template(id_template)
+    if data["status"] == 200:
+        res = json.dumps(data["template"])
+        return HttpResponse("%s" % res)
+    else:
+        return HttpResponse("%s" % json.dumps(data["status"] ))
 
-    with open(file_directory) as json_file:
-        json_data = json.load(json_file)
-        json_data = json.dumps(json_data)
-
-        logging.debug(json_data)
-
-    return HttpResponse("%s" % json_data)
 
 
 # ajax_data_request: It a heart of application. 
@@ -304,8 +306,13 @@ def view_match_request(request):
 def ajax_files_request(request):
     if request.method == "GET":
         lista_file = []
-        lista_file = dbm.getUserFG(request.session["username"])
-        json_data_string = json.dumps(lista_file)
+        lista_file = graphm.get_user_graph("", request.session["token"])
+
+        if lista_file["status"] != 200:
+            res = json.dumps(lista_file)
+            return HttpResponse("%s" % res, status=lista_file["status"])
+
+        json_data_string = json.dumps(lista_file["forwarding-graph"])
 
     return HttpResponse("%s" % json_data_string)
 
@@ -322,18 +329,23 @@ def ajax_save_request(request):
         file_name_fg = request.POST["file_name_fg"]
         file_name_pos = request.POST["file_name_pos"]
 
-        file_content_fg = json.loads(request.POST["file_content_fg"])
+        json_string = request.POST["file_content_fg"]
+        json_string = json_string.replace("output", "output_to_port")
+        json_string = json_string.replace("controller", "output_to_controller")
+
+
+        file_content_fg = json.loads(json_string)
         file_content_pos = json.loads(request.POST["file_content_pos"])
 
         file_name = file_name_fg.split(".")
         request.session["file_name_fg"] = file_name[0]
 
-        try:
-            val.validate(file_content_fg)
-        except Exception as err:
-            msg["err"] = "Errore di validazione" + err.message
-            msg = json.dumps(msg)
-            return HttpResponse("%s" % msg)
+        #try:
+           # val.validate(file_content_fg)
+        #except Exception as err:
+            #msg["err"] = "Errore di validazione" + err.message
+           # msg = json.dumps(msg)
+           # return HttpResponse("%s" % msg)
 
         ris = dbm.getFGByName(request.session["username"], request.session["file_name_fg"])
 
@@ -352,7 +364,7 @@ def ajax_save_request(request):
         json_string = json_string.replace("controller", "output_to_controller")
 
         resp = graphm.add_user_graph(request.session["file_name_fg"], json.loads(json_string), request.session["token"])
-        if resp == 201:
+        if resp["status"] == 201:
             msg["success"] = "Salvataggio Riuscito"
             msg = json.dumps(msg)
         else:
@@ -419,29 +431,7 @@ def ajax_download_request(request):
 
         logging.debug("ajax download request")
 
-        couple_fg = dbm.getFGByName(request.session["username"], file_name[0])
 
-        if couple_fg == None:
-            logging.debug("file non trovato")
-            msg["err"] = "File non trovato"
-            logging.debug(msg["err"])
-            msg = json.dumps(msg)
-            return HttpResponse("%s" % msg)
-
-        json_data['file_name_fg'] = file_name[0]
-        json_data['json_file_fg'] = json.loads(couple_fg[0].replace("\\", " "))
-
-        json_data_string = json.dumps(json_data)
-        jsonFG = json_data['json_file_fg']
-
-        try:
-            val.validate(jsonFG)
-        except Exception as err:
-            msg["err"] = "Errore di validazione" + err.message
-            logging.debug(err.message)
-            logging.debug(msg["err"])
-            msg = json.dumps(msg)
-            return HttpResponse("%s" % msg)
 
         file_name = file_name_fg.split(".")
         request.session["file_name_fg"] = file_name[0]
