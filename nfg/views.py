@@ -297,8 +297,13 @@ def view_match_request(request):
 def ajax_files_request(request):
     if request.method == "GET":
         lista_file = []
-        lista_file = dbm.getUserFG(request.session["username"])
-        json_data_string = json.dumps(lista_file)
+        lista_file = graphm.get_user_graph("", request.session["token"])
+
+        if lista_file["status"] != 200:
+            res = json.dumps(lista_file)
+            return HttpResponse("%s" % res, status=lista_file["status"])
+
+        json_data_string = json.dumps(lista_file["forwarding-graph"])
 
     return HttpResponse("%s" % json_data_string)
 
@@ -417,29 +422,7 @@ def ajax_download_request(request):
 
         logging.debug("ajax download request")
 
-        couple_fg = dbm.getFGByName(request.session["username"], file_name[0])
 
-        if couple_fg == None:
-            logging.debug("file non trovato")
-            msg["err"] = "File non trovato"
-            logging.debug(msg["err"])
-            msg = json.dumps(msg)
-            return HttpResponse("%s" % msg)
-
-        json_data['file_name_fg'] = file_name[0]
-        json_data['json_file_fg'] = json.loads(couple_fg[0].replace("\\", " "))
-
-        json_data_string = json.dumps(json_data)
-        jsonFG = json_data['json_file_fg']
-
-        try:
-            val.validate(jsonFG)
-        except Exception as err:
-            msg["err"] = "Errore di validazione" + err.message
-            logging.debug(err.message)
-            logging.debug(msg["err"])
-            msg = json.dumps(msg)
-            return HttpResponse("%s" % msg)
 
         file_name = file_name_fg.split(".")
         request.session["file_name_fg"] = file_name[0]

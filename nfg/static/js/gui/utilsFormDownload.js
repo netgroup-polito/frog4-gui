@@ -29,6 +29,7 @@ function ajaxFilesRequest(){
         url: 'ajax_files_request/', 
         type: 'GET'                    
     }).done(function(data){
+        t=data;
         console.log(data);
         drawFormDownload(data);
     });
@@ -36,38 +37,29 @@ function ajaxFilesRequest(){
 
 function drawFormDownload(data){
     file_list = JSON.parse(data);
+
     $("#selfileDownload").empty();
     for(var i=0;i<file_list.length;i++){
-        $("#selfileDownload").append("<option>"+file_list[i]+"</option>");
+        $("#selfileDownload").append("<option>"+file_list[i]["forwarding-graph"].id+"</option>" );
     }
 }
 
-function PreviewFileDownload(){                
+function PreviewFileDownload(data){
     
     var file;
     var stringa;
     var file_name = $("#selfileDownload").val();
     console.log(file_name);
 
-    $.ajax({
-        url: 'ajax_download_preview/', 
-        type: 'POST',
-        data: { "file_name_fg":file_name} // file inputs.
+    for(var i=0;i<file_list.length;i++)
+        if(file_list[i]["forwarding-graph"].id==file_name)
+            stringa=JSON.stringify(file_list[i]["forwarding-graph"])
 
-    }).done(function(e){
-                                
-        console.log("Success: Files sent!");
-        console.log(e);
-        stringa = e;
         
         $('#file_content_download').show();
         $('#file_content_download').empty();
         $('#file_content_download').append(stringa);
-            
-    }).fail(function(){
-                
-        console.log("An error occurred, the files couldn't be sent!");
-    });      
+
 }
 
 function DownloadFile(){
@@ -79,12 +71,12 @@ function DownloadFile(){
     console.log(file_name);
 
     $.ajax({
-        url: 'ajax_download_request/', 
+        url: 'ajax_download_request/',
         type: 'POST',
         data: { "file_name_fg":file_name} // file inputs.
 
     }).done(function(e){
-                                
+
         console.log("Success: Files sent!");
         console.log(e);
         e=JSON.parse(e);
@@ -97,6 +89,6 @@ function DownloadFile(){
     }).fail(function(){
                 
         console.log("An error occurred, the files couldn't be sent!");
-    });      
+    });
 
 }
