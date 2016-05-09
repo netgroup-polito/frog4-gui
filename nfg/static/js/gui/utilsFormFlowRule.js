@@ -142,34 +142,35 @@ function fillFlowRule(flow_rule){
 
     $("#idFlowRule").val(flow_rule.id);
 
-    $("#idHardTimeout").val(flow_rule.match.hard_timeout);
-    $("#idEtherType").val(flow_rule.match.ether_type);
-    $("#idVlanID").val(flow_rule.match.vlan_id);
-    $("#idVlanPriority").val(flow_rule.match.vlan_priority);
-    $("#idSourceMac").val(flow_rule.match.source_mac);
-    $("#idDestinationMac").val(flow_rule.match.dest_mac);
-    $("#idSourceIP").val(flow_rule.match.source_ip);
-    $("#idDestinationIP").val(flow_rule.match.dest_ip);
-    $("#idTosBits").val(flow_rule.match.tos_bits);
-    $("#idSourcePort").val(flow_rule.match.vlan_id);
-    $("#idDestinationPort").val(flow_rule.match.dest_port);
-    $("#idProtocol").val(flow_rule.match.protocol);
+    $("#idhard_timeout").val(flow_rule.match.hard_timeout);
+    $("#idether_type").val(flow_rule.match.ether_type);
+    $("#idvlan_id").val(flow_rule.match.vlan_id);
+    $("#idvlan_priority").val(flow_rule.match.vlan_priority);
+    $("#idsource_mac").val(flow_rule.match.source_mac);
+    $("#iddest_mac").val(flow_rule.match.dest_mac);
+    $("#idsource_ip").val(flow_rule.match.source_ip);
+    $("#iddest_ip").val(flow_rule.match.dest_ip);
+    $("#idtos_bits").val(flow_rule.match.tos_bits);
+    $("#idvlan_id").val(flow_rule.match.vlan_id);
+    $("#iddest_port").val(flow_rule.match.dest_port);
+    $("#idprotocol").val(flow_rule.match.protocol);
 
-    $("#idPortIn").val(flow_rule.match.port_in);
+    $("#idport_in").val(flow_rule.match.port_in);
     
-    $("#idSetVlanId").val(flow_rule.actions[0].set_vlan_id);
+    $("#set_vlan_id").val(flow_rule.actions[0].set_vlan_id);
+    //TODO aggiustare set_vlan_priority-id
     $("#idSetVlanPriorityId").val(flow_rule.actions[0]["set_vlan_priority-id"]);
-    $("#idPopVlan").val(flow_rule.actions[0].pop_vlan);
-    $("#idSetEthernetSrcAddress").val(flow_rule.actions[0].set_ethernet_src_address);
-    $("#idSetEthernetDstAddress").val(flow_rule.actions[0].set_ethernet_dst_address);
-    $("#idSetIpSrcAddress").val(flow_rule.actions[0].set_ip_src_address);
-    $("#idSetIpDstAddress").val(flow_rule.actions[0].set_ip_dst_address);
-    $("#idSetIpTos").val(flow_rule.actions[0].set_ip_tos);
-    $("#idSetL4SrcPort").val(flow_rule.actions[0].set_l4_src_port);
-    $("#idSetL4DstPort").val(flow_rule.actions[0].set_l4_dst_port);
-    $("#idOutputToQueue").val(flow_rule.actions[0].output_to_queue);
+    $("#idpop_vlan").val(flow_rule.actions[0].pop_vlan);
+    $("#idset_ethernet_src_address").val(flow_rule.actions[0].set_ethernet_src_address);
+    $("#idset_ethernet_dst_address").val(flow_rule.actions[0].set_ethernet_dst_address);
+    $("#idset_ip_src_address").val(flow_rule.actions[0].set_ip_src_address);
+    $("#idset_ip_dst_address").val(flow_rule.actions[0].set_ip_dst_address);
+    $("#idset_ip_tos").val(flow_rule.actions[0].set_ip_tos);
+    $("#idset_l4_src_port").val(flow_rule.actions[0].set_l4_src_port);
+    $("#idset_l4_dst_port").val(flow_rule.actions[0].set_l4_dst_port);
+    $("#idoutput_to_queue").val(flow_rule.actions[0].output_to_queue);
 
-    $("#idOutput").val(flow_rule.actions[0].output);
+    $("#idoutput").val(flow_rule.actions[0].output);
 
 
 }
@@ -227,34 +228,34 @@ function editLink(id_flow){
     
 
 
-    match["hard_timeout"] = $("#idHardTimeout").val();
-    match["ether_type"] = $("#idEtherType").val();
-    match["vlan_id"] = $("#idVlanID").val();
-    match["vlan_priority"] = $("#idVlanPriority").val();
-    match["source_mac"] = $("#idSourceMac").val();
-    match["dest_mac"] = $("#idDestinationMac").val();
-    match["source_ip"] = $("#idSourceIP").val();
-    match["dest_ip"] = $("#idDestinationIP").val();
-    match["tos_bits"] = $("#idTosBits").val();
-    match["source_port"] = $("#idSourcePort").val();
-    match["dest_port"] = $("#idDestinationPort").val();
-    match["protocol"] = $("#idProtocol").val();
+    match["hard_timeout"] = $("#idhard_timeout").val();
+    match["ether_type"] = $("#idether_type").val();
+    match["vlan_id"] = $("#idvlan_id").val();
+    match["vlan_priority"] = $("#idvlan_priority").val();
+    match["source_mac"] = $("#idsource_mac").val();
+    match["dest_mac"] = $("#iddest_mac").val();
+    match["source_ip"] = $("#idsource_ip").val();
+    match["dest_ip"] = $("#iddest_ip").val();
+    match["tos_bits"] = $("#idtos_bits").val();
+    match["source_port"] = $("#idsource_port").val();
+    match["dest_port"] = $("#iddest_port").val();
+    match["protocol"] = $("#idprotocol").val();
     match["port_in"] = flow_rule.match["port_in"];
     
     flow_rule["match"] = match;
     
     action["output"] = flow_rule.actions[0]["output"];
-    action["set_vlan_id"] = $("#idSetVlanId").val();
-    action["set_vlan_priority-id"] = $("#idSetVlanPriorityId").val();
-    action["pop_vlan"] = $("#idPopVlan").val();
-    action["set_ethernet_src_address"] = $("#idSetEthernetSrcAddress").val();
-    action["set_ethernet_dst_address"] = $("#idSetEthernetDstAddress").val();
-    action["set_ip_src_address"] = $("#idSetIpSrcAddress").val();
-    action["set_ip_dst_address"] = $("#idSetIpDstAddress").val();
-    action["set_ip_tos"] = $("#idSetIpTos").val();
-    action["set_l4_src_port"] = $("#idSetL4SrcPort").val();
-    action["set_l4_dst_port"] = $("#idSetL4DstPort").val();
-    action["output_to_queue"] = $("#idOutputToQueue").val();
+    action["set_vlan_id"] = $("#idset_vlan_id").val();
+    action["set_vlan_priority-id"] = $("#idset_vlan_priority-id").val();
+    action["pop_vlan"] = $("#idpop_vlan").val();
+    action["set_ethernet_src_address"] = $("#idset_ethernet_src_address").val();
+    action["set_ethernet_dst_address"] = $("#idset_ethernet_dst_address").val();
+    action["set_ip_src_address"] = $("#idset_ip_src_address").val();
+    action["set_ip_dst_address"] = $("#idset_ip_dst_address").val();
+    action["set_ip_tos"] = $("#idset_ip_tos").val();
+    action["set_l4_src_port"] = $("#idset_l4_src_port").val();
+    action["set_l4_dst_port"] = $("#idset_l4_dst_port").val();
+    action["output_to_queue"] = $("#idoutput_to_queue").val();
 
     actions.push(action);
     flow_rule["actions"] = actions;

@@ -22,6 +22,7 @@ urlpatterns = [url(r'^$', views.index, name='index'),
                url(r'^api/v1/users_api/get_group_list/$', views.api_get_group_list, name='get_group_list'),
                url(r'^view_templates_request/$', views.view_templates_request, name='view_templates_request'),
                url(r'^view_match_request/$', views.view_match_request, name='view_match_request'),
+               url(r'^view_action_request/$', views.view_action_request, name='view_action_request'),
                url(r'^api/v1/users_api/add_group/$', views.api_add_group, name='add_group'),
                url(r'^api/v1/users_api/delete_group/$', views.api_delete_group, name='delete_group')
 

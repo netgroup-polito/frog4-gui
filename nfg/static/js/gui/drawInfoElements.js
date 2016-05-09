@@ -155,72 +155,55 @@ function drawBigSwitchInfoModal() {
         '<div class="modal-content">' +
         '<div class="modal-header">' +
         '<button type="button" class="close" data-dismiss="modal">&times;</button>' +
-        '<h4 class="modal-title">Big swith main info</h4>' +
+        '<h4 class="modal-title">Big switch main info</h4>' +
         '</div>' +
         '<div class="modal-body">' +
 
         '<table class="table table-striped">' +
         '<thead>' + '<tr>';
+
     for (var prop in infoRule) {
-        if (typeof infoRule[prop] == 'object') {
-            var list = infoRule[prop];
-            if (Array.isArray(list)) {
-                //is a array
-                for (var i = 0; i < list.length; i++) {
-                    var obj = list[i];
-                    for (var obj_prop in obj)
-                        $html += '<th>' + prop + ":" + obj_prop + '</th>';
-                }
+        if(infoRule[prop].hasOwnProperty("properties")){
+            var obj =infoRule[prop]["properties"];
+            for (var obj_prop in obj){
+                $html += '<th>' + prop +":"+obj_prop+'</th>';
             }
-
-            else {//is a simple object
-                for (var obj_prop in list)
-                    $html += '<th>' + prop + ":" + obj_prop + '</th>';
-            }
-
-
         }
-        else//is not an object
-            $html += '<th>' + prop + '</th>';
+        else{
+            $html += '<th>' + prop +'</th>';
+        }
     }
 
     $html += '</tr></thead>'
         + '<tbody>';
+
     flow_rules.forEach(function (e) {
-        $html += '<tr>';
+
+         $html += '<tr>';
 
         for (var prop in infoRule) {
-            if (typeof infoRule[prop] == 'object') {
-                var list = infoRule[prop];
-                if (Array.isArray(list)) {
+            if(infoRule[prop].hasOwnProperty("properties")){
+                var obj =infoRule[prop]["properties"];
+                var t = e[prop];
+                if (Array.isArray(t)){
                     //is a array
-                    var list2 = e[prop];//rule object
-                    console.log("len=" + list.length);
-                    for (var i = 0; i < list.length; i++) {
-                        var obj = list[i];
-                        var obj2 = list2[i];
-                        for (var obj_prop in obj) {
-                            $html += '<td>' + obj2[obj_prop] + '</td>';
-                            console.log(obj_prop);
+                        for (var i = 0; i < t.length; i++) {
+                            var list_obj = t[i];
+                            console.log(list_obj);
+                            for (var obj_prop in obj)
+                                $html += '<th>' +list_obj[obj_prop]+ '</th>';
                         }
+                }
+                else{
+                    for (var obj_prop in obj){
+                        $html += '<th>' + e[prop][obj_prop]+'</th>';
                     }
                 }
-
-                else {//is a simple object
-                    for (var obj_prop in list) {
-                        $html += '<th>' + e[prop][obj_prop] + '</th>';
-                        console.log(obj_prop);
-                    }
-                }
-
-
             }
-            else {//is not an object
-                $html += '<th>' + e[prop] + '</th>';
-                console.log(prop);
+            else{
+                $html += '<th>' + e[prop] +'</th>';
             }
         }
-
 
         $html += '<td><button type="button" id="but' + b + '" class="pull-right btn btn-info" >Edit</button>' +
             '</td>' + '</tr>';
@@ -231,8 +214,6 @@ function drawBigSwitchInfoModal() {
 
     $html += '</tbody>' +
         '</table>' +
-
-
         '</div>' +
         '<div class="modal-footer">' +
         '<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>' +
@@ -339,12 +320,20 @@ $('.myModalEdit').empty();
                 '</div>'+
 
                           '<div class="match">';
+                            $html+='</div>';
 
 
 
+                     $html+='<div class="form-group" >'+
+                    '<label class="control-label col-sm-2  complexFRFields" for="action" ><a onclick="showAction()">Action <i class="glyphicon glyphicon-chevron-right" id="icon-action"></i></a></label>'+
+                        '<div class="col-sm-10">'+
+                            '</div>'+
+                        '</div>'+
 
 
-                            $html+='</div>'+
+
+                                '<div class="action">'+
+                            '</div>'+
 
                '</form>'+
 
@@ -377,9 +366,10 @@ $('.myModalEdit').empty();
 
 
     DrawMatchDynamic() ;
-
+    DrawActionDynamin()
 
     hideMatch();
+    hideAction();
     showEditInfoFlowRule(id);
 
     $('#myModalEdit').modal('show');
@@ -387,40 +377,65 @@ $('.myModalEdit').empty();
 }
 
 
+function DrawActionDynamin() {
+    $('.action').empty();
+
+    var id="id"
+    var two="2"
+
+    var $html2;
+    console.log(editRuleAction)
+    for(var field in editRuleAction) {
+        console.log(id.concat(field).concat(two));
+        $html2 += '<div class="form-group">' +
+            '<label class="control-label col-sm-2" for="'+id.concat(field)+'">'+field+'</label>' +
+            '<div class="col-sm-10">' +
+            '<input type="text" name="idEP" class="form-control " id="'+id.concat(field)+'" placeholder="" value="">' +
+            '</div> ' +
+            '</div>' +
+
+            '<div class="form-group duplicate">' +
+            '<label class="control-label col-sm-2" for="'+id.concat(field)+'">'+field+'</label>' +
+            '<div class="col-sm-10">' +
+            '<input type="text" name="idEP" class="form-control " id="'+id.concat(field).concat(two)+'" placeholder="" value="">' +
+            '</div>' +
+            '</div>';
+    }
+
+    $('.action').append($html2);
+
+    DeleteDuplicateFields();//hide duplicates
+
+}
+
 function DrawMatchDynamic() {
     $('.match').empty();
 
     var id="id"
     var two="2"
 
+    var $html2;
+    console.log(editRuleMatch)
+    for(var field in editRuleMatch) {
+        console.log(id.concat(field).concat(two));
+        $html2 += '<div class="form-group">' +
+            '<label class="control-label col-sm-2" for="'+id.concat(field)+'">'+field+'</label>' +
+            '<div class="col-sm-10">' +
+            '<input type="text" name="idEP" class="form-control " id="'+id.concat(field)+'" placeholder="" value="">' +
+            '</div> ' +
+            '</div>' +
 
+            '<div class="form-group duplicate">' +
+            '<label class="control-label col-sm-2" for="'+id.concat(field)+'">'+field+'</label>' +
+            '<div class="col-sm-10">' +
+            '<input type="text" name="idEP" class="form-control " id="'+id.concat(field).concat(two)+'" placeholder="" value="">' +
+            '</div>' +
+            '</div>';
+    }
 
-    
+    $('.match').append($html2);
 
-                                var $html2;
-
-
-                                for(var field in editRule) {
-                                console.log(id.concat(field).concat(two));
-                                $html2 += '<div class="form-group">' +
-                                    '<label class="control-label col-sm-2" for="'+id.concat(field)+'">'+field+'</label>' +
-                                    '<div class="col-sm-10">' +
-                                    '<input type="text" name="idEP" class="form-control " id="'+id.concat(field)+'" placeholder="" value="">' +
-                                    '</div> ' +
-                                    '</div>' +
-
-                                    '<div class="form-group duplicate">' +
-                                    '<label class="control-label col-sm-2" for="'+id.concat(field)+'">'+field+'</label>' +
-                                    '<div class="col-sm-10">' +
-                                    '<input type="text" name="idEP" class="form-control " id="'+id.concat(field).concat(two)+'" placeholder="" value="">' +
-                                    '</div>' +
-                                    '</div>';
-                            }
-
-
-                            $('.match').append($html2);
-
-                             DeleteDuplicateFields();//hide duplicates
+    DeleteDuplicateFields();//hide duplicates
 
 }
 
