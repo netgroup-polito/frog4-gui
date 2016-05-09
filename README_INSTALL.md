@@ -64,7 +64,7 @@ This document presents how to install the Virtualized Network Services GUI.
         +-- js
             +-- libs
                 +-- d3
-                    +-- d3.min.js
+                    +-- d3.v3.min.js
     ```
    * ##### dialog
     ```
