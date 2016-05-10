@@ -67,7 +67,7 @@ function DownloadFile(){
 
     var file;
     var stringa;
-    var file_name = $("#selfileDownload").val();
+    var file_name = $("#selfileDownload").val().split(" - ")[0];
     console.log(file_name);
 
     $.ajax({
