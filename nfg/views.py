@@ -63,7 +63,7 @@ def index(request):
     if "username" not in request.session:
         return HttpResponseRedirect("/login/")
     else:
-        return render(request, 'index.html', {'guiName': parser.get('fg-gui', 'address'), 'username': request.session['username']})
+        return render(request, 'index.html', {'guiName': parser.get('fg-gui', 'guiName'), 'username': request.session['username']})
 
 
 # info: It loads the info page if you are logged else redirect you at /login/.
@@ -71,7 +71,7 @@ def info(request):
     if "username" not in request.session:
         return HttpResponseRedirect("/login/")
     else:
-        return render(request, 'info.html', {'guiName': parser.get('fg-gui', 'address'), 'username': request.session['username']})
+        return render(request, 'info.html', {'guiName': parser.get('fg-gui', 'guiName'), 'username': request.session['username']})
 
 
 # logout: It destroys the session of current user and redirect you at /login.
@@ -95,7 +95,7 @@ def login(request):
         else:
             err_msg = ''
 
-        return render(request, 'login.html', {'guiName': parser.get('fg-gui', 'address'), 'err_message': err_msg})
+        return render(request, 'login.html', {'guiName': parser.get('fg-gui', 'guiName'), 'err_message': err_msg})
 
     elif request.method == 'POST':
         username = request.POST['username']
@@ -492,7 +492,7 @@ def users(request):
     if "username" not in request.session:
         return HttpResponseRedirect("/login/")
     else:
-        return render(request, 'users.html', {'guiName': parser.get('fg-gui', 'address'), 'username': request.session['username']})
+        return render(request, 'users.html', {'guiName': parser.get('fg-gui', 'guiName'), 'username': request.session['username']})
 
 
 def api_get_user_list(request):
