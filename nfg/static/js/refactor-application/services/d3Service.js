@@ -5,6 +5,10 @@
     var d3Service = function ($document, $q, $rootScope) {
         var d = $q.defer();
 
+        d.promise.then(function (pd3) {
+            d3 = pd3;
+        });
+
         var d3 = null;
         var svg = null;
 
@@ -30,8 +34,9 @@
         var s = $document[0].getElementsByTagName('body')[0];
         s.appendChild(scriptTag);
 
+
         var _d3 = function () {
-            return d3;
+            return d.promise;
         };
 
 
@@ -44,7 +49,7 @@
             }
         };
 
-        var _intiateGraph = function (id) {
+        var _initiateGraph = function (id) {
             if (d3) {
                 svg = d3.select(id).append("svg");
                 return svg;
@@ -54,7 +59,7 @@
 
         return {
             d3: _d3,
-
+            initiateGraph: _initiateGraph,
             deleteGraph: _deleteGraph
         };
     };

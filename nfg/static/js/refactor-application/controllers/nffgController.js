@@ -4,11 +4,13 @@
 (function () {
     'use strict';
 
-    var NFFGController = function (BackendCallService, $uibModal,d3Service) {
+    var NFFGController = function (BackendCallService, $uibModal, d3Service) {
         var ctrl = this;
 
         d3Service.d3().then(function (d3) {
             ctrl.d3 = d3;
+
+            ctrl.svg = d3Service.initiateGraph("#my_canvas");
         });
 
         ctrl.showEditButton = false;
@@ -44,7 +46,7 @@
 
     };
 
-    NFFGController.$inject = ['BackendCallService', '$uibModal','d3Service'];
+    NFFGController.$inject = ['BackendCallService', '$uibModal', 'd3Service'];
     angular.module('fg-gui').controller('NFFGController', NFFGController);
 
 })();
