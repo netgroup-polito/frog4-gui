@@ -2,41 +2,14 @@
  * Created by giacomo on 06/05/16.
  */
 (function () {
+    "use strict";
     var d3Service = function ($document, $q, $rootScope) {
-        var d = $q.defer();
 
-        d.promise.then(function (pd3) {
-            d3 = pd3;
-        });
-
-        var d3 = null;
-        var svg = null;
-
-        function onScriptLoad() {
-            // Load client in the browser
-            $rootScope.$apply(function () {
-                d.resolve(window.d3);
-            });
-        }
-
-        // Create a script tag with d3 as the source
-        // and call our onScriptLoad callback when it
-        // has been loaded
-        var scriptTag = $document[0].createElement('script');
-        scriptTag.type = 'text/javascript';
-        scriptTag.async = true;
-        scriptTag.src = 'static/js/libs/d3/d3.v3.min.js';
-        scriptTag.onreadystatechange = function () {
-            if (this.readyState == 'complete') onScriptLoad();
-        };
-        scriptTag.onload = onScriptLoad;
-
-        var s = $document[0].getElementsByTagName('body')[0];
-        s.appendChild(scriptTag);
+        var d3 = window.d3;
 
 
         var _d3 = function () {
-            return d.promise;
+            return d3;
         };
 
 
@@ -51,16 +24,26 @@
 
         var _initiateGraph = function (id) {
             if (d3) {
-                svg = d3.select(id).append("svg");
-                return svg;
+                return d3.select(id).append("svg");
+            } else {
+                return false;
             }
         };
 
+        var _addAttribute = function (svg, prop, value) {
+            return svg.attr(prop, value)
+        };
+
+        var _addSection = function (svg, sectionName) {
+            return svg.append("g").attr("class", sectionName);
+        };
 
         return {
             d3: _d3,
             initiateGraph: _initiateGraph,
-            deleteGraph: _deleteGraph
+            deleteGraph: _deleteGraph,
+            addAttribute: _addAttribute,
+            addSection: _addSection
         };
     };
 

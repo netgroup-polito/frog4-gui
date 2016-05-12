@@ -63,7 +63,8 @@ def index(request):
     if "username" not in request.session:
         return HttpResponseRedirect("/login/")
     else:
-        return render(request, 'index.html', {'guiName': parser.get('fg-gui', 'guiName'), 'username': request.session['username']})
+        return render(request, 'index.html',
+                      {'guiName': parser.get('fg-gui', 'guiName'), 'username': request.session['username']})
 
 
 # index: It's a principal view, load gui if you are logged else redirect you at /login/.
@@ -72,7 +73,8 @@ def refactor(request):
     if "username" not in request.session:
         return HttpResponseRedirect("/login/")
     else:
-        return render(request, 'refactor.html', {'username': request.session['username']})
+        return render(request, 'refactor.html',
+                      {'guiName': parser.get('fg-gui', 'guiName'), 'username': request.session['username']})
 
 
 # info: It loads the info page if you are logged else redirect you at /login/.
@@ -80,7 +82,8 @@ def info(request):
     if "username" not in request.session:
         return HttpResponseRedirect("/login/")
     else:
-        return render(request, 'info.html', {'guiName': parser.get('fg-gui', 'guiName'), 'username': request.session['username']})
+        return render(request, 'info.html',
+                      {'guiName': parser.get('fg-gui', 'guiName'), 'username': request.session['username']})
 
 
 # logout: It destroys the session of current user and redirect you at /login.
@@ -297,7 +300,7 @@ def view_templates_request(request):
 def view_match_request(request):
     with open('nfg/nffg_library/schema.json') as data_file:
         data = json.load(data_file)
-    t=data["definitions"]["match"]["properties"]
+    t = data["definitions"]["match"]["properties"]
 
     return HttpResponse("%s" % json.dumps(t))
 
@@ -305,23 +308,23 @@ def view_match_request(request):
 def view_action_request(request):
     with open('nfg/nffg_library/schema.json') as data_file:
         data = json.load(data_file)
-    t=data["definitions"]["action"]["properties"]
+    t = data["definitions"]["action"]["properties"]
 
     return HttpResponse("%s" % json.dumps(t))
 
 
 def ajax_files_request(request):
     if request.method == "GET":
-        lista_file = []
-        lista_file = graphm.get_user_graph("", request.session["token"])
+        if "token" in request.session:
+            result = graphm.get_graphs(request.session["token"])
 
-        if lista_file["status"] != 200:
-            res = json.dumps(lista_file)
-            return HttpResponse("%s" % res, status=lista_file["status"])
+            json_data_string = json.dumps(result)
 
-        json_data_string = json.dumps(lista_file["forwarding-graph"])
-
-    return HttpResponse("%s" % json_data_string)
+            return HttpResponse("%s" % json_data_string, status=result["status"])
+        else:
+            return HttpResponse(status=401)
+    else:
+        return HttpResponse(status=501)
 
 
 @csrf_exempt
@@ -430,14 +433,11 @@ def ajax_download_request(request):
     # logger = MyLogger("filelog.log", "nffg-gui").get_my_logger()
 
     if request.method == "POST":
-
         file_name_fg = request.POST["file_name_fg"]
         file_name = file_name_fg.split(".")
         logging.debug(file_name)
 
         logging.debug("ajax download request")
-
-
 
         file_name = file_name_fg.split(".")
         request.session["file_name_fg"] = file_name[0]
@@ -501,9 +501,11 @@ def users(request):
     if "username" not in request.session:
         return HttpResponseRedirect("/login/")
     else:
-        return render(request, 'users.html', {'guiName': parser.get('fg-gui', 'guiName'), 'username': request.session['username']})
+        return render(request, 'users.html',
+                      {'guiName': parser.get('fg-gui', 'guiName'), 'username': request.session['username']})
 
 
+# user api
 def api_get_user_list(request):
     if request.method == "GET":
         if "token" in request.session:
@@ -588,6 +590,21 @@ def api_delete_group(request):
                                         request.session["token"])
             serialized_obj = json.dumps(result)
             return HttpResponse("%s" % serialized_obj, status=result["status"])
+        else:
+            return HttpResponse(status=401)
+    else:
+        return HttpResponse(status=501)
+
+
+# graphs api
+def api_get_available_graphs(request):
+    if request.method == "GET":
+        if "token" in request.session:
+            result = graphm.get_graphs(request.session["token"])
+
+            json_data_string = json.dumps(result)
+
+            return HttpResponse("%s" % json_data_string, status=result["status"])
         else:
             return HttpResponse(status=401)
     else:

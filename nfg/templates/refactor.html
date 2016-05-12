@@ -4,7 +4,7 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta charset="UTF-8">
-    <title>NF-FG Refactor</title>
+    <title>{{ guiName }} - NF-FG Refactor</title>
     <link rel="icon" href="{% static "img/favicon.ico"%}">
     <link rel="stylesheet" href="{% static "css/bootstrap.css" %}">
     <link rel="stylesheet" href="{% static "css/dialogs.css" %}">
@@ -14,7 +14,7 @@
 
     <!-- Javascipt Library -->
     <script type="text/javascript" src="{% static "js/libs/jquery/jquery.min.js" %}"></script>
-    <!--<script type="text/javascript" src="{% static "js/libs/d3/d3.v3.min.js" %}"></script>-->
+    <script type="text/javascript" src="{% static "js/libs/d3/d3.v3.min.js" %}"></script>
     <script type="text/javascript" src="{% static "js/libs/bootstrap/bootstrap.min.js" %}"></script>
     <script type="text/javascript" src="{% static "js/libs/bootstrap/bootstrap-filestyle.min.js" %}"></script>
 
@@ -40,6 +40,8 @@
     <script type="text/javascript" src="{% static "js/refactor-application/controllers/nffgController.js" %}"></script>
     <script type="text/javascript" src="{% static "js/refactor-application/controllers/updateFGInfoController.js" %}"></script>
     <!-- Angular Directive -->
+    <!-- Angular Constants -->
+    <script type="text/javascript" src="{% static "js/refactor-application/constants.js"%} "></script>
     <!-- Angular Route ( view - controller description ) -->
     <script type="text/javascript" src="{% static "js/refactor-application/routeProvider.js" %}"></script>
     <!-- Angular Application Bootstrap -->
@@ -55,7 +57,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="">Virtualized Network Services GUI</a>
+            <a class="navbar-brand" href="">{{ guiName }}</a>
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">

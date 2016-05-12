@@ -4,23 +4,24 @@
 (function () {
     'use strict';
 
-    var updateFGInfoController = function ($uibModalInstance, BackendCallService) {
+    var updateFGInfoController = function ($uibModalInstance,info) {
         var ctrl = this;
         var info = {
-            id:"",
-            name:"",
-            description:""
+            id: info.id,
+            name: info.name,
+            description: info.description
         };
+        ctrl.info = info;
 
         ctrl.cancel = function () {
             $uibModalInstance.dismiss('cancel');
         };
         ctrl.save = function () {
-             $uibModalInstance.close(info);
+            $uibModalInstance.close(ctrl.info);
         };
     };
 
     updateFGInfoController.$inject = ['$uibModalInstance', 'BackendCallService'];
-    angular.module('fg-gui').controller('updateFGInfoController', updateFGInfoController);
+    angular.module('fg-gui').controller('UpdateFGInfoController', updateFGInfoController);
 
 })();

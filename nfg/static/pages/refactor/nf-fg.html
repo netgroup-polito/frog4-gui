@@ -19,7 +19,7 @@
                     <div class="btn-group" role="group" aria-label="...">
 
                         <!-- Empty Document -->
-                        <button type="button" class="menu btn btn-default btn-lg" onclick="newForwardingGraph();"
+                        <button type="button" class="menu btn btn-default btn-lg" ng-click="NFFGCtrl.newForwardingGraph();"
                                 title="New Document"><span class="glyphicon glyphicon-file"
                                                            aria-hidden="true"></span></button>
 
@@ -101,9 +101,9 @@
             <div class="col-md-12">
                 <div id="my_canvas">
 
-                    <p id="fg_id" ng-if="NFFGCtrl.fg" onclick="showModelChangeIDFG();">
-                        <b ng-if="!NFFGCtrl.forwarding-graph.fg.name ">ID: {{ NFFGCtrl.fg.forwarding-graph.id }}</b>
-                        <b ng-if="NFFGCtrl.forwarding-graph.fg.name ">{{ NFFGCtrl.fg.forwarding-graph.name }} (ID: {{ NFFGCtrl.fg.forwarding-graph.id }})</b>
+                    <p id="fg_id" ng-if="NFFGCtrl.fg" ng-click="NFFGCtrl.updateFGInfo();">
+                        <b ng-if="!NFFGCtrl.fg.name ">ID: {{ NFFGCtrl.fg.id }}</b>
+                        <b ng-if="NFFGCtrl.fg.name ">{{ NFFGCtrl.fg.name }} (ID: {{ NFFGCtrl.fg.id }})</b>
                     </p>
                 </div>
             </div>

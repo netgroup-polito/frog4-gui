@@ -16,7 +16,7 @@
                            id="idFG"
                            class="form-control"
                            placeholder=""
-                           ng-value="UpdateFGInfoCtrl.info.id">
+                           ng-model="UpdateFGInfoCtrl.info.id">
                 </div>
             </div>
             <div class="form-group">
@@ -27,7 +27,7 @@
                            id="nameFG"
                            class="form-control"
                            placeholder=""
-                           ng-value="UpdateFGInfoCtrl.info.name">
+                           ng-model="UpdateFGInfoCtrl.info.name">
                 </div>
             </div>
             <div class="form-group">
@@ -38,13 +38,13 @@
                            id="descriptionFG"
                            class="form-control"
                            placeholder=""
-                           ng-value="UpdateFGInfoCtrl.info.description">
+                           ng-model="UpdateFGInfoCtrl.info.description">
                 </div>
             </div>
         </div>
 
         <div class="modal-footer">
-            <a href="#" id="Change" ng-click="UpdateFGInfoCtrl.save()" class="btn btn-primary">Save</a>
+            <button type="button" id="Change" ng-click="UpdateFGInfoCtrl.save()" class="btn btn-primary">Save</button>
             <!--a href="#" id="newID" onclick="ajaxLastIdRequest();"  class="btn btn-primary">New ID</a-->
 
         </div>

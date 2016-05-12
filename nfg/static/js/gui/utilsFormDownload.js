@@ -29,9 +29,10 @@ function ajaxFilesRequest(){
         url: 'ajax_files_request/', 
         type: 'GET'                    
     }).done(function(data){
-        t=data;
-        console.log(data);
-        drawFormDownload(data);
+
+        //t=data["NF-FG"];
+        console.log(JSON.stringify(data));
+        drawFormDownload(data["NF-FG"]);
     });
 }
 
