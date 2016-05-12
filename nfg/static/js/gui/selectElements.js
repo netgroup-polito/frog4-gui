@@ -74,12 +74,20 @@ function selectBS(d){
       			                     url: 'view_match_request/',
                                       type: 'GET'
                                       }).done(function(data1){
-                                            editRule=JSON.parse(data1);
-                                            console.log(editRule);
+                                            editRuleMatch=JSON.parse(data1);
+                                            console.log(editRuleMatch);
 
    					                     });
-                    infoRule=JSON.parse(data);
-                    console.log(infoRule)
+                            $.ajax({
+      			                     url: 'view_action_request/',
+                                      type: 'GET'
+                                      }).done(function(data1){
+                                            editRuleAction=JSON.parse(data1);
+                                            console.log(editRuleAction);
+
+   					                     });
+                    var t=JSON.parse(data);
+                    infoRule=t["properties"];
                     drawBigSwitchInfoModal(fg);
    					 });
 

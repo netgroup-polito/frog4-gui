@@ -1,0 +1,31 @@
+{
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "priority": {
+      "type": "integer"
+    },
+    "match": {
+      "properties": {
+        "port_in": {
+          "type": "string"
+        }
+        
+      }
+    },
+    "actions": {
+      "properties": {
+        "output": {
+          "type": "string"
+        },
+        "set_vlan_id": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
