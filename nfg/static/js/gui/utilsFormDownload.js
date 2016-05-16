@@ -4,7 +4,7 @@
 
 function showDownloadFG(){
     $('#DownloadFG').modal('show');
-    $("#file_content_download").hide();            
+    $("#file_content_download").hide();
     ajaxFilesRequest();
 }
 
@@ -26,27 +26,27 @@ function ajaxLastIdRequest(){
 /* This function return a list of files in the database */
 function ajaxFilesRequest(){
     $.ajax({
-        url: 'ajax_files_request/', 
-        type: 'GET'                    
+        url: 'ajax_files_request/',
+        type: 'GET'
     }).done(function(data){
 
+        var dataJson = JSON.parse(data);
         //t=data["NF-FG"];
         console.log(JSON.stringify(data));
-        drawFormDownload(data["NF-FG"]);
+        drawFormDownload(dataJson["NF-FG"]);
     });
 }
 
 function drawFormDownload(data){
-    file_list = JSON.parse(data);
-
+    file_list = data;
     $("#selfileDownload").empty();
     for(var i=0;i<file_list.length;i++){
-        $("#selfileDownload").append("<option>"+file_list[i]["forwarding-graph"].id+" - "+file_list[i]["forwarding-graph"].name+"</option>" );
+        $("#selfileDownload").append("<option value='"+file_list[i]["forwarding-graph"].id+"'>"+file_list[i]["forwarding-graph"].id+" - "+file_list[i]["forwarding-graph"].name+"</option>" );
     }
 }
 
 function PreviewFileDownload(data){
-    
+
     var file;
     var stringa;
     var file_name = $("#selfileDownload").val();
@@ -56,7 +56,7 @@ function PreviewFileDownload(data){
         if(file_list[i]["forwarding-graph"].id==file_name)
             stringa=JSON.stringify(file_list[i]["forwarding-graph"])
 
-        
+
         $('#file_content_download').show();
         $('#file_content_download').empty();
         $('#file_content_download').append(stringa);
@@ -84,11 +84,11 @@ function DownloadFile(){
         /*file restituito */
         hideDownloadFG();
         showMessageServer(e);
-        
+
         location.reload();
-            
+
     }).fail(function(){
-                
+
         console.log("An error occurred, the files couldn't be sent!");
     });
 

@@ -4,7 +4,7 @@
 (function () {
     'use strict';
 
-    var NFFGController = function (BackendCallService, $uibModal, d3Service, graphConstant, $dialogs) {
+    var NFFGController = function (BackendCallService, $uibModal, $dialogs, graphConstant, d3Service, InitializationService) {
         var ctrl = this;
 
         ctrl.existingGraph = [];
@@ -44,6 +44,42 @@
             // define a section of the graph containing all the connection
             var connection_section = d3Service.addSection(svg, "connection_section");
 
+            //TODO cambiare la modalità di selezione usando applicando una classe 
+
+            d3Service.addRectDefinition(
+                definitions_section,
+                "VNF",
+                graphConstant.offsetX,
+                graphConstant.offsetY,
+                graphConstant.vnfWidth,
+                graphConstant.vnfHeigth,
+                "nf");
+            d3Service.addRectDefinition(
+                definitions_section,
+                "VNF_selected",
+                graphConstant.offsetX,
+                graphConstant.offsetY,
+                graphConstant.vnfWidth,
+                graphConstant.vnfHeigth,
+                "nf-select");
+            d3Service.addRectDefinition(
+                definitions_section,
+                "VNF_selected",
+                graphConstant.offsetX,
+                graphConstant.offsetY,
+                graphConstant.bigSwitchWidth,
+                graphConstant.bigSwitchHeight,
+                "big-switch");
+            d3Service.addRectDefinition(
+                definitions_section,
+                "BIG_SWITCH_selected",
+                graphConstant.offsetX,
+                graphConstant.offsetY,
+                graphConstant.bigSwitchWidth,
+                graphConstant.bigSwitchHeight,
+                "big-switch-select");
+
+
             ctrl.graph = {
                 svg: svg,
                 definitions: definitions_section,
@@ -57,8 +93,44 @@
 
         initializeGraph();
 
+        var buildGraph = function (fg, fgPos, graph) {
+            buildEPs(fg["end-points"], fgPos["end-points"], graph);
+        };
+
+        var buildEPs = function (endpoints, pos, graph) {
+            graph.interfaces.selectAll(".end-points")
+                .data(endpoints)
+                .enter()
+                .append("circle")
+                .attr("class", function (d) {
+                    return "end-points " + d.name;
+                })
+                .attr("id", function (d) {
+                    return d.id;
+                })
+                .attr("r", 22)
+                .attr("cx", function (d) {
+                    return pos[d.id].x
+                })
+                .attr("cy", function (d) {
+                    return pos[d.id].y
+                })
+                .attr("title", function (d) {
+                    return d.name;
+                })
+        };
+
+        var initializePosition = function (graph) {
+
+            var pos = {};
+            pos["end-points"] = InitializationService.initEPsPos(graph["end-points"], ctrl.graph.svg);
+
+            return pos;
+        };
+
         ctrl.showEditButton = false;
         ctrl.fg = null;
+        ctrl.fgPos = null;
 
         ctrl.toggleEditButton = function () {
             ctrl.showEditButton = !ctrl.showEditButton;
@@ -88,6 +160,22 @@
             });
         };
 
+        ctrl.loadFromServer = function () {
+            var loadFromServerModal = $uibModal.open({
+                animation: false,
+                templateUrl: '/static/pages/refactor/modals/loadFromServer.html',
+                controller: 'LoadFromServerController',
+                controllerAs: 'loadServerCtrl',
+                size: 'lg'
+            });
+            loadFromServerModal.result.then(function (fg) {
+                ctrl.fgPos = initializePosition(fg["forwarding-graph"]);
+                ctrl.fg = fg["forwarding-graph"];
+                buildGraph(ctrl.fg, ctrl.fgPos,ctrl.graph);
+            });
+        };
+
+
         var resetGraph = function () {
             ctrl.fg = null;
             //istanzio un grafico vuoto
@@ -112,7 +200,7 @@
 
     };
 
-    NFFGController.$inject = ['BackendCallService', '$uibModal', 'd3Service', 'graphConstant', 'dialogs'];
+    NFFGController.$inject = ['BackendCallService', '$uibModal', 'dialogs', 'graphConstant', 'd3Service', 'InitializationService'];
     angular.module('fg-gui').controller('NFFGController', NFFGController);
 
 })();

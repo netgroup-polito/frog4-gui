@@ -21,7 +21,7 @@
         };
     };
 
-    updateFGInfoController.$inject = ['$uibModalInstance', 'BackendCallService'];
+    updateFGInfoController.$inject = ['$uibModalInstance'];
     angular.module('fg-gui').controller('UpdateFGInfoController', updateFGInfoController);
 
 })();

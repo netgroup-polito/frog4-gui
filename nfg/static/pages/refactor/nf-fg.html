@@ -46,7 +46,7 @@
                                                                aria-hidden="true"></span></button>
 
                         <!-- Open From Server Button -->
-                        <button type="button" class="menu btn btn-default btn-lg" onclick="showDownloadFG();"
+                        <button type="button" class="menu btn btn-default btn-lg" ng-click="NFFGCtrl.loadFromServer();"
                                 title="Open from Server"><i class="fa fa-server fa-lg"></i>
                         </button>
 
@@ -105,6 +105,9 @@
                         <b ng-if="!NFFGCtrl.fg.name ">ID: {{ NFFGCtrl.fg.id }}</b>
                         <b ng-if="NFFGCtrl.fg.name ">{{ NFFGCtrl.fg.name }} (ID: {{ NFFGCtrl.fg.id }})</b>
                     </p>
+                    <div id="svg_graph">
+
+                    </div>
                 </div>
             </div>
 
