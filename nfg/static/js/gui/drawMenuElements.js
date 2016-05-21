@@ -3,6 +3,11 @@
  *
  **/
 
+
+//template of End Point with types
+var epTemplateList
+var currentEP
+
 function drawNewEP(){
     var ele=[];
 
@@ -10,9 +15,10 @@ function drawNewEP(){
     ep.fullId="endpoint:"+ep.id;
     ep.ref="end-point";
     ep.isLinked=false;
+    //TODO validateNewEndPoint(ep)!!!!!!!!!!!!!!!!!
     console.log(validateNewEndPoint(ep));
-    if(validateNewEndPoint(ep)===true){
-        isModified=true;
+    if(validateNewEndPoint(ep)) {
+        isModified = true;
         setKeysWindowListener();
         $('#FormEP').modal('hide');
         setKeysWindowListener();
@@ -22,24 +28,26 @@ function drawNewEP(){
         EP_list.push(ele[0]);
 
         /* creating a new bs_interfaces and add it to the bs interfaces list*/
-        var new_bs_int={};
+        var new_bs_int = {};
         new_bs_int.ref = "bsInt";
-        new_bs_int.id = "endpoint:"+ep.id;
-        new_bs_int.fullId=new_bs_int.id;
-        new_bs_int.x=0;
-        new_bs_int.y=0;
+        new_bs_int.id = "endpoint:" + ep.id;
+        new_bs_int.fullId = new_bs_int.id;
+        new_bs_int.x = 0;
+        new_bs_int.y = 0;
         big_switch.interfaces.push(new_bs_int);
 
         /*draw new EP*/
         drawEP(ele);
-        
-        drawSingleBSInterfaceAndExternalLink(new_bs_int,ep);
-        
+
+        drawSingleBSInterfaceAndExternalLink(new_bs_int, ep);
+
         updateView();
         updateTooltips();
-    }else{
+    }
+    else{
         console.log("validazione fallita");
     }
+
 }
 
 
@@ -139,15 +147,85 @@ function saveNewVNF(){
     })
 }
 
+function loadEPInfo() {
+
+     $.ajax({
+             url: 'view_ep_request/',
+              type: 'GET'
+              }).done(function(data1){
+                    epTemplateList=JSON.parse(data1);
+                    console.log(epTemplateList);
+                    onClickDrawEP()
+                 });
+    
+}
+
+
+
+function fillInEP(epType) {
+    var $html='';
+    $("#epInfo").empty();
+
+    for(var j=0; j<epTemplateList.length; j++)
+            if(epTemplateList[j].type===epType){
+                currentEP=epTemplateList[j];
+                break;
+            }
+
+
+    for (var t in currentEP["properties"]){
+        $html+='<div class="form-group">'+
+                            '<label class="control-label col-sm-2" for="expandable">'+t+":"+'</label>'+
+                            '<div class="col-sm-10">'+
+                                '<input type="text" name="idVNF" class="form-control " id="id'+t+'" placeholder="" >'+
+                            '</div>'+
+                        '</div>';
+    }
+
+     $("#epInfo").append($html);
+
+
+
+}
+
+
+
 
 function onClickDrawEP(){
 
+
+        $('#selectEPItems').empty();
+
+
+        var $html = '<select class="form-control" name="type" id="seltypeEP" onchange="fillInEP(this.value)">';
+
+
+        for(var i=0; i< epTemplateList.length; i++){
+
+            if(i==0){
+                $html+='<option selected>'+epTemplateList[i].type+'</option>';
+                fillInEP(epTemplateList[i].type);
+            }
+            else
+            $html+='<option>'+epTemplateList[i].type+'</option>';
+
+        }
+
+
+         $html+='</select>';
+        $('#selectEPItems').append($html);
+
+
+
+
+
+
+
         $('#FormEP').modal('show');
         unSetKeysWindowListener();
-        $('#seltypeEP' ).val('internal');
-        /*reset*/
-        resetFormEp();
+
         $("#idEndPoint").val(NextIdEP());
+
 
         $("#saveEP").attr("onclick","drawNewEP()");
         $("#saveEP").html("Add End Point");

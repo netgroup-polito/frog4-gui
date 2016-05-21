@@ -167,6 +167,7 @@ function ser_fg(){
 
 	EP_list.forEach(function(ele){
 		var ep = {};
+		var type=$("#seltypeEP").val();
 		ep["id"] = ele["id"];
 		if(ele["name"] != undefined && ele["name"] != "")
 			ep["name"] = ele["name"];
@@ -175,41 +176,18 @@ function ser_fg(){
 		if(ele["remote_endpoint_id"] != undefined && ele["remote_endpoint_id"] != "")
 			ep["remote_endpoint_id"] = ele["remote_endpoint_id"];
 		//ep["prepare_connection_to_remote_endpoint_ids"] = ele["prepare_connection_to_remote_endpoint_ids"];
-		
+
 
 		/* controllo sul tipo di end point */
 		if(ele["type"] != undefined && ele["type"] != "") {
-			switch (ep["type"]) {
-				case "internal":
-					ep["internal"] = {};
-					break;
-				case "interface":
-					ep["interface"] = {};
-					ep["interface"]["node-id"] = ele["interface"]["node-id"];
-					ep["interface"]["switch-id"] = ele["interface"]["switch-id"];
-					ep["interface"]["interface"] = ele["interface"]["interface"];
-					break;
-				case "interface-out":
-					ep["interface-out"] = {};
-					ep["interface-out"]["node-id"] = ele["interface-out"]["node-id"];
-					ep["interface-out"]["switch-id"] = ele["interface-out"]["switch-id"];
-					ep["interface-out"]["interface"] = ele["interface-out"]["interface"];
-					break;
-				case "gre-tunnel":
-					ep["gre-tunnel"] = {};
-					ep["gre-tunnel"]["local-ip"] = ele["gre-tunnel"]["local-ip"];
-					ep["gre-tunnel"]["remote-ip"] = ele["gre-tunnel"]["remote-ip"];
-					ep["gre-tunnel"]["interface"] = ele["gre-tunnel"]["interface"];
-					ep["gre-tunnel"]["ttl"] = ele["gre-tunnel"]["ttl"];
-					break;
-				case "vlan":
-					ep["vlan"] = {};
-					ep["vlan"]["vlan-id"] = ele["vlan"]["vlan-id"];
-					ep["vlan"]["interface"] = ele["vlan"]["interface"];
-					ep["vlan"]["switch-id"] = ele["vlan"]["switch-id"];
-					ep["vlan"]["node-id"] = ele["vlan"]["node-id"]
-					break;
-			}
+
+			for(var t in currentEP["properties"]){
+				var selector="#id"+t;
+				var s=$(selector).val();
+				if(!ep.hasOwnProperty(type))
+						ep[type]={};
+				ep[type][t]=$(selector).val()
+    }
 		}
 
 		forwarding_graph["end-points"].push(ep);
