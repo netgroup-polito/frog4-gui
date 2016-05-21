@@ -40,7 +40,7 @@ function drawFormDownload(data){
 
     $("#selfileDownload").empty();
     for(var i=0;i<file_list.length;i++){
-        $("#selfileDownload").append("<option>"+file_list[i]["forwarding-graph"].id+"</option>" );
+        $("#selfileDownload").append("<option>"+file_list[i]["forwarding-graph"].id+" - "+file_list[i]["forwarding-graph"].name+"</option>" );
     }
 }
 
@@ -67,7 +67,7 @@ function DownloadFile(){
 
     var file;
     var stringa;
-    var file_name = $("#selfileDownload").val();
+    var file_name = $("#selfileDownload").val().split(" - ")[0];
     console.log(file_name);
 
     $.ajax({
