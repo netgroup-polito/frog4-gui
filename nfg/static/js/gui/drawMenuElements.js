@@ -15,7 +15,6 @@ function drawNewEP(){
     ep.fullId="endpoint:"+ep.id;
     ep.ref="end-point";
     ep.isLinked=false;
-    //TODO validateNewEndPoint(ep)!!!!!!!!!!!!!!!!!
     console.log(validateNewEndPoint(ep));
     if(validateNewEndPoint(ep)) {
         isModified = true;
@@ -166,6 +165,10 @@ function fillInEP(epType) {
     var $html='';
     $("#epInfo").empty();
 
+    var ep;
+    ep = getEndPointById($("#idEndPoint").val());
+
+
     for(var j=0; j<epTemplateList.length; j++)
             if(epTemplateList[j].type===epType){
                 currentEP=epTemplateList[j];
@@ -174,6 +177,9 @@ function fillInEP(epType) {
 
 
     for (var t in currentEP["properties"]){
+
+
+
         $html+='<div class="form-group">'+
                             '<label class="control-label col-sm-2" for="expandable">'+t+":"+'</label>'+
                             '<div class="col-sm-10">'+

@@ -9,7 +9,7 @@ function fillNewEP(){
 	ep["name"] = $("#nameEP").val();
 	ep["type"] = type;
 	ep["remote_endpoint_id"] = $("#remoteEPid").val();
-    ep["id"] = NextIdEP(); 
+    ep["id"] = $("#idEndPoint").val()
     ep["icon"] = $("#selIconEP").val();
 
     $("#idEndPoint").val(ep["id"]);
