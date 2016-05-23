@@ -51,10 +51,8 @@ dbm = DBManager("db.sqlite3")
 graphm = NFFGManager(parser.get('un_orchestrator', 'address'),
                      parser.get('un_orchestrator', 'port'))
 
-
-
-templatem=TemplateManager(parser.get('vnf-template', 'address'),
-                     parser.get('vnf-template', 'port'))
+templatem = TemplateManager(parser.get('vnf-template', 'address'),
+                            parser.get('vnf-template', 'port'))
 
 
 # index: It's a principal view, load gui if you are logged else redirect you at /login/.
@@ -65,7 +63,7 @@ def index(request):
     if "username" not in request.session:
         return HttpResponseRedirect("/login/")
     else:
-        return render(request, 'index.html', {'username': request.session['username']})
+        return render(request, 'index.html', {'guiName': parser.get('fg-gui', 'guiName'), 'username': request.session['username']})
 
 
 # info: It loads the info page if you are logged else redirect you at /login/.
@@ -73,7 +71,7 @@ def info(request):
     if "username" not in request.session:
         return HttpResponseRedirect("/login/")
     else:
-        return render(request, 'info.html', {'username': request.session['username']})
+        return render(request, 'info.html', {'guiName': parser.get('fg-gui', 'guiName'), 'username': request.session['username']})
 
 
 # logout: It destroys the session of current user and redirect you at /login.
@@ -97,7 +95,7 @@ def login(request):
         else:
             err_msg = ''
 
-        return render(request, 'login.html', {'title': 'Login', 'err_message': err_msg})
+        return render(request, 'login.html', {'guiName': parser.get('fg-gui', 'guiName'), 'err_message': err_msg})
 
     elif request.method == 'POST':
         username = request.POST['username']
@@ -133,16 +131,15 @@ def login(request):
 # ajax_template_request: It loads a vnf template specified through his id_template.
 #                        The template is in the template_json directory.
 def ajax_template_request(request, id_template):
-    data=templatem.get_template(id_template)
+    data = templatem.get_template(id_template)
     if data["status"] == 200:
         res = json.dumps(data["template"])
         return HttpResponse("%s" % res)
     else:
-        return HttpResponse("%s" % json.dumps(data["status"] ))
+        return HttpResponse("%s" % json.dumps(data["status"]))
 
 
-
-# ajax_data_request: It a heart of application. 
+# ajax_data_request: It a heart of application.
 #                    This view allows you to load the json from database (using a DBManager class)
 #                    and it also performs validation.
 def ajax_data_request(request):
@@ -185,7 +182,7 @@ def ajax_data_request(request):
 
     # print "dopo il db"
     json_data['file_name_fg'] = request.session["file_name_fg"]
-    #json_data['json_file_fg'] = json.loads(couple_fg[0].replace("\\", " "))
+    # json_data['json_file_fg'] = json.loads(couple_fg[0].replace("\\", " "))
     # print json_data['json_file_fg']
 
 
@@ -347,19 +344,18 @@ def ajax_save_request(request):
         json_string = json_string.replace("output", "output_to_port")
         json_string = json_string.replace("controller", "output_to_controller")
 
-
         file_content_fg = json.loads(json_string)
         file_content_pos = json.loads(request.POST["file_content_pos"])
 
         file_name = file_name_fg.split(".")
         request.session["file_name_fg"] = file_name[0]
 
-        #try:
-           # val.validate(file_content_fg)
-        #except Exception as err:
-            #msg["err"] = "Errore di validazione" + err.message
-           # msg = json.dumps(msg)
-           # return HttpResponse("%s" % msg)
+        # try:
+        # val.validate(file_content_fg)
+        # except Exception as err:
+        # msg["err"] = "Errore di validazione" + err.message
+        # msg = json.dumps(msg)
+        # return HttpResponse("%s" % msg)
 
         ris = dbm.getFGByName(request.session["username"], request.session["file_name_fg"])
 
@@ -509,7 +505,7 @@ def users(request):
     if "username" not in request.session:
         return HttpResponseRedirect("/login/")
     else:
-        return render(request, 'users.html', {'username': request.session['username']})
+        return render(request, 'users.html', {'guiName': parser.get('fg-gui', 'guiName'), 'username': request.session['username']})
 
 
 def api_get_user_list(request):

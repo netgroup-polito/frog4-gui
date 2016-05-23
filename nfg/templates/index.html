@@ -5,7 +5,7 @@
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <meta charset="utf-8">
 
-    <title>NF-FG</title>
+    <title>{{ guiName }} - NF-FG</title>
     <!--link rel="icon" href="{% static "img/logo_poli.ico" %}" /-->
     <meta name="generator" content="Bootply"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -73,7 +73,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="">Frog Data Center GUI</a>
+            <a class="navbar-brand" href="">{{ guiName }}</a>
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
@@ -170,7 +170,7 @@
 
                             <!-- New EP Button -->
                             <button type="button" class="menu btn btn-success btn-lg drawButton"
-                                    onclick="loadEPInfo();" style="display:none" title="End-Point"><i
+                                    onclick="onClickDrawEP();" style="display:none" title="End-Point"><i
                                     class="fa fa-circle fa-lg"></i>
                             </button>
 
@@ -440,7 +440,7 @@
                     <div class="form-group">
                         <label class="control-label col-sm-2" for="type">Select File:</label>
                         <div class="col-sm-10">
-                            <select class="form-control" name="type" id="selfileDownload" >
+                            <select class="form-control" name="type" id="selfileDownload">
                             </select>
                         </div>
                     </div>
@@ -507,7 +507,13 @@
                         <label class="control-label col-sm-2" for="type">Type:</label>
                         <div class="col-sm-10">
 
-                                <div id="selectEPItems"></div>
+                            <select class="form-control" name="type" id="seltypeEP">
+                                <option selected>internal</option>
+                                <option>interface</option>
+                                <option>interface-out</option>
+                                <option>gre-tunnel</option>
+                                <option>vlan</option>
+                            </select>
                         </div>
                     </div>
 
@@ -524,8 +530,101 @@
                         </div>
                     </div>
 
-                    <div id="epInfo"></div>
+                    <!--Interface-->
 
+                    <!--<hr>-->
+
+                    <div id="boxInterface">
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="node">Node:</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="node" id="node" placeholder="">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="switch">Switch ID:</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="switch" id="switch" placeholder="">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="interface">Interface:</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="interface" id="interface" placeholder="">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Gre -->
+
+                    <div id="boxGre">
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="localIP">Local IP:</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="localIP" id="localIP" placeholder="">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="remoteIP">Remote IP:</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="remoteIP" id="remoteIP" placeholder="">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="interface">Interface:</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="gre:interface" id="greInterface"
+                                       placeholder="">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="ttl">TTL:</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="ttl" id="ttl" placeholder="">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- VLAN -->
+
+                    <div id="boxVlan">
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="vlanID">Vlan ID:</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="vlanID" id="vlanID" placeholder="">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="switchId">Switch ID:</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="vlanSwitch" id="vlanSwitch"
+                                       placeholder="">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="interface">Interface:</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="vlanInterface" id="vlanInterface"
+                                       placeholder="">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="node">Node:</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="vlanNode" id="vlanNode" placeholder="">
+                            </div>
+                        </div>
+
+
+                    </div>
 
                 </form>
             </div>
