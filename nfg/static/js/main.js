@@ -74,6 +74,19 @@ var num = 0;
 
 /* main */
 
+
+//request for endpoint templates
+ $.ajax({
+             url: 'view_ep_request/',
+              type: 'GET'
+              }).done(function(data1){
+                    epTemplateList=JSON.parse(data1);
+                    console.log(epTemplateList);
+                 });
+
+
+
+
 $(document).ready(function(){
 
     $("#draw_menu").hide();

@@ -146,7 +146,7 @@ function saveNewVNF(){
     })
 }
 
-function loadEPInfo() {
+function loadEPInfo(epType,ep) {
 
      $.ajax({
              url: 'view_ep_request/',
@@ -154,21 +154,20 @@ function loadEPInfo() {
               }).done(function(data1){
                     epTemplateList=JSON.parse(data1);
                     console.log(epTemplateList);
-                    onClickDrawEP()
+                    onClickDrawEP(epType,ep)
                  });
     
 }
 
 
 
-function fillInEP(epType) {
+
+
+function fillInEP(epType,ep) {
     var $html='';
     $("#epInfo").empty();
 
-    var ep;
-    ep = getEndPointById($("#idEndPoint").val());
-
-
+    $("#seltypeEP").val(epType);
     for(var j=0; j<epTemplateList.length; j++)
             if(epTemplateList[j].type===epType){
                 currentEP=epTemplateList[j];
@@ -177,9 +176,6 @@ function fillInEP(epType) {
 
 
     for (var t in currentEP["properties"]){
-
-
-
         $html+='<div class="form-group">'+
                             '<label class="control-label col-sm-2" for="expandable">'+t+":"+'</label>'+
                             '<div class="col-sm-10">'+
@@ -188,7 +184,17 @@ function fillInEP(epType) {
                         '</div>';
     }
 
+
      $("#epInfo").append($html);
+
+    if(ep!=undefined){
+
+     for(var t in currentEP["properties"]){
+        var selector="#id"+t;
+        var s=$(selector).val();
+        $(selector).val(ep[epType][t])
+    }
+    }
 
 
 
@@ -197,14 +203,13 @@ function fillInEP(epType) {
 
 
 
-function onClickDrawEP(){
+function onClickDrawEP(epType,ep){
 
 
         $('#selectEPItems').empty();
 
 
-        var $html = '<select class="form-control" name="type" id="seltypeEP" onchange="fillInEP(this.value)">';
-
+           var $html='<select class="form-control" name="type" id="seltypeEP" onchange="fillInEP(this.value)">';
 
         for(var i=0; i< epTemplateList.length; i++){
 
@@ -216,21 +221,25 @@ function onClickDrawEP(){
             $html+='<option>'+epTemplateList[i].type+'</option>';
 
         }
+        $html+='</select>';
 
 
-         $html+='</select>';
+
+
         $('#selectEPItems').append($html);
 
 
 
-
+        if(epType!=undefined&&ep!=undefined)
+            fillInEP(epType,ep);
 
 
 
         $('#FormEP').modal('show');
         unSetKeysWindowListener();
 
-        $("#idEndPoint").val(NextIdEP());
+        if(epType==undefined||ep==undefined)
+            $("#idEndPoint").val(NextIdEP());
 
 
         $("#saveEP").attr("onclick","drawNewEP()");

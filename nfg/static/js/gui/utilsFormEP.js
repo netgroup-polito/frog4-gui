@@ -45,9 +45,6 @@ function drawFormEP(){
 
 function showEditInfoEP(idEP){
     unSetKeysWindowListener();
-    $("#saveEP").attr("onclick","saveNewEp()");
-    $("#saveEP").html("Save End Point");
-    $('#FormEP').modal('show');
     fillFormInfoEP(idEP);
 }
 
@@ -55,19 +52,20 @@ function showEditInfoEP(idEP){
 function fillFormInfoEP(idEP){
     var ep;
     ep = getEndPointById(idEP);
+    var type=ep["type"];
 
     $("#nameEP").val(ep["name"]);
-    $("#seltypeEP").val(ep["type"]);
     $("#remoteEPid").val(ep["remote_endpoint_id"]);
     $("#idEndPoint").val(ep["id"]);
 
 
-    for(var t in currentEP["properties"]){
-        var selector="#id"+t;
-        var s=$(selector).val();
-        $(selector).val(ep[type][t]);
-    }
 
+    onClickDrawEP(type,ep)
+
+
+    $("#saveEP").attr("onclick","saveNewEp()");
+    $("#saveEP").html("Save End Point");
+    $('#FormEP').modal('show');
 
 
     console.log(ep);
