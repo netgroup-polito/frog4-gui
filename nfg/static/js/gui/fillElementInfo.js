@@ -1,47 +1,28 @@
+
+
+
 function fillNewEP(){
 	
 	var ep = {};
+    var type=$("#seltypeEP").val();
 
 	ep["name"] = $("#nameEP").val();
-	ep["type"] = $("#seltypeEP").val();
+	ep["type"] = type;
 	ep["remote_endpoint_id"] = $("#remoteEPid").val();
     ep["id"] = NextIdEP(); 
     ep["icon"] = $("#selIconEP").val();
 
     $("#idEndPoint").val(ep["id"]);
+    
+    
+    for(var t in currentEP["properties"]){
+        var selector="#id"+t;
+        var s=$(selector).val();
+        if(!ep.hasOwnProperty(type))
+                ep[type]={};
+        ep[type][t]=$(selector).val()
+    }
 
-	switch(ep["type"]){
-		case "internal":
-			ep["internal"]={}; 
-			break;
-		case "interface":
-			ep["interface"]={};
-			ep["interface"]["node"] = $("#node").val();
-			ep["interface"]["switch-id"] = $("#switch").val();
-			ep["interface"]["interface"] = $("#interface").val();
-			break;
-		case "interface-out":
-			ep["interface-out"]={};
-			ep["interface-out"]["node-id"] = $("#node").val();
-			ep["interface-out"]["switch-id"] = $("#switch").val();
-			ep["interface-out"]["interface"] = $("#interface").val();
-			break;
-		case "gre-tunnel":
-			ep["gre-tunnel"]={};
-			ep["gre-tunnel"]["local-ip"] = $("#localIP").val();
-			ep["gre-tunnel"]["remote-ip"] = $("#remoteIP").val();
-			ep["gre-tunnel"]["interface"] = $("#greInterface").val();
-			ep["gre-tunnel"]["ttl"] = $("#ttl").val();
-			break;
-		case "vlan":
-			ep["vlan"]={};
-			ep["vlan"]["vlan-id"] = $("#vlanID").val();
-			ep["vlan"]["interface"] = $("#vlanInterface").val();
-			ep["vlan"]["switch-id"] = $("#switch").val();
-			ep["vlan"]["node-id"] = $("#vlanNode").val();
-			break;
-
-	}
 
 	console.log(ep);
 
@@ -52,53 +33,7 @@ function fillNewEP(){
 }
 
 function updateEP(){
-    var ep = {};
-
-    ep["name"] = $("#nameEP").val();
-    ep["type"] = $("#seltypeEP").val();
-    ep["remote_endpoint_id"] = $("#remoteEPid").val();
-
-    ep["id"] = $("#idEndPoint").val();
-
-    switch(ep["type"]){
-        case "internal":
-            ep["internal"]={}; 
-            break;
-        case "interface":
-            ep["interface"]={};
-            ep["interface"]["node-id"] = $("#node").val();
-            ep["interface"]["switch-id"] = $("#switch").val();
-            ep["interface"]["interface"] = $("#interface").val();
-            break;
-        case "interface-out":
-            ep["interface-out"]={};
-            ep["interface-out"]["node-id"] = $("#node").val();
-            ep["interface-out"]["switch-id"] = $("#switch").val();
-            ep["interface-out"]["interface"] = $("#interface").val();
-            break;
-        case "gre-tunnel":
-            ep["gre-tunnel"]={};
-            ep["gre-tunnel"]["local-ip"] = $("#localIP").val();
-            ep["gre-tunnel"]["remote-ip"] = $("#remoteIP").val();
-            ep["gre-tunnel"]["interface"] = $("#greInterface").val();
-            ep["gre-tunnel"]["ttl"] = $("#ttl").val();
-            break;
-        case "vlan":
-            ep["vlan"]={};
-            ep["vlan"]["vlan-id"] = $("#vlanID").val();
-            ep["vlan"]["interface"] = $("#vlanInterface").val();
-            ep["vlan"]["switch-id"] = $("#switch").val();
-            ep["vlan"]["node-id"] = $("#vlanNode").val();
-            break;
-
-    }
-
-    console.log(ep);
-
-    ep["x"] = Math.random()*50+200;
-    ep["y"] = Math.random()*10+40;
-    
-    return ep;
+    return fillNewEP();
 
 } 
 
@@ -191,63 +126,26 @@ function NextIdEP(){
 
 function validateNewEndPoint(endpoint){
     var validate = true;
-    if(endpoint.id==""){ validate = false;
-                           console.log("id null");}   /*required*/
-    if(endpoint.type!="internal" && endpoint.type!="interface" && endpoint.type!="interface-out" && endpoint.type!="gre-tunnel" && endpoint.type!="vlan"){
-        validate=false;
-        console.log(endpoint.type);
-        console.log("tipo non valido");
+    var reqired=[];
+    var type=currentEP["type"];
+    reqired=currentEP["required"];
 
-    } 
-    switch(endpoint.type){
-        case "internal":
-            break;
-        case "interface":
-            var inter = endpoint["interface"];
-            if(inter["interface"]=="") {
-                $("#interface").parent().parent().attr("class","form-group has-error has-feedback");
-                validate=false;
-            }
-            break;
-        case "interface-out":
-            var inter = endpoint["interface-out"];
-            if(inter["interface"]=="") {
-                $("#interface").parent().parent().attr("class","form-group has-error has-feedback");
-                validate=false;
-            }
-            break;
-        case "gre-tunnel":
-            var inter = endpoint["gre-tunnel"];
-            if(inter["local-ip"]==""){
-                $("#localIP").parent().parent().attr("class","form-group has-error has-feedback");
-                validate=false;
-
-            }
-            if(inter["remote-ip"]==""){
-                $("#remoteIP").parent().parent().attr("class","form-group has-error has-feedback");
-                validate=false;
-
-            }
-            if(inter["interface"]==""){
-                $("#greInterface").parent().parent().attr("class","form-group has-error has-feedback");
-                validate=false;
-            } 
-            break;
-        case "vlan":
-            var inter = endpoint["vlan"];
-            if(inter["vlan-id"]==""){        
-                $("#vlanID").parent().parent().attr("class","form-group has-error has-feedback");
-                validate=false;
-
-            }
-            if(inter["interface"]==""){
-                $("#vlanInterface").parent().parent().attr("class","form-group has-error has-feedback");
-                validate=false;
-            } 
-            break;
+    for(var i=0;i<reqired.length;i++){
+        var selector="#id"+reqired[i];
+        if(endpoint[type][reqired[i]]=="") {
+            validate = false;
+            $(selector).parent().parent().attr("class","form-group has-error has-feedback");
+          console.log("non trovo "+reqired[i]);
+        }
+        else //erase error
+            $(selector).parent().parent().attr("class","form-group");
     }
 
-    
+
+
+
+    if(endpoint.id==""){ validate = false;
+                           console.log("id null");}   /*required*/
 
     return validate;
 }

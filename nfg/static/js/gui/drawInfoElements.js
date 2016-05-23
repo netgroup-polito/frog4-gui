@@ -14,22 +14,16 @@ function drawEndPointInfo(endpoint, id) {
     $('.info').append('<a href="#"><i class="glyphicon glyphicon-exclamation-sign"></i><strong> Node Info</strong></a><div class="panel panel-default"><div class="panel-heading">Node Id: ' + endpoint.id + ' </div><div id="end' + endpoint.id + '"class="panel-body"><p><b>Name:</b> ' + endpoint.name + '</p><p><b>Type:</b> ' + endpoint.type + '</p></div></div>');
     switch (endpoint.type) {
         case "internal":
+            var inter = endpoint["internal"];
+            $('#end' + endpoint.id).append('<div class="panel panel-default"><div class="panel-body" id="inter"></div></div>');
+            $("#inter").append('<p><b>Internal group: </b>' + inter["internal-group"] + '</p>');
             break;
 
         case "interface":
             var inter = endpoint["interface"];
             $('#end' + endpoint.id).append('<div class="panel panel-default"><div class="panel-body" id="inter"></div></div>');
-            $("#inter").append('<p><b>Inteface: </b>' + inter["interface"] + '</p>');
-            $("#inter").append('<p><b>Node: </b>' + inter["node"] + '</p>');
-            $("#inter").append('<p><b>Switch ID: </b>' + inter["switch-id"] + '</p>');
-            break;
-
-        case "interface-out":
-            var inter = endpoint["interface-out"];
-            $('#end' + endpoint.id).append('<div class="panel panel-default"><div class="panel-body" id="inter"></div></div>');
-            $("#inter").append('<p><b>Inteface: </b>' + inter["interface"] + '</p>');
-            $("#inter").append('<p><b>Node: </b>' + inter["node"] + '</p>');
-            $("#inter").append('<p><b>Switch ID: </b>' + inter["switch-id"] + '</p>');
+            $("#inter").append('<p><b>Interface name: </b>' + inter["if-name"] + '</p>');
+            $("#inter").append('<p><b>Node: </b>' + inter["node-id"] + '</p>');
             break;
 
         case "gre-tunnel":
@@ -37,7 +31,7 @@ function drawEndPointInfo(endpoint, id) {
             $('#end' + endpoint.id).append('<div class="panel panel-default"><div class="panel-body" id="inter"></div></div>');
             $("#inter").append('<p><b>Local IP: </b>' + inter["local-ip"] + '</p>');
             $("#inter").append('<p><b>Remote IP: </b>' + inter["remote-ip"] + '</p>');
-            $("#inter").append('<p><b>Interface: </b>' + inter["interface"] + '</p>');
+            $("#inter").append('<p><b>Gre-Key: </b>' + inter["gre-key"] + '</p>');
             $("#inter").append('<p><b>TTL: </b>' + inter["ttl"] + '</p>');
             break;
 
@@ -47,7 +41,7 @@ function drawEndPointInfo(endpoint, id) {
             $("#inter").append('<p><b>Vlan ID: </b>' + inter["vlan-id"] + '</p>');
             $("#inter").append('<p><b>Interface: </b>' + inter["interface"] + '</p>');
             $("#inter").append('<p><b>Switch ID: </b>' + inter["switch-id"] + '</p>');
-            $("#inter").append('<p><b>Node: </b>' + inter["node"] + '</p>');
+            $("#inter").append('<p><b>Node: </b>' + inter["node-id"] + '</p>');
             break;
     }
     $('#end' + endpoint.id).append('<p class="edit"><a href="#" onclick="showEditInfoEP(\'' + endpoint.id + '\')"><strong><i class="glyphicon glyphicon-wrench"></i> Edit</strong></a></p>');
