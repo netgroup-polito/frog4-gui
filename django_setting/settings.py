@@ -12,6 +12,11 @@ https://docs.djangoproject.com/en/dev/ref/settings/
 
 import os
 
+from ConfigParser import SafeConfigParser
+
+parser = SafeConfigParser()
+parser.read(os.environ["FG-GUI_CONF"])
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -114,3 +119,5 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = (('static', os.path.join(BASE_DIR + '/nfg', 'static')), os.path.join(BASE_DIR + '/nfg', 'static'))
+
+SESSION_COOKIE_NAME = 'sessionid' + parser.get('fg-gui', 'port')
