@@ -1,5 +1,5 @@
 For modify the view of big switch info table, you must edit the the flow_rule_table.json in [nfg/flow_rule_table.json]. This is an configuration file where you can  add or remove columns of  big switch info table.  This file fallows the [nfg/nffg_library/schema.json] file, to visualize one column you must add one of propertys of “big-switch” [“flow-rules”].
-For example: given a configuration file:
+<br />For example: given a configuration file:
 {
   "properties": {
     "id": {
@@ -37,7 +37,7 @@ For example: given a configuration file:
   }
 }
 
-For delete a column match:dest_port you must delete "dest_port": {"type": "string"} from json. The result is:
+<br />For delete a column match:dest_port you must delete "dest_port": {"type": "string"} from json.<br /> The result is:
 {
   "properties": {
     "id": {
@@ -71,8 +71,8 @@ For delete a column match:dest_port you must delete "dest_port": {"type": "strin
   }
 }
 
-For add another column to table you (for examle actions:push_vlan) you must add “push_vlan”:{“type”:”string”} to actions. 
-The result is:
+<br />For add another column to table you (for examle actions:push_vlan) you must add “push_vlan”:{“type”:”string”} to actions. 
+<br />The result is:
 
 {
   "properties": {
