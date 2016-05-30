@@ -1,4 +1,4 @@
-For modify the view of big switch info table, you must edit the the flow_rule_table.json in [nfg/flow_rule_table.json]. This is an configuration file where you can  add or remove columns of  big switch info table.  This file fallows the [nfg/nffg_library/schema.json] file, to visualize one column you must add one of propertys of “big-switch” [“flow-rules”].
+For modify the view of big switch info table, you must edit the the flow_rule_table.json in [nfg/flow_rule_table.json]. This is an configuration file where you can  add or remove columns of  big switch info table.  This file fallows the [nfg/nffg_library/schema.json] file, to visualize one column you must add one of properties of “big-switch” [“flow-rules”].
 <br />For example: given a configuration file:
 
 ```json
