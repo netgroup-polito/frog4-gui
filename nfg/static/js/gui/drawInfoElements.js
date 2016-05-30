@@ -364,20 +364,19 @@ function DrawActionDynamin() {
     var id="id"
     var two="2"
 
-    var $html2;
+    var $html2="";
     console.log(editRuleAction)
     for(var field in editRuleAction) {
-        console.log(id.concat(field).concat(two));
         $html2 += '<div class="form-group">' +
-            '<label class="control-label col-sm-2" for="'+id.concat(field)+'">'+field+'</label>' +
-            '<div class="col-sm-10">' +
+            '<label class="control-label col-sm-4" for="'+id.concat(field)+'">'+field+":"+'</label>' +
+            '<div class="col-sm-8">' +
             '<input type="text" name="idEP" class="form-control " id="'+id.concat(field)+'" placeholder="" value="">' +
             '</div> ' +
             '</div>' +
 
             '<div class="form-group duplicate">' +
-            '<label class="control-label col-sm-2" for="'+id.concat(field)+'">'+field+'</label>' +
-            '<div class="col-sm-10">' +
+            '<label class="control-label col-sm-4" for="'+id.concat(field)+'">'+field+'</label>' +
+            '<div class="col-sm-8">' +
             '<input type="text" name="idEP" class="form-control " id="'+id.concat(field).concat(two)+'" placeholder="" value="">' +
             '</div>' +
             '</div>';
@@ -395,20 +394,19 @@ function DrawMatchDynamic() {
     var id="id"
     var two="2"
 
-    var $html2;
+    var $html2="";
     console.log(editRuleMatch)
     for(var field in editRuleMatch) {
-        console.log(id.concat(field).concat(two));
         $html2 += '<div class="form-group">' +
-            '<label class="control-label col-sm-2" for="'+id.concat(field)+'">'+field+'</label>' +
-            '<div class="col-sm-10">' +
+            '<label class="control-label col-sm-4" for="'+id.concat(field)+'">'+field+":"+'</label>' +
+            '<div class="col-sm-8">' +
             '<input type="text" name="idEP" class="form-control " id="'+id.concat(field)+'" placeholder="" value="">' +
             '</div> ' +
             '</div>' +
 
             '<div class="form-group duplicate">' +
-            '<label class="control-label col-sm-2" for="'+id.concat(field)+'">'+field+'</label>' +
-            '<div class="col-sm-10">' +
+            '<label class="control-label col-sm-4" for="'+id.concat(field)+'">'+field+'</label>' +
+            '<div class="col-sm-8">' +
             '<input type="text" name="idEP" class="form-control " id="'+id.concat(field).concat(two)+'" placeholder="" value="">' +
             '</div>' +
             '</div>';
