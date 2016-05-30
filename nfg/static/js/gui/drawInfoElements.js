@@ -137,7 +137,8 @@ function drawBigSwitchInfoModal() {
         '</div>' +
         '<div class="modal-body">' +
 
-        '<table class="table table-striped">' +
+        '<div class="table-responsive">'+
+        '<table class="table">' +
         '<thead>' + '<tr>';
 
     for (var prop in infoRule) {
@@ -192,6 +193,7 @@ function drawBigSwitchInfoModal() {
 
     $html += '</tbody>' +
         '</table>' +
+         '</div>'+
         '</div>' +
         '<div class="modal-footer">' +
         '<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>' +

@@ -280,7 +280,7 @@ def ajax_upload_request(request):
 #                    This view return a list of json file memorize on database
 
 def view_templates_request(request):
-    with open('nfg/flow_rule_table2.json') as data_file:
+    with open('nfg/flow_rule_table.json') as data_file:
         data = json.load(data_file)
     return HttpResponse("%s" % json.dumps(data))
 
