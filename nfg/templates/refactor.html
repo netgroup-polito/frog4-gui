@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta charset="UTF-8">
     <title>{{ guiName }} - NF-FG Refactor</title>
-    <link rel="icon" href="{% static "img/favicon.ico"%}">
+    <link rel="icon" href="{% static "img/favicon.ico" %}">
     <link rel="stylesheet" href="{% static "css/bootstrap.css" %}">
     <link rel="stylesheet" href="{% static "css/dialogs.css" %}">
     <link rel="stylesheet" href="{% static "css/style.css" %}">
@@ -33,10 +33,18 @@
 
     <!-- Angular JS application -->
     <script type="text/javascript" src="{% static "js/refactor-application/app.js" %}"></script>
+    <!-- Angular Module fg-d3-->
+    <!-- Angular Service -->
+    <script type="text/javascript" src="{% static "js/fg-d3/services/InitializationService.js" %}"></script>
+    <script type="text/javascript" src="{% static 'js/fg-d3/services/d3Service.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/fg-d3/services/fgDrawService.js' %}"></script>
+    <!-- Angular Directive -->
+    <script type="text/javascript" src="{% static "js/fg-d3/directives/d3/d3nffgDirective.js" %}"></script>
+    <!-- Angular Constants -->
+    <script type="text/javascript" src="{% static "js/fg-d3/constants.js" %} "></script>
+    <!-- Angular Module fg-gui-->
     <!-- Angular Service -->
     <script type="text/javascript" src="{% static "js/refactor-application/services/BackendCallService.js" %}"></script>
-    <script type="text/javascript" src="{% static "js/refactor-application/services/InitializationService.js" %}"></script>
-    <script type="text/javascript" src="{% static 'js/refactor-application/services/d3Service.js' %}"></script>
     <!-- Angular Controller -->
     <script type="text/javascript" src="{% static "js/refactor-application/controllers/mainController.js" %}"></script>
     <script type="text/javascript" src="{% static "js/refactor-application/controllers/nffgController.js" %}"></script>
@@ -44,7 +52,7 @@
     <script type="text/javascript" src="{% static "js/refactor-application/controllers/loadFromServerController.js" %}"></script>
     <!-- Angular Directive -->
     <!-- Angular Constants -->
-    <script type="text/javascript" src="{% static "js/refactor-application/constants.js"%} "></script>
+    <script type="text/javascript" src="{% static "js/refactor-application/constants.js" %} "></script>
     <!-- Angular Route ( view - controller description ) -->
     <script type="text/javascript" src="{% static "js/refactor-application/routeProvider.js" %}"></script>
     <!-- Angular Application Bootstrap -->

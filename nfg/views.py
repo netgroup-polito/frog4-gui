@@ -609,3 +609,15 @@ def api_get_available_graphs(request):
             return HttpResponse(status=401)
     else:
         return HttpResponse(status=501)
+
+
+def api_get_available_graphs_debug(request):
+    if request.method == "GET":
+
+        result = dbm.get_fgs()
+
+        json_data_string = json.dumps(result)
+
+        return HttpResponse("%s" % json_data_string, status=200)
+    else:
+        return HttpResponse(status=501)

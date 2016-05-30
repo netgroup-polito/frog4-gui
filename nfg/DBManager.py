@@ -10,6 +10,7 @@ import json
 import logging
 import os
 from ConfigParser import SafeConfigParser
+
 # from django.db.backends import mysql
 # from create_logging import Mylogging
 
@@ -95,3 +96,39 @@ class DBManager:
         conn.commit()
         conn.close()
         return c
+
+    # for debug purpose
+
+    def insert_fg(self, fg):
+
+        conn = sqlite3.connect(self.db_filename)
+        cursor = conn.cursor()
+
+        par = (json.dumps(fg))
+
+        query = 'INSERT INTO users_graphs VALUES (?)'
+        cursor.execute(query, par)
+
+        conn.commit()
+        conn.close()
+        return
+
+    def get_fgs(self):
+
+        conn = sqlite3.connect(self.db_filename)
+        cursor = conn.cursor()
+        query = 'SELECT fg FROM users_graphs'
+        try:
+            c = cursor.execute(query)
+            ris = c.fetchall()
+            converted = []
+            logging.debug(ris)
+            for item in ris:
+                converted.append(json.loads(item[0]))
+            result = {"NF-FG": converted, "status": 200}
+            return result
+        except Exception as err:
+            logging.error("Something went wrong: {}".format(err))
+        finally:
+            conn.commit()
+            conn.close()

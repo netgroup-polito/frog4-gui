@@ -146,10 +146,13 @@
             .attr("fullduplex",function(d){return d.full_duplex;})
             .attr("marker-end",function(d) {
                 //return d.full_duplex == false ? "url(#EPArrow)" : "default";
-                if(d.full_duplex===true) return "default";
+                if(d.full_duplex===true)
+                    return "default";
                 var type=d.actions[0].output.split(":");
-                if(type[0]==="vnf") return "url(#IntArrow)";
-                else return "url(#EPArrow)";
+                if(type[0]==="vnf")
+                    return "url(#IntArrow)";
+                else
+                    return "url(#EPArrow)";
             })
             .on("click",selectSimpleLines);
 
@@ -235,7 +238,7 @@ function drawLabelIdFG(){
      }else{
         $("#fg_id").append("<b>"+fg["forwarding-graph"]["name"]+" (ID: "+fg["forwarding-graph"]["id"]+"</b>)");
      }
-     
+
      $("#newIDFG").val(fg["forwarding-graph"]["id"]);
 }
 

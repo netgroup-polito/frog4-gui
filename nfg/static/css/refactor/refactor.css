@@ -15,4 +15,22 @@ body {
 
 #my_canvas {
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+#svg_graph {
+    flex: 1;
+    position: relative;
+}
+
+#svg_graph > svg {
+    position: absolute;
+}
+
+.labelRight {
+    text-align: right;
+    padding-top: 10px;
+    padding-right: 40px;
+    color: #337AB7;
 }

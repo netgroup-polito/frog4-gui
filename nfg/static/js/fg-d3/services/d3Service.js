@@ -3,7 +3,7 @@
  */
 (function () {
     "use strict";
-    var d3Service = function ($document, $q, $rootScope) {
+    var d3Service = function () {
 
         var d3 = window.d3;
 
@@ -85,5 +85,5 @@
 
     d3Service.$inject = ['$document', '$q', '$rootScope'];
 
-    angular.module('fg-gui').service('d3Service', d3Service);
+    angular.module('d3').service('d3Service', d3Service);
 })();
