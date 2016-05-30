@@ -350,7 +350,8 @@ $('.myModalEdit').empty();
 
     hideMatch();
     hideAction();
-    showEditInfoFlowRule(id);
+    if(id!=undefined)
+        showEditInfoFlowRule(id);
 
     $('#myModalEdit').modal('show');
 

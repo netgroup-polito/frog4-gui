@@ -26,6 +26,8 @@ function select_node(ele){
             }else{
                 showComplexFRFields();
             }
+            drawBigSwitchEditModal();
+
             $('#idPriority').val(1);
             $("#idFlowRule").val(NextIdFlowRule());
             $("#idPortIn").val(ele1_selected.id);
