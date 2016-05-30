@@ -79,8 +79,8 @@ For modify the view of big switch info table, you must edit the the flow_rule_ta
 
 <br />For add another column to table you (for examle actions:push_vlan) you must add “push_vlan”:{“type”:”string”} to actions. 
 <br />The result is:
-
-{
+```json
+   {
   "properties": {
     "id": {
       "type": "string"
@@ -115,4 +115,6 @@ For modify the view of big switch info table, you must edit the the flow_rule_ta
     }
   }
 }
+```
+
 
