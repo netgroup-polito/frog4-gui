@@ -72,18 +72,24 @@
                 .attr("x", function (d, i) {    // x position of the element
                     if (pos[d.id].x)
                         return pos[d.id].x;
-                    else
-                        return pos[d.id].x = parseInt(200 * Math.cos(alfa * (i) + Math.PI / 2) +
-                            graph.svg.node().getBoundingClientRect().width / 2 -
-                            graphConstant.vnfWidth / 2 - graphConstant.offsetX / 2)
+                    else {
+                        var limit = graph.svg.node().getBoundingClientRect().width / 2
+                            - graphConstant.vnfWidth / 2;
+                        var xCenter = parseInt((limit - 10) * Math.cos(alfa * (i) + Math.PI / 2));
+                        return pos[d.id].x = xCenter + limit;
+                    }
+
                 })
                 .attr("y", function (d, i) {    // y position of the element
                     if (pos[d.id].y)
                         return pos[d.id].y;
-                    else
-                        return pos[d.id].y = parseInt(200 * Math.sin(alfa * (i) + Math.PI / 2) +
-                            graph.svg.node().getBoundingClientRect().height / 2 -
-                            graphConstant.vnfHeigth / 2 - graphConstant.offsetY / 2)
+                    else {
+                        var limit = graph.svg.node().getBoundingClientRect().height / 2
+                            - graphConstant.vnfHeigth / 2;
+                        var yCenter = parseInt((limit - 10) * Math.sin(alfa * (i) + Math.PI / 2));
+                        return pos[d.id].y = yCenter + limit;
+
+                    }
                 })
             /*.on("mousedown", selectVNFs)
              .on("contextmenu", function (d) {
@@ -152,24 +158,37 @@
                 .attr("class", "interface vnf-interface"); // "vnf-interface" is the class used for selection
             portElements
                 .attr("id", function (d) {
-                    return "vnf:" + pos[d.parent].ports[d.port.id].parent_vnf_id + ":" + pos[d.parent].ports[d.port.id].id;
+                    return d.full_id;
                 })
                 .attr("title", function (d) {
-                    return pos[d.parent].ports[d.port.id].full_id;
+                    return d.full_id;
                 })
-                .attr("cx", function (d) {   // x position of the center of the element
-                    if (!pos[d.parent].ports[d.port.id].x)
-                        pos[d.parent].ports[d.port.id].x = parseInt(Math.random() * graphConstant.vnfWidth);
-                    if (!pos[d.parent].ports[d.port.id].parent_vnf_x)
-                        pos[d.parent].ports[d.port.id].parent_vnf_x = pos[d.parent].x;
-                    return parseInt(pos[d.parent].ports[d.port.id].x) + parseInt(pos[d.parent].ports[d.port.id].parent_vnf_x);
+                .attr("cx", function (d, i) {   // x position of the center of the element
+                    var portPos = pos[d.parent].ports[d.port.id];
+
+                    if (!portPos.parent_vnf_x)
+                        portPos.parent_vnf_x = pos[d.parent].x;
+                    if (!portPos.x) {
+                        var totVNFPorts = 0;
+                        var me = 0;
+                        ports.forEach(function (port) {
+                            if (port.parent == d.parent)
+                                totVNFPorts++;
+                            if (d.full_id == port.full_id)
+                                me = totVNFPorts - 1;
+                        });
+                        portPos.x = parseInt(graphConstant.vnfWidth / totVNFPorts * (me + 0.5));
+                    }
+                    return parseInt(portPos.x) + parseInt(portPos.parent_vnf_x);
                 })
                 .attr("cy", function (d) {   // y position of the center of the element
-                    if (!pos[d.parent].ports[d.port.id].y)
-                        pos[d.parent].ports[d.port.id].y = 0;
-                    if (!pos[d.parent].ports[d.port.id].parent_vnf_y)
-                        pos[d.parent].ports[d.port.id].parent_vnf_y = pos[d.parent].y;
-                    return parseInt(pos[d.parent].ports[d.port.id].y) + parseInt(pos[d.parent].ports[d.port.id].parent_vnf_y);
+
+                    var portPos = pos[d.parent].ports[d.port.id];
+                    if (!portPos.parent_vnf_y)
+                        portPos.parent_vnf_y = pos[d.parent].y;
+                    if (!portPos.y)
+                        portPos.y = portPos.parent_vnf_y < graph.svg.node().getBoundingClientRect().height / 2 ? graphConstant.vnfHeigth : 0;
+                    return parseInt(portPos.y) + parseInt(portPos.parent_vnf_y);
                 })
                 .attr("parent_NF_position_x", function (d) {
                     return pos[d.parent].ports[d.port.id].parent_vnf_x; // x position of the parent vnf
@@ -186,71 +205,33 @@
             portElements.exit().remove()
         };
 
-        var _getPos = function (vnf, bs) {
+        var _getPos = function (vnf, bs, port) {
             var pos = {};
-            var m1 = {
-                x: bs.x,
-                y: bs.y + graphConstant.bigSwitchHeight / 2
-            }, m2 = {
-                x: bs.x + graphConstant.bigSwitchWidth,
-                y: bs.y + graphConstant.bigSwitchHeight / 2
-            }, m3 = {
-                x: bs.x + graphConstant.bigSwitchWidth / 2,
-                y: bs.y
-            }, m4 = {
-                x: bs.x + graphConstant.bigSwitchWidth / 2,
-                y: bs.y + graphConstant.bigSwitchHeight
-            };
 
-            var d1 = Math.pow(vnf.x - m1.x, 2) + Math.pow(vnf.y - m1.y, 2);
-            var d2 = Math.pow(vnf.x - m2.x, 2) + Math.pow(vnf.y - m2.y, 2);
-            var d3 = Math.pow(vnf.x - m3.x, 2) + Math.pow(vnf.y - m3.y, 2);
-            var d4 = Math.pow(vnf.x - m4.x, 2) + Math.pow(vnf.y - m4.y, 2);
-            var min = Math.min(d1, d2, d3, d4);
-            switch (min) {
-                case d1:
-                    if (vnf.y < bs.y) {
-                        pos.y = bs.y;
-                    } else if (vnf.y > bs.y + graphConstant.bigSwitchHeight) {
-                        pos.y = bs.y + graphConstant.bigSwitchHeight;
-                    } else {
-                        pos.y = vnf.y;
-                    }
-                    pos.x = bs.x;
-                    break;
-                case d2:
-                    if (vnf.y < bs.y) {
-                        pos.y = bs.y;
-                    } else if (vnf.y > bs.y + graphConstant.bigSwitchHeight) {
-                        pos.y = bs.y + graphConstant.bigSwitchHeight;
-                    } else {
-                        pos.y = vnf.y;
-                    }
-                    pos.x = bs.x + graphConstant.bigSwitchWidth;
-                    break;
-                case d3:
-                    if (vnf.x < bs.x) {
-                        pos.x = bs.x;
-                    } else if (vnf.x > bs.x + graphConstant.bigSwitchWidth) {
-                        pos.x = bs.x + graphConstant.bigSwitchWidth;
-                    } else {
-                        pos.x = vnf.x;
-                    }
-                    pos.y = bs.y;
-                    break;
-                case d4:
-                    if (vnf.x < bs.x) {
-                        pos.x = bs.x;
-                    } else if (vnf.x > bs.x + graphConstant.bigSwitchWidth) {
-                        pos.x = bs.x + graphConstant.bigSwitchWidth;
-                    } else {
-                        pos.x = vnf.x;
-                    }
-                    pos.y = bs.y + graphConstant.bigSwitchHeight;
-                    break;
-            }
+            var xPos = vnf.x;
+            if (port)
+                xPos += port.x;
+            var yPos = vnf.y;
+            if (port)
+                yPos += port.y;
+
+            if (xPos < bs.x)
+                pos.x = bs.x;
+            else if (xPos > bs.x + graphConstant.bigSwitchWidth)
+                pos.x = bs.x + graphConstant.bigSwitchWidth;
+            else
+                pos.x = xPos;
+
+            if (yPos < bs.y)
+                pos.y = bs.y;
+            else if (yPos > bs.y + graphConstant.bigSwitchHeight)
+                pos.y = bs.y + graphConstant.bigSwitchHeight;
+            else
+                pos.y = yPos;
+
             pos.x -= bs.x;
             pos.y -= bs.y;
+
             return pos;
         };
 
@@ -262,7 +243,7 @@
                 .append("use")
                 .style("stroke-dasharray", ("8, 4"))
                 .attr("xlink:href", "#BIG_SWITCH")
-                .attr("class", "big-switch");
+                .attr("class", "big-switch bigSwitchView");
             bigswitchElement
                 .attr("x", function () {
                     if (pos.x)
@@ -295,12 +276,12 @@
                     return d.id;
                 })
                 .attr("r", graphConstant.ifRadius)
-                .attr("class", "bs-interface interface");
+                .attr("class", "bs-interface interface bigSwitchView");
             bigswitchInterfaceElement
                 .attr("cx", function (d) {
                     if (!d.x)
                         if (d.parent_vnf_id)
-                            d.x = _getPos(vnfPos[d.parent_vnf_id], pos).x;
+                            d.x = _getPos(vnfPos[d.parent_vnf_id], pos, vnfPos[d.parent_vnf_id].ports[d.parent_vnf_port]).x;
                         else
                             d.x = _getPos(epPos[d.parent_ep_id], pos).x;
                     return pos.x + d.x;
@@ -308,7 +289,7 @@
                 .attr("cy", function (d) {
                     if (!d.y)
                         if (d.parent_vnf_id)
-                            d.y = _getPos(vnfPos[d.parent_vnf_id], pos).y;
+                            d.y = _getPos(vnfPos[d.parent_vnf_id], pos, vnfPos[d.parent_vnf_id].ports[d.parent_vnf_port]).y;
                         else
                             d.y = _getPos(epPos[d.parent_ep_id], pos).y;
                     return pos.y + d.y;
@@ -318,11 +299,204 @@
             bigswitchInterfaceElement.exit().remove();
         };
 
-        var _buildLink = function () {
+        var _buildLink = function (fg, pos, graph) {
+            var flowRules = [];
+            var allInterface = {};
+            angular.forEach(pos["VNFs"], function (vnf) {
+                angular.forEach(vnf["ports"], function (port) {
+                    allInterface[port.full_id] = port;
+                });
+            });
+            angular.forEach(pos["end-points"], function (ep) {
+                allInterface[ep.full_id] = ep;
+            });
 
+            angular.forEach(pos["big-switch"]["flow-rules"], function (origin) {
+                angular.forEach(origin, function (rule) {
+                    if (rule.origin.indexOf("endpoint") > -1) {
+                        rule["origin-x"] = allInterface[rule.origin].x;
+                        rule["origin-y"] = allInterface[rule.origin].y;
+                    } else {
+                        rule["origin-x"] = parseInt(allInterface[rule.origin].x) + parseInt(allInterface[rule.origin].parent_vnf_x);
+                        rule["origin-y"] = parseInt(allInterface[rule.origin].y) + parseInt(allInterface[rule.origin].parent_vnf_y);
+
+                    }
+                    if (rule.destination.indexOf("endpoint") > -1) {
+                        rule["destination-x"] = allInterface[rule.destination].x;
+                        rule["destination-y"] = allInterface[rule.destination].y;
+                    } else {
+                        rule["destination-x"] = parseInt(allInterface[rule.destination].x) + parseInt(allInterface[rule.destination].parent_vnf_x);
+                        rule["destination-y"] = parseInt(allInterface[rule.destination].y) + parseInt(allInterface[rule.destination].parent_vnf_y);
+
+                    }
+                    flowRules.push(rule);
+                });
+            });
+
+            var links = graph.connections.selectAll(".link")
+                .data(flowRules, function (d) {
+                    return d.origin + ";" + d.destination;
+                });
+            links
+                .enter()
+                .append("line")
+                .attr("class", "link line normaleView")
+                .attr("stroke", "black");
+            links
+                .attr("x1", function (d) {
+                    return d["origin-x"];
+                })
+                .attr("y1", function (d) {
+                    return d["origin-y"];
+                })
+                .attr("x2", function (d) {
+                    return d["destination-x"];
+                })
+                .attr("y2", function (d) {
+                    return d["destination-y"];
+                })
+                .attr("id", function (d) {
+                    return "fr-" + d.origin + ";" + d.destination;
+                })
+                .attr("title", function (d) {
+                    return "Source: " + d.origin + " Action: " + d.destination;
+                })
+                //aggiungo l'info da chi parte a chi arriva
+                .attr("start", function (d) {
+                    return d.origin;
+                })
+                .attr("end", function (d) {
+                    return d.destination;
+                })
+                .attr("fullduplex", function (d) {
+                    return d.isFullDuplex;
+                })
+                .attr("marker-end", function (d) {
+                    //return d.full_duplex == false ? "url(#EPArrow)" : "default";
+                    if (d.isFullDuplex === true)
+                        return "default";
+                    else
+                        return "url(#Arrow)";
+                })
+            //.on("click", selectSimpleLines);
+            links.exit().remove();
+            console.log("buildLink")
         };
-        var _buildBigSwitchLink = function () {
+        var _buildBigSwitchLink = function (fg, pos, graph) {
+            //linkare end point e interfacce alle rispettive controparti nel big-switch
 
+            var BSinterfaces = [];
+
+            angular.forEach(pos["big-switch"].interfaces, function (int) {
+                BSinterfaces.push(int);
+            });
+
+            var externalLink = graph.connections.selectAll(".externalLink")
+                .data(BSinterfaces, function (d) {
+                    return d.id;
+                });
+            externalLink.enter()
+                .append("line")
+                .attr("class", "externalLink bigSwitchView")
+                .attr("stroke", "black");
+            externalLink
+                .attr("x1", function (d) {
+                    return pos["big-switch"].x + d.x;
+                })
+                .attr("y1", function (d) {
+                    return pos["big-switch"].y + d.y;
+                })
+                .attr("x2", function (d) {
+                    if (d.id.indexOf("endpoint") >= 0) {
+                        return pos["end-points"][d.parent_ep_id].x
+                    } else {
+                        return pos["VNFs"][d.parent_vnf_id].x + pos["VNFs"][d.parent_vnf_id].ports[d.parent_vnf_port].x
+                    }
+
+                })
+                .attr("y2", function (d) {
+                    if (d.id.indexOf("endpoint") >= 0) {
+                        return pos["end-points"][d.parent_ep_id].y
+                    } else {
+                        return pos["VNFs"][d.parent_vnf_id].y + pos["VNFs"][d.parent_vnf_id].ports[d.parent_vnf_port].y
+                    }
+                })
+                .attr("id", function (d) {
+                    return "ExtLink-" + d.id;
+                })
+            /*.on("click",select_node)
+             .call(drag_INTERFACEBIGSWITCH);*/
+            externalLink.exit().remove();
+
+            var flowRules = [];
+            angular.forEach(pos["big-switch"]["flow-rules"], function (origin) {
+                angular.forEach(origin, function (rule) {
+                    flowRules.push(rule);
+                });
+            });
+
+            var internalLinks = graph.connections.selectAll(".internalLink")
+                .data(flowRules, function (d) {
+                    return d.origin + ";" + d.destination;
+                });
+            internalLinks
+                .enter()
+                .append("line")
+                .attr("class", "internalLink line bigSwitchView")
+                .attr("stroke", "black");
+            internalLinks
+                .attr("x1", function (d) {
+                    return pos["big-switch"].x + pos["big-switch"]["interfaces"][d.origin].x;
+                })
+                .attr("y1", function (d) {
+                    return pos["big-switch"].y + pos["big-switch"]["interfaces"][d.origin].y;
+                })
+                .attr("x2", function (d) {
+                    return pos["big-switch"].x + pos["big-switch"]["interfaces"][d.destination].x;
+                })
+                .attr("y2", function (d) {
+                    return pos["big-switch"].y + pos["big-switch"]["interfaces"][d.destination].y;
+                })
+                .attr("idfr", function (d) {
+                    return "fr-int-" + d.origin + ";" + d.destination;
+                })
+                .attr("title", function (d) {
+                    if (d.full_duplex == true) {
+                        /* Bidirectional link */
+                        return d.origin + "<br><i class='fa fa-exchange'></i><br>" + d.destination;
+                    } else {
+                        /* Unidirectional link */
+                        return d.origin + "<br><i class='fa fa-long-arrow-right'></i><br>" + d.destination;
+                    }
+                })
+                //aggiungo l'info da chi parte a chi arriva
+                .attr("start", function (d) {
+                    return d.origin;
+                })
+                .attr("end", function (d) {
+                    return d.destination;
+                })
+                .attr("fullduplex", function (d) {
+                    return d.isFullDuplex;
+                })
+                .attr("marker-end", function (d) {
+                    if (d.isFullDuplex === true)
+                        return "default";
+                    else
+                        return "url(#InternalArrow)";
+                })
+            //.on("click", selectSimpleLines);
+            internalLinks.exit().remove();
+
+
+            //usare la logica precedente per gestire la parte interna
+
+            console.log("buildBigSwitchLink");
+        };
+
+        var _buildAllLink = function (fg, pos, graph) {
+            _buildLink(fg, pos, graph);
+            _buildBigSwitchLink(fg, pos, graph);
         };
 
         return {
@@ -330,7 +504,8 @@
             buildVNFs: _buildVNFs,
             buildBigSwitch: _buildBigSwitch,
             buildLink: _buildLink,
-            buildBigSwitchLink: _buildBigSwitchLink
+            buildBigSwitchLink: _buildBigSwitchLink,
+            buildAllLink: _buildAllLink
         }
     };
     fgDrawService.$inject = ['graphConstant'];

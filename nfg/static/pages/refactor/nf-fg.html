@@ -34,6 +34,7 @@
 
                         <!-- Big Switch Button -->
                         <button type="button" class="menu btn btn-default btn-lg" ng-click="NFFGCtrl.toggleBigSwitch()"
+                                ng-class="NFFGCtrl.isForced?'btn-warning':NFFGCtrl.showBigSwitch?'btn-info':''"
                                 title="Toggle Simple/Big Switch view" id="BSViewToogle">
                             <i class="fa fa-square-o fa-lg"></i>
                         </button>
@@ -120,7 +121,7 @@
                     <p class="labelRight" ng-hide="NFFGCtrl.fg">
                         <b>Load a graph to show its information</b>
                     </p>
-                    <div id="svg_graph" d3nffg ng-model="NFFGCtrl.fg" position="NFFGCtrl.fgPos">
+                    <div id="svg_graph" d3nffg ng-model="NFFGCtrl.fg" position="NFFGCtrl.fgPos" show-big-switch="NFFGCtrl.showBigSwitch" is-forced="NFFGCtrl.isForced">
                     </div>
 
                 </div>

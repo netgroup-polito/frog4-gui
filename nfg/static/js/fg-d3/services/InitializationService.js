@@ -27,6 +27,7 @@
                 VNF_list[i].ports.forEach(function (port) {
                     var e = {};
                     e.ref = "NF_interface";
+                    e.id = port.id;
                     e.full_id = "vnf:" + VNF_list[i].id + ":" + port.id;
                     e.parent_vnf_id = VNF_list[i].id;
                     e.isLinked = false;
@@ -47,7 +48,8 @@
                         BS_Pos.interfaces[port.full_id] = {
                             ref: "BS_interface",
                             id: port.full_id,
-                            parent_vnf_id: port.parent_vnf_id
+                            parent_vnf_id: port.parent_vnf_id,
+                            parent_vnf_port: port.id
                         }
                     });
                 });

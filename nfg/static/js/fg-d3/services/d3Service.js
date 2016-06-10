@@ -38,40 +38,36 @@
             return svg.append("g").attr("class", sectionName);
         };
 
-        var _addRectDefinition = function (section, definitionName, offsetX, offsetY, width, height, css) {
-            var def = section.append("defs").append("g").attr("id", definitionName);
-            def.append("rect")
-                .attr("x", offsetX)
-                .attr("y", offsetY)
-                .attr("width", width)
-                .attr("height", height)
-                .attr("class", css);
+        var _addSimpleDefinition = function (section, type, attrsObject) {
+            var def = section.append("defs");
+            def.append(type)
+                .attr(attrsObject);
             return def;
         };
+        var _addNestedDefinition = function (section, type, attrsObject) {
+            var children = attrsObject.children;
+            delete attrsObject.children;
+            var def = section.append("defs")
+                .append(type).attr(attrsObject);
+            if (children && children.length > 0)
+                children.forEach(function (child) {
+                    var type = child.type;
+                    delete child.type;
+                    _addNest(def, type, child)
+                })
+        };
+        var _addNest = function (definition, type, attrsObject) {
+            var children = attrsObject.children;
+            delete attrsObject.children;
+            var def = definition.append(type).attr(attrsObject);
+            if (children && children.length > 0)
+                children.forEach(function (child) {
+                    var type = child.type;
+                    delete child.type;
+                    _addNest(def, type, child)
+                })
+        };
 
-        /*var _addPatterDefinition = function (section, definitionName, offsetX, offsetY, width, height, css) {
-            var def = section.append("defs").append("g").attr("id", definitionName);
-
-            defs_section.append("defs")
-                .append('pattern')
-                .attr('id', 'host-select-icon')
-                .attr('width', 1)
-                .attr('height', 1)
-                .attr('patternContentUnits', 'objectBoundingBox')
-                .append("svg:image")
-                .attr("xlink:xlink:href", "/static/img/pc-red.png")
-                .attr('width', 1)
-                .attr('height', 1)
-                .attr("preserveAspectRatio", "xMinYMin slice");
-
-            def.append("pattern")
-                .attr("x", offsetX)
-                .attr("y", offsetY)
-                .attr("width", width)
-                .attr("height", height)
-                .attr("class", css);
-            return def;
-        };*/
 
         return {
             d3: _d3,
@@ -79,7 +75,8 @@
             deleteGraph: _deleteGraph,
             addAttribute: _addAttribute,
             addSection: _addSection,
-            addRectDefinition: _addRectDefinition
+            addSimpleDefinition: _addSimpleDefinition,
+            addNestedDefinition: _addNestedDefinition
         };
     };
 

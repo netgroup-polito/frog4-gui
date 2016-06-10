@@ -4,7 +4,7 @@
 (function () {
     'use strict';
 
-    var NFFGController = function (BackendCallService, $uibModal, $dialogs, graphConstant, d3Service, InitializationService) {
+    var NFFGController = function ($scope,BackendCallService, $uibModal, $dialogs, graphConstant, d3Service, InitializationService) {
         var ctrl = this;
 
         ctrl.existingGraph = [];
@@ -37,8 +37,17 @@
 
         ctrl.showEditButton = false;
         ctrl.showBigSwitch = false;
+        ctrl.isForced = false;
         ctrl.fg = null;
         ctrl.fgPos = null;
+        
+        $scope.$watch(function () {
+                        return ctrl.isForced;
+                    },
+                    function () {
+                        if(ctrl.isForced)
+                            $dialogs.notify('Splitted Rules', 'Your graph has a split, only Complex View is available!');
+                    });
 
         ctrl.toggleEditButton = function () {
             ctrl.showEditButton = !ctrl.showEditButton;
@@ -126,7 +135,7 @@
 
     };
 
-    NFFGController.$inject = ['BackendCallService', '$uibModal', 'dialogs', 'graphConstant', 'd3Service', 'InitializationService'];
+    NFFGController.$inject = ['$scope','BackendCallService', '$uibModal', 'dialogs', 'graphConstant', 'd3Service', 'InitializationService'];
     angular.module('fg-gui').controller('NFFGController', NFFGController);
 
 })();

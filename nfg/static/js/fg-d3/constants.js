@@ -6,8 +6,6 @@
     var constant = {
         graphHeight: "100%",
         graphWidth: "100%",
-        offsetX: 0,
-        offsetY: 0,
         vnfWidth: 150,
         vnfHeigth: 60,
         bigSwitchWidth: 200,

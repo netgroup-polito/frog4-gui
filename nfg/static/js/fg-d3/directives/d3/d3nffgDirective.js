@@ -8,7 +8,8 @@
             require: ["d3nffg", "ngModel"],
             scope: {
                 position: "=",
-                showBigSwitch: "="
+                showBigSwitch: "=",
+                isForced: "="
             },
             controller: function ($scope) {
                 var ctrl = this;
@@ -34,39 +35,82 @@
 
                     //TODO cambiare la modalità di selezione usando applicando una classe
 
-                    d3Service.addRectDefinition(
+                    d3Service.addSimpleDefinition(
                         definitions_section,
-                        "VNF",
-                        graphConstant.offsetX,
-                        graphConstant.offsetY,
-                        graphConstant.vnfWidth,
-                        graphConstant.vnfHeigth,
-                        "nf");
-                    d3Service.addRectDefinition(
+                        "rect",
+                        {
+                            "id": "VNF",
+                            "width": graphConstant.vnfWidth,
+                            "height": graphConstant.vnfHeigth,
+                            "class": "nf"
+                        });
+                    d3Service.addSimpleDefinition(
                         definitions_section,
-                        "VNF_selected",
-                        graphConstant.offsetX,
-                        graphConstant.offsetY,
-                        graphConstant.vnfWidth,
-                        graphConstant.vnfHeigth,
-                        "nf-select");
-                    d3Service.addRectDefinition(
+                        "rect",
+                        {
+                            "id": "VNF_selected",
+                            "width": graphConstant.vnfWidth,
+                            "height": graphConstant.vnfHeigth,
+                            "class": "nf-select"
+                        });
+                    d3Service.addSimpleDefinition(
                         definitions_section,
-                        "BIG_SWITCH",
-                        graphConstant.offsetX,
-                        graphConstant.offsetY,
-                        graphConstant.bigSwitchWidth,
-                        graphConstant.bigSwitchHeight,
-                        "big-switch");
-                    d3Service.addRectDefinition(
+                        "rect",
+                        {
+                            "id": "BIG_SWITCH",
+                            "width": graphConstant.bigSwitchWidth,
+                            "height": graphConstant.bigSwitchHeight,
+                            "class": "big-switch"
+                        });
+                    d3Service.addSimpleDefinition(
                         definitions_section,
-                        "BIG_SWITCH_selected",
-                        graphConstant.offsetX,
-                        graphConstant.offsetY,
-                        graphConstant.bigSwitchWidth,
-                        graphConstant.bigSwitchHeight,
-                        "big-switch-select");
+                        "rect",
+                        {
+                            "id":"BIG_SWITCH_selected",
+                            "width": graphConstant.bigSwitchWidth,
+                            "height": graphConstant.bigSwitchHeight,
+                            "class": "big-switch-select"
+                        });
                     /**/
+                    d3Service.addNestedDefinition(
+                        definitions_section,
+                        "marker",
+                        {
+                            "id":"Arrow",
+                            "viewBox": "0 -5 10 10",
+                            "refX": 25,
+                            "refY": 0,
+                            "markerWidth": 5,
+                            "markerHeight": 5,
+                            "orient": "auto",
+                            "children": [
+                                {
+                                    "type": "path",
+                                    "d": "M0,-5 L10,0 L0,5",
+                                    "class": "arrowHead"
+                                }
+                            ]
+                        });
+                    d3Service.addNestedDefinition(
+                        definitions_section,
+                        "marker",
+                        {
+                            "id":"InternalArrow",
+                            "viewBox": "0 -5 10 10",
+                            "refX": 15,
+                            "refY": 0,
+                            "markerWidth": 5,
+                            "markerHeight": 5,
+                            "orient": "auto",
+                            "children": [
+                                {
+                                    "type": "path",
+                                    "d": "M0,-5 L10,0 L0,5",
+                                    "class": "arrowHead"
+                                }
+                            ]
+                        });
+
 
                     ctrl.graph = {
                         svg: svg,
@@ -87,6 +131,8 @@
                         fgDrawService.buildVNFs(fg["VNFs"], fgPos["VNFs"], ctrl.graph);
                     if (fg["big-switch"])
                         fgDrawService.buildBigSwitch(fg["big-switch"], fgPos["big-switch"], fgPos["VNFs"], fgPos["end-points"], ctrl.graph);
+                    if (fg["big-switch"] && fg["big-switch"]["flow-rules"] && fg["big-switch"]["flow-rules"].length > 0)
+                        fgDrawService.buildAllLink(fg, fgPos, ctrl.graph);
                 };
                 ctrl.clearGraph = function () {
                     ctrl.graph.bigSwitch.selectAll("*").remove();
@@ -106,6 +152,15 @@
                         }
                     }
                     return isSplitted;
+                };
+                ctrl.changeView = function () {
+                    if (ctrl.graph.showBigSwitch) {
+                        $(".normaleView").hide();
+                        $(".bigSwitchView").show();
+                    } else {
+                        $(".bigSwitchView").hide();
+                        $(".normaleView").show();
+                    }
                 }
             },
             link: function (scope, element, attributes, controllers) {
@@ -115,9 +170,13 @@
 
                 ngModel.$render = function () {
                     if (ngModel.$modelValue) {
-                        ctrl.forceBigSwitch = ctrl.checkFlowRules(ngModel.$modelValue);
-                        ctrl.graph.showBigSwitch = scope.showBigSwitch || ctrl.forceBigSwitch;
+                        scope.isForced = ctrl.checkFlowRules(ngModel.$modelValue);
+                        ctrl.graph.showBigSwitch = scope.showBigSwitch || scope.isForced;
+                        if (scope.showBigSwitch != ctrl.graph.showBigSwitch) {
+                            scope.showBigSwitch = ctrl.graph.showBigSwitch;
+                        }
                         ctrl.buildGraph(ngModel.$modelValue, scope.position);
+                        ctrl.changeView();
                     } else
                         ctrl.clearGraph();
                 };
@@ -125,7 +184,10 @@
                 scope.$watch(function () {
                         return scope.showBigSwitch;
                     },
-                    ngModel.$render);
+                    function () {
+                        if (scope.showBigSwitch != ctrl.graph.showBigSwitch)
+                            ngModel.$render()
+                    });
 
 
                 ctrl.initializeGraph(element[0]);

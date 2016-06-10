@@ -136,7 +136,7 @@ function defArrow(){
     defs_section.append("defs")
         .append("marker")
         .attr({
-            "id":"IntArrow",
+            "id":"Arrow",
             "viewBox":"0 -5 10 10",
             "refX":15,
             "refY":0,
@@ -145,7 +145,7 @@ function defArrow(){
             "orient":"auto"
         })
         .append("path")
-        .attr("d", "M0,-5L10,0L0,5")
+        .attr("d", "M0,-5 L10,0 L0,5")
         .attr("class","arrowHead");
 
     defs_section.append("defs")
