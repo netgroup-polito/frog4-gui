@@ -29,24 +29,24 @@
                     return "end-points " + d.name; // "end-points" class is the one used for selection in the first step of this function
                 })
                 .attr("cx", function (d, i) {   // x position of the center of the element
-                    if (pos[d.id].x)
+                    if (typeof pos[d.id].x == "number")
                         return pos[d.id].x;
                     else
                         return pos[d.id].x = parseInt(250 * Math.cos(alfa * (i)) + graph.svg.node().getBoundingClientRect().width / 2)
 
                 })
                 .attr("cy", function (d, i) {   // y position of the center of the element
-                    if (pos[d.id].y)
+                    if (typeof pos[d.id].y == "number")
                         return pos[d.id].y;
                     else
                         return pos[d.id].y = parseInt(250 * Math.sin(alfa * (i)) + graph.svg.node().getBoundingClientRect().height / 2)
                 })
+                .call(graph.drag.epDrag)
             /*.on("click",selectEndPoints)
              .on("contextmenu",function(d){
              d3.event.preventDefault();
              showEditInfoEP(d.id);
-             })
-             .call(drag_EP);*/
+             });*/
             //operation on element going out of the collection
             epElements.exit().remove();
 
@@ -70,33 +70,33 @@
                     return pos[d.id].full_id;
                 })
                 .attr("x", function (d, i) {    // x position of the element
-                    if (pos[d.id].x)
+                    if (typeof pos[d.id].x == "number")
                         return pos[d.id].x;
                     else {
                         var limit = graph.svg.node().getBoundingClientRect().width / 2
                             - graphConstant.vnfWidth / 2;
-                        var xCenter = parseInt((limit - 10) * Math.cos(alfa * (i) + Math.PI / 2));
-                        return pos[d.id].x = xCenter + limit;
+                        var xCenter = (limit - 10) * Math.cos(alfa * (i) + Math.PI / 2);
+                        return pos[d.id].x = parseInt(xCenter + limit);
                     }
 
                 })
                 .attr("y", function (d, i) {    // y position of the element
-                    if (pos[d.id].y)
+                    if (typeof pos[d.id].y == "number")
                         return pos[d.id].y;
                     else {
                         var limit = graph.svg.node().getBoundingClientRect().height / 2
                             - graphConstant.vnfHeigth / 2;
-                        var yCenter = parseInt((limit - 10) * Math.sin(alfa * (i) + Math.PI / 2));
-                        return pos[d.id].y = yCenter + limit;
+                        var yCenter = (limit - 10) * Math.sin(alfa * (i) + Math.PI / 2);
+                        return pos[d.id].y = parseInt(yCenter + limit);
 
                     }
                 })
+                .call(graph.drag.vnfDrag)
             /*.on("mousedown", selectVNFs)
              .on("contextmenu", function (d) {
              d3.event.preventDefault();
              showEditInfoVNF(d.id);
-             })
-             .call(drag_NF);*/
+             });*/
             //operation on element going out of the collection
             vnfElements.exit().remove();
 
@@ -107,7 +107,7 @@
             vnfTextElements
                 .enter()
                 .append("text")
-                .attr("class", "vnf-text")
+                .attr("class", "vnf-text unselectable")
                 .attr("text-anchor", "middle")
                 .attr("fill", "white");
             //operation on updated and new element
@@ -116,10 +116,10 @@
                     return "text_" + pos[d.id].full_id;
                 })
                 .attr("x", function (d) {   // x position of the element
-                    return pos[d.id].x + graphConstant.vnfWidth / 2;
+                    return parseInt(pos[d.id].x + graphConstant.vnfWidth / 2)
                 })
                 .attr("y", function (d) {   // y position of the element
-                    return pos[d.id].y + graphConstant.vnfHeigth / 2 + 4;
+                    return parseInt(pos[d.id].y + graphConstant.vnfHeigth / 2 + 4)
                 })
                 .text(function (d) {
                     var text;
@@ -165,10 +165,8 @@
                 })
                 .attr("cx", function (d, i) {   // x position of the center of the element
                     var portPos = pos[d.parent].ports[d.port.id];
-
-                    if (!portPos.parent_vnf_x)
-                        portPos.parent_vnf_x = pos[d.parent].x;
-                    if (!portPos.x) {
+                    portPos.parent_vnf_x = pos[d.parent].x;
+                    if (typeof portPos.x != "number") {
                         var totVNFPorts = 0;
                         var me = 0;
                         ports.forEach(function (port) {
@@ -179,28 +177,26 @@
                         });
                         portPos.x = parseInt(graphConstant.vnfWidth / totVNFPorts * (me + 0.5));
                     }
-                    return parseInt(portPos.x) + parseInt(portPos.parent_vnf_x);
+                    return parseInt(portPos.x + portPos.parent_vnf_x);
                 })
                 .attr("cy", function (d) {   // y position of the center of the element
-
                     var portPos = pos[d.parent].ports[d.port.id];
-                    if (!portPos.parent_vnf_y)
-                        portPos.parent_vnf_y = pos[d.parent].y;
-                    if (!portPos.y)
-                        portPos.y = portPos.parent_vnf_y < graph.svg.node().getBoundingClientRect().height / 2 ? graphConstant.vnfHeigth : 0;
-                    return parseInt(portPos.y) + parseInt(portPos.parent_vnf_y);
+                    portPos.parent_vnf_y = pos[d.parent].y;
+                    if (typeof portPos.y != "number")
+                        portPos.y = parseInt(portPos.parent_vnf_y < graph.svg.node().getBoundingClientRect().height / 2 ? graphConstant.vnfHeigth : 0);
+                    return parseInt(portPos.y + portPos.parent_vnf_y);
                 })
                 .attr("parent_NF_position_x", function (d) {
-                    return pos[d.parent].ports[d.port.id].parent_vnf_x; // x position of the parent vnf
+                    return pos[d.parent].x; // x position of the parent vnf
                 })
                 .attr("parent_NF_position_y", function (d) {
-                    return pos[d.parent].ports[d.port.id].parent_vnf_y; // y position of the parent vnf
+                    return pos[d.parent].y; // y position of the parent vnf
                 })
                 .attr("parent", function (d) {
-                    return "vnf:" + pos[d.parent].ports[d.port.id].parent_vnf_id;    // id of the parent vnf
+                    return pos[d.parent].full_id;    // id of the parent vnf
                 })
-            /*.on("click", select_node);
-             .call(drag_INTERFACE)*/
+                .call(graph.drag.vnfInterfaceDrag)
+            /*.on("click", select_node);*/
             //operation on element going out of the collection
             portElements.exit().remove()
         };
@@ -229,13 +225,13 @@
             else
                 pos.y = yPos;
 
-            pos.x -= bs.x;
-            pos.y -= bs.y;
+            pos.x = parseInt(pos.x - bs.x);
+            pos.y = parseInt(pos.y - bs.y);
 
             return pos;
         };
 
-        var _buildBigSwitch = function (bigswitch, pos, vnfPos, epPos, graph) {
+        var _buildBigSwitch = function (bigswitch, pos, vnfPos, epPos, graph, bsDrag, bsInterfaceDrag) {
             var bigswitchElement = graph.bigSwitch.selectAll(".big-switch")
                 .data([bigswitch]);
             bigswitchElement
@@ -257,8 +253,8 @@
                     else
                         return pos.y = graph.svg.node().getBoundingClientRect().height / 2 - graphConstant.bigSwitchHeight / 2;
                 })
-            /*.on("click", selectBS)
-             .call(drag_BIGSWITCH);*/
+                .call(graph.drag.bigSwitchDrag)
+            /*.on("click", selectBS);*/
 
             var interfaces = [];
 
@@ -279,23 +275,23 @@
                 .attr("class", "bs-interface interface bigSwitchView");
             bigswitchInterfaceElement
                 .attr("cx", function (d) {
-                    if (!d.x)
+                    if (typeof d.x != "number")
                         if (d.parent_vnf_id)
                             d.x = _getPos(vnfPos[d.parent_vnf_id], pos, vnfPos[d.parent_vnf_id].ports[d.parent_vnf_port]).x;
                         else
                             d.x = _getPos(epPos[d.parent_ep_id], pos).x;
-                    return pos.x + d.x;
+                    return parseInt(pos.x + d.x);
                 })
                 .attr("cy", function (d) {
-                    if (!d.y)
+                    if (typeof d.y != "number")
                         if (d.parent_vnf_id)
                             d.y = _getPos(vnfPos[d.parent_vnf_id], pos, vnfPos[d.parent_vnf_id].ports[d.parent_vnf_port]).y;
                         else
                             d.y = _getPos(epPos[d.parent_ep_id], pos).y;
-                    return pos.y + d.y;
+                    return parseInt(pos.y + d.y);
                 })
-            /*.on("click",select_node)
-             .call(drag_INTERFACEBIGSWITCH);*/
+                .call(graph.drag.bigSwitchInterfaceDrag)
+            /*.on("click",select_node);*/
             bigswitchInterfaceElement.exit().remove();
         };
 
@@ -344,16 +340,16 @@
                 .attr("stroke", "black");
             links
                 .attr("x1", function (d) {
-                    return d["origin-x"];
+                    return parseInt(d["origin-x"]);
                 })
                 .attr("y1", function (d) {
-                    return d["origin-y"];
+                    return parseInt(d["origin-y"]);
                 })
                 .attr("x2", function (d) {
-                    return d["destination-x"];
+                    return parseInt(d["destination-x"]);
                 })
                 .attr("y2", function (d) {
-                    return d["destination-y"];
+                    return parseInt(d["destination-y"]);
                 })
                 .attr("id", function (d) {
                     return "fr-" + d.origin + ";" + d.destination;
@@ -380,7 +376,6 @@
                 })
             //.on("click", selectSimpleLines);
             links.exit().remove();
-            console.log("buildLink")
         };
         var _buildBigSwitchLink = function (fg, pos, graph) {
             //linkare end point e interfacce alle rispettive controparti nel big-switch
@@ -401,24 +396,24 @@
                 .attr("stroke", "black");
             externalLink
                 .attr("x1", function (d) {
-                    return pos["big-switch"].x + d.x;
+                    return parseInt(pos["big-switch"].x + d.x)
                 })
                 .attr("y1", function (d) {
-                    return pos["big-switch"].y + d.y;
+                    return parseInt(pos["big-switch"].y + d.y)
                 })
                 .attr("x2", function (d) {
                     if (d.id.indexOf("endpoint") >= 0) {
-                        return pos["end-points"][d.parent_ep_id].x
+                        return parseInt(pos["end-points"][d.parent_ep_id].x)
                     } else {
-                        return pos["VNFs"][d.parent_vnf_id].x + pos["VNFs"][d.parent_vnf_id].ports[d.parent_vnf_port].x
+                        return parseInt(pos["VNFs"][d.parent_vnf_id].x + pos["VNFs"][d.parent_vnf_id].ports[d.parent_vnf_port].x)
                     }
 
                 })
                 .attr("y2", function (d) {
                     if (d.id.indexOf("endpoint") >= 0) {
-                        return pos["end-points"][d.parent_ep_id].y
+                        return parseInt(pos["end-points"][d.parent_ep_id].y)
                     } else {
-                        return pos["VNFs"][d.parent_vnf_id].y + pos["VNFs"][d.parent_vnf_id].ports[d.parent_vnf_port].y
+                        return parseInt(pos["VNFs"][d.parent_vnf_id].y + pos["VNFs"][d.parent_vnf_id].ports[d.parent_vnf_port].y)
                     }
                 })
                 .attr("id", function (d) {
@@ -446,16 +441,16 @@
                 .attr("stroke", "black");
             internalLinks
                 .attr("x1", function (d) {
-                    return pos["big-switch"].x + pos["big-switch"]["interfaces"][d.origin].x;
+                    return parseInt(pos["big-switch"].x + pos["big-switch"]["interfaces"][d.origin].x);
                 })
                 .attr("y1", function (d) {
-                    return pos["big-switch"].y + pos["big-switch"]["interfaces"][d.origin].y;
+                    return parseInt(pos["big-switch"].y + pos["big-switch"]["interfaces"][d.origin].y);
                 })
                 .attr("x2", function (d) {
-                    return pos["big-switch"].x + pos["big-switch"]["interfaces"][d.destination].x;
+                    return parseInt(pos["big-switch"].x + pos["big-switch"]["interfaces"][d.destination].x);
                 })
                 .attr("y2", function (d) {
-                    return pos["big-switch"].y + pos["big-switch"]["interfaces"][d.destination].y;
+                    return parseInt(pos["big-switch"].y + pos["big-switch"]["interfaces"][d.destination].y);
                 })
                 .attr("idfr", function (d) {
                     return "fr-int-" + d.origin + ";" + d.destination;
@@ -488,10 +483,6 @@
             //.on("click", selectSimpleLines);
             internalLinks.exit().remove();
 
-
-            //usare la logica precedente per gestire la parte interna
-
-            console.log("buildBigSwitchLink");
         };
 
         var _buildAllLink = function (fg, pos, graph) {
@@ -508,7 +499,7 @@
             buildAllLink: _buildAllLink
         }
     };
-    fgDrawService.$inject = ['graphConstant'];
+    fgDrawService.$inject = ['graphConstant', 'fgDragService'];
 
     angular.module('d3').service('fgDrawService', fgDrawService);
 })();

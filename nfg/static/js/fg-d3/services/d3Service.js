@@ -68,6 +68,10 @@
                 })
         };
 
+        var _addDragBehavior = function () {
+            return d3.behavior.drag();
+        };
+
 
         return {
             d3: _d3,
@@ -76,7 +80,8 @@
             addAttribute: _addAttribute,
             addSection: _addSection,
             addSimpleDefinition: _addSimpleDefinition,
-            addNestedDefinition: _addNestedDefinition
+            addNestedDefinition: _addNestedDefinition,
+            addDragBehavior: _addDragBehavior
         };
     };
 

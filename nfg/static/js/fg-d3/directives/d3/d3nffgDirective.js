@@ -2,7 +2,7 @@
  * Created by giacomo on 06/05/16.
  */
 (function () {
-    var d3nffg = function (d3Service, fgDrawService, graphConstant) {
+    var d3nffg = function (d3Service, fgDrawService, fgDragService, graphConstant) {
         return {
             restrict: "A",
             require: ["d3nffg", "ngModel"],
@@ -66,7 +66,7 @@
                         definitions_section,
                         "rect",
                         {
-                            "id":"BIG_SWITCH_selected",
+                            "id": "BIG_SWITCH_selected",
                             "width": graphConstant.bigSwitchWidth,
                             "height": graphConstant.bigSwitchHeight,
                             "class": "big-switch-select"
@@ -76,7 +76,7 @@
                         definitions_section,
                         "marker",
                         {
-                            "id":"Arrow",
+                            "id": "Arrow",
                             "viewBox": "0 -5 10 10",
                             "refX": 25,
                             "refY": 0,
@@ -95,7 +95,7 @@
                         definitions_section,
                         "marker",
                         {
-                            "id":"InternalArrow",
+                            "id": "InternalArrow",
                             "viewBox": "0 -5 10 10",
                             "refX": 15,
                             "refY": 0,
@@ -122,6 +122,49 @@
                         connections: connection_section,
                         showBigSwitch: $scope.showBigSwitch ? true : false
                     };
+                };
+
+                ctrl.initializeDrag = function (ngModel, $scope) {
+
+                    var epDrag = fgDragService
+                        .dragEP(function () {
+                            return $scope.position["end-points"]
+                        }, function () {
+                            ctrl.buildGraph(ngModel.$modelValue, $scope.position);
+                        });
+                    var vnfDrag = fgDragService
+                        .dragVNF(function () {
+                            return $scope.position["VNFs"]
+                        }, function () {
+                            ctrl.buildGraph(ngModel.$modelValue, $scope.position);
+                        });
+
+                    var vnfInterfaceDrag = fgDragService
+                        .dragInterface(function () {
+                            return $scope.position["VNFs"]
+                        }, function () {
+                            ctrl.buildGraph(ngModel.$modelValue, $scope.position);
+                        });
+                    var bigSwitchDrag = fgDragService
+                        .dragBS(function () {
+                            return $scope.position["big-switch"]
+                        }, function () {
+                            ctrl.buildGraph(ngModel.$modelValue, $scope.position);
+                        });
+                    var bigSwitchInterfaceDrag = fgDragService
+                        .dragBSInterface(function () {
+                            return $scope.position["big-switch"]
+                        }, function () {
+                            ctrl.buildGraph(ngModel.$modelValue, $scope.position);
+                        });
+
+                    ctrl.graph.drag = {
+                        epDrag: epDrag,
+                        vnfDrag: vnfDrag,
+                        vnfInterfaceDrag: vnfInterfaceDrag,
+                        bigSwitchDrag: bigSwitchDrag,
+                        bigSwitchInterfaceDrag:bigSwitchInterfaceDrag
+                    }
                 };
 
                 ctrl.buildGraph = function (fg, fgPos) {
@@ -191,11 +234,12 @@
 
 
                 ctrl.initializeGraph(element[0]);
+                ctrl.initializeDrag(ngModel, scope);
             }
         };
     };
 
-    d3nffg.$inject = ["d3Service", "fgDrawService", "graphConstant"];
+    d3nffg.$inject = ["d3Service", "fgDrawService", "fgDragService", "graphConstant"];
     angular.module("d3").directive("d3nffg", d3nffg);
 
 })();
