@@ -3,7 +3,7 @@
  */
 (function () {
     "use strict";
-    var constant = {
+    var graphConstant = {
         graphHeight: "100%",
         graphWidth: "100%",
         vnfWidth: 150,
@@ -15,6 +15,15 @@
 
     };
 
-    angular.module("d3").constant("graphConstant", constant)
+    var forwardingGraphConstant = {
+        linkOriginFirstLevel : "match",
+        linkOriginSecondLevel : "port_in",
+        linkDestinationFirstLevel : "actions",
+        linkDestinationSecondLevel : 0,
+        linkDestinationThirdLevel : "output_to_port"
+    };
+
+    angular.module("d3").constant("graphConstant", graphConstant);
+    angular.module("d3").constant("forwardingGraphConstant", forwardingGraphConstant);
 
 })();

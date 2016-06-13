@@ -10,124 +10,115 @@
     </div>
     <!-- /col-3 -->
     <div class="col-sm-9">
-        <div class="row">
-            <div class="col-md-12">
+        <!-- The icons used in this menubar you can find at: http://fortawesome.github.io/Font-Awesome/icons/ -->
+        <div id="menubar">
+            <div class="btn-group" role="group" aria-label="...">
 
-                <!-- The icons used in this menubar you can find at: http://fortawesome.github.io/Font-Awesome/icons/ -->
+                <!-- Empty Document -->
+                <button type="button" class="menu btn btn-default btn-lg"
+                        ng-click="NFFGCtrl.newForwardingGraph();"
+                        title="New Document">
+                    <span class="glyphicon glyphicon-file" aria-hidden="true"></span>
+                </button>
 
-                <div id="menubar">
-                    <div class="btn-group" role="group" aria-label="...">
-
-                        <!-- Empty Document -->
-                        <button type="button" class="menu btn btn-default btn-lg"
-                                ng-click="NFFGCtrl.newForwardingGraph();"
-                                title="New Document">
-                            <span class="glyphicon glyphicon-file" aria-hidden="true"></span>
-                        </button>
-
-                        <!-- Edit Button -->
-                        <button type="button" class="menu btn btn-default btn-lg" ng-click="NFFGCtrl.toggleEditButton()"
-                                title="Draw Menu">
-                            <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-                        </button>
+                <!-- Edit Button -->
+                <button type="button" class="menu btn btn-default btn-lg" ng-click="NFFGCtrl.toggleEditButton()"
+                        title="Draw Menu">
+                    <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+                </button>
 
 
-                        <!-- Big Switch Button -->
-                        <button type="button" class="menu btn btn-default btn-lg" ng-click="NFFGCtrl.toggleBigSwitch()"
-                                ng-class="NFFGCtrl.isForced?'btn-warning':NFFGCtrl.showBigSwitch?'btn-info':''"
-                                title="Toggle Simple/Big Switch view" id="BSViewToogle">
-                            <i class="fa fa-square-o fa-lg"></i>
-                        </button>
+                <!-- Big Switch Button -->
+                <button type="button" class="menu btn btn-default btn-lg" ng-click="NFFGCtrl.toggleBigSwitch()"
+                        ng-class="NFFGCtrl.isForced?'btn-warning':NFFGCtrl.showBigSwitch?'btn-info':''"
+                        title="Toggle Simple/Big Switch view" id="BSViewToogle">
+                    <i class="fa fa-square-o fa-lg"></i>
+                </button>
 
-                        <!-- Save Button -->
-                        <button type="button" class="menu btn btn-default btn-lg" onclick="showSaveForm();"
-                                title="Save"
-                                disabled>
-                            <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>
-                        </button>
+                <!-- Save Button -->
+                <button type="button" class="menu btn btn-default btn-lg" onclick="showSaveForm();"
+                        title="Save"
+                        disabled>
+                    <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>
+                </button>
 
-                        <!-- Open From Client Button -->
-                        <button type="button" class="menu btn btn-default btn-lg" onclick="showUploadFG();"
-                                title="Open from Client"
-                                disabled>
-                            <span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span>
-                        </button>
+                <!-- Open From Client Button -->
+                <button type="button" class="menu btn btn-default btn-lg" onclick="showUploadFG();"
+                        title="Open from Client"
+                        disabled>
+                    <span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span>
+                </button>
 
-                        <!-- Open From Server Button -->
-                        <button type="button" class="menu btn btn-default btn-lg" ng-click="NFFGCtrl.loadFromServer();"
-                                title="Open from Server">
-                            <i class="fa fa-server fa-lg"></i>
-                        </button>
+                <!-- Open From Server Button -->
+                <button type="button" class="menu btn btn-default btn-lg" ng-click="NFFGCtrl.loadFromServer();"
+                        title="Open from Server">
+                    <i class="fa fa-server fa-lg"></i>
+                </button>
 
-                        <!-- Preview Button -->
-                        <button type="button" class="menu btn btn-default btn-lg" onclick="showPreviewFG();"
-                                title="Preview"
-                                disabled>
-                            <i class="fa fa-code fa-lg"></i>
-                        </button>
+                <!-- Preview Button -->
+                <button type="button" class="menu btn btn-default btn-lg" onclick="showPreviewFG();"
+                        title="Preview"
+                        disabled>
+                    <i class="fa fa-code fa-lg"></i>
+                </button>
 
-                        <!-- Deploy(Test) Button -->
-                        <button type="button" class="menu btn btn-default btn-lg" onclick="deploy();"
-                                title="Deploy(Test)"
-                                disabled>
-                            <i class="fa fa-paper-plane"></i>
+                <!-- Deploy(Test) Button -->
+                <button type="button" class="menu btn btn-default btn-lg" onclick="deploy();"
+                        title="Deploy(Test)"
+                        disabled>
+                    <i class="fa fa-paper-plane"></i>
 
-                        </button>
+                </button>
 
-                        <!-- New EP Button -->
-                        <button type="button" class="menu btn btn-lg btn-success"
-                                ng-show="NFFGCtrl.showEditButton"
-                                onclick="onClickDrawEP();" title="End-Point">
-                            <i class="fa fa-circle fa-lg"></i>
-                        </button>
+                <!-- New EP Button -->
+                <button type="button" class="menu btn btn-lg btn-success"
+                        ng-show="NFFGCtrl.showEditButton"
+                        onclick="onClickDrawEP();" title="End-Point">
+                    <i class="fa fa-circle fa-lg"></i>
+                </button>
 
-                        <!-- New VNF Button -->
-                        <button type="button" class="menu btn btn-lg btn-success"
-                                ng-show="NFFGCtrl.showEditButton"
-                                onclick="onClickDrawVNF();"
-                                title="Virtual Network Function">
-                            <i class="fa fa-square fa-lg"></i>
-                        </button>
+                <!-- New VNF Button -->
+                <button type="button" class="menu btn btn-lg btn-success"
+                        ng-show="NFFGCtrl.showEditButton"
+                        onclick="onClickDrawVNF();"
+                        title="Virtual Network Function">
+                    <i class="fa fa-square fa-lg"></i>
+                </button>
 
-                        <!-- Create Link Button -->
-                        <button type="button" class="menu btn btn-lg btn-success"
-                                ng-show="NFFGCtrl.showEditButton"
-                                onclick="onClickDrawLink();"
-                                title="Create Link"
-                                id="newLinkButton">
-                            <i class="fa fa-arrows-h fa-lg"></i>
-                        </button>
+                <!-- Create Link Button -->
+                <button type="button" class="menu btn btn-lg btn-success"
+                        ng-show="NFFGCtrl.showEditButton"
+                        onclick="onClickDrawLink();"
+                        title="Create Link"
+                        id="newLinkButton">
+                    <i class="fa fa-arrows-h fa-lg"></i>
+                </button>
 
-                        <!-- Info Button -->
-                        <button type="button" class="menu btn btn-default btn-lg"
-                                onclick="drawAnyItems();"
-                                title="Help"
-                                disabled>
-                            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-                        </button>
+                <!-- Info Button -->
+                <button type="button" class="menu btn btn-default btn-lg"
+                        onclick="drawAnyItems();"
+                        title="Help"
+                        disabled>
+                    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                </button>
 
-
-                    </div>
-                </div>
 
             </div>
-            <div class="col-md-12">
-                <div id="my_canvas">
+        </div>
+        <div id="my_canvas">
 
-                    <p id="fg_id" ng-show="NFFGCtrl.fg" ng-click="NFFGCtrl.updateFGInfo();">
-                        <b ng-if="!NFFGCtrl.fg.name ">ID: {{ NFFGCtrl.fg.id }}</b>
-                        <b ng-if="NFFGCtrl.fg.name ">{{ NFFGCtrl.fg.name }} (ID: {{ NFFGCtrl.fg.id }})</b>
-                    </p>
-                    <p class="labelRight" ng-hide="NFFGCtrl.fg">
-                        <b>Load a graph to show its information</b>
-                    </p>
-                    <div id="svg_graph" d3nffg ng-model="NFFGCtrl.fg" position="NFFGCtrl.fgPos" show-big-switch="NFFGCtrl.showBigSwitch" is-forced="NFFGCtrl.isForced">
-                    </div>
-
-                </div>
+            <p id="fg_id" ng-show="NFFGCtrl.fg" ng-click="NFFGCtrl.updateFGInfo();">
+                <b ng-if="!NFFGCtrl.fg.name ">ID: {{ NFFGCtrl.fg.id }}</b>
+                <b ng-if="NFFGCtrl.fg.name ">{{ NFFGCtrl.fg.name }} (ID: {{ NFFGCtrl.fg.id }})</b>
+            </p>
+            <p class="labelRight" ng-hide="NFFGCtrl.fg">
+                <b>Load a graph to show its information</b>
+            </p>
+            <div id="svg_graph" d3nffg ng-model="NFFGCtrl.fg" position="NFFGCtrl.fgPos" show-big-switch="NFFGCtrl.showBigSwitch" is-forced="NFFGCtrl.isForced">
             </div>
 
         </div>
+
 
     </div>
     <!--/col-span-9-->

@@ -29,7 +29,7 @@
             var pos = {};
             pos["end-points"] = InitializationService.initEPsPos(graph["end-points"]);
             pos["VNFs"] = InitializationService.initVNFsPos(graph["VNFs"]);
-            pos["big-switch"] = InitializationService.initBigSwitchPos(graph["big-switch"], pos["VNFs"], pos["end-points"]);
+            pos["big-switch"] = InitializationService.initBigSwitchPos(pos["VNFs"], pos["end-points"]);
             pos["big-switch"]["flow-rules"] = InitializationService.initFlowRulesLink(graph["big-switch"]["flow-rules"]);
 
             return pos;

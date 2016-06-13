@@ -17,6 +17,7 @@ body {
     overflow: hidden;
     display: flex;
     flex-direction: column;
+    height: calc(100% - 64px);
 }
 
 #svg_graph {
@@ -41,4 +42,17 @@ body {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+}
+.container-fluid.ng-scope {
+    height: calc(100% - 81px);
+    padding-bottom: 20px;
+}
+
+
+
+html,body,.col-md-12,.row {
+  height:100%;
+}
+.row > div {
+  height:100%;
 }

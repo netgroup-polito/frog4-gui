@@ -2,17 +2,50 @@
  * Created by giacomo on 06/05/16.
  */
 (function () {
+    /**
+     * Directive for a forwarding graph instance
+     * @param d3Service The service encapsulating part of the d3 library API
+     * @param fgDrawService The service used to draw the forwarding-graph element
+     * @param fgDragService The service used to add drag behavior the forwarding-graph element
+     * @param graphConstant The constant used in the graph directive as parameter
+     * @returns {{restrict: string, require: string[], scope: {position: string, showBigSwitch: string, isForced: string}, controller: controller, link: link}}
+     */
     var d3nffg = function (d3Service, fgDrawService, fgDragService, graphConstant) {
         return {
+            /**
+             * type of angular directive (can be used via attribute only)
+             */
             restrict: "A",
+            /**
+             * controller need to the application
+             * ngModel is the forwarding-graph instance
+             */
             require: ["d3nffg", "ngModel"],
             scope: {
+                /**
+                 * {object} Position object for the forwarding graph
+                 */
                 position: "=",
+                /**
+                 * {boolean} Used to change the view from normal to complex(big-switch view)
+                 */
                 showBigSwitch: "=",
+                /**
+                 * {booelan} Used to be aware if the graph is forced to complex mode
+                 * @readonly
+                 */
                 isForced: "="
             },
+            /**
+             * Controller of the directive
+             * @param $scope {object} Directive scope
+             */
             controller: function ($scope) {
                 var ctrl = this;
+                /**
+                 * Function used to initialize graph
+                 * @param element the element used to contain the graph
+                 */
                 ctrl.initializeGraph = function (element) {
                     // Instantiate a new svg graph with defined width and height
                     var svg;
@@ -34,7 +67,7 @@
                     var interface_section = d3Service.addSection(svg, "interface_section");
 
                     //TODO cambiare la modalità di selezione usando applicando una classe
-
+                    // adding a graph definition for the vnf
                     d3Service.addSimpleDefinition(
                         definitions_section,
                         "rect",
@@ -44,6 +77,7 @@
                             "height": graphConstant.vnfHeigth,
                             "class": "nf"
                         });
+                    // adding a graph definition for the vnf selected (to be substituted)
                     d3Service.addSimpleDefinition(
                         definitions_section,
                         "rect",
@@ -53,6 +87,7 @@
                             "height": graphConstant.vnfHeigth,
                             "class": "nf-select"
                         });
+                    // adding a graph definition for the big-switch
                     d3Service.addSimpleDefinition(
                         definitions_section,
                         "rect",
@@ -61,7 +96,8 @@
                             "width": graphConstant.bigSwitchWidth,
                             "height": graphConstant.bigSwitchHeight,
                             "class": "big-switch"
-                        });
+                        });                    
+                    // adding a graph definition for the big-switch selected (to be substituted)
                     d3Service.addSimpleDefinition(
                         definitions_section,
                         "rect",
@@ -71,12 +107,12 @@
                             "height": graphConstant.bigSwitchHeight,
                             "class": "big-switch-select"
                         });
-                    /**/
+                    // adding a nested definition for the arrow used for endpoints
                     d3Service.addNestedDefinition(
                         definitions_section,
                         "marker",
                         {
-                            "id": "Arrow",
+                            "id": "EndpointArrow",
                             "viewBox": "0 -5 10 10",
                             "refX": 25,
                             "refY": 0,
@@ -91,11 +127,12 @@
                                 }
                             ]
                         });
+                    //adding a nest definition for the arrow used for port and interface
                     d3Service.addNestedDefinition(
                         definitions_section,
                         "marker",
                         {
-                            "id": "InternalArrow",
+                            "id": "InterfaceArrow",
                             "viewBox": "0 -5 10 10",
                             "refX": 15,
                             "refY": 0,
@@ -123,37 +160,48 @@
                         showBigSwitch: $scope.showBigSwitch ? true : false
                     };
                 };
-
+                /**
+                 * Function to initialize the drag behavior of the different item type
+                 * @param ngModel {object} The ngModel Controller used to access the forwarding-graph instance
+                 * @param $scope {object} The scope of the directive used to access the position object
+                 */
                 ctrl.initializeDrag = function (ngModel, $scope) {
+                    // ngModel.$modelValue = forwarding graph
+                    // $scope.position = position object
 
+                    // initialize drag functionality for endpoints
                     var epDrag = fgDragService
                         .dragEP(function () {
-                            return $scope.position["end-points"]
+                            return $scope.position["end-points"];
                         }, function () {
                             ctrl.buildGraph(ngModel.$modelValue, $scope.position);
                         });
+                    // initialize drag functionality for endpoints
                     var vnfDrag = fgDragService
                         .dragVNF(function () {
-                            return $scope.position["VNFs"]
+                            return $scope.position["VNFs"];
+                        }, function () {
+                            ctrl.buildGraph(ngModel.$modelValue, $scope.position);
+                        });
+                    // initialize drag functionality for vnf port
+                    var vnfPortDrag = fgDragService
+                        .dragPort(function () {
+                            return $scope.position["VNFs"];
+                        }, function () {
+                            ctrl.buildGraph(ngModel.$modelValue, $scope.position);
+                        });
+                    // initialize drag functionality for big-switch
+                    var bigSwitchDrag = fgDragService
+                        .dragBS(function () {
+                            return $scope.position["big-switch"];
                         }, function () {
                             ctrl.buildGraph(ngModel.$modelValue, $scope.position);
                         });
 
-                    var vnfInterfaceDrag = fgDragService
-                        .dragInterface(function () {
-                            return $scope.position["VNFs"]
-                        }, function () {
-                            ctrl.buildGraph(ngModel.$modelValue, $scope.position);
-                        });
-                    var bigSwitchDrag = fgDragService
-                        .dragBS(function () {
-                            return $scope.position["big-switch"]
-                        }, function () {
-                            ctrl.buildGraph(ngModel.$modelValue, $scope.position);
-                        });
+                    // initialize drag functionality for big-switch interface
                     var bigSwitchInterfaceDrag = fgDragService
                         .dragBSInterface(function () {
-                            return $scope.position["big-switch"]
+                            return $scope.position["big-switch"];
                         }, function () {
                             ctrl.buildGraph(ngModel.$modelValue, $scope.position);
                         });
@@ -161,22 +209,33 @@
                     ctrl.graph.drag = {
                         epDrag: epDrag,
                         vnfDrag: vnfDrag,
-                        vnfInterfaceDrag: vnfInterfaceDrag,
+                        vnfPortDrag: vnfPortDrag,
                         bigSwitchDrag: bigSwitchDrag,
-                        bigSwitchInterfaceDrag:bigSwitchInterfaceDrag
+                        bigSwitchInterfaceDrag: bigSwitchInterfaceDrag
                     }
                 };
-
+                /**
+                 * Function to start the draw of the element
+                 * @param fg {object} The forwarding-graph instance
+                 * @param fgPos {object} The position object
+                 */
                 ctrl.buildGraph = function (fg, fgPos) {
+                    // if end-points exists (should not happen in the json is valid)
                     if (fg["end-points"])
                         fgDrawService.buildEPs(fg["end-points"], fgPos["end-points"], ctrl.graph);
+                    // if VNFs exists (should not happen in the json is valid)
                     if (fg["VNFs"])
                         fgDrawService.buildVNFs(fg["VNFs"], fgPos["VNFs"], ctrl.graph);
+                    // if big-switch exists (should not happen in the json is valid)
                     if (fg["big-switch"])
                         fgDrawService.buildBigSwitch(fg["big-switch"], fgPos["big-switch"], fgPos["VNFs"], fgPos["end-points"], ctrl.graph);
+                    // if big-switch and flow-rules exists (should not happen in the json is valid)
                     if (fg["big-switch"] && fg["big-switch"]["flow-rules"] && fg["big-switch"]["flow-rules"].length > 0)
-                        fgDrawService.buildAllLink(fg, fgPos, ctrl.graph);
+                        fgDrawService.buildAllLink(fgPos, ctrl.graph);
                 };
+                /**
+                 * Function that clear the graph
+                 */
                 ctrl.clearGraph = function () {
                     ctrl.graph.bigSwitch.selectAll("*").remove();
                     ctrl.graph.interfaces.selectAll("*").remove();
@@ -184,6 +243,11 @@
                     ctrl.graph.vnfsText.selectAll("*").remove();
                     ctrl.graph.connections.selectAll("*").remove();
                 };
+                /**
+                 * Function to check if a graph has splitted traffic
+                 * @param graph {object} The graph to check
+                 * @returns {boolean} Return true if has splitted traffic
+                 */
                 ctrl.checkFlowRules = function (graph) {
                     var isSplitted = false;
                     var flow_rules = graph["big-switch"]["flow-rules"];
@@ -196,34 +260,56 @@
                     }
                     return isSplitted;
                 };
+                /**
+                 *  Function to change visualization mode
+                 */
                 ctrl.changeView = function () {
                     if (ctrl.graph.showBigSwitch) {
-                        $(".normaleView").hide();
+                        $(".normalView").hide();
                         $(".bigSwitchView").show();
                     } else {
                         $(".bigSwitchView").hide();
-                        $(".normaleView").show();
+                        $(".normalView").show();
                     }
                 }
             },
+            /**
+             * Directive linking function
+             * @param scope The scope of the directive
+             * @param element The element to which is bounded
+             * @param attributes The attributes of the element
+             * @param controllers The controller linked to the directive (its controller. ngModelController)
+             */
             link: function (scope, element, attributes, controllers) {
                 var ctrl = controllers[0];
                 var ngModel = controllers[1];
 
 
+                /**
+                 * Function called each time the ngModel value change to render the graph
+                 */
                 ngModel.$render = function () {
+                    //if the model has a value draw the graph
                     if (ngModel.$modelValue) {
+                        //check if is splitted
                         scope.isForced = ctrl.checkFlowRules(ngModel.$modelValue);
                         ctrl.graph.showBigSwitch = scope.showBigSwitch || scope.isForced;
+                        //update scope
+                        // showBigSwitch
                         if (scope.showBigSwitch != ctrl.graph.showBigSwitch) {
                             scope.showBigSwitch = ctrl.graph.showBigSwitch;
                         }
+                        // build the graph
                         ctrl.buildGraph(ngModel.$modelValue, scope.position);
+                        // change the shown element
                         ctrl.changeView();
-                    } else
+                    } else // else clear it
                         ctrl.clearGraph();
                 };
 
+                /**
+                 * function to watch the change of a variable
+                 */
                 scope.$watch(function () {
                         return scope.showBigSwitch;
                     },
@@ -232,7 +318,7 @@
                             ngModel.$render()
                     });
 
-
+                //initialize the directive
                 ctrl.initializeGraph(element[0]);
                 ctrl.initializeDrag(ngModel, scope);
             }

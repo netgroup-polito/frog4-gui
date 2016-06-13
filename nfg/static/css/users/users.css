@@ -5,7 +5,6 @@
     border-bottom-left-radius: 6px;
     border-bottom-right-radius: 6px;
     margin: 0;
-    overflow: scroll;
     border-collapse: initial;
 }
 .list-menu {
@@ -14,11 +13,10 @@
     border-top-left-radius: 6px;
     border-top-right-radius: 6px;
     padding: 8px;
-    color: inherit;
     background-color: #EEE;
     font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
     font-size: 14px;
-    margin: 0px;
+    margin: 0;
 }
 .btn-delete{
 
