@@ -293,17 +293,25 @@ def view_match_request(request):
     return HttpResponse("%s" % json.dumps(t))
 
 
+
+#def view_ep_request(request):
+#    defs=[]
+#    with open('nfg/nffg_library/schema.json') as data_file:
+ #       data = json.load(data_file)
+  #  types=data["properties"]["forwarding-graph"]["properties"]["end-points"]["items"]["properties"]["type"]["enum"]
+  #  for t in types:
+   #     v=data["definitions"][t]
+    #    v["type"]=t
+     #   defs.append(v)
+
+    #return HttpResponse("%s" % json.dumps(defs))
+
+
+
 def view_ep_request(request):
-    defs=[]
     with open('nfg/nffg_library/schema.json') as data_file:
         data = json.load(data_file)
-    types=data["properties"]["forwarding-graph"]["properties"]["end-points"]["items"]["properties"]["type"]["enum"]
-    for t in types:
-        v=data["definitions"][t]
-        v["type"]=t
-        defs.append(v)
-
-    return HttpResponse("%s" % json.dumps(defs))
+    return HttpResponse("%s" % json.dumps(data))
 
 
 def view_action_request(request):

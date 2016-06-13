@@ -223,7 +223,6 @@ function drawBigSwitchInfoModal() {
 
 function drawBigSwitchEditModal(id) {
 
-        console.log(id);
 
 $('.myModalEdit').empty();
 
@@ -350,6 +349,8 @@ $('.myModalEdit').empty();
 
     hideMatch();
     hideAction();
+    
+        
     if(id!=undefined)
         showEditInfoFlowRule(id);
 

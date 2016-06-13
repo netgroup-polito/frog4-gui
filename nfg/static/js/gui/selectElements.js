@@ -64,38 +64,8 @@ function selectBS(d){
     deselectAll();
     d3.select(".use_BIG").attr("xlink:href","#BIG_SWITCH_select");
     drawBigSwitchInfo(fg);
-
- 		$.ajax({
-      			  url: 'view_templates_request/', 
-     	       	          type: 'GET'                    
-                          }).done(function(data){
-
-                            $.ajax({
-      			                     url: 'view_match_request/',
-                                      type: 'GET'
-                                      }).done(function(data1){
-                                            editRuleMatch=JSON.parse(data1);
-                                            console.log(editRuleMatch);
-
-   					                     });
-                            $.ajax({
-      			                     url: 'view_action_request/',
-                                      type: 'GET'
-                                      }).done(function(data1){
-                                            editRuleAction=JSON.parse(data1);
-                                            console.log(editRuleAction);
-
-   					                     });
-                    var t=JSON.parse(data);
-                    infoRule=t["properties"];
-                    drawBigSwitchInfoModal(fg);
-   					 });
-
-
-
-
-
-	 
+    drawBigSwitchInfoModal(fg);
+    
            
 }
 

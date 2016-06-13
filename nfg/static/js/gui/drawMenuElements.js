@@ -5,9 +5,6 @@
 
 
 //template of End Point with types
-var epTemplateList
-var currentEP
-
 function drawNewEP(){
     var ele=[];
 
@@ -144,19 +141,6 @@ function saveNewVNF(){
             console.log(ele);
         }
     })
-}
-
-function loadEPInfo(epType,ep) {
-
-     $.ajax({
-             url: 'view_ep_request/',
-              type: 'GET'
-              }).done(function(data1){
-                    epTemplateList=JSON.parse(data1);
-                    console.log(epTemplateList);
-                    onClickDrawEP(epType,ep)
-                 });
-    
 }
 
 
