@@ -3,19 +3,28 @@
  */
 (function () {
     'use strict';
-
-    var updateFGInfoController = function ($uibModalInstance,info) {
+    /**
+     * The controller for the modal used to edit the graph basic info
+     * @param $uibModalInstance The instance of the modal which load the controller
+     * @param info The parameter defined into the dialog initialization
+     */
+    var updateFGInfoController = function ($uibModalInstance, info) {
         var ctrl = this;
-        var info = {
+        // the info variable extracted frm the parameter passed to the modal
+        ctrl.info = {
             id: info.id,
             name: info.name,
             description: info.description
         };
-        ctrl.info = info;
-
+        /**
+         * Function used to undo all the modification and close the modal
+         */
         ctrl.cancel = function () {
             $uibModalInstance.dismiss('cancel');
         };
+        /**
+         * Function used to save all the modification after modal is closed
+         */
         ctrl.save = function () {
             $uibModalInstance.close(ctrl.info);
         };

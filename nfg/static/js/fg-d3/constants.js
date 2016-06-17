@@ -3,6 +3,10 @@
  */
 (function () {
     "use strict";
+    /**
+     * Constants for the graph visualization
+     * @type {{graphHeight: string, graphWidth: string, vnfWidth: number, vnfHeigth: number, bigSwitchWidth: number, bigSwitchHeight: number, epRadius: number, ifRadius: number}}
+     */
     var graphConstant = {
         graphHeight: "100%",
         graphWidth: "100%",
@@ -15,6 +19,10 @@
 
     };
 
+    /**
+     * Constant for the interpretation of the forwarding-graph
+     * @type {{linkOriginFirstLevel: string, linkOriginSecondLevel: string, linkDestinationFirstLevel: string, linkDestinationSecondLevel: number, linkDestinationThirdLevel: string}}
+     */
     var forwardingGraphConstant = {
         linkOriginFirstLevel : "match",
         linkOriginSecondLevel : "port_in",

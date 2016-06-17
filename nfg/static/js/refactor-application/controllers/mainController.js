@@ -4,6 +4,12 @@
 (function () {
     'use strict';
 
+    /**
+     * Main controller for the application
+     * @param BackendCallService
+     * @param $location
+     * @constructor
+     */
     var MainController = function (BackendCallService,$location) {
         var ctrl = this;
         ctrl.$location = $location;
