@@ -1,7 +1,7 @@
 /* In this file thre are all functions to manage 
    the VNF form */ 
 
-var templateList
+
 
 
 function addFormPort(){
@@ -58,9 +58,9 @@ function fillInTemplate(templName) {
 
     var obj;
     var templ;
-    for(var j=0;j<templateList.length;j++)
-            if(templateList[j].template.name===templName){
-                obj=templateList[j];
+    for(var j=0; j<vnfTemplateList.length; j++)
+            if(vnfTemplateList[j].template.name===templName){
+                obj=vnfTemplateList[j];
                 template_js=obj.template;
                 templ=obj.template
             }
@@ -93,8 +93,8 @@ function addVNFModalInfo() {
 
 
 
-    for(var i=0;i<templateList.length;i++){
-        var obj = templateList[i].template;
+    for(var i=0; i<vnfTemplateList.length; i++){
+        var obj = vnfTemplateList[i].template;
 
         for(var temp in obj)
         console.log(obj[temp]);
@@ -126,7 +126,7 @@ function FuncSuccess(data){
 
     console.log(data);
 
-    templateList=JSON.parse(data);
+    vnfTemplateList=JSON.parse(data);
     console.log(templateList);
     $('#infoPort').empty();
     addVNFModalInfo();

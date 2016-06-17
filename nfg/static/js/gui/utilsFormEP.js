@@ -45,7 +45,6 @@ function drawFormEP(){
 
 function showEditInfoEP(idEP){
     unSetKeysWindowListener();
-    $('#FormEP').modal('show');
     fillFormInfoEP(idEP);
 }
 
@@ -53,53 +52,20 @@ function showEditInfoEP(idEP){
 function fillFormInfoEP(idEP){
     var ep;
     ep = getEndPointById(idEP);
+    var type=ep["type"];
 
     $("#nameEP").val(ep["name"]);
-    $("#seltypeEP").val(ep["type"]);
     $("#remoteEPid").val(ep["remote_endpoint_id"]);
     $("#idEndPoint").val(ep["id"]);
 
-    switch(ep["type"]){
-        case "internal":
-            viewInputIternal();
-            break;
 
-        case "interface":
-            $("#node").val(ep["interface"]["node-id"]);
-            $("#switch-id").val(ep["interface"]["switch-id"]);
-            $("#interface").val(ep["interface"]["interface"]);
-            viewInputInterface();
-            break;
 
-        case "interface-out":
-            $("#node").val(ep["interface-out"]["node-id"]);
-            $("#switch").val(ep["interface-out"]["switch-id"]);
-            $("#interface").val(ep["interface-out"]["interface"]);
-            viewInputInterface();
-            break;
+    onClickDrawEP(type,ep)
 
-        case "gre-tunnel":
 
-            $("#localIP").val(ep["gre-tunnel"]["local-ip"]);
-            $("#remoteIP").val(ep["gre-tunnel"]["remote-ip"]);
-            $("#greInterface").val(ep["gre-tunnel"]["interface"]);
-            $("#ttl").val(ep["gre-tunnel"]["ttl"]);
-            /* campo da aggiungere gre-key*/
-            viewInputGre();
-            break;
-
-        case "vlan":
-
-            $("#vlanID").val(ep["vlan"]["vlan-id"]);
-            $("#vlanInterface").val(ep["vlan"]["interface"]);
-            $("#switch").val(ep["vlan"]["switch-id"]);
-            $("#vlanNode").val(ep["vlan"]["node-id"]);
-            viewInputVlan();
-            break;
-    }
-    
     $("#saveEP").attr("onclick","saveNewEp()");
     $("#saveEP").html("Save End Point");
+    $('#FormEP').modal('show');
 
 
     console.log(ep);
