@@ -17,6 +17,7 @@ This GUI allows users to:
 * View and modify their own service.
 * Load and save the service description to an external file.
 * View how the service is being transformed by the different orchestration components, in order to facilitate the debug of those software component (available for the administrator only).
+* Manage users and group of the orchestator
 
 The GUI supports two operating modes, one targeting normal users (called '_simplified view_'), the other expert users ('_full view_'). The former uses a simplistic model in which network functions can only be cascaded, while the network traffic traverses one after the other. The latter is a more powerful model in which network functions can be organized in an arbitrary topology, even allowing traffic to be split across different functions based on traffic characteristics (e.g., the web traffic is sent to a stateful firewall, while the rest is sent to a traditional stateless firewall).
 

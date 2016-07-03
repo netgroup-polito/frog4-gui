@@ -27,7 +27,7 @@ This document presents how to install the Virtualized Network Services GUI.
 * Required JS library,CSS,Font
 
     You can find all the used library in the "contrib" folder.
-    Extract all the archives.
+    This is the archive content currently usage
    * ##### angular
     ```
         ./nfg/static
@@ -105,11 +105,8 @@ This document presents how to install the Virtualized Network Services GUI.
             +-- underscore-min.js
     ```
 
-* Create DataBase for Django and USERS table.
+* Create DataBase for Django.
 
 ```sh
         $ python manage.py migrate
 ```
-
-
-
