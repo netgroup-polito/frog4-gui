@@ -28,7 +28,7 @@ function FG_init(){
 function elaborateFlowRules(){
     //funzione che
     // 1. arricchische il campo match e il campo action con la posizione delle corrispettive interfacce
-    // 2. elimina l'info rindondante andata-ritorno, e setta un campo aggiuntivo che dice se è fullduplex o no
+    // 2. elimina l'info rindondante andata-ritorno, e setta un campo aggiuntivo che dice se ï¿½ fullduplex o no
 
     flow_rules.forEach(function(fr,i){
 
@@ -59,8 +59,8 @@ function elaborateFlowRules(){
 
         //console.log(pos.x,pos.y);
 
-        //2. cerco all'interno di flow_rules se c'è il suo duale, se no setto fullduplex a false;
-        //--->>>DA FARE<<<--- SE è FULL DUPLEX OCCORRE NON AGGIUNGERE UNA SECONDA VOLTA UNA LINEA!
+        //2. cerco all'interno di flow_rules se c'ï¿½ il suo duale, se no setto fullduplex a false;
+        //--->>>DA FARE<<<--- SE ï¿½ FULL DUPLEX OCCORRE NON AGGIUNGERE UNA SECONDA VOLTA UNA LINEA!
         if(fr["double"]===undefined) {
             fr["full_duplex"] = false;
             for (var j = i; j < flow_rules.length; j++) {
@@ -109,7 +109,7 @@ function elaborateFlowRules(){
         }
         if(start_int.isLinked===false){
             start_int.isLinked=true;
-        }else{//è già false
+        }else{//ï¿½ giï¿½ false
             isSplitted=true;
             console.log("POSSIBILE SOLO VISTA IN BS!!!");
             updateView();
@@ -117,7 +117,7 @@ function elaborateFlowRules(){
         }
         if(end_int.isLinked===false){
             end_int.isLinked=true;
-        }else{//è già false
+        }else{//ï¿½ giï¿½ false
             isSplitted=true;
             console.log("POSSIBILE SOLO VISTA IN BS!!!");
             updateView();

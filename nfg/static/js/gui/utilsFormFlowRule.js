@@ -170,7 +170,9 @@ function fillFlowRule(flow_rule){
     $("#idset_l4_dst_port").val(flow_rule.actions[0].set_l4_dst_port);
     $("#idoutput_to_queue").val(flow_rule.actions[0].output_to_queue);
 
-    $("#idoutput").val(flow_rule.actions[0].output);
+    var t=flow_rule.actions[0].output;
+
+    $("#idoutput_to_port").val(flow_rule.actions[0].output);
 
 
 }

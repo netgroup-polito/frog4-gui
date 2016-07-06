@@ -167,7 +167,7 @@ function ser_fg(){
 
 	EP_list.forEach(function(ele){
 		var ep = {};
-		var type=$("#seltypeEP").val();
+		var type=ele['type'];
 		ep["id"] = ele["id"];
 		if(ele["name"] != undefined && ele["name"] != "")
 			ep["name"] = ele["name"];
@@ -178,7 +178,7 @@ function ser_fg(){
 		//ep["prepare_connection_to_remote_endpoint_ids"] = ele["prepare_connection_to_remote_endpoint_ids"];
 
 
-		/* controllo sul tipo di end point */
+		/* controllo sul tipo di end point
 		if(ele["type"] != undefined && ele["type"] != "") {
 
 			for(var t in currentEP["properties"]){
@@ -188,7 +188,7 @@ function ser_fg(){
 						ep[type]={};
 				ep[type][t]=$(selector).val()
     }
-		}
+		}*/
 
 		forwarding_graph["end-points"].push(ep);
 	});

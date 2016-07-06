@@ -1,6 +1,9 @@
 /* In this file there are all functions to manage 
    the EndPoint form */
 
+
+
+/*
 function drawFormEP(){
     var opt = "";
 
@@ -41,7 +44,7 @@ function drawFormEP(){
             })            
 }
 
-
+*/
 
 function showEditInfoEP(idEP){
     unSetKeysWindowListener();

@@ -25,6 +25,9 @@ urlpatterns = [url(r'^$', views.index, name='index'),
                url(r'^view_action_request/$', views.view_action_request, name='view_action_request'),
                url(r'^view_ep_request/$', views.view_ep_request, name='view_ep_request'),
                url(r'^api/v1/users_api/add_group/$', views.api_add_group, name='add_group'),
-               url(r'^api/v1/users_api/delete_group/$', views.api_delete_group, name='delete_group')
+               url(r'^api/v1/users_api/delete_group/$', views.api_delete_group, name='delete_group'),
+               url(r'^graph_from_file_request/$', views.graph_from_file_request, name='graph_from_file_request'),
+               url(r'^graph_to_file_request/$', views.graph_to_file_request, name='graph_to_file_request'),
+               url(r'^graphs_from_repository_request/$', views.graphs_from_repository_request, name='graphs_from_repository_request')
 
                ]

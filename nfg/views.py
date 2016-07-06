@@ -49,7 +49,10 @@ userm = UserManager(parser.get('un_orchestrator', 'address'),
                     parser.get('un_orchestrator', 'port'))
 dbm = DBManager("db.sqlite3")
 graphm = NFFGManager(parser.get('un_orchestrator', 'address'),
-                     parser.get('un_orchestrator', 'port'))
+                     parser.get('un_orchestrator', 'port'),
+                     parser.get('graph-repository', 'address'),
+                     parser.get('graph-repository', 'port')
+                     )
 
 templatem = TemplateManager(parser.get('vnf-template', 'address'),
                             parser.get('vnf-template', 'port'))
@@ -217,6 +220,9 @@ def ajax_data_request(request):
     return HttpResponse("%s" % json_data_string)
 
 
+
+
+
 # ajax_upload_request: 
 #                    This view memorize json into database (using a DBManager class)
 #                    and it also performs validation.
@@ -306,6 +312,57 @@ def view_match_request(request):
 
     #return HttpResponse("%s" % json.dumps(defs))
 
+def graph_from_file_request(request):
+    json_data = {}
+    t=request.POST["file_name_fg_local"]
+
+    couple_fg = graphm.get_user_graph_from_local_file(t)
+
+    json_data['file_name_fg'] = request.POST["file_name_fg_local"]
+    json_data['json_file_fg'] = {"forwarding-graph": couple_fg["forwarding-graph"]}
+
+    json_data['file_name_fg'] = request.POST["file_name_fg_local"]
+
+    # Json file position is present
+    json_data['json_file_pos'] = {}
+    json_data['is_find_pos'] = 'false'
+
+    json_data_string = json.dumps(json_data)
+    # TODO da rimuovere assolutamente
+    json_data_string = json_data_string.replace("output_to_port", "output")
+    json_data_string = json_data_string.replace("output_to_controller", "controller")
+
+    return HttpResponse("%s" % json_data_string)
+
+
+def graph_to_file_request(request):
+    msg={}
+    name=request.POST["file_name_fg_local"]
+    data=request.POST["json_data"]
+    # TODO da rimuovere assolutamente
+    data = data.replace( "output","output_to_port")
+    data = data.replace( "controller","output_to_controller")
+    graphm.save_user_graph_to_local_file(name,data)
+    msg["success"] = "Salvataggio Riuscito"
+    logging.debug(msg["success"])
+    msg = json.dumps(msg)
+    return HttpResponse("%s" % msg)
+
+
+def graphs_from_repository_request(request):
+    json_data = {}
+
+    couple_fg = graphm.get_user_graphs_from_repository(request.session["token"])
+
+    json_data =couple_fg["template"]
+
+
+    json_data_string = json.dumps(json_data)
+    # TODO da rimuovere assolutamente
+    json_data_string = json_data_string.replace("output_to_port", "output")
+    json_data_string = json_data_string.replace("output_to_controller", "controller")
+
+    return HttpResponse("%s" % json_data_string)
 
 
 def view_ep_request(request):
@@ -435,8 +492,6 @@ def ajax_download_preview(request):
 
 @csrf_exempt
 def ajax_download_request(request):
-    fg = NF_FG()
-    val = ValidateNF_FG()
     msg = {}
     json_data = {}
     # logger = MyLogger("filelog.log", "nffg-gui").get_my_logger()

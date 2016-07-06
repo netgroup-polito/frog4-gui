@@ -73,6 +73,7 @@ var selected_node, selected_link;
 var num = 0;
 
 var vnfTemplateList;
+var userGraphsRepository;
 
 var epTemplateList;
 var currentEP;
@@ -153,10 +154,10 @@ $(document).ready(function(){
           /* definisco oggetto fg */
           var json_data=JSON.parse(data);
           var json_data1=JSON.parse(data);
-           
+
           fg = json_data["json_file_fg"];
           original_fg = json_data1["json_file_fg"];
-          
+
           if(fg == undefined){
               console.log("clicca qui per disegnaro un nuovo grafo");
           }else{
@@ -169,7 +170,7 @@ $(document).ready(function(){
               console.log("file di posizionamento");
               console.log(fg_pos);
             }else{
-              /* file di posizionamento non presente */ 
+              /* file di posizionamento non presente */
               isAlreadyPositioned = false;
             }
 
