@@ -14,15 +14,17 @@ This document presents how to install the Virtualized Network Services GUI.
         $ pip install Django
 ```
 
-* Required Json-schema-validator 2.3.1
+* Required Json-schema and Json-schema-validator 2.3.1
 
 ```sh
-        $ pip install json-schema-validator
+        $ pip install json-schema json-schema-validator
 ```
 
 * Required NFFG_library 
 
-  The last version of this library is included in the project.
+```sh
+        $ git submodule update --init --recursive
+```
 
 * Required JS library,CSS,Font
 
