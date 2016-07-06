@@ -2,10 +2,10 @@
 
 This document presents how to install the Virtualized Network Services GUI.
 
-* Required Python 2.7
+* Required Python 2.7 and `pip`
 
 ```sh
-        $ sudo apt-get install python2.7
+        $ sudo apt-get install python2.7 python-pip
 ```
 
 * Required Django Framwork
