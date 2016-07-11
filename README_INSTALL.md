@@ -2,32 +2,34 @@
 
 This document presents how to install the Virtualized Network Services GUI.
 
-* Required Python 2.7
+* Required Python 2.7 and `pip`
 
 ```sh
-        $ sudo apt-get install python2.7
+        $ sudo apt-get install python2.7 python-pip
 ```
 
 * Required Django Framwork
 
 ```sh
-        $ pip install Django
+        $ sudo pip install Django
 ```
 
-* Required Json-schema-validator 2.3.1
+* Required Jsonschema and Json-schema-validator 2.3.1
 
 ```sh
-        $ pip install json-schema-validator
+        $ sudo pip install jsonschema json-schema-validator
 ```
 
 * Required NFFG_library 
 
-  The last version of this library is included in the project.
+```sh
+        $ git submodule update --init --recursive
+```
 
 * Required JS library,CSS,Font
 
     You can find all the used library in the "contrib" folder.
-    Extract all the archives.
+    This is the archive content currently usage
    * ##### angular
     ```
         ./nfg/static
@@ -105,11 +107,8 @@ This document presents how to install the Virtualized Network Services GUI.
             +-- underscore-min.js
     ```
 
-* Create DataBase for Django and USERS table.
+* Create DataBase for Django.
 
 ```sh
         $ python manage.py migrate
 ```
-
-
-
