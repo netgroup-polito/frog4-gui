@@ -32,5 +32,6 @@ This document presents how to install the Virtualized Network Services GUI.
 * Create DataBase for Django.
 
 ```sh
+        $ cd [fg-gui]
         $ python manage.py migrate
 ```
