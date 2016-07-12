@@ -186,6 +186,20 @@ $(document).ready(function(){
 });
 
 
+
+
+$(document).ready(function() {
+    $('#my-checkbox').bootstrapToggle();
+
+    $('#my-checkbox').change(function() {
+      console.log('Toggle: ' + $(this).prop('checked'));
+    })
+});
+
+
+
+
+
 function DrawForwardingGraph(fg){
     /*--->>>DA FARE<<<---
      *controllo degli oggetti se sono undefined occorre vedere lo schema per capire quale campo può non essere presente!
