@@ -73,6 +73,7 @@ var selected_node, selected_link;
 var num = 0;
 
 var vnfTemplateList;
+var userGraphsRepository;
 
 var epTemplateList;
 var currentEP;
@@ -141,65 +142,7 @@ $.ajax({
 
 
 
-
-//request for endpoint templates ---- and get $ref from schema
- $.ajax({
-             url: 'view_ep_request/',
-              type: 'GET'
-              }).done(function(data1){
-                    var array=new Array();
-                    var schema=JSON.parse(data1);
-                    var obj=schema['properties']['forwarding-graph']['properties']['end-points']['items']['properties'];
-                    for( var t in obj){
-                        if(obj[t].hasOwnProperty("$ref")){
-                            var str=obj[t]['$ref'];
-                            var path=str.split("/");
-                            if(schema[path[1]][path[2]]!=undefined)
-                                var o=schema[path[1]][path[2]];
-                                o.type=t;
-                               array.push(o);
-
-                        }
-                    }
-                    epTemplateList=array;
-                    console.log(epTemplateList);
-                 });
-
-//request for match & action
-
-$.ajax({
-      			  url: 'view_templates_request/',
-     	       	          type: 'GET'
-                          }).done(function(data){
-
-                            $.ajax({
-      			                     url: 'view_match_request/',
-                                      type: 'GET'
-                                      }).done(function(data1){
-                                            editRuleMatch=JSON.parse(data1);
-                                            console.log(editRuleMatch);
-
-   					                     });
-                            $.ajax({
-      			                     url: 'view_action_request/',
-                                      type: 'GET'
-                                      }).done(function(data1){
-                                            editRuleAction=JSON.parse(data1);
-                                            console.log(editRuleAction);
-
-   					                     });
-                    var t=JSON.parse(data);
-                    infoRule=t["properties"];
-   					 });
-
-
-
-
-//request for vnf tamplates
-
-
-
-$(document).ready(function () {
+$(document).ready(function(){
 
     $("#draw_menu").hide();
     $("#file_content").hide();
@@ -228,7 +171,7 @@ $(document).ready(function () {
                     console.log("file di posizionamento");
                     console.log(fg_pos);
                 } else {
-                    /* file di posizionamento non presente */
+              /* file di posizionamento non presente */
                     isAlreadyPositioned = false;
                 }
 
@@ -242,6 +185,20 @@ $(document).ready(function () {
         }
     });
 });
+
+
+
+
+$(document).ready(function() {
+    $('#my-checkbox').bootstrapToggle();
+
+    $('#my-checkbox').change(function() {
+      console.log('Toggle: ' + $(this).prop('checked'));
+    })
+});
+
+
+
 
 
 function DrawForwardingGraph(fg) {

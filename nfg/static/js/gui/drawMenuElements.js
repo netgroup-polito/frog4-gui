@@ -112,14 +112,14 @@ function drawNewNF(){
 
 }
 function saveNewEp(){
-
     var ep = updateEP();
     if(validateNewEndPoint(ep)==true){
+
         $('#FormEP').modal('hide');
         setKeysWindowListener();
         EP_list.forEach(function(ele,index){
             if(parseInt(ele.id) == parseInt(ep.id)){
-                EP_list[index]=ep;                
+                EP_list[index]=ep;
                 console.log("trovato");
                 console.log(ele);
             }
@@ -144,11 +144,106 @@ function saveNewVNF(){
 }
 
 
+//------save locale/remote-----------
+function saveGraphLocal(){
+    console.log("saveGraphLocal()");
+    $("#saveTitle").text("Save local file as...");
+    $("#SaveForm").click(saveLocal);
+    $("#EraseWithoutSaving").hide();
+    $("#SaveFG").modal("show");
+}
+function saveGraphRemote(){
+    console.log("saveGraphRemote()");
+    //showSaveForm();
+    $("#saveTitle").text("Save remote file as...");
+    $("#SaveForm").click(saveRemote);
+    $("#EraseWithoutSaving").hide();
+    $("#SaveFG").modal("show");
+}
+
+function  saveRemote() {
+    console.log("myFunctionRemote()");
+}
+
+function saveLocal () {
+    var t;
+    console.log("saveLocal()");
+    var file_name = $("#nameFile").val();
+    $("#SaveFG").modal("hide");
+    console.log(file_name);
+    var json_data = serialize_fg();
+
+    $.ajax({
+        url: 'graph_to_file_request/',
+        type: 'POST',
+        data: { "file_name_fg_local":file_name,"json_data":json_data} // file inputs.
+
+    }).done(function(data){
+
+        var res=JSON.parse(data);
+        showMessageServer(res);
 
 
+    }).fail(function(data){
+
+        var res=JSON.parse(data);
+        showMessageServer(res);
+    });
+}
+
+//--------load locale/remote
+function loadGraphLocal(){
+    console.log("loadGraphLocal()");
+    $("#titleJsonLoad").text("Load local file...");
+    $('#inputFile').val("");
+    $('#file_content_upload').hide();
+    $('#UploadFG').modal('show');
+}
+
+
+
+function loadGraphRemote(){
+    console.log("loadGraphRemote()");
+    //download all user's graphs
+      $.ajax({
+        url: 'graphs_from_repository_request/',
+        type: 'GET'
+
+    }).done(function(data){
+
+          $("#selfileDownload").empty();
+
+          var array=new Array();
+         var file_list=JSON.parse(data);
+          for(var i=0;i<file_list.length;i++){
+                var t=new Object();
+                t['json_file_fg']=file_list[i]['template'];
+                t['file_name_fg']=file_list[i].id;
+                t['json_file_pos'] = {}
+                t['is_find_pos'] = 'false'
+                $("#selfileDownload").append("<option>"+file_list[i].id+" - "+t['json_file_fg']["forwarding-graph"].name+"</option>" );
+                array.push(t);
+          }
+          userGraphsRepository=array;
+          
+           $("#DownloadClick").attr("onclick","DownloadRemoteFile()");
+         $("#titleJsonLoadRemote").text("Load remote file...");
+
+        $('#DownloadFG').modal('show');
+        $("#file_content_download").hide();
+
+    }).fail(function(){
+
+        console.log("An error occurred, the files couldn't be sent!");
+    });
+
+
+}
 
 function fillInEP(epType,ep) {
     var $html='';
+
+    $("#nameEP").val("");
     $("#epInfo").empty();
 
     $("#seltypeEP").val(epType);

@@ -49,7 +49,10 @@ userm = UserManager(parser.get('un_orchestrator', 'address'),
                     parser.get('un_orchestrator', 'port'))
 dbm = DBManager("db.sqlite3")
 graphm = NFFGManager(parser.get('un_orchestrator', 'address'),
-                     parser.get('un_orchestrator', 'port'))
+                     parser.get('un_orchestrator', 'port'),
+                     parser.get('graph-repository', 'address'),
+                     parser.get('graph-repository', 'port')
+                     )
 
 templatem = TemplateManager(parser.get('vnf-template', 'address'),
                             parser.get('vnf-template', 'port'))
@@ -229,6 +232,9 @@ def ajax_data_request(request):
     return HttpResponse("%s" % json_data_string)
 
 
+
+
+
 # ajax_upload_request: 
 #                    This view memorize json into database (using a DBManager class)
 #                    and it also performs validation.
@@ -318,27 +324,57 @@ def view_match_request(request):
 
     #return HttpResponse("%s" % json.dumps(defs))
 
+def graph_from_file_request(request):
+    json_data = {}
+    t=request.POST["file_name_fg_local"]
+
+    couple_fg = graphm.get_user_graph_from_local_file(t)
+
+    json_data['file_name_fg'] = request.POST["file_name_fg_local"]
+    json_data['json_file_fg'] = {"forwarding-graph": couple_fg["forwarding-graph"]}
+
+    json_data['file_name_fg'] = request.POST["file_name_fg_local"]
+
+    # Json file position is present
+    json_data['json_file_pos'] = {}
+    json_data['is_find_pos'] = 'false'
+
+    json_data_string = json.dumps(json_data)
+    # TODO da rimuovere assolutamente
+    json_data_string = json_data_string.replace("output_to_port", "output")
+    json_data_string = json_data_string.replace("output_to_controller", "controller")
+
+    return HttpResponse("%s" % json_data_string)
 
 
-def view_ep_request(request):
-    with open('nfg/nffg_library/schema.json') as data_file:
-        data = json.load(data_file)
-    return HttpResponse("%s" % json.dumps(data))
+def graph_to_file_request(request):
+    msg={}
+    name=request.POST["file_name_fg_local"]
+    data=request.POST["json_data"]
+    # TODO da rimuovere assolutamente
+    data = data.replace( "output","output_to_port")
+    data = data.replace( "controller","output_to_controller")
+    graphm.save_user_graph_to_local_file(name,data)
+    msg["success"] = "Salvataggio Riuscito"
+    logging.debug(msg["success"])
+    msg = json.dumps(msg)
+    return HttpResponse("%s" % msg)
 
 
+def graphs_from_repository_request(request):
+    json_data = {}
 
-#def view_ep_request(request):
-#    defs=[]
-#    with open('nfg/nffg_library/schema.json') as data_file:
- #       data = json.load(data_file)
-  #  types=data["properties"]["forwarding-graph"]["properties"]["end-points"]["items"]["properties"]["type"]["enum"]
-  #  for t in types:
-   #     v=data["definitions"][t]
-    #    v["type"]=t
-     #   defs.append(v)
+    couple_fg = graphm.get_user_graphs_from_repository(request.session["token"])
 
-    #return HttpResponse("%s" % json.dumps(defs))
+    json_data =couple_fg["template"]
 
+
+    json_data_string = json.dumps(json_data)
+    # TODO da rimuovere assolutamente
+    json_data_string = json_data_string.replace("output_to_port", "output")
+    json_data_string = json_data_string.replace("output_to_controller", "controller")
+
+    return HttpResponse("%s" % json_data_string)
 
 
 def view_ep_request(request):
@@ -367,6 +403,20 @@ def ajax_files_request(request):
             return HttpResponse(status=401)
     else:
         return HttpResponse(status=501)
+
+
+def ajax_files_request2(request):
+    if request.method == "GET":
+        lista_file = []
+        lista_file = graphm.get_user_graph("", request.session["token"])
+
+        if lista_file["status"] != 200:
+            res = json.dumps(lista_file)
+            return HttpResponse("%s" % res, status=lista_file["status"])
+
+        json_data_string = json.dumps(lista_file["forwarding-graph"])
+
+    return HttpResponse("%s" % json_data_string)
 
 
 @csrf_exempt
@@ -468,8 +518,6 @@ def ajax_download_preview(request):
 
 @csrf_exempt
 def ajax_download_request(request):
-    fg = NF_FG()
-    val = ValidateNF_FG()
     msg = {}
     json_data = {}
     # logger = MyLogger("filelog.log", "nffg-gui").get_my_logger()

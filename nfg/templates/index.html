@@ -11,9 +11,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <link rel="icon" href="{% static "img/favicon.ico" %}">
     <link rel="stylesheet" href="{% static "css/bootstrap.css" %}">
+    <link rel="stylesheet" href="{% static "css/bootstrap-toggle.min.css" %}">
     <link rel="stylesheet" href="{% static "css/font-awesome.css" %}">
     <script type="text/javascript" src="{% static "js/libs/jquery/jquery.min.js" %}"></script>
     <script type="text/javascript" src="{% static "js/libs/bootstrap/bootstrap.min.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/libs/bootstrap/bootstrap-toggle.min.js" %}"></script>
 
     <script type="text/javascript" src="{% static "js/libs/d3/d3.v3.min.js" %}"></script>
 
@@ -81,13 +83,13 @@
                 <li class="dropdown">
                     <a class="dropdown-toggle" role="button" data-toggle="dropdown">
                         <i class="glyphicon glyphicon-user"></i>
-                        User & Group
+                        Users & Groups
                         <span class="caret"></span>
                     </a>
 
                     <ul id="g-account-menu" class="dropdown-menu" role="menu">
-                        <li><a href="/users/#/">User</a></li>
-                        <li><a href="/users/#/groups">Group</a></li>
+                        <li><a href="/users/#/">Users</a></li>
+                        <li><a href="/users/#/groups">Groups</a></li>
                     </ul>
                 </li>
                 <li>
@@ -141,6 +143,36 @@
                                     class="fa fa-square-o fa-lg"></i>
                             </button>
 
+
+                            <li class="dropdown menu btn btn-default btn-lg" title="Save graph">
+                                <a style="padding-left: 0px; color: #333;" data-toggle="dropdown" href="#"
+                                   class="dropdown-toggle" role="button" aria-haspopup="true"
+                                   aria-expanded="false">
+                                    <span style="padding-right: 5px;"
+                                          class="glyphicon glyphicon-floppy-save"></span>
+                                    <span style="" class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a onclick="saveGraphLocal()">Save Local</a></li>
+                                    <li><a onclick="saveGraphRemote()">Save Remote</a></li>
+                                </ul>
+                            </li>
+
+
+                            <li class="dropdown menu btn btn-default btn-lg" title="Load graph">
+                                <a style="padding-left: 0px; color: #333;" data-toggle="dropdown" href="#"
+                                   class="dropdown-toggle" role="button" aria-haspopup="true"
+                                   aria-expanded="false">
+                                    <span style="padding-right: 5px;"
+                                          class="glyphicon glyphicon-floppy-open"></span>
+                                    <span style="" class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a onclick="loadGraphLocal()">Open Local</a></li>
+                                    <li><a onclick="loadGraphRemote()">Open Remote</a></li>
+                                </ul>
+                            </li>
+
                             <!-- Save Button -->
                             <button type="button" class="menu btn btn-default btn-lg" onclick="showSaveForm();"
                                     title="Save"><span class="glyphicon glyphicon-floppy-disk"
@@ -186,9 +218,7 @@
                             </button>
 
                             <!-- Info Button -->
-                            <button type="button" class="menu btn btn-default btn-lg" onclick="drawAnyItems();"
-                                    title="Help"><span class="glyphicon glyphicon-exclamation-sign"
-                                                       aria-hidden="true"></span></button>
+                           <input id="my-checkbox" checked data-toggle="toggle" type="checkbox" data-height="45">
 
 
                         </div>
@@ -263,7 +293,7 @@
             </div>
 
             <div class="modal-footer">
-                <a href="#" data-dismiss="modal" onclick="reloadPage();" class="btn btn-primary">OK</a>
+                <a href="#" data-dismiss="modal"  class="btn btn-primary">OK</a>
             </div>
 
         </div>
@@ -310,7 +340,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h4 class="modal-title" id="titleJson">Open Json from the client</h4>
+                <h4 class="modal-title" id="titleJsonLoad"></h4>
             </div>
             <form class="form-horizontal" role="form" action="#" id="formUpload" method="post"
                   enctype="multipart/form-data" accept-charset="utf-8" name="formUpload">
@@ -318,12 +348,12 @@
                     <div id="file_content_upload">
 
                     </div>
-                    <input id="inputFile" type="file" name="myfile" class="filestyle" data-buttonName="btn-primary">
+                    <input id="inputFile" type="file" name="myfile" class="filestyle" data-buttonName="btn-primary" required>
                 </div>
 
                 <div class="modal-footer">
                     <a href="#" id="Preview" onclick="PreviewFileUpload();" class="btn btn-primary">Preview</a>
-                    <a href="#" id="Upload" onclick="UploadFile();" class="btn btn-primary"
+                    <a href="#" id="Upload"  onclick="DownloadLocalFile();" class="btn btn-primary"
                        data-dismiss="modal">Open</a>
 
                 </div>
@@ -344,7 +374,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
                         onclick="setKeysWindowListener()">×
                 </button>
-                <h4 class="modal-title" id="saveTitle">Save on the Server </h4>
+                <h4 class="modal-title" id="saveTitle"></h4>
             </div>
             <form class="form-horizontal" role="form" action="#" id="formSave" method="post"
                   enctype="multipart/form-data" accept-charset="utf-8" name="formUpload">
@@ -360,7 +390,7 @@
                 <div class="modal-footer">
                     <a href="#" id="EraseWithoutSaving" onclick="eraseAll();" class="btn btn-primary">Erase without
                         saving</a>
-                    <a href="#" id="Save" onclick="saveFile();" class="btn btn-primary">Save</a>
+                    <a href="#" id="SaveForm" class="btn btn-primary">Save</a>
 
                 </div>
             </form>
@@ -427,7 +457,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h4 class="modal-title" id="titleJson">Open Json from the server</h4>
+                <h4 class="modal-title" id="titleJsonLoadRemote"></h4>
             </div>
             <form class="form-horizontal" role="form" action="#" id="formDownload" method="post"
                   enctype="multipart/form-data" accept-charset="utf-8" name="formUpload">
@@ -439,7 +469,7 @@
                     <div class="form-group">
                         <label class="control-label col-sm-2" for="type">Select File:</label>
                         <div class="col-sm-10">
-                            <select class="form-control" name="type" id="selfileDownload" >
+                            <select class="form-control" name="type" id="selfileDownload">
                             </select>
                         </div>
                     </div>
@@ -448,7 +478,7 @@
 
                 <div class="modal-footer">
                     <a href="#" id="Preview" onclick="PreviewFileDownload();" class="btn btn-primary">Preview</a>
-                    <a href="#" id="Upload" onclick="DownloadFile();" class="btn btn-primary">Open</a>
+                    <a href="#" id="DownloadClick" class="btn btn-primary">Open</a>
 
                 </div>
             </form>
@@ -507,7 +537,7 @@
                         <div class="col-sm-10">
 
 
-                                <div id="selectEPItems"></div>
+                            <div id="selectEPItems"></div>
                         </div>
                     </div>
 
@@ -626,7 +656,6 @@
     function showPannelBody() {
         $('.pannel-body').show();
     }
-
 
 
     drawFormEP();

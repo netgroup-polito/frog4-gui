@@ -344,7 +344,7 @@ function showMSG(title){
 /*message info from the server */
 
 function showMessageServer(e){
-
+        
     
                 
     if(e.success === "Salvataggio Riuscito"){

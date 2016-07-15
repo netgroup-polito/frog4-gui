@@ -29,6 +29,8 @@ urlpatterns = [url(r'^$', views.index, name='index'),
                url(r'^api/v1/users_api/delete_group/$', views.api_delete_group, name='delete_group'),
                # url(r'^api/v1/graphs_api/get_available_graphs/$', views.api_get_available_graphs, name='get_available_graphs'),
                url(r'^api/v1/graphs_api/get_available_graphs/$', views.api_get_available_graphs_debug, name='get_available_graphs')
-
+               url(r'^graph_from_file_request/$', views.graph_from_file_request, name='graph_from_file_request'),
+               url(r'^graph_to_file_request/$', views.graph_to_file_request, name='graph_to_file_request'),
+               url(r'^graphs_from_repository_request/$', views.graphs_from_repository_request, name='graphs_from_repository_request')
 
                ]

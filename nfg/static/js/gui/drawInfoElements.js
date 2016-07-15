@@ -65,6 +65,7 @@ function drawLinkInfo(id) {
 
 function drawBigSwitchInfo(fg) {
     $('.info').empty();
+    /*
     $('.info').append('<a href="#" onclick="ReduceAll()"><strong>BigSwitch Info </strong><i class="glyphicon glyphicon-chevron-down" id="icon-bs"></i></a>');
     if (flow_rules.length === 0) {
         var $html = '<a href="#"><i class="glyphicon glyphicon-exclamation-sign"></i><strong> No Items Selected</strong></a>' +
@@ -78,7 +79,6 @@ function drawBigSwitchInfo(fg) {
         $('.info').append($html);
     } else {
         flow_rules.forEach(function (e) {
-            /*$html = '<div class="panel panel-default"><div class="panel-heading"><a onclick="Reduce('+e.id+')">FlowRule Id: '+e.id+' (';*/
             var $html = '<div class="panel panel-default" id="panel' + e.id + '"><div class="panel-heading" id="panel-h' + e.id + '"><a href="#" onclick="Reduce(\'' + e.id + '\')">(';
             if (e.description === undefined || e.description === null || e.description === "") {
                 //$html += e.actions[0].output + " ";
@@ -98,7 +98,6 @@ function drawBigSwitchInfo(fg) {
                 $('#a_' + e.id).append('<p><b>Output: </b>' + e.actions[0].output + '</p>');
 
 
-            /* aggiungere gli altri*/
 
             if (e.match.ether_type != null)
                 $('#flowrule' + e.id).append('<p><b>EtherType: </b>' + e.match.ether_type + '</p>');
@@ -109,14 +108,14 @@ function drawBigSwitchInfo(fg) {
             if (e.match.port_in != null)
                 $('#flowrule' + e.id).append('<p><b>Source Port: </b>' + e.match.port_in + '</p>');
 
-            /* aggiungere gli altri*/
 
-            /* edit */
             $('#flowrule' + e.id).append('<br><p class="edit"><a href="#" onclick="showEditInfoFlowRule(\'' + e.id + '\')"><strong><i class="glyphicon glyphicon-wrench"></i> Edit</strong></a></p>');
 
         });
     }
 
+
+*/
 }
 
 
@@ -331,20 +330,10 @@ $('.myModalEdit').empty();
         '</div>';
 
 
-
-
-
-
-
-
     $('.big_switch_modal').append($html);
 
 
-
-
-
-
-    DrawMatchDynamic() ;
+    DrawMatchDynamic(id) ;
     DrawActionDynamin()
 
     hideMatch();
@@ -366,8 +355,10 @@ function DrawActionDynamin() {
     var two="2"
 
     var $html2="";
+
     console.log(editRuleAction)
     for(var field in editRuleAction) {
+            console.log(id.concat(field));
         $html2 += '<div class="form-group">' +
             '<label class="control-label col-sm-4" for="'+id.concat(field)+'">'+field+":"+'</label>' +
             '<div class="col-sm-8">' +
@@ -389,11 +380,12 @@ function DrawActionDynamin() {
 
 }
 
-function DrawMatchDynamic() {
+function DrawMatchDynamic(id_flow) {
     $('.match').empty();
 
     var id="id"
     var two="2"
+
 
     var $html2="";
     console.log(editRuleMatch)
