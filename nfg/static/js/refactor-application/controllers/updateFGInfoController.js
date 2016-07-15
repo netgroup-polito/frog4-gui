@@ -30,7 +30,7 @@
         };
     };
 
-    updateFGInfoController.$inject = ['$uibModalInstance'];
+    updateFGInfoController.$inject = ['$uibModalInstance','info'];
     angular.module('fg-gui').controller('UpdateFGInfoController', updateFGInfoController);
 
 })();
