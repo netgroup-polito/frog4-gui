@@ -29,7 +29,6 @@ function elaborateFlowRules(){
     //funzione che
     // 1. arricchische il campo match e il campo action con la posizione delle corrispettive interfacce
     // 2. elimina l'info rindondante andata-ritorno, e setta un campo aggiuntivo che dice se � fullduplex o no
-
     flow_rules.forEach(function(fr,i){
 
         //sort action now the one that has the field "output" is put as first in the array
@@ -74,6 +73,7 @@ function elaborateFlowRules(){
         }
 
     });
+    onlyBigSwitchView=false;
     //flow_rules= _.filter(flow_rules,function(e){return e["double"]!==undefined || e["full_duplex"]===false;});
     flow_rules.forEach(function(fr){
         var int1=getBSInterfaceById(fr["match"]["port_in"]);
@@ -114,6 +114,7 @@ function elaborateFlowRules(){
             console.log("POSSIBILE SOLO VISTA IN BS!!!");
             updateView();
             //showBigSwitch
+				onlyBigSwitchView=true;
         }
         if(end_int.isLinked===false){
             end_int.isLinked=true;
@@ -121,11 +122,12 @@ function elaborateFlowRules(){
             isSplitted=true;
             console.log("POSSIBILE SOLO VISTA IN BS!!!");
             updateView();
+            onlyBigSwitchView=true;
             //showBigSwitch
         }
-
-
     });
+    if(onlyBigSwitchView)
+		updateView();
 }
 function setBSExternalLink(){
     big_switch.interfaces.forEach(function(bs_int){

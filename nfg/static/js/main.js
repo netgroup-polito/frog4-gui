@@ -175,7 +175,8 @@ $(document).ready(function(){
             }
 
             DrawForwardingGraph(fg);
-              showBSView(false);
+            firstVisualization=true;
+            showBSView(false);
           }
           drawAnyItems();
           file_name_fg = json_data["file_name_fg"];
@@ -296,7 +297,7 @@ function DrawForwardingGraph(fg){
     drawBIGSWITCH();
     drawBSInterfaces(big_switch.interfaces);
 
-    checkSplit();
+    //checkSplit(); // this check is done in FG_init!!
     setPointerAtLines();
     updateTooltips();
 
