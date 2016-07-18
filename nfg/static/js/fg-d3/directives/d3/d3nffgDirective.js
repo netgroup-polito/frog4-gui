@@ -34,7 +34,15 @@
                  * {booelan} Used to be aware if the graph is forced to complex mode
                  * @readonly
                  */
-                isForced: "="
+                isForced: "=",
+                /**
+                 * {object} Jsonschema for the forwarding-graph
+                 */
+                schema: "="//,
+                ///**
+                // * {boolean} Used to trigger redraw of the graph in case of change to deep level of the graph object
+                // */
+                //updateView:"="
             },
             /**
              * Controller of the directive
@@ -96,7 +104,7 @@
                             "width": graphConstant.bigSwitchWidth,
                             "height": graphConstant.bigSwitchHeight,
                             "class": "big-switch"
-                        });                    
+                        });
                     // adding a graph definition for the big-switch selected (to be substituted)
                     d3Service.addSimpleDefinition(
                         definitions_section,
@@ -107,6 +115,28 @@
                             "height": graphConstant.bigSwitchHeight,
                             "class": "big-switch-select"
                         });
+                    // adding a graph definition for the big-switch selected (to be substituted)
+                    d3Service.addNestedDefinition(
+                        definitions_section,
+                        "pattern",
+                        {
+                            "id": "host-icon",
+                            "width": 1,
+                            "height": 1,
+                            "patternContentUnits": "objectBoundingBox",
+                            "children": [
+                                {
+                                    "type": "svg:image",
+                                    "xlink:href": "/static/img/pc-blue.png",
+                                    //"/static/img/icon-pc.png",
+                                    "width": "1",
+                                    "height": "1",
+                                    "preserveAspectRatio": "xMinYMin slice"
+                                }
+                            ]
+                        });
+
+
                     // adding a nested definition for the arrow used for endpoints
                     d3Service.addNestedDefinition(
                         definitions_section,
@@ -230,7 +260,7 @@
                     if (fg["big-switch"])
                         fgDrawService.buildBigSwitch(fg["big-switch"], fgPos["big-switch"], fgPos["VNFs"], fgPos["end-points"], ctrl.graph);
                     // if big-switch and flow-rules exists (should not happen in the json is valid)
-                    if (fg["big-switch"] && fg["big-switch"]["flow-rules"] && fg["big-switch"]["flow-rules"].length > 0)
+                    if (fg["big-switch"] && fg["big-switch"]["flow-rules"])
                         fgDrawService.buildAllLink(fgPos, ctrl.graph);
                 };
                 /**
@@ -308,7 +338,7 @@
                 };
 
                 /**
-                 * function to watch the change of a variable
+                 * function to watch the change of the view mode
                  */
                 scope.$watch(function () {
                         return scope.showBigSwitch;
@@ -316,6 +346,36 @@
                     function () {
                         if (scope.showBigSwitch != ctrl.graph.showBigSwitch)
                             ngModel.$render()
+                    });
+                /**
+                 * function to watch the change of the flow-rules
+                 */
+                scope.$watchCollection(function () {
+                        if (ngModel.$modelValue)
+                            return ngModel.$modelValue["big-switch"]["flow-rules"];
+                    },
+                    function () {
+                        ngModel.$render()
+                    });
+                /**
+                 * function to watch the change of the VNFs
+                 */
+                scope.$watchCollection(function () {
+                        if (ngModel.$modelValue)
+                            return ngModel.$modelValue["VNFs"];
+                    },
+                    function () {
+                        ngModel.$render()
+                    });
+                /**
+                 * function to watch the change of the endpoints
+                 */
+                scope.$watchCollection(function () {
+                        if (ngModel.$modelValue)
+                            return ngModel.$modelValue["end-points"];
+                    },
+                    function () {
+                        ngModel.$render()
                     });
 
                 //initialize the directive

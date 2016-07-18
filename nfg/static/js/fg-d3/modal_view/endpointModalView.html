@@ -1,0 +1,104 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" aria-hidden="true"
+                ng-click="EPCtrl.cancel()">×
+        </button>
+        <h4 class="modal-title">Info End Point</h4>
+    </div>
+
+    <form class="form-horizontal"
+          name="epForm"
+          novalidate
+          ng-submit="EPCtrl.save(epForm)">
+        <div class="modal-body">
+
+            <!--div class="form-group" ng-repeat="(key,value) in EPCtrl.EPSchema.properties">
+                <label class="control-label col-sm-2" for="ep{{ key.capitalizeFirstLetter() }}">{{ key.capitalizeFirstLetter() }}</label>
+                <div class="col-sm-10">
+                    <input type="text" name="{{ key }}" class="form-control " id="ep{{ key.capitalizeFirstLetter() }}" placeholder="">
+                </div>
+            </div>-->
+
+
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="epid">ID:</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control"
+                           id="epid"
+                           name="idEP"
+                           ng-model="EPCtrl.fgElem.id"
+                           disabled>
+                </div>
+            </div>
+            <div class="form-group ">
+                <label class="control-label col-sm-2" for="epName">Name:</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control"
+                           id="epName"
+                           name="nameEP"
+                           ng-model="EPCtrl.fgElem.name">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="epIcon">Icon:</label>
+                <div class="col-sm-10">
+                    <select class="form-control"
+                            id="epIcon"
+                            ng-init
+                            ng-model="EPCtrl.fgPosElem.icon">
+                        <option selected value="">default</option>
+                        <option value="host">Host</option>
+                        <option value="internet">Internet</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="epType">Type:</label>
+                <div class="col-sm-10">
+                    <select class="form-control"
+                            id="epType"
+                            required
+                            ng-init="EPCtrl.selectFirstType()"
+                            ng-options="item for item in EPCtrl.EPSchema.properties['type'].enum"
+                            ng-model="EPCtrl.fgElem.type"
+                            ng-change="EPCtrl.typeChanged()">
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="epRemoteEPid">Remote EP id:</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control"
+                           name="remoteEPid"
+                           id="epRemoteEPid"
+                           ng-model="EPCtrl.fgElem.remote_endpoint_id">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-2 blue-label">Properties</label>
+            </div>
+
+            <div class="form-group"
+                 ng-repeat="(key,value) in EPCtrl.EPProperties.properties">
+                <label class="control-label col-sm-2" for="ep{{ key.capitalizeFirstLetter() }}">{{ key }}</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control"
+                           name="{{ key }}"
+                           id="ep{{ key.capitalizeFirstLetter() }}"
+                           ng-model="EPCtrl.fgElem[EPCtrl.fgElem.type]"
+                           ng-required="EPCtrl.EPProperties.required.indexOf(key) != -1">
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <!--<a href="#" data-dismiss="modal" class="btn">Close</a>-->
+
+            <!--data-dismiss="modal"-->
+            <button class="btn btn-primary" type="submit">{{ EPCtrl.saveText }}</button>
+        </div>
+    </form>
+
+</div>

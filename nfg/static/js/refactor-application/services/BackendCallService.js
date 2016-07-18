@@ -24,8 +24,21 @@
             return deferred.promise;
         };
 
+        var _getJSONSchema = function () {
+            var deferred = $q.defer();
+            $http.get("api/v1/graphs_api/get_json_schema/")
+                .success(function (result) {
+                    deferred.resolve(result);
+                })
+                .error(function (err) {
+                    deferred.reject(err);
+                });
+            return deferred.promise;
+        };
+
         return {
-            getAvailableGraphs: _getAvailableGraphs
+            getAvailableGraphs: _getAvailableGraphs,
+            getJSONSchema: _getJSONSchema
         };
     };
 

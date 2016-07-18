@@ -5,7 +5,7 @@
     </div>
     <form class="form-horizontal" role="form" name="formLoadServer" novalidate>
         <div class="modal-body">
-            <div id="file_content_download" ng-show="loadServerCtrl.showGraph">
+            <div id="file_content_download" ng-if="loadServerCtrl.showGraph">
                 {{ loadServerCtrl.selectedGraph["forwarding-graph"] }}
             </div>
 

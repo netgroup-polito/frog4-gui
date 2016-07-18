@@ -10,7 +10,7 @@
         BackendCallService.getGroups().then(function (res) {
             ctrl.groups = res.groups;
         }, function (fail) {
-            alert(JSON.stringify(fail));
+            console.error(JSON.stringify(fail));
         });
 
         ctrl.delete = function (group) {

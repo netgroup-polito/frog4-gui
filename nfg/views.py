@@ -232,10 +232,7 @@ def ajax_data_request(request):
     return HttpResponse("%s" % json_data_string)
 
 
-
-
-
-# ajax_upload_request: 
+# ajax_upload_request:
 #                    This view memorize json into database (using a DBManager class)
 #                    and it also performs validation.
 @csrf_exempt
@@ -311,22 +308,21 @@ def view_match_request(request):
     return HttpResponse("%s" % json.dumps(t))
 
 
-
-#def view_ep_request(request):
+# def view_ep_request(request):
 #    defs=[]
 #    with open('nfg/nffg_library/schema.json') as data_file:
- #       data = json.load(data_file)
-  #  types=data["properties"]["forwarding-graph"]["properties"]["end-points"]["items"]["properties"]["type"]["enum"]
-  #  for t in types:
-   #     v=data["definitions"][t]
-    #    v["type"]=t
-     #   defs.append(v)
+#       data = json.load(data_file)
+#  types=data["properties"]["forwarding-graph"]["properties"]["end-points"]["items"]["properties"]["type"]["enum"]
+#  for t in types:
+#     v=data["definitions"][t]
+#    v["type"]=t
+#   defs.append(v)
 
-    #return HttpResponse("%s" % json.dumps(defs))
+# return HttpResponse("%s" % json.dumps(defs))
 
 def graph_from_file_request(request):
     json_data = {}
-    t=request.POST["file_name_fg_local"]
+    t = request.POST["file_name_fg_local"]
 
     couple_fg = graphm.get_user_graph_from_local_file(t)
 
@@ -348,13 +344,13 @@ def graph_from_file_request(request):
 
 
 def graph_to_file_request(request):
-    msg={}
-    name=request.POST["file_name_fg_local"]
-    data=request.POST["json_data"]
+    msg = {}
+    name = request.POST["file_name_fg_local"]
+    data = request.POST["json_data"]
     # TODO da rimuovere assolutamente
-    data = data.replace( "output","output_to_port")
-    data = data.replace( "controller","output_to_controller")
-    graphm.save_user_graph_to_local_file(name,data)
+    data = data.replace("output", "output_to_port")
+    data = data.replace("controller", "output_to_controller")
+    graphm.save_user_graph_to_local_file(name, data)
     msg["success"] = "Salvataggio Riuscito"
     logging.debug(msg["success"])
     msg = json.dumps(msg)
@@ -366,8 +362,7 @@ def graphs_from_repository_request(request):
 
     couple_fg = graphm.get_user_graphs_from_repository(request.session["token"])
 
-    json_data =couple_fg["template"]
-
+    json_data = couple_fg["template"]
 
     json_data_string = json.dumps(json_data)
     # TODO da rimuovere assolutamente
@@ -398,7 +393,7 @@ def ajax_files_request(request):
 
             json_data_string = json.dumps(result)
 
-            return HttpResponse("%s" % json_data_string, status=result["status"])
+            return HttpResponse("%s" % json_data_string, status=result["status"], content_type="application/json")
         else:
             return HttpResponse(status=401)
     else:
@@ -601,7 +596,7 @@ def api_get_user_list(request):
         if "token" in request.session:
             result = userm.get_users(request.session["token"])
             serialized_obj = json.dumps(result)
-            return HttpResponse("%s" % serialized_obj, status=result["status"])
+            return HttpResponse("%s" % serialized_obj, status=result["status"], content_type="application/json")
         else:
             return HttpResponse(status=401)
     else:
@@ -619,7 +614,7 @@ def api_add_user(request):
                                     new_user["group"],
                                     request.session["token"])
             serialized_obj = json.dumps(result)
-            return HttpResponse("%s" % serialized_obj, status=result["status"])
+            return HttpResponse("%s" % serialized_obj, status=result["status"], content_type="application/json")
         else:
             return HttpResponse(status=401)
     else:
@@ -635,7 +630,7 @@ def api_delete_user(request):
             result = userm.remove_user(user_to_remove["username"],
                                        request.session["token"])
             serialized_obj = json.dumps(result)
-            return HttpResponse("%s" % serialized_obj, status=result["status"])
+            return HttpResponse("%s" % serialized_obj, status=result["status"], content_type="application/json")
         else:
             return HttpResponse(status=401)
     else:
@@ -647,7 +642,7 @@ def api_get_group_list(request):
         if "token" in request.session:
             result = userm.get_groups(request.session["token"])
             serialized_obj = json.dumps(result)
-            return HttpResponse("%s" % serialized_obj, status=result["status"])
+            return HttpResponse("%s" % serialized_obj, status=result["status"], content_type="application/json")
         else:
             return HttpResponse(status=401)
     else:
@@ -663,7 +658,7 @@ def api_add_group(request):
             result = userm.add_group(new_group["name"],
                                      request.session["token"])
             serialized_obj = json.dumps(result)
-            return HttpResponse("%s" % serialized_obj, status=result["status"])
+            return HttpResponse("%s" % serialized_obj, status=result["status"], content_type="application/json")
         else:
             return HttpResponse(status=401)
     else:
@@ -679,7 +674,7 @@ def api_delete_group(request):
             result = userm.remove_group(group_to_remove["name"],
                                         request.session["token"])
             serialized_obj = json.dumps(result)
-            return HttpResponse("%s" % serialized_obj, status=result["status"])
+            return HttpResponse("%s" % serialized_obj, status=result["status"], content_type="application/json")
         else:
             return HttpResponse(status=401)
     else:
@@ -694,7 +689,7 @@ def api_get_available_graphs(request):
 
             json_data_string = json.dumps(result)
 
-            return HttpResponse("%s" % json_data_string, status=result["status"])
+            return HttpResponse("%s" % json_data_string, status=result["status"], content_type="application/json")
         else:
             return HttpResponse(status=401)
     else:
@@ -708,6 +703,19 @@ def api_get_available_graphs_debug(request):
 
         json_data_string = json.dumps(result)
 
-        return HttpResponse("%s" % json_data_string, status=200)
+        return HttpResponse("%s" % json_data_string, status=200, content_type="application/json")
+    else:
+        return HttpResponse(status=501)
+
+
+def api_get_json_schema(request):
+    if request.method == "GET":
+        try:
+            with open('nfg/nffg_library/schema.json') as data_file:
+                data = json.load(data_file)
+            return HttpResponse("%s" % json.dumps(data), status=200, content_type="application/json")
+        except IOError as err:
+            logging.error(err.message)
+            return HttpResponse(status=404)
     else:
         return HttpResponse(status=501)

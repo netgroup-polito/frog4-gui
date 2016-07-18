@@ -29,7 +29,8 @@
             epElements
                 .enter()
                 .append("circle")
-                .attr("r", graphConstant.epRadius);
+                .attr("r", graphConstant.epRadius)
+                .attr("class", "end-points");// "end-points" class is the one used for selection in the first step of this function
             //operation on updated and new element
             epElements
                 .attr("id", function (d) {
@@ -38,8 +39,13 @@
                 .attr("title", function (d) {
                     return d.name;  //title of the element, used to display tips
                 })
-                .attr("class", function (d) {
-                    return "end-points " + d.name; // "end-points" class is the one used for selection in the first step of this function
+                .style("fill", function (d) {
+                    switch (pos[d.id].icon) {
+                        case "host":
+                            return "url(#host-icon)";
+                        case "internet":
+                            return "url(#internet-icon)";
+                    }
                 })
                 .attr("cx", function (d, i) {   // x position of the center of the element
                     if (typeof pos[d.id].x == "number")//if position exist
@@ -57,11 +63,13 @@
                         return pos[d.id].y = parseInt(250 * Math.sin(alfa * (i)) + graph.svg.node().getBoundingClientRect().height / 2)
                 })
                 .call(graph.drag.epDrag) //adding drag functionality
+                .on("contextmenu", function (d) {
+                    d3.event.preventDefault();
+                    //showEditInfoEP(d.id);
+                    //TODO: call to edit mode
+                })
             /*.on("click",selectEndPoints)
-             .on("contextmenu",function(d){
-             d3.event.preventDefault();
-             showEditInfoEP(d.id);
-             });*/
+             ;*/
             //operation on element going out of the collection
             epElements.exit().remove();
 
@@ -433,7 +441,7 @@
                     return d.isFullDuplex;
                 })
                 .attr("marker-end", function (d) {//the end marker, arrow if half duplex (big if end into endpoint)
-                    return d.isFullDuplex === true ? "default" : d.destination.indexOf("endpoint") == -1?"url(#interfaceArrow)":"url(#EndpointArrow)";
+                    return d.isFullDuplex === true ? "default" : d.destination.indexOf("endpoint") == -1 ? "url(#interfaceArrow)" : "url(#EndpointArrow)";
                 })
             //.on("click", selectSimpleLines);
             links.exit().remove();

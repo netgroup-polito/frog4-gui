@@ -25,7 +25,7 @@
                 ep.id = EP_list[i].id;                      // id unique between end points
                 ep.full_id = "endpoint:" + EP_list[i].id;   // id unique across all elements
                 ep.isLinked = false;                        //
-                EP_Pos[EP_list[i].id] = ep;
+                EP_Pos[ep.id] = ep;
             }
             return EP_Pos;
         }

@@ -10,7 +10,7 @@
         BackendCallService.getUsers().then(function (res) {
             ctrl.users = res.users;
         }, function (fail) {
-            alert(JSON.stringify(fail));
+            console.error(JSON.stringify(fail));
         });
 
         ctrl.delete = function (user) {

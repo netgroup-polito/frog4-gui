@@ -12,28 +12,41 @@
      * @param graphConstant
      * @param d3Service
      * @param InitializationService
+     * @param FgModalService
      * @constructor
      */
-    var NFFGController = function ($scope, BackendCallService, $uibModal, $dialogs, graphConstant, d3Service, InitializationService) {
+    var NFFGController = function ($scope, BackendCallService, $uibModal, $dialogs, graphConstant, d3Service, InitializationService, FgModalService) {
         var ctrl = this;
 
         //list of the existing graph from the server
         ctrl.existingGraph = [];
-        // WIP, load the first graph
-        BackendCallService.getAvailableGraphs().then(function (result) {
-            ctrl.existingGraph = [];
-            if (result["NF-FG"]) {
-                for (var i = 0; i < result["NF-FG"].length; i++) {
-                    ctrl.existingGraph.push({
-                        id: result["NF-FG"][i]["forwarding-graph"].id,
-                        name: result["NF-FG"][i]["forwarding-graph"].name
-                    });
-                }
-            }
-        }, function (error) {
+        /*        // WIP, load the first graph
+         BackendCallService.getAvailableGraphs().then(function (result) {
+         ctrl.existingGraph = [];
+         if (result["NF-FG"]) {
+         for (var i = 0; i < result["NF-FG"].length; i++) {
+         ctrl.existingGraph.push({
+         id: result["NF-FG"][i]["forwarding-graph"].id,
+         name: result["NF-FG"][i]["forwarding-graph"].name
+         });
+         }
+         //load the first graph
+         if(result["NF-FG"][0]){
+
+         }
+         }
+         }, function (error) {
+         console.log("Something went wrong:", error);
+         ctrl.existingGraph = [];
+         });*/
+
+        BackendCallService.getJSONSchema().then(function (result) {
+            ctrl.schema = result;
+        }, function () {
             console.log("Something went wrong:", error);
-            ctrl.existingGraph = [];
+            //TODO: mostrare errore
         });
+
 
         /**
          * Initialize the position object for the graph
@@ -152,14 +165,15 @@
                 "VNFs": [],
                 "end-points": [],
                 "big-switch": {
-                    "flow_rules": []
+                    "flow-rules": []
                 }
             };
             ctrl.fgPos = {
-                "VNFs": [],
-                "end-points": [],
+                "VNFs": {},
+                "end-points": {},
                 "big-switch": {
-                    "flow_rules": []
+                    "flow-rules": {},
+                    "interfaces": {}
                 }
             };
         };
@@ -174,9 +188,28 @@
             }
         };
 
+        ctrl.newEP = function () {
+            var epModal = FgModalService.newEndpointModal(ctrl.fg, ctrl.fgPos, ctrl.schema);
+
+            epModal.result.then(function (res) {
+                //
+                console.log(JSON.stringify(res));
+                //copiare la pos e copiare l'EP
+                ctrl.fgPos["end-points"][res.pos.id] = res.pos;
+                ctrl.fgPos["big-switch"].interfaces[res.pos.full_id] = {
+                    ref: "BS_interface",
+                    id: res.pos.full_id,         // use the same id to match them during graph build
+                    parent_ep_id: res.pos.id     // id of the endpoint
+                };
+
+                ctrl.fg["end-points"].push(res.elem);
+
+            });
+        };
+
     };
 
-    NFFGController.$inject = ['$scope', 'BackendCallService', '$uibModal', 'dialogs', 'graphConstant', 'd3Service', 'InitializationService'];
+    NFFGController.$inject = ['$scope', 'BackendCallService', '$uibModal', 'dialogs', 'graphConstant', 'd3Service', 'InitializationService', "FgModalService"];
     angular.module('fg-gui').controller('NFFGController', NFFGController);
 
 })();
