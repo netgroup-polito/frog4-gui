@@ -8,7 +8,7 @@ function showBSView(bs_view){
 
     var debug=false;
     if(!debug) {
-        if (bs_view === false && isSplitted === true) {
+        if (bs_view === false && isSplitted === true && firstVisualization===false) {
             $('#BSViewToogle').attr("class", "menu btn btn-warning btn-lg");
             $('#ModalWarning').modal('show');
         } else if (isSplitted === false && bs_view === true) {
@@ -27,6 +27,7 @@ function showBSView(bs_view){
             $(".line,.line-selected").hide();
         }
     }
+    firstVisualization=false;
 }
 
 function updateView(){
