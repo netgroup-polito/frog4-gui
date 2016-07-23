@@ -200,6 +200,7 @@ $(document).ready(function() {
             intervalID = setInterval(worker, 5000);
         else
             clearInterval(intervalID);
+        
 
     })
 }
