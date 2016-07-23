@@ -177,8 +177,7 @@ $(document).ready(function(){
             }
 
             DrawForwardingGraph(fg);
-            firstVisualization=true;
-            showBSView(false);
+              showBSView(false);
           }
           drawAnyItems();
           file_name_fg = json_data["file_name_fg"];
@@ -238,7 +237,7 @@ function DrawForwardingGraph(fg){
     VNF_section=svg.append("g").attr("class","VNF_section");
 
     VNF_text_section = svg.append("g").attr("class","VNF_text_section");
-    
+
     lines_section=svg.append("g").attr("class","lines_section");
     interfaces_section=svg.append("g").attr("class","interfaces_section");
     /*
@@ -300,7 +299,7 @@ function DrawForwardingGraph(fg){
     var IMG_PC_BLUE = defImgPcBlue();
     var IMG_INTERNET_RED = defImgInternetRed();
     var IMG_INTERNET_BLUE = defImgInternetBlue();
-    
+
     defArrow();
 
     /*
@@ -320,7 +319,7 @@ function DrawForwardingGraph(fg){
     drawBIGSWITCH();
     drawBSInterfaces(big_switch.interfaces);
 
-    //checkSplit(); // this check is done in FG_init!!
+    checkSplit();
     setPointerAtLines();
     updateTooltips();
 
