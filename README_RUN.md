@@ -18,6 +18,6 @@ To run application permanent on the server easy way is:
 ```sh
         $ cd [fg-gui]
         $ screen
-        $ python manage.py runserver
+        $ python manage.py runserver &
         $ screen -d
 ```
