@@ -146,7 +146,7 @@ def login(request):
 # ajax_template_request: It loads a vnf template specified through his id_template.
 #                        The template is in the template_json directory.
 def ajax_template_request(request, id_template):
-    data = templatem.get_template(id_template)
+    data = templatem.get_templates_legacy()
     if data["status"] == 200:
         res = json.dumps(data["template"])
         return HttpResponse("%s" % res)
@@ -719,3 +719,16 @@ def api_get_json_schema(request):
             return HttpResponse(status=404)
     else:
         return HttpResponse(status=501)
+
+
+def api_get_vnf_templates(request):
+    if request.method == "GET":
+        if "token" in request.session:
+            result = templatem.get_templates()
+            json_data_string = json.dumps(result)
+            return HttpResponse("%s" % json_data_string, status=result["status"], content_type="application/json")
+        else:
+            return HttpResponse(status=401)
+    else:
+        return HttpResponse(status=501)
+

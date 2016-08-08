@@ -1,0 +1,17 @@
+<div class="form-group"
+     ng-repeat="(key,val) in referenceObject">
+    <label class="control-label col-sm-2"
+           ng-click="hideComponent = !hideComponent">{{ key }}:
+        <span class="fa" ng-class="!checkObj(val)?'':hideComponent?'fa-caret-right':'fa-caret-down'"></span></label>
+    <div class="col-sm-10">
+        <input type="text" class="form-control"
+               name="{{ key }}"
+               disabled
+               ng-if="!checkObj(val)"
+               ng-model="val">
+        <object-visualization ng-if="checkObj(val)"
+                              uib-collapse="hideComponent"
+                              reference-object="val">
+        </object-visualization>
+    </div>
+</div>

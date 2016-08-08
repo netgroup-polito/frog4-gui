@@ -82,7 +82,7 @@
                 <!-- New VNF Button -->
                 <button type="button" class="menu btn btn-lg btn-success"
                         ng-show="NFFGCtrl.showEditButton"
-                        onclick="onClickDrawVNF();"
+                        ng-click="NFFGCtrl.newVNF();"
                         title="Virtual Network Function">
                     <i class="fa fa-square fa-lg"></i>
                 </button>
@@ -121,7 +121,8 @@
                  x-position="NFFGCtrl.fgPos"
                  x-show-big-switch="NFFGCtrl.showBigSwitch"
                  x-is-forced="NFFGCtrl.isForced"
-                 x-schema="NFFGCtrl.schema">
+                 x-schema="NFFGCtrl.schema"
+                 x-on-template-request="NFFGCtrl.getTemplates">
             </div>
 
         </div>

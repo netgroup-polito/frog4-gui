@@ -88,7 +88,7 @@
                     <input type="text" class="form-control"
                            name="{{ key }}"
                            id="ep{{ key.capitalizeFirstLetter() }}"
-                           ng-model="EPCtrl.fgElem[EPCtrl.fgElem.type]"
+                           ng-model="EPCtrl.fgElem[EPCtrl.fgElem.type][key]"
                            ng-required="EPCtrl.EPProperties.required.indexOf(key) != -1">
                 </div>
             </div>

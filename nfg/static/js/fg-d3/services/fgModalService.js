@@ -22,9 +22,15 @@
                 size: 'lg',
                 resolve: {
                     // the info passed to the controller of the modal
-                    fg: clone(fg),
-                    fgPos: clone(fgPos),
-                    schema: clone(schema)
+                    fg: function () {
+                        return clone(fg)
+                    },
+                    fgPos: function () {
+                        return clone(fgPos)
+                    },
+                    schema: function () {
+                        return clone(schema)
+                    }
                 }
             });
         };
@@ -51,9 +57,68 @@
             });
         };
 
+        /**
+         *
+         * @param fg
+         * @param fgPos
+         * @param schema
+         * @param templates
+         * @returns {Window|*}
+         * @private
+         */
+        var _newVNFModal = function (fg, fgPos, schema, templates) {
+            return $uibModal.open({
+                animation: false,
+                templateUrl: '/static/js/fg-d3/modal_view/vnfModalView.html',
+                controller: 'NewVNFModalController',
+                controllerAs: 'VNFCtrl',
+                size: 'lg',
+                resolve: {
+                    // the info passed to the controller of the modal
+                    fg: function () {
+                        return clone(fg)
+                    },
+                    fgPos: function () {
+                        return clone(fgPos)
+                    },
+                    schema: function () {
+                        return clone(schema)
+                    },
+                    templates: function () {
+                        return clone(templates)
+                    }
+                }
+            });
+        };
+
+        /**
+         *
+         * @param elem
+         * @param pos
+         * @param schema
+         * @returns {Window|*}
+         * @private
+         */
+        var _editVNFModal = function (elem, pos, schema) {
+            return $uibModal.open({
+                animation: false,
+                templateUrl: '/static/js/fg-d3/modal_view/vnfModalView.html',
+                controller: 'EditVNFModalController',
+                controllerAs: 'VNFCtrl',
+                size: 'lg',
+                resolve: {
+                    // the info passed to the controller of the modal
+
+                }
+            });
+        };
+
         return {
             newEndpointModal: _newEndpointModal,
-            editEndpointModal: _editEndpointModal
+            editEndpointModal: _editEndpointModal,
+            newVNFModal: _newVNFModal,
+            editVNFModal: _editVNFModal,
+            editFlowRulesModal: _editEndpointModal
         };
     };
 

@@ -74,14 +74,14 @@
         ctrl.fgPos = null;
 
         // watching for change of the control variable to show if it's forced complex view
-        $scope.$watch(function () {
-                return ctrl.isForced;
-            },
-            function () {
-                if (ctrl.isForced)
-                    $dialogs.notify('Splitted Rules', 'Your graph has a split, only Complex View is available!');
-            });
-
+        /*$scope.$watch(function () {
+         return ctrl.isForced;
+         },
+         function () {
+         if (ctrl.isForced)
+         $dialogs.notify('Splitted Rules', 'Your graph has a split, only Complex View is available!');
+         });
+         */
         /**
          * Function to toggle the view of the button to add element to the graph
          */
@@ -93,6 +93,8 @@
          */
         ctrl.toggleBigSwitch = function () {
             ctrl.showBigSwitch = !ctrl.showBigSwitch;
+            if (ctrl.isForced)
+                $dialogs.notify('Splitted Rules', 'Your graph has a split, only Complex View is available!');
         };
 
         /**
@@ -206,6 +208,41 @@
 
             });
         };
+
+        ctrl.newVNF = function () {
+            BackendCallService.getTemplates().then(function (result) {
+
+                var epModal = FgModalService.newVNFModal(ctrl.fg, ctrl.fgPos, ctrl.schema, result.templates);
+
+                epModal.result.then(function (res) {
+                    //
+                    console.log(JSON.stringify(res));
+                    //copiare la pos e copiare l'EP
+                    ctrl.fgPos["VNFs"][res.pos.id] = res.pos;
+
+                    angular.forEach(res.pos.ports, function (port) {
+                        // adding a reference to each port as interface
+                        // adding information ( some may be deleted because unused)
+                        ctrl.fgPos["big-switch"].interfaces[port.full_id] = {
+                            ref: "BS_interface",
+                            id: port.full_id,                   // use the same id to match them during graph build
+                            parent_vnf_id: port.parent_vnf_id,  // vnf of the port
+                            parent_vnf_port: port.id            // id of the port
+                        }
+                    });
+
+                    ctrl.fg["VNFs"].push(res.elem);
+
+                });
+            }, function () {
+                console.log("Something went wrong:", error);
+                //TODO: mostrare errore
+            });
+
+        };
+        ctrl.getTemplates = function () {
+            return BackendCallService.getTemplates();
+        }
 
     };
 

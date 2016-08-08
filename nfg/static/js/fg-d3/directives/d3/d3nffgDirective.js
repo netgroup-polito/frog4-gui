@@ -10,7 +10,7 @@
      * @param graphConstant The constant used in the graph directive as parameter
      * @returns {{restrict: string, require: string[], scope: {position: string, showBigSwitch: string, isForced: string}, controller: controller, link: link}}
      */
-    var d3nffg = function (d3Service, fgDrawService, fgDragService, graphConstant) {
+    var d3nffg = function (d3Service, fgDrawService, fgDragService, fgModalService, graphConstant) {
         return {
             /**
              * type of angular directive (can be used via attribute only)
@@ -38,11 +38,11 @@
                 /**
                  * {object} Jsonschema for the forwarding-graph
                  */
-                schema: "="//,
-                ///**
-                // * {boolean} Used to trigger redraw of the graph in case of change to deep level of the graph object
-                // */
-                //updateView:"="
+                schema: "=",
+                /**
+                 * {function} Used to get the current template list for the vnf
+                 */
+                onTemplateRequest:"="
             },
             /**
              * Controller of the directive
@@ -245,6 +245,35 @@
                     }
                 };
                 /**
+                 * Function to initialize the update of the information of the different item
+                 * @param ngModel {object} The ngModel Controller used to access the forwarding-graph instance
+                 * @param $scope {object} The scope of the directive used to access the position object
+                 */
+                ctrl.initializeUpdate = function (ngModel, $scope) {
+                    // ngModel.$modelValue = forwarding graph
+                    // $scope.position = position object
+
+                    // initialize update functionality for endpoints
+                    var epUpdate = [
+                        ngModel,
+                        $scope,
+                        fgModalService.editEndpointModal
+                    ];
+                    // initialize update functionality for endpoints
+                    /*var vnfUpdate = function () {
+                        fgModalService.editVNFModal();
+                    }
+                    // initialize update functionality for flow rules
+                    var flowRulesUpdate = function () {
+                        fgModalService.editFlowRulesModal();
+                    }*/
+                    ctrl.graph.update = {
+                        epUpdate: epUpdate,
+                        /*vnfUpdate: vnfUpdate,
+                        flowRulesUpdate: flowRulesUpdate*/
+                    }
+                };
+                /**
                  * Function to start the draw of the element
                  * @param fg {object} The forwarding-graph instance
                  * @param fgPos {object} The position object
@@ -381,11 +410,12 @@
                 //initialize the directive
                 ctrl.initializeGraph(element[0]);
                 ctrl.initializeDrag(ngModel, scope);
+                ctrl.initializeUpdate(ngModel, scope);
             }
         };
     };
 
-    d3nffg.$inject = ["d3Service", "fgDrawService", "fgDragService", "graphConstant"];
+    d3nffg.$inject = ["d3Service", "fgDrawService", "fgDragService", "FgModalService", "graphConstant"];
     angular.module("d3").directive("d3nffg", d3nffg);
 
 })();
