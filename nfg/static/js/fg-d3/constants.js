@@ -21,14 +21,14 @@
 
     /**
      * Constant for the interpretation of the forwarding-graph
-     * @type {{linkOriginFirstLevel: string, linkOriginSecondLevel: string, linkDestinationFirstLevel: string, linkDestinationSecondLevel: number, linkDestinationThirdLevel: string}}
+     * @type {{lkOrigLev1: string, lkOrigLev2: string, lkDestLev1: string, lkDestLev2: number, lkDestLev3: string}}
      */
     var forwardingGraphConstant = {
-        linkOriginFirstLevel : "match",
-        linkOriginSecondLevel : "port_in",
-        linkDestinationFirstLevel : "actions",
-        linkDestinationSecondLevel : 0,
-        linkDestinationThirdLevel : "output_to_port"
+        lkOrigLev1 : "match",
+        lkOrigLev2 : "port_in",
+        lkDestLev1 : "actions",
+        lkDestLev2 : 0,
+        lkDestLev3 : "output_to_port"
     };
 
     angular.module("d3").constant("graphConstant", graphConstant);

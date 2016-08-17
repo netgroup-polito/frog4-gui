@@ -68,8 +68,10 @@
                     //showEditInfoEP(d.id);
                     //TODO: call to edit mode
                 })
-            /*.on("click",selectEndPoints)
-             ;*/
+                .on("click",function (d) {
+                    graph.link.epLink(pos[d.id]);
+                })
+             ;/**/
             //operation on element going out of the collection
             epElements.exit().remove();
 
@@ -240,7 +242,13 @@
                     return pos[d.parent].full_id;    // id of the parent vnf
                 })
                 .call(graph.drag.vnfPortDrag) //adding drag functionality
-            /*.on("click", select_node);*/
+                .on("click",function (d) {
+
+                    var elem = clone(pos[d.parent].ports[d.port.id]);
+                    elem.x += pos[d.parent].x;
+                    elem.y += pos[d.parent].y;
+                    graph.link.vnfPortLink(elem);
+                });
             //operation on element going out of the collection
             portElements.exit().remove()
         }
@@ -355,6 +363,12 @@
                     return parseInt(pos.y + d.y);
                 })
                 .call(graph.drag.bigSwitchInterfaceDrag)
+                .on("click",function (d) {
+                    var elem = clone(pos.interfaces[d.id]);
+                    elem.x += pos.x;
+                    elem.y += pos.y;
+                    graph.link.bsInterfaceLink(elem);
+                })
             /*.on("click",select_node);*/
             bigswitchInterfaceElement.exit().remove();
         }
@@ -559,7 +573,6 @@
 
         /**
          * Function to draw all the link
-         * @param fg The forwarding graph instance
          * @param pos The forwarding graph information about the position of the element
          * @param graph The graph container of the directive
          * @private

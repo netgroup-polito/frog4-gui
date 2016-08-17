@@ -7,10 +7,13 @@
      * @param d3Service The service encapsulating part of the d3 library API
      * @param fgDrawService The service used to draw the forwarding-graph element
      * @param fgDragService The service used to add drag behavior the forwarding-graph element
+     * @param fgModalService The service used to open a modal view
+     * @param fgLinkService The service used to add a linking functionality to the forwarding-graph element
+     * @param fgClickService The service used to add a click behavior to the forwarding-graph element
      * @param graphConstant The constant used in the graph directive as parameter
      * @returns {{restrict: string, require: string[], scope: {position: string, showBigSwitch: string, isForced: string}, controller: controller, link: link}}
      */
-    var d3nffg = function (d3Service, fgDrawService, fgDragService, fgModalService, graphConstant) {
+    var d3nffg = function (d3Service, fgDrawService, fgDragService, fgModalService, fgLinkService, fgClickService, graphConstant) {
         return {
             /**
              * type of angular directive (can be used via attribute only)
@@ -31,7 +34,7 @@
                  */
                 showBigSwitch: "=",
                 /**
-                 * {booelan} Used to be aware if the graph is forced to complex mode
+                 * {booelan} Used from the view using the directive to be aware if the graph is forced to complex mode
                  * @readonly
                  */
                 isForced: "=",
@@ -42,7 +45,15 @@
                 /**
                  * {function} Used to get the current template list for the vnf
                  */
-                onTemplateRequest:"="
+                onTemplateRequest: "=",
+                /**
+                 * {function} Used to trigger the link creation event
+                 */
+                onLinkCreation: "=",
+                /**
+                 * {boolean} Used to be aware of link creation request
+                 */
+                isLinkCreation:"="
             },
             /**
              * Controller of the directive
@@ -261,16 +272,47 @@
                     ];
                     // initialize update functionality for endpoints
                     /*var vnfUpdate = function () {
-                        fgModalService.editVNFModal();
-                    }
-                    // initialize update functionality for flow rules
-                    var flowRulesUpdate = function () {
-                        fgModalService.editFlowRulesModal();
-                    }*/
+                     fgModalService.editVNFModal();
+                     }
+                     // initialize update functionality for flow rules
+                     var flowRulesUpdate = function () {
+                     fgModalService.editFlowRulesModal();
+                     }*/
                     ctrl.graph.update = {
                         epUpdate: epUpdate,
                         /*vnfUpdate: vnfUpdate,
-                        flowRulesUpdate: flowRulesUpdate*/
+                         flowRulesUpdate: flowRulesUpdate*/
+                    }
+                };
+
+                /**
+                 * Function to initialize the click behavior of the different item
+                 * @param ngModel {object} The ngModel Controller used to access the forwarding-graph instance
+                 * @param $scope {object} The scope of the directive used to access the position object
+                 */
+                ctrl.initializeClick = function (ngModel, $scope) {
+                    // ngModel.$modelValue = forwarding graph
+                    // $scope.position = position object
+
+
+                    /*ctrl.graph.click = {
+                     epClick: epClick
+                     }*/
+                };
+                /**
+                 * Function to initialize the link behavior of the different item
+                 * @param ngModel {object} The ngModel Controller used to access the forwarding-graph instance
+                 * @param $scope {object} The scope of the directive used to access the position object
+                 */
+                ctrl.initializeLink = function (ngModel, $scope) {
+                    // ngModel.$modelValue = forwarding graph
+                    // $scope.position = position object
+
+
+                    ctrl.graph.link = {
+                        epLink: fgLinkService.linkEP($scope, ctrl.graph.connections, ctrl.graph.svg),
+                        vnfPortLink: fgLinkService.linkVNFPort($scope, ctrl.graph.connections, ctrl.graph.svg),
+                        bsInterfaceLink: fgLinkService.linkBSInterface($scope, ctrl.graph.connections, ctrl.graph.svg)
                     }
                 };
                 /**
@@ -411,11 +453,13 @@
                 ctrl.initializeGraph(element[0]);
                 ctrl.initializeDrag(ngModel, scope);
                 ctrl.initializeUpdate(ngModel, scope);
+                ctrl.initializeClick(ngModel, scope);
+                ctrl.initializeLink(ngModel, scope);
             }
         };
     };
 
-    d3nffg.$inject = ["d3Service", "fgDrawService", "fgDragService", "FgModalService", "graphConstant"];
+    d3nffg.$inject = ["d3Service", "fgDrawService", "fgDragService", "FgModalService", "fgLinkService", "fgClickService", "graphConstant"];
     angular.module("d3").directive("d3nffg", d3nffg);
 
 })();

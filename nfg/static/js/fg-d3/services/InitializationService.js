@@ -7,7 +7,7 @@
      * @returns {{initEPsPos: _initEPsPos, initVNFsPos: _initVNFsPos, initBigSwitchPos: _initBigSwitchPos, initFlowRulesLink: _initFlowRulesLink}}
      * @constructor
      */
-    var InitializationService = function (forwardingGraphConstant) {
+    var InitializationService = function (fgConst) {
 
         /**
          * Function to initialize the object for the position of the endpoints used in the graph building phase
@@ -113,10 +113,10 @@
                 // if the name of the property change modify them in constants.js
                 // id of the origin of the link
                 // [match][port_in]
-                var orig = rule[forwardingGraphConstant.linkOriginFirstLevel][forwardingGraphConstant.linkOriginSecondLevel];
+                var orig = rule[fgConst.lkOrigLev1][fgConst.lkOrigLev2];
                 // id of the destination of the link
                 //[actions][0][output_to_port]
-                var dest = rule[forwardingGraphConstant.linkDestinationFirstLevel][forwardingGraphConstant.linkDestinationSecondLevel][forwardingGraphConstant.linkDestinationThirdLevel];
+                var dest = rule[fgConst.lkDestLev1][fgConst.lkDestLev2][fgConst.lkDestLev3];
 
 
                 if (flow_rules_link[orig]) { // if it exist a rules starting from the same origin

@@ -1,0 +1,109 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" aria-hidden="true"
+                ng-click="LinkCtrl.cancel()">×
+        </button>
+        <h4 class="modal-title">FlowRule properties</h4>
+    </div>
+
+    <form class="form-horizontal"
+          name="linkForm"
+          novalidate
+          ng-submit="LinkCtrl.save(linkForm)">
+        <div class="modal-body">
+
+
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="frid">ID:</label>
+                <div class="col-sm-10">
+                    <input type="text"
+                           name="idFR"
+                           id="frid"
+                           class="form-control"
+                           ng-model="LinkCtrl.fgElem.id"
+                           disabled>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="frDesc">Description:</label>
+                <div class="col-sm-10">
+                    <input type="text"
+                           name="descFR"
+                           id="frDesc"
+                           class="form-control"
+                           ng-model="LinkCtrl.fgElem.description">
+                </div>
+            </div>
+
+
+            <div class="form-group ">
+                <label class="control-label col-sm-2" for="frPriority">Priority:</label>
+                <div class="col-sm-10">
+                    <input type="number"
+                           name="priorityFR"
+                           id="frPriority"
+                           class="form-control"
+                           required
+                           ng-model="LinkCtrl.fgElem.priority">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="match">
+                    <a ng-click="LinkCtrl.matchShown = !LinkCtrl.matchShown">Match:
+                        <span class="fa" ng-class="LinkCtrl.matchShown?'fa-caret-right':'fa-caret-down'"></span>
+                    </a>
+                </label>
+                <div class="col-sm-10">
+
+                </div>
+            </div>
+
+            <div class="match" uib-collapse="LinkCtrl.matchShown">
+                <div class="form-group"
+                     ng-repeat="(key,value) in LinkCtrl.LKMatch.properties">
+                    <label class="control-label col-sm-2" for="lkMatch{{ key.capitalizeFirstLetter() }}">{{ key }}</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control"
+                               name="{{ key }}"
+                               id="lkMatch{{ key.capitalizeFirstLetter() }}"
+                               ng-model="LinkCtrl.fgElem['match'][key]"
+                               ng-required="LinkCtrl.LKMatch.required && LinkCtrl.LKMatch.required.indexOf(key) != -1">
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label class="control-label col-sm-2  complexFRFields">
+                    <a ng-click="LinkCtrl.actionShown = !LinkCtrl.actionShown">Action:
+                        <span class="fa" ng-class="LinkCtrl.actionShown?'fa-caret-right':'fa-caret-down'"></span>
+                    </a>
+                </label>
+                <div class="col-sm-10">
+                </div>
+            </div>
+
+
+            <div class="action" uib-collapse="LinkCtrl.actionShown">
+                <div class="form-group"
+                     ng-repeat="(key,value) in LinkCtrl.LKAction.properties">
+                    <label class="control-label col-sm-2" for="lkAction{{ key.capitalizeFirstLetter() }}">{{ key }}</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control"
+                               name="{{ key }}"
+                               id="lkAction{{ key.capitalizeFirstLetter() }}"
+                               ng-model="LinkCtrl.fgElem['actions'][0][key]"
+                               ng-required="LinkCtrl.LKAction.required && LinkCtrl.LKAction.required.indexOf(key) != -1">
+                    </div>
+            </div>
+
+
+        </div>
+
+        <div class="modal-footer">
+            <button class="btn btn-primary" type="submit">{{ LinkCtrl.saveText }}</button>
+        </div>
+    </form>
+
+</div>

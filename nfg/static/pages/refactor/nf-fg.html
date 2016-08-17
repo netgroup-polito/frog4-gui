@@ -88,9 +88,10 @@
                 </button>
 
                 <!-- Create Link Button -->
-                <button type="button" class="menu btn btn-lg btn-success"
+                <button type="button" class="menu btn btn-lg"
+                        ng-class="NFFGCtrl.isLinkCreation?'btn-primary':'btn-success'"
                         ng-show="NFFGCtrl.showEditButton"
-                        onclick="onClickDrawLink();"
+                        ng-click="NFFGCtrl.newLink();"
                         title="Create Link"
                         id="newLinkButton">
                     <i class="fa fa-arrows-h fa-lg"></i>
@@ -122,7 +123,9 @@
                  x-show-big-switch="NFFGCtrl.showBigSwitch"
                  x-is-forced="NFFGCtrl.isForced"
                  x-schema="NFFGCtrl.schema"
-                 x-on-template-request="NFFGCtrl.getTemplates">
+                 x-on-template-request="NFFGCtrl.getTemplates"
+                 x-is-link-creation="NFFGCtrl.isLinkCreation"
+                 x-on-link-creation="NFFGCtrl.onLinkCreation">
             </div>
 
         </div>

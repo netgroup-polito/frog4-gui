@@ -112,13 +112,71 @@
                 }
             });
         };
+        
+        /**
+         *
+         * @param fg
+         * @param fgPos
+         * @param schema
+         * @param elements
+         * @returns {Window|*}
+         * @private
+         */
+        var _newFlowRulesModal = function (fg, fgPos, schema, elements) {
+            return $uibModal.open({
+                animation: false,
+                templateUrl: '/static/js/fg-d3/modal_view/linkModalView.html',
+                controller: 'NewLinkModalController',
+                controllerAs: 'LinkCtrl',
+                size: 'lg',
+                resolve: {
+                    // the info passed to the controller of the modal
+                    fg: function () {
+                        return clone(fg)
+                    },
+                    fgPos: function () {
+                        return clone(fgPos)
+                    },
+                    schema: function () {
+                        return clone(schema)
+                    },
+                    elements: function () {
+                        return clone(elements)
+                    }
+                }
+            });
+        };
+
+        /**
+         *
+         * @param fg
+         * @param fgPos
+         * @param schema
+         * @param elements
+         * @returns {Window|*}
+         * @private
+         */
+        var _editFlowRulesModal = function (fg, fgPos, schema, elements) {
+            return $uibModal.open({
+                animation: false,
+                templateUrl: '/static/js/fg-d3/modal_view/linkModalView.html',
+                controller: 'EditLinkModalController',
+                controllerAs: 'LinkCtrl',
+                size: 'lg',
+                resolve: {
+                    // the info passed to the controller of the modal
+
+                }
+            });
+        };
 
         return {
             newEndpointModal: _newEndpointModal,
             editEndpointModal: _editEndpointModal,
             newVNFModal: _newVNFModal,
             editVNFModal: _editVNFModal,
-            editFlowRulesModal: _editEndpointModal
+            newFlowRulesModal: _newFlowRulesModal,
+            editFlowRulesModal: _editFlowRulesModal
         };
     };
 

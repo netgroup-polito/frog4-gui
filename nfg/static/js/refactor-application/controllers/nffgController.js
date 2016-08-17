@@ -10,12 +10,11 @@
      * @param $uibModal Provider used to initialize a modal instance
      * @param $dialogs Provide used to initialize a dialog instance
      * @param graphConstant
-     * @param d3Service
      * @param InitializationService
      * @param FgModalService
      * @constructor
      */
-    var NFFGController = function ($scope, BackendCallService, $uibModal, $dialogs, graphConstant, d3Service, InitializationService, FgModalService) {
+    var NFFGController = function ($scope, BackendCallService, $uibModal, $dialogs, graphConstant, InitializationService, FgModalService) {
         var ctrl = this;
 
         //list of the existing graph from the server
@@ -67,6 +66,8 @@
         ctrl.showBigSwitch = false;
         //control variable used to be aware if the graph has only complex mode
         ctrl.isForced = false;
+        //control variable used to start the link creation process
+        ctrl.isLinkCreation = false;
 
         //the forwarding graph loaded
         ctrl.fg = null;
@@ -240,13 +241,76 @@
             });
 
         };
+
+        ctrl.newLink = function () {
+            ctrl.isLinkCreation = true;
+        };
+
+        ctrl.onLinkCreation = function (orig, dest) {
+            console.log("Start: " + JSON.stringify(orig));
+            console.log("End: " + JSON.stringify(dest));
+            ctrl.isLinkCreation = false;
+            var existing = false;
+            for (var i = 0; i < ctrl.fg["big-switch"]["flow-rules"].length; i++) {
+                var rules = ctrl.fg["big-switch"]["flow-rules"][i];
+                if (rules["match"]["port_in"] == orig.full_id && rules["actions"][0]["output_to_port"])
+                    existing = true;
+            }
+            if (existing) {
+                $dialogs.notify('Flow Rules', 'The flow-rule you are trying to add already exists.');
+            } else {
+                var elements = {start: orig, end: dest};
+
+                var frModal = FgModalService.newFlowRulesModal(ctrl.fg, ctrl.fgPos, ctrl.schema, elements);
+
+                frModal.result.then(function (res) {
+                    //
+                    console.log(JSON.stringify(res));
+
+                    
+                    if (ctrl.fgPos["big-switch"]["flow-rules"][orig.full_id]) { // if it exist a rules starting from the same origin
+                        if (!ctrl.fgPos["big-switch"]["flow-rules"][orig.full_id][dest.full_id]) { // if it does not exist this rules add it else do nothing
+                            ctrl.fgPos["big-switch"]["flow-rules"][orig.full_id][dest.full_id] = {
+                                origin: orig.full_id,
+                                destination: dest.full_id,
+                                isFullDuplex: false
+                            };
+                        }
+                    } else { //if it does not exist
+                        if (ctrl.fgPos["big-switch"]["flow-rules"][dest.full_id]) { //check if it exist rule from the destination
+                            if (ctrl.fgPos["big-switch"]["flow-rules"][dest.full_id][orig.full_id]) { //if it exist check if exist the opposite of this rule
+                                ctrl.fgPos["big-switch"]["flow-rules"][dest.full_id][orig.full_id].isFullDuplex = true;
+                            } else { // if not add the rule orig -> dest
+                                ctrl.fgPos["big-switch"]["flow-rules"][orig.full_id] = {};
+                                ctrl.fgPos["big-switch"]["flow-rules"][orig.full_id][dest.full_id] = {
+                                    origin: orig.full_id,
+                                    destination: dest.full_id,
+                                    isFullDuplex: false
+                                };
+                            }
+                        } else { //if no rule exist for the destination create a new rule orig -> dest
+                            ctrl.fgPos["big-switch"]["flow-rules"][orig.full_id] = {};
+                            ctrl.fgPos["big-switch"]["flow-rules"][orig.full_id][dest.full_id] = {
+                                origin: orig.full_id,
+                                destination: dest.full_id,
+                                isFullDuplex: false
+                            };
+                        }
+                    }
+
+                     ctrl.fg["big-switch"]["flow-rules"].push(res.elem);
+
+                });
+            }
+        };
+
         ctrl.getTemplates = function () {
             return BackendCallService.getTemplates();
         }
 
     };
 
-    NFFGController.$inject = ['$scope', 'BackendCallService', '$uibModal', 'dialogs', 'graphConstant', 'd3Service', 'InitializationService', "FgModalService"];
+    NFFGController.$inject = ['$scope', 'BackendCallService', '$uibModal', 'dialogs', 'graphConstant', 'InitializationService', "FgModalService"];
     angular.module('fg-gui').controller('NFFGController', NFFGController);
 
 })();
