@@ -193,8 +193,8 @@
                         }
                     }
                     // updating position
-                    getPosition().interfaces[d.id].x = x;
-                    getPosition().interfaces[d.id].y = y;
+                    getPosition().interfaces[d.full_id].x = x;
+                    getPosition().interfaces[d.full_id].y = y;
                     //calling the callback
                     callback();
                 });

@@ -5,11 +5,12 @@
     "use strict";
     /**
      *
-     * @param graphConstant
+     * @param $rootScope
+     * @param forwardingGraphConstant
      * @param d3Service
      * @returns {{linkEP: _linkEP, linkVNFPort: _linkVNFPort, linkBSInterface: _linkBSInterface}}
      */
-    var fgLinkService = function (forwardingGraphConstant, d3Service) {
+    var fgLinkService = function ($rootScope, forwardingGraphConstant, d3Service) {
 
         //variabili per il linking
 
@@ -42,17 +43,31 @@
 
         function closeTempLink(svg) {
             svg.on("mousemove", null);
-            tempLink.remove();
+            if (tempLink) {
+                tempLink.remove();
+                tempLink = null;
+            }
         }
 
         function link(scope, connectionSection, svg) {
+            $rootScope.$on(
+                "linkCreationChanged",
+                function (event, linking) {
+                    if (!linking) {
+                        if (firstElem) {
+                            firstElem = null;
+                            closeTempLink(svg);
+                        }
+                    }
+                });
             return function (elem) {
                 if (scope.isLinkCreation) {
                     if (firstElem == null) {
+                        
                         firstElem = elem;
                         drawTempLink(firstElem, connectionSection, svg);
                     } else {
-                        if(firstElem.full_id != elem.full_id) {
+                        if (firstElem.full_id != elem.full_id) {
                             closeTempLink(svg);
                             secondElem = elem;
                             scope.onLinkCreation(firstElem, secondElem);
@@ -87,7 +102,7 @@
         }
 
     };
-    fgLinkService.$inject = ['forwardingGraphConstant', 'd3Service'];
+    fgLinkService.$inject = ['$rootScope', 'forwardingGraphConstant', 'd3Service'];
 
     angular.module('d3').service('fgLinkService', fgLinkService);
 })

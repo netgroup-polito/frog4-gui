@@ -317,13 +317,13 @@
                 .attr("x", function () { // x position of the big switch
                     if (typeof pos.x == "number") //if the position is already defined use it
                         return pos.x;
-                    else // other whise put it into the middle
+                    else // otherwise put it into the middle
                         return pos.x = graph.svg.node().getBoundingClientRect().width / 2 - graphConstant.bigSwitchWidth / 2;
                 })
                 .attr("y", function () { // y position of the big switch
                     if (typeof pos.y == "number") //if the position is already defined use it
                         return pos.y;
-                    else // other whise put it into the middle
+                    else // otherwise put it into the middle
                         return pos.y = graph.svg.node().getBoundingClientRect().height / 2 - graphConstant.bigSwitchHeight / 2;
                 })
                 .call(graph.drag.bigSwitchDrag)
@@ -338,7 +338,7 @@
             var bigswitchInterfaceElement = graph.interfaces.selectAll(".bs-interface")
                 .data(interfaces, function (d) {
                     //this function is used to identify each item
-                    return d.id;
+                    return d.full_id;
                 });
             bigswitchInterfaceElement.enter()
                 .append("circle")
@@ -364,7 +364,7 @@
                 })
                 .call(graph.drag.bigSwitchInterfaceDrag)
                 .on("click",function (d) {
-                    var elem = clone(pos.interfaces[d.id]);
+                    var elem = clone(pos.interfaces[d.full_id]);
                     elem.x += pos.x;
                     elem.y += pos.y;
                     graph.link.bsInterfaceLink(elem);
@@ -478,7 +478,7 @@
             var externalLink = graph.connections.selectAll(".externalLink")
                 .data(BSinterfaces, function (d) {
                     //this function is used to identify each item
-                    return d.id;
+                    return d.full_id;
                 });
             externalLink.enter() //adding new element
                 .append("line")
@@ -486,7 +486,7 @@
                 .attr("stroke", "black");
             externalLink //operation on updating and entering element of the list
                 .attr("id", function (d) {
-                    return "ExtLink-" + d.id;    //id of the element
+                    return "ExtLink-" + d.full_id;    //id of the element
                 })
                 .attr("x1", function (d) {
                     return parseInt(pos["big-switch"].x + d.x); // x of point of origin(interface of the big switch)
@@ -495,7 +495,7 @@
                     return parseInt(pos["big-switch"].y + d.y); // y of point of origin(interface of the big switch)
                 })
                 .attr("x2", function (d) { // x of point of destination(end point/vnf port)
-                    if (d.id.indexOf("endpoint") >= 0) { // if is end point
+                    if (d.full_id.indexOf("endpoint") >= 0) { // if is end point
                         return parseInt(pos["end-points"][d.parent_ep_id].x)
                     } else {
                         return parseInt(pos["VNFs"][d.parent_vnf_id].x + pos["VNFs"][d.parent_vnf_id].ports[d.parent_vnf_port].x)
@@ -503,7 +503,7 @@
 
                 })
                 .attr("y2", function (d) { // y of point of destination(end point/vnf port)
-                    if (d.id.indexOf("endpoint") >= 0) { //if is end point
+                    if (d.full_id.indexOf("endpoint") >= 0) { //if is end point
                         return parseInt(pos["end-points"][d.parent_ep_id].y)
                     } else {
                         return parseInt(pos["VNFs"][d.parent_vnf_id].y + pos["VNFs"][d.parent_vnf_id].ports[d.parent_vnf_port].y)

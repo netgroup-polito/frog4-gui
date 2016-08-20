@@ -5,6 +5,7 @@
     'use strict';
     /**
      * Controller for the Forwarding-graph view
+     * @param $rootScope
      * @param $scope Scope of the controller
      * @param BackendCallService Service used to dialog with the backend
      * @param $uibModal Provider used to initialize a modal instance
@@ -14,7 +15,7 @@
      * @param FgModalService
      * @constructor
      */
-    var NFFGController = function ($scope, BackendCallService, $uibModal, $dialogs, graphConstant, InitializationService, FgModalService) {
+    var NFFGController = function ($rootScope, $scope, BackendCallService, $uibModal, $dialogs, graphConstant, InitializationService, FgModalService) {
         var ctrl = this;
 
         //list of the existing graph from the server
@@ -161,6 +162,8 @@
 
 
         var resetGraph = function () {
+            ctrl.isLinkCreation = false;
+            $rootScope.$broadcast("linkCreationChanged",ctrl.isLinkCreation);
             ctrl.fg = null;
             ctrl.fgPos = null;
             //istanzio un grafico vuoto
@@ -235,7 +238,7 @@
                     ctrl.fg["VNFs"].push(res.elem);
 
                 });
-            }, function () {
+            }, function (error) {
                 console.log("Something went wrong:", error);
                 //TODO: mostrare errore
             });
@@ -243,17 +246,20 @@
         };
 
         ctrl.newLink = function () {
-            ctrl.isLinkCreation = true;
+            ctrl.isLinkCreation = !ctrl.isLinkCreation;
+            $rootScope.$broadcast("linkCreationChanged",ctrl.isLinkCreation);
         };
 
         ctrl.onLinkCreation = function (orig, dest) {
-            console.log("Start: " + JSON.stringify(orig));
-            console.log("End: " + JSON.stringify(dest));
+            //console.log("Start: " + JSON.stringify(orig));
+            //console.log("End: " + JSON.stringify(dest));
             ctrl.isLinkCreation = false;
+            $rootScope.$broadcast("linkCreationChanged",ctrl.isLinkCreation);
+
             var existing = false;
             for (var i = 0; i < ctrl.fg["big-switch"]["flow-rules"].length; i++) {
                 var rules = ctrl.fg["big-switch"]["flow-rules"][i];
-                if (rules["match"]["port_in"] == orig.full_id && rules["actions"][0]["output_to_port"])
+                if (rules["match"]["port_in"] == orig.full_id && rules["actions"][0]["output_to_port"] == dest.full_id)
                     existing = true;
             }
             if (existing) {
@@ -267,7 +273,7 @@
                     //
                     console.log(JSON.stringify(res));
 
-                    
+
                     if (ctrl.fgPos["big-switch"]["flow-rules"][orig.full_id]) { // if it exist a rules starting from the same origin
                         if (!ctrl.fgPos["big-switch"]["flow-rules"][orig.full_id][dest.full_id]) { // if it does not exist this rules add it else do nothing
                             ctrl.fgPos["big-switch"]["flow-rules"][orig.full_id][dest.full_id] = {
@@ -298,7 +304,7 @@
                         }
                     }
 
-                     ctrl.fg["big-switch"]["flow-rules"].push(res.elem);
+                    ctrl.fg["big-switch"]["flow-rules"].push(res.elem);
 
                 });
             }
@@ -310,7 +316,7 @@
 
     };
 
-    NFFGController.$inject = ['$scope', 'BackendCallService', '$uibModal', 'dialogs', 'graphConstant', 'InitializationService', "FgModalService"];
+    NFFGController.$inject = ['$rootScope','$scope', 'BackendCallService', '$uibModal', 'dialogs', 'graphConstant', 'InitializationService', "FgModalService"];
     angular.module('fg-gui').controller('NFFGController', NFFGController);
 
 })();

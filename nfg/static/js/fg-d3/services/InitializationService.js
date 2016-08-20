@@ -80,7 +80,7 @@
                         // adding information ( some may be deleted because unused)
                         BS_Pos.interfaces[port.full_id] = {
                             ref: "BS_interface",
-                            id: port.full_id,                   // use the same id to match them during graph build
+                            full_id: port.full_id,                   // use the same id to match them during graph build
                             parent_vnf_id: port.parent_vnf_id,  // vnf of the port
                             parent_vnf_port: port.id            // id of the port
                         }
@@ -92,7 +92,7 @@
                     // adding information ( some may be deleted because unused)
                     BS_Pos.interfaces[ep.full_id] = {
                         ref: "BS_interface",
-                        id: ep.full_id,         // use the same id to match them during graph build
+                        full_id: ep.full_id,         // use the same id to match them during graph build
                         parent_ep_id: ep.id     // id of the endpoint
                     }
                 });
