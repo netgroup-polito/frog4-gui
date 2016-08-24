@@ -86,7 +86,7 @@
         function _addSimpleDefinition(section, type, attrsObject) {
             var def = section.append("defs");
             def.append(type)
-                .attr(attrsObject);
+                .attrs(attrsObject);
             return def;
         }
 
@@ -102,7 +102,7 @@
             var children = attrsObject.children;
             delete attrsObject.children;
             var def = section.append("defs")
-                .append(type).attr(attrsObject);
+                .append(type).attrs(attrsObject);
             if (children && children.length > 0)
                 children.forEach(function (child) {
                     var type = child.type;
@@ -122,7 +122,7 @@
         function _addNest(definition, type, attrsObject) {
             var children = attrsObject.children;
             delete attrsObject.children;
-            var def = definition.append(type).attr(attrsObject);
+            var def = definition.append(type).attrs(attrsObject);
             if (children && children.length > 0)
                 children.forEach(function (child) {
                     var type = child.type;
@@ -137,7 +137,7 @@
          * @private
          */
         function _addDragBehavior() {
-            return d3.behavior.drag();
+            return d3.drag();
         }
 
         return {

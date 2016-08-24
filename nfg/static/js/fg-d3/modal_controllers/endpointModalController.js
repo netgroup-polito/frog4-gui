@@ -100,6 +100,8 @@
     var editEndpointModalController = function ($uibModalInstance, elem, pos, schema) {
         var ctrl = this;
         ctrl.saveText = "Save Endpoint";
+        ctrl.fgElem = elem;
+        ctrl.fgPosElem = pos;
         ctrl.EPSchema = schema.properties["forwarding-graph"].properties["end-points"].items;
         ctrl.EPProperties = null;
         /**
@@ -111,13 +113,40 @@
         /**
          * Function used to save all the modification after modal is closed
          */
-        ctrl.save = function () {
-            $uibModalInstance.close();
+        ctrl.save = function (form) {
+            if (form.$valid) {
+                for (var i = 0; i < ctrl.EPSchema.properties['type'].enum.length; i++) {
+                    if (ctrl.fgElem.type != ctrl.EPSchema.properties['type'].enum[i]) {
+                        // emptying field not belonging to selected endpoint-type
+                        ctrl.fgElem[ctrl.EPSchema.properties['type'].enum[i]] = undefined;
+                    }
+                }
+                $uibModalInstance.close({elem: ctrl.fgElem, pos: ctrl.fgPosElem});
+            }
         };
 
-        ctrl.typeChanged = function () {
-            console.log("typechanged")
+        function navigateThroughSchema(href) {
+            var splitted = href.split("/");
+            var temp = schema;
+            for (var i = 0; i < splitted.length; i++) {
+                if (splitted[i] == "#") {
+                    temp = schema;
+                } else {
+                    temp = temp[splitted[i]];
+                }
+            }
+            return temp;
         }
+
+        ctrl.typeChanged = function () {
+            var type = ctrl.EPSchema.properties[ctrl.fgElem.type];
+            ctrl.EPProperties = null;
+            if (type) {
+                var path = type["$ref"];
+                ctrl.EPProperties = navigateThroughSchema(path)
+            }
+        };
+        ctrl.typeChanged();
     };
 
     editEndpointModalController.$inject = ['$uibModalInstance', 'elem', 'pos', 'schema'];

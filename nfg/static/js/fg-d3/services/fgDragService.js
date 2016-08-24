@@ -18,7 +18,7 @@
          * @private
          */
         function _dragEP(getPosition, callback) {
-            return d3Service.addDragBehavior()
+            var drag = d3Service.addDragBehavior()
                 .on("drag", function (d) {
                     //get the new x and y for the EP
                     var cx = parseInt(d3.event.x);
@@ -28,9 +28,15 @@
                     getPosition()[d.id].y = cy;
                     //calling the callback
                     callback();
-                }).on("dragstart", function () {
+                })
+                .on("start", function () {
+                    
                     d3.event.sourceEvent.stopPropagation();
+                })
+                .filter(function () {
+                    return !d3.event.button;
                 });
+            return drag;
         }
         /**
          * Drag functionality for the VNF
@@ -40,7 +46,7 @@
          * @private
          */
         function _dragVNF(getPosition, callback) {
-            return d3Service.addDragBehavior()
+            var drag = d3Service.addDragBehavior()
                 .on("drag", function (d) {
                     //get the new x and y for the VNF
                     var x = parseInt(d3.event.x);
@@ -50,9 +56,15 @@
                     getPosition()[d.id].y = y - graphConstant.vnfHeigth / 2;
                     //calling the callback
                     callback();
-                }).on("dragstart", function (d) {
+                })
+                .on("start", function (d) {
+                    
                     d3.event.sourceEvent.stopPropagation();
+                })
+                .filter(function () {
+                    return !d3.event.button;
                 });
+            return drag;
         }
 
         /**
@@ -63,7 +75,7 @@
          * @private
          */
         function _dragBS(getPosition, callback) {
-            return d3Service.addDragBehavior()
+            var drag = d3Service.addDragBehavior()
                 .on("drag", function () {
                     //get the new x and y for the big-switch
                     var x = parseInt(d3.event.x);
@@ -73,9 +85,15 @@
                     getPosition().y = y - graphConstant.bigSwitchHeight / 2;
                     //calling the callback
                     callback();
-                }).on("dragstart", function () {
+                })
+                .on("start", function () {
+                    
                     d3.event.sourceEvent.stopPropagation();
+                })
+                .filter(function () {
+                    return !d3.event.button;
                 });
+            return drag;
         }
 
         /**
@@ -89,8 +107,9 @@
             // variable used to calculate the type of movement
             var prevDragX = 0;
             var prevDragY = 0;
-            return d3Service.addDragBehavior()
-                .on("dragstart", function (d) {
+            var drag = d3Service.addDragBehavior()
+                .on("start", function (d) {
+                    
                     d3.event.sourceEvent.stopPropagation();
                     // at start of a drag reset the value to current position
                     prevDragX = d.x;
@@ -136,7 +155,11 @@
                     getPosition()[d.parent].ports[d.port.id].y = y;
                     //calling the callback
                     callback();
+                })
+                .filter(function () {
+                    return !d3.event.button;
                 });
+            return drag;
         }
 
         /**
@@ -150,10 +173,12 @@
             // variable used to calculate the type of movement
             var prevDragX = 0;
             var prevDragY = 0;
-            return d3Service.addDragBehavior()
-                .on("dragstart", function (d) {
+            var drag = d3Service.addDragBehavior()
+                .on("start", function (d) {
+                    
                     d3.event.sourceEvent.stopPropagation();
                     // at start of a drag reset the value to current position
+
                     prevDragX = d.x;
                     prevDragY = d.y;
                 })
@@ -161,8 +186,8 @@
                     // must stay on the border of the big-switch
                     // the algorithm may be improved
                     // get the new x and y for the interface
-                    var x = parseInt(d3.event.x - getPosition().x);
-                    var y = parseInt(d3.event.y - getPosition().y);
+                    var x = parseInt(d3.event.x /*- getPosition().x*/);
+                    var y = parseInt(d3.event.y /*- getPosition().y*/);
                     // if outside boundary reset to nearest side
                     if (x < 0)
                         x = 0;
@@ -197,7 +222,11 @@
                     getPosition().interfaces[d.full_id].y = y;
                     //calling the callback
                     callback();
+                })
+                .filter(function () {
+                    return !d3.event.button;
                 });
+            return drag;
         }
 
         return {

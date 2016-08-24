@@ -8,7 +8,7 @@
      * @param graphConstant The constant used in the graph directive as parameter
      * @returns {{buildEPs: _buildEPs, buildVNFs: _buildVNFs, buildBigSwitch: _buildBigSwitch, buildLink: _buildLink, buildBigSwitchLink: _buildBigSwitchLink, buildAllLink: _buildAllLink}}
      */
-    var fgDrawService = function (graphConstant) {
+    var fgDrawService = function ($rootScope, graphConstant) {
         /**
          * Function to draw the EPs on the graph
          * @param endpoints The portion  of the forwarding graph for the end points fg["end-points"]
@@ -30,9 +30,8 @@
                 .enter()
                 .append("circle")
                 .attr("r", graphConstant.epRadius)
-                .attr("class", "end-points");// "end-points" class is the one used for selection in the first step of this function
-            //operation on updated and new element
-            epElements
+                .attr("class", "end-points")// "end-points" class is the one used for selection in the first step of this function
+                .merge(epElements)// from now on operation on new and existing element of the list
                 .attr("id", function (d) {
                     return pos[d.id].full_id; //id of the element
                 })
@@ -62,17 +61,22 @@
                     //is calculated disposing ina  circle and normalizing to the center of the graph
                         return pos[d.id].y = parseInt(250 * Math.sin(alfa * (i)) + graph.svg.node().getBoundingClientRect().height / 2)
                 })
-                .call(graph.drag.epDrag) //adding drag functionality
                 .on("contextmenu", function (d) {
-                    d3.event.preventDefault();
-                    //showEditInfoEP(d.id);
-                    //TODO: call to edit mode
-                })
-                .on("click",function (d) {
+                        d3.event.preventDefault();
+                        var modal = graph.update.epUpdate(d, pos[d.id]);
+                        modal.result.then(function (res) {
+                            $rootScope.$broadcast("epUpdated", res);
+                        });
+                    }
+                )
+                .on("click", function (d) {
                     graph.link.epLink(pos[d.id]);
                 })
-             ;/**/
-            //operation on element going out of the collection
+                .call(graph.drag.epDrag); //adding drag functionality
+
+
+            /**/
+//operation on element going out of the collection
             epElements.exit().remove();
 
         }
@@ -96,9 +100,8 @@
             vnfElements
                 .enter()
                 .append("use").attr("xlink:href", "#VNF")
-                .attr("class", "vnf");   // "vnf" is the class used for the selection
-            //operation on updated and new element
-            vnfElements
+                .attr("class", "vnf")  // "vnf" is the class used for the selection
+                .merge(vnfElements)// from now on operation on new and existing element of the list
                 .attr("id", function (d) {
                     return pos[d.id].full_id;    //id of the element
                 })
@@ -130,12 +133,17 @@
 
                     }
                 })
+                .on("contextmenu", function (d) {
+                    d3.event.preventDefault();
+                    var modal = graph.update.vnfUpdate(d, pos[d.id]);
+                    modal.result.then(function (res) {
+                        $rootScope.$broadcast("vnfUpdated", res);
+                    });
+                })
                 .call(graph.drag.vnfDrag) //adding drag functionality
+
             /*.on("mousedown", selectVNFs)
-             .on("contextmenu", function (d) {
-             d3.event.preventDefault();
-             showEditInfoVNF(d.id);
-             });*/
+             ;*/
 
             //operation on element going out of the collection
             vnfElements.exit().remove();
@@ -151,9 +159,8 @@
                 .append("text")
                 .attr("class", "vnf-text unselectable")
                 .attr("text-anchor", "middle")
-                .attr("fill", "white");
-            //operation on updated and new element
-            vnfTextElements
+                .attr("fill", "white")
+                .merge(vnfTextElements)// from now on operation on new and existing element of the list
                 .attr("id", function (d) {
                     return "text_" + pos[d.id].full_id; //id of the element
                 })
@@ -199,8 +206,8 @@
                 .enter()
                 .append("circle")
                 .attr("r", graphConstant.ifRadius)  //radius of the circle element
-                .attr("class", "interface vnf-interface"); // "vnf-interface" is the class used for selection
-            portElements
+                .attr("class", "interface vnf-interface") // "vnf-interface" is the class used for selection
+                .merge(portElements)// from now on operation on new and existing
                 .attr("id", function (d) {
                     return d.full_id; //id of the element
                 })
@@ -241,14 +248,14 @@
                 .attr("parent", function (d) {
                     return pos[d.parent].full_id;    // id of the parent vnf
                 })
-                .call(graph.drag.vnfPortDrag) //adding drag functionality
-                .on("click",function (d) {
+                .on("click", function (d) {
 
                     var elem = clone(pos[d.parent].ports[d.port.id]);
                     elem.x += pos[d.parent].x;
                     elem.y += pos[d.parent].y;
                     graph.link.vnfPortLink(elem);
-                });
+                })
+                .call(graph.drag.vnfPortDrag); //adding drag functionality
             //operation on element going out of the collection
             portElements.exit().remove()
         }
@@ -312,8 +319,8 @@
                 .append("use")
                 .style("stroke-dasharray", ("8, 4"))
                 .attr("xlink:href", "#BIG_SWITCH") // use bigswitch definition as template
-                .attr("class", "big-switch bigSwitchView");//class bigSwitchView is used to change the display mode
-            bigswitchElement
+                .attr("class", "big-switch bigSwitchView")//class bigSwitchView is used to change the display mode
+                .merge(bigswitchElement)// from now on operation on new and existing element of the list
                 .attr("x", function () { // x position of the big switch
                     if (typeof pos.x == "number") //if the position is already defined use it
                         return pos.x;
@@ -344,8 +351,8 @@
                 .append("circle")
                 .attr("id", "big-switch")
                 .attr("r", graphConstant.ifRadius)//radius of the circle
-                .attr("class", "bs-interface interface bigSwitchView");// class bigSwitchView is used to identify the element displayed only in complex view
-            bigswitchInterfaceElement
+                .attr("class", "bs-interface interface bigSwitchView")// class bigSwitchView is used to identify the element displayed only in complex view
+                .merge(bigswitchInterfaceElement)// from now on operation on new and existing element of the list
                 .attr("cx", function (d) {//x position of the circle
                     if (typeof d.x != "number") //if the position is not defined calculate it
                         if (d.parent_vnf_id) // if is vnf interface
@@ -362,13 +369,13 @@
                             d.y = _getPos(epPos[d.parent_ep_id], pos).y;
                     return parseInt(pos.y + d.y);
                 })
-                .call(graph.drag.bigSwitchInterfaceDrag)
-                .on("click",function (d) {
+                .on("click", function (d) {
                     var elem = clone(pos.interfaces[d.full_id]);
                     elem.x += pos.x;
                     elem.y += pos.y;
                     graph.link.bsInterfaceLink(elem);
                 })
+                .call(graph.drag.bigSwitchInterfaceDrag)
             /*.on("click",select_node);*/
             bigswitchInterfaceElement.exit().remove();
         }
@@ -425,8 +432,8 @@
                 .enter()
                 .append("line")
                 .attr("class", "link line normalView")// class normalView is used to identify the element displayed only in standard view
-                .attr("stroke", "black");
-            links
+                .attr("stroke", "black")
+                .merge(links) // from now on operation on new and existing element of the list
                 .attr("id", function (d) {
                     return "fr-" + d.origin + ";" + d.destination;    //id of the element
                 })
@@ -483,8 +490,8 @@
             externalLink.enter() //adding new element
                 .append("line")
                 .attr("class", "externalLink bigSwitchView")// class bigSwitchView is used to identify the element displayed only in complex view
-                .attr("stroke", "black");
-            externalLink //operation on updating and entering element of the list
+                .attr("stroke", "black")
+                .merge(externalLink) // from now on operation on new and existing element of the list
                 .attr("id", function (d) {
                     return "ExtLink-" + d.full_id;    //id of the element
                 })
@@ -527,8 +534,8 @@
                 .enter()
                 .append("line")
                 .attr("class", "internalLink line bigSwitchView")// class bigSwitchView is used to identify the element displayed only in complex view
-                .attr("stroke", "black");
-            internalLinks
+                .attr("stroke", "black")
+                .merge(internalLinks)// from now on operation on new and existing element of the list
                 .attr("id", function (d) {
                     return "fr-int-" + d.origin + ";" + d.destination; ///id of the element
                 })
@@ -591,7 +598,8 @@
             buildAllLink: _buildAllLink
         }
     };
-    fgDrawService.$inject = ['graphConstant', 'fgDragService'];
+    fgDrawService.$inject = ['$rootScope', 'graphConstant'];
 
     angular.module('d3').service('fgDrawService', fgDrawService);
-})();
+})
+();

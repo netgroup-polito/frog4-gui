@@ -52,7 +52,15 @@
                 size: 'lg',
                 resolve: {
                     // the info passed to the controller of the modal
-
+                    elem: function () {
+                        return clone(elem)
+                    },
+                    pos: function () {
+                        return clone(pos)
+                    },
+                    schema: function () {
+                        return clone(schema)
+                    }
                 }
             });
         };
@@ -93,13 +101,14 @@
 
         /**
          *
-         * @param elem
-         * @param pos
+         * @param fg
+         * @param fgPos
          * @param schema
+         * @param templates
          * @returns {Window|*}
          * @private
          */
-        var _editVNFModal = function (elem, pos, schema) {
+        var _editVNFModal = function (fg, fgPos, schema, templates) {
             return $uibModal.open({
                 animation: false,
                 templateUrl: '/static/js/fg-d3/modal_view/vnfModalView.html',
@@ -108,11 +117,22 @@
                 size: 'lg',
                 resolve: {
                     // the info passed to the controller of the modal
-
+                    fg: function () {
+                        return clone(fg)
+                    },
+                    fgPos: function () {
+                        return clone(fgPos)
+                    },
+                    schema: function () {
+                        return clone(schema)
+                    },
+                    templates: function () {
+                        return clone(templates)
+                    }
                 }
             });
         };
-        
+
         /**
          *
          * @param fg

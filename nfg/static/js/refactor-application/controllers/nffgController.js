@@ -11,11 +11,12 @@
      * @param $uibModal Provider used to initialize a modal instance
      * @param $dialogs Provide used to initialize a dialog instance
      * @param graphConstant
+     * @param fgConst
      * @param InitializationService
      * @param FgModalService
      * @constructor
      */
-    var NFFGController = function ($rootScope, $scope, BackendCallService, $uibModal, $dialogs, graphConstant, InitializationService, FgModalService) {
+    var NFFGController = function ($rootScope, $scope, BackendCallService, $uibModal, $dialogs, graphConstant, fgConst, InitializationService, FgModalService) {
         var ctrl = this;
 
         //list of the existing graph from the server
@@ -74,16 +75,7 @@
         ctrl.fg = null;
         //the position object of the loaded graph
         ctrl.fgPos = null;
-
-        // watching for change of the control variable to show if it's forced complex view
-        /*$scope.$watch(function () {
-         return ctrl.isForced;
-         },
-         function () {
-         if (ctrl.isForced)
-         $dialogs.notify('Splitted Rules', 'Your graph has a split, only Complex View is available!');
-         });
-         */
+        
         /**
          * Function to toggle the view of the button to add element to the graph
          */
@@ -163,7 +155,7 @@
 
         var resetGraph = function () {
             ctrl.isLinkCreation = false;
-            $rootScope.$broadcast("linkCreationChanged",ctrl.isLinkCreation);
+            $rootScope.$broadcast("linkCreationChanged", ctrl.isLinkCreation);
             ctrl.fg = null;
             ctrl.fgPos = null;
             //istanzio un grafico vuoto
@@ -198,8 +190,6 @@
             var epModal = FgModalService.newEndpointModal(ctrl.fg, ctrl.fgPos, ctrl.schema);
 
             epModal.result.then(function (res) {
-                //
-                console.log(JSON.stringify(res));
                 //copiare la pos e copiare l'EP
                 ctrl.fgPos["end-points"][res.pos.id] = res.pos;
                 ctrl.fgPos["big-switch"].interfaces[res.pos.full_id] = {
@@ -247,14 +237,14 @@
 
         ctrl.newLink = function () {
             ctrl.isLinkCreation = !ctrl.isLinkCreation;
-            $rootScope.$broadcast("linkCreationChanged",ctrl.isLinkCreation);
+            $rootScope.$broadcast("linkCreationChanged", ctrl.isLinkCreation);
         };
 
         ctrl.onLinkCreation = function (orig, dest) {
             //console.log("Start: " + JSON.stringify(orig));
             //console.log("End: " + JSON.stringify(dest));
             ctrl.isLinkCreation = false;
-            $rootScope.$broadcast("linkCreationChanged",ctrl.isLinkCreation);
+            $rootScope.$broadcast("linkCreationChanged", ctrl.isLinkCreation);
 
             var existing = false;
             for (var i = 0; i < ctrl.fg["big-switch"]["flow-rules"].length; i++) {
@@ -312,11 +302,71 @@
 
         ctrl.getTemplates = function () {
             return BackendCallService.getTemplates();
-        }
+        };
 
+        $rootScope.$on("epUpdated", function (event, res) {
+            ctrl.fgPos["end-points"][res.pos.id] = res.pos;
+            var i = 0;
+            for (; i < ctrl.fg["end-points"][i].id == res.elem.id; i++);
+            ctrl.fg["end-points"][i] = res.elem;
+        });
+        $rootScope.$on("vnfUpdated", function (event, res) {
+
+            var exitPort = {};
+
+            angular.forEach(ctrl.fgPos["VNFs"][res.elem.id].ports, function (port, key) {
+                if (!res.pos.ports[key]) {
+                    exitPort[key] = port;
+                }
+            });
+
+
+            angular.forEach(res.pos.ports, function (port) {
+                if (!ctrl.fgPos["big-switch"].interfaces[port.full_id]) {
+                    ctrl.fgPos["big-switch"].interfaces[port.full_id] = {
+                        ref: "BS_interface",
+                        full_id: port.full_id,                   // use the same id to match them during graph build
+                        parent_vnf_id: port.parent_vnf_id,  // vnf of the port
+                        parent_vnf_port: port.id            // id of the port
+                    }
+                }
+            });
+
+            angular.forEach(exitPort, function (port, key) {
+
+                delete ctrl.fgPos["big-switch"].interfaces[port.full_id];
+
+                angular.forEach(ctrl.fgPos["big-switch"]["flow-rules"], function (rule, key) {
+                    if (key == port.full_id) {
+                        delete ctrl.fgPos["big-switch"]["flow-rules"][key];
+                    } else {
+                        if (rule[port.full_id]) {
+                            delete ctrl.fgPos["big-switch"]["flow-rules"][key][port.full_id];
+                        }
+                    }
+                });
+
+                for (var j = 0; j < ctrl.fg["big-switch"]["flow-rules"].length; j++) {
+                    if (ctrl.fg["big-switch"]["flow-rules"][j][fgConst.lkOrigLev1][fgConst.lkOrigLev2] == key) {
+                        ctrl.fg["big-switch"]["flow-rules"].splice(j, 1);
+                    }
+                    if (ctrl.fg["big-switch"]["flow-rules"][j][fgConst.lkDestLev1][fgConst.lkDestLev2][fgConst.lkDestLev3] == key) {
+                        ctrl.fg["big-switch"]["flow-rules"].splice(j, 1);
+                    }
+                }
+            });
+
+            ctrl.fgPos["VNFs"][res.elem.id] = res.pos;
+            var i = 0;
+            for (; ctrl.fg["VNFs"][i].id != res.elem.id; i++);
+            ctrl.fg["VNFs"][i] = res.elem;
+        });
+        $rootScope.$on("flowRuleUpdated", function (event, res) {
+
+        });
     };
 
-    NFFGController.$inject = ['$rootScope','$scope', 'BackendCallService', '$uibModal', 'dialogs', 'graphConstant', 'InitializationService', "FgModalService"];
+    NFFGController.$inject = ['$rootScope', '$scope', 'BackendCallService', '$uibModal', 'dialogs', 'graphConstant', 'forwardingGraphConstant', 'InitializationService', "FgModalService"];
     angular.module('fg-gui').controller('NFFGController', NFFGController);
 
 })();

@@ -10,10 +10,11 @@
      * @param fgModalService The service used to open a modal view
      * @param fgLinkService The service used to add a linking functionality to the forwarding-graph element
      * @param fgClickService The service used to add a click behavior to the forwarding-graph element
+     * @param fgUpdateService
      * @param graphConstant The constant used in the graph directive as parameter
      * @returns {{restrict: string, require: string[], scope: {position: string, showBigSwitch: string, isForced: string}, controller: controller, link: link}}
      */
-    var d3nffg = function (d3Service, fgDrawService, fgDragService, fgModalService, fgLinkService, fgClickService, graphConstant) {
+    var d3nffg = function (d3Service, fgDrawService, fgDragService, fgModalService, fgLinkService, fgClickService, fgUpdateService, graphConstant) {
         return {
             /**
              * type of angular directive (can be used via attribute only)
@@ -53,7 +54,7 @@
                 /**
                  * {boolean} Used to be aware of link creation request
                  */
-                isLinkCreation:"="
+                isLinkCreation: "="
             },
             /**
              * Controller of the directive
@@ -263,25 +264,19 @@
                 ctrl.initializeUpdate = function (ngModel, $scope) {
                     // ngModel.$modelValue = forwarding graph
                     // $scope.position = position object
+                    // initialize update functionality for endpoints
+                    var epUpdate = fgUpdateService.updateEP($scope);
+                    // initialize update functionality for vnfs
+                    var vnfUpdate = fgUpdateService.updateVNF($scope);
 
-                    // initialize update functionality for endpoints
-                    var epUpdate = [
-                        ngModel,
-                        $scope,
-                        fgModalService.editEndpointModal
-                    ];
-                    // initialize update functionality for endpoints
-                    /*var vnfUpdate = function () {
-                     fgModalService.editVNFModal();
-                     }
-                     // initialize update functionality for flow rules
-                     var flowRulesUpdate = function () {
+                    // initialize update functionality for flow rules
+                    /*var flowRulesUpdate = function () {
                      fgModalService.editFlowRulesModal();
                      }*/
                     ctrl.graph.update = {
                         epUpdate: epUpdate,
-                        /*vnfUpdate: vnfUpdate,
-                         flowRulesUpdate: flowRulesUpdate*/
+                        vnfUpdate: vnfUpdate,
+                        /*flowRulesUpdate: flowRulesUpdate*/
                     }
                 };
 

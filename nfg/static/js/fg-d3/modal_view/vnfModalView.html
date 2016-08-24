@@ -37,6 +37,7 @@
                             id="vnfTemplate"
                             required
                             name="templateVNF"
+                            ng-disabled="!VNFCtrl.newVNF"
                             ng-options="item.id as item.template.name for item in VNFCtrl.templates"
                             ng-model="VNFCtrl.fgElem.vnf_template"
                             ng-change="VNFCtrl.templateChanged()">
@@ -52,7 +53,13 @@
                 </label>
             </div>
             <div id="infoTemplate" uib-collapse="VNFCtrl.infoShown">
-                <object-visualization reference-object="VNFCtrl.VNFProperties"></object-visualization>
+                <object-visualization reference-object="VNFCtrl.VNFProperties" ng-if="VNFCtrl.VNFProperties"></object-visualization>
+                <div class="form-group" ng-if="!VNFCtrl.VNFProperties">
+                    <div class="col-sm-2"></div>
+                    <div class="col-sm-10">
+                        <p>The VNF template is not available</p>
+                    </div>
+                </div>
             </div>
 
             <div class="form-group">
@@ -76,6 +83,7 @@
                                         {{ key }}</th>
                                     <th>
                                         <button class="btn btn-default btn-circle"
+                                                type="button"
                                                 ng-if="portInfo.tot < portInfo.max"
                                                 ng-click="VNFCtrl.addPort(portInfo)">
                                             <span class="fa fa-plus"></span>
@@ -94,6 +102,7 @@
                                     </th>
                                     <th>
                                         <button class="btn btn-default btn-circle"
+                                                type="button"
                                                 ng-if="portInfo.tot > portInfo.min"
                                                 ng-click="VNFCtrl.removePort(port, portInfo)">
                                             <span class="fa fa-minus"></span>
@@ -106,6 +115,31 @@
                     </div>
                 </div>
                 <div ng-if="!VNFCtrl.VNFProperties">
+                    <div class="form-group">
+                        <div class="col-sm-2"></div>
+                        <div class="col-sm-10">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th>id</th>
+                                    <th ng-repeat="(key,value) in VNFCtrl.VNFSchema.properties['ports'].items.properties"
+                                        ng-if="key !='id'">
+                                        {{ key }}
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="port in VNFCtrl.fgElem['ports']">
+                                    <th>{{ port['id'] }}</th>
+                                    <th ng-repeat="(key,value) in VNFCtrl.VNFSchema.properties['ports'].items.properties"
+                                        ng-if="key !='id'">
+                                        {{ port[key] }}
+                                    </th>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
 
                 </div>
             </div>
