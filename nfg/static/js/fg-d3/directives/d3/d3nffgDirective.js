@@ -454,7 +454,7 @@
         };
     };
 
-    d3nffg.$inject = ["d3Service", "fgDrawService", "fgDragService", "FgModalService", "fgLinkService", "fgClickService", "graphConstant"];
+    d3nffg.$inject = ["d3Service", "fgDrawService", "fgDragService", "FgModalService", "fgLinkService", "fgClickService" ,"fgUpdateService", "graphConstant"];
     angular.module("d3").directive("d3nffg", d3nffg);
 
 })();
