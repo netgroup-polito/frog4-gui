@@ -5,9 +5,9 @@
     </div>
     <form class="form-horizontal" role="form" name="formLoadServer" novalidate>
         <div class="modal-body">
-            <div id="file_content_download" ng-if="loadServerCtrl.showGraph">
-                {{ loadServerCtrl.selectedGraph["forwarding-graph"] }}
-            </div>
+            <pre id="file_content_download" ng-if="loadServerCtrl.showGraph" style="max-height: 300px">
+                {{ loadServerCtrl.selectedGraph["forwarding-graph"] |json }}
+            </pre>
 
             <div class="form-group">
                 <label class="control-label col-sm-2" for="graphList">Select Graph:</label>
