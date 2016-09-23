@@ -31,12 +31,12 @@
 
                         var reader = new FileReader();
                         reader.onload = function (e) {
-                            deferred.resolve(e.target.result);
+                            deferred.resolve(JSON.parse(e.target.result));
                         };
                         reader.onerror = function (e) {
                             deferred.reject(e);
                         };
-                        reader.readAsDataURL(file);
+                        reader.readAsText(file);
 
                         return deferred.promise;
                     }
