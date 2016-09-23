@@ -48,6 +48,10 @@
                  */
                 onTemplateRequest: "=",
                 /**
+                 * {function} Used to get the current Flow Rules Table config
+                 */
+                onFrTableConfigRequest: "=",
+                /**
                  * {function} Used to trigger the link creation event
                  */
                 onLinkCreation: "=",
@@ -270,12 +274,11 @@
                     var vnfUpdate = fgUpdateService.updateVNF($scope);
 
                     // initialize update functionality for flow rules
-                    /*var flowRulesUpdate = function () {
-                     fgModalService.editFlowRulesModal();
-                     }*/
+                    var bigSwitch = fgUpdateService.updateBS($scope);
                     ctrl.graph.update = {
                         epUpdate: epUpdate,
                         vnfUpdate: vnfUpdate,
+                        bigSwitch: bigSwitch
                         /*flowRulesUpdate: flowRulesUpdate*/
                     }
                 };

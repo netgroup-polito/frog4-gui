@@ -175,6 +175,7 @@
                 }
             };
         };
+
         ctrl.newForwardingGraph = function () {
             if (ctrl.fg) {
                 var confirm = $dialogs.confirm('Please Confirm', 'Any unsaved changes to the current graph will be lost. Continue?');
@@ -257,7 +258,7 @@
             } else {
                 var elements = {start: orig, end: dest};
 
-                var frModal = FgModalService.newFlowRulesModal(ctrl.fg, ctrl.fgPos, ctrl.schema, elements);
+                var frModal = FgModalService.newFlowRulesModal(ctrl.fg, ctrl.schema, elements);
 
                 frModal.result.then(function (res) {
                     //
@@ -302,6 +303,10 @@
 
         ctrl.getTemplates = function () {
             return BackendCallService.getTemplates();
+        };
+
+        ctrl.getFRTableConfig = function () {
+            return BackendCallService.getFRTableConfig();
         };
 
         $rootScope.$on("epUpdated", function (event, res) {

@@ -48,10 +48,22 @@
             return deferred.promise;
         };
 
+        var _getFRTableConfig = function () {
+            var deferred = $q.defer();
+            $http.get("api/v1/graphs_api/get_fr_table_config/")
+                .success(function (result) {
+                    deferred.resolve(result);
+                })
+                .error(function (err) {
+                    deferred.reject(err);
+                });
+            return deferred.promise;
+        };
         return {
             getAvailableGraphs: _getAvailableGraphs,
             getJSONSchema: _getJSONSchema,
-            getTemplates: _getTemplates
+            getTemplates: _getTemplates,
+            getFRTableConfig: _getFRTableConfig
         };
     };
 

@@ -142,7 +142,7 @@
          * @returns {Window|*}
          * @private
          */
-        var _newFlowRulesModal = function (fg, fgPos, schema, elements) {
+        var _newFlowRulesModal = function (fg, schema, elements) {
             return $uibModal.open({
                 animation: false,
                 templateUrl: '/static/js/fg-d3/modal_view/linkModalView.html',
@@ -153,9 +153,6 @@
                     // the info passed to the controller of the modal
                     fg: function () {
                         return clone(fg)
-                    },
-                    fgPos: function () {
-                        return clone(fgPos)
                     },
                     schema: function () {
                         return clone(schema)
@@ -176,7 +173,7 @@
          * @returns {Window|*}
          * @private
          */
-        var _editFlowRulesModal = function (fg, fgPos, schema, elements) {
+        var _editFlowRulesModal = function (fg, schema) {
             return $uibModal.open({
                 animation: false,
                 templateUrl: '/static/js/fg-d3/modal_view/linkModalView.html',
@@ -184,8 +181,39 @@
                 controllerAs: 'LinkCtrl',
                 size: 'lg',
                 resolve: {
-                    // the info passed to the controller of the modal
+                    rule: function () {
+                        return clone(fg)
+                    },
+                    schema: function () {
+                        return clone(schema)
+                    }
+                }
+            });
+        };
 
+        var _bigSwitchModal = function (fg, fgPos, schema, config) {
+            return $uibModal.open({
+                animation: false,
+                templateUrl: '/static/js/fg-d3/modal_view/bigswitchModalView.html',
+                controller: 'BigSwitchModalController',
+                controllerAs: 'BSViewCtrl',
+                size: 'lg',
+                resolve: {
+                    fg: function () {
+                        return clone(fg)
+                    },
+                    fgPos: function () {
+                        return clone(fgPos)
+                    },
+                    schema: function () {
+                        return clone(schema)
+                    },
+                    config: function () {
+                        return clone(config)
+                    },
+                    editFlowRulesModal: function () {
+                        return clone(_editFlowRulesModal);
+                    }
                 }
             });
         };
@@ -196,7 +224,8 @@
             newVNFModal: _newVNFModal,
             editVNFModal: _editVNFModal,
             newFlowRulesModal: _newFlowRulesModal,
-            editFlowRulesModal: _editFlowRulesModal
+            editFlowRulesModal: _editFlowRulesModal,
+            bigSwitchModal: _bigSwitchModal
         };
     };
 

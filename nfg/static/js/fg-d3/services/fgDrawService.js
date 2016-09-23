@@ -5,6 +5,7 @@
     "use strict";
     /**
      * Service to draw element in the graph
+     * @param $rootScope
      * @param graphConstant The constant used in the graph directive as parameter
      * @returns {{buildEPs: _buildEPs, buildVNFs: _buildVNFs, buildBigSwitch: _buildBigSwitch, buildLink: _buildLink, buildBigSwitchLink: _buildBigSwitchLink, buildAllLink: _buildAllLink}}
      */
@@ -334,6 +335,13 @@
                         return pos.y = graph.svg.node().getBoundingClientRect().height / 2 - graphConstant.bigSwitchHeight / 2;
                 })
                 .call(graph.drag.bigSwitchDrag)
+                .on("contextmenu", function (d) {
+                    d3.event.preventDefault();
+                    var modal = graph.update.bigSwitch(bigswitch, pos);
+                    modal.result.then(function (res) {
+                        $rootScope.$broadcast("rulesUpdate", res);
+                    });
+                })
             /*.on("click", selectBS);*/
 
             //the d3 library needs an array, so the position are extracted from the object

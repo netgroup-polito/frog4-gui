@@ -11,14 +11,12 @@
     },
     "match": {
       "properties": {
-	
-	"protocol": {
+        "protocol": {
           "type": "string"
         },
-	"port_in": {
+        "port_in": {
           "type": "string"
         }
-        
       }
     },
     "actions": {
@@ -26,7 +24,7 @@
         "output": {
           "type": "string"
         },
-	"push_vlan": {
+        "push_vlan": {
           "type": "string"
         }
       }

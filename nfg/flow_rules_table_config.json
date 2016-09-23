@@ -1,0 +1,9 @@
+[
+  "id",
+  "description",
+  "priority",
+  "match:protocol",
+  "match:port_in",
+  "actions:output_to_port",
+  "actions:push_vlan"
+]
