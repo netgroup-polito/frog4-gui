@@ -236,10 +236,10 @@
         };
 
         //TO TEST
-        ctrl.configVNF = function (vnfType) {
-            vnfType = "dhcp";
+        ctrl.configVNF = function (username, vnfMac, vnfType) {
+            vnfType = "nat";
             BackendCallService.getYangModelVNF(vnfType).then(function (resultModel) {
-                BackendCallService.getStateVNF(vnfType).then(function (resultState) {
+                BackendCallService.getStateVNF(username, vnfMac, vnfType).then(function (resultState) {
 
                     ctrl.stateVNF = resultState;
                     //this function calls the open method of the modal

@@ -53,7 +53,7 @@
         //i should pass to the server the type of the vnf
         var _getYangModelVNF = function (vnfType) {
             var deferred = $q.defer();
-            var url = "temporary_config_vnf_folder/" + vnfType;
+            var url = "temporary_config_vnf_model/" + vnfType;
             $http.get(url) //get the yang model here
                 .success(function (result) {
                     deferred.resolve(result);
@@ -64,9 +64,11 @@
             return deferred.promise;
         };
 
-        var _getStateVNF = function (vnfType) {
+        var _getStateVNF = function (username, vnfMac, vnfType) {
             var deferred = $q.defer();
-            $http.get("state-dhcp-server.json") //get the state here
+            //this part must be modified when the server is ready
+            var url = "temporary_config_vnf_state/" + vnfType;
+            $http.get(url) //get the state here
                 .success(function (result) {
                     deferred.resolve(result);
                 })
@@ -82,18 +84,18 @@
                 $http.post("https://posttestserver.com/post.php", updatedStateVNF) //send data to the server here
                     .then(
                         function (data) {
-                            console.log("Post successed", data);
+                            console.log("Post successed", data.data);
                             deferred.resolve(data);
                         },
                         function (error) {
                             console.log("Post failed: ", error);
                             deferred.reject(error);
                         }
-                    )
+                    );
                 return deferred.promise;
-            };
+            }
             return deferred.promise;
-        }
+        };
 
         return {
             getAvailableGraphs: _getAvailableGraphs,
