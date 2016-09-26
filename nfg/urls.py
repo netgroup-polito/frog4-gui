@@ -5,8 +5,11 @@ from . import views
 urlpatterns = [url(r'^$', views.index, name='index'),
                url(r'^refactor$', views.refactor, name='refactor'),
                url(r'^ajax_data_request/$', views.ajax_data_request, name='ajax_data_request'),
-               url(r'^ajax_template_request/(?P<id_template>\w{0,15})/$', views.ajax_template_request,
-                   name='ajax_template_request'),
+
+               url(r'^temporary_config_vnf_model/(?P<vnf_type>dhcp|nat)$', views.temporary_config_vnf_model, name='temporary_config_vnf_model'),
+               url(r'^temporary_config_vnf_state/(?P<vnf_type>.*)$', views.temporary_config_vnf_state, name='temporary_config_vnf_state'),#it should be modified
+
+               url(r'^ajax_template_request/(?P<id_template>\w{0,15})/$', views.ajax_template_request, name='ajax_template_request'),
                url(r'^login/$', views.login, name='login'),
                url(r'^logout/$', views.logout, name='logout'),
                url(r'^ajax_upload_request/$', views.ajax_upload_request, name='ajax_upload_request'),

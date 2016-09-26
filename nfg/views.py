@@ -732,3 +732,58 @@ def api_get_vnf_templates(request):
     else:
         return HttpResponse(status=501)
 
+#added by riccardo - these two function must be modified when the server is ready
+def temporary_config_vnf_model(request, vnf_type):
+    if request.method == "GET":
+        if vnf_type == "dhcp":
+
+            try:
+                with open('/Users/riccardodiomedi/Desktop/config-dhcp-server.json') as config_file:
+                    data = json.load(config_file)
+                    return HttpResponse("%s" % json.dumps(data), status=200, content_type="application/json")
+            except IOError as err:
+                logging.error(err.message)
+                return HttpResponse(status=404)
+
+        elif vnf_type == "firewall":
+            pass
+        elif vnf_type == "nat":
+            try:
+                with open('/Users/riccardodiomedi/Desktop/config-nat.json') as config_file:
+                    data = json.load(config_file)
+                    return HttpResponse("%s" % json.dumps(data), status=200, content_type="application/json")
+            except IOError as err:
+                logging.error(err.message)
+                return HttpResponse(status=404)
+        else:
+            return HttpResponse(status=501)
+    else:
+        return HttpResponse(status=501)
+
+def temporary_config_vnf_state(request, vnf_type):
+    if request.method == "GET":
+        if vnf_type == "dhcp":
+
+            try:
+                with open('/Users/riccardodiomedi/Desktop/default_configuration-dhcp-server2.json') as config_file:
+                    data = json.load(config_file)
+                    return HttpResponse("%s" % json.dumps(data), status=200, content_type="application/json")
+            except IOError as err:
+                logging.error(err.message)
+                return HttpResponse(status=404)
+
+        elif vnf_type == "firewall":
+            pass
+        elif vnf_type == "nat":
+            try:
+                with open('/Users/riccardodiomedi/Desktop/default_configuration-nat.json') as config_file:
+                    data = json.load(config_file)
+                    return HttpResponse("%s" % json.dumps(data), status=200, content_type="application/json")
+            except IOError as err:
+                logging.error(err.message)
+                return HttpResponse(status=404)
+        else:
+            return HttpResponse(status=501)
+    else:
+        return HttpResponse(status=501)
+
