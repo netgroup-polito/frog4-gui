@@ -8,7 +8,6 @@
      * @param $uibModalInstance The instance of the modal which load the controller
      * @param fgConst
      * @param fg
-     * @param fgPos
      * @param schema
      * @param elements
      */
@@ -120,8 +119,10 @@
         /**
          * Function used to save all the modification after modal is closed
          */
-        ctrl.save = function () {
-            $uibModalInstance.close();
+        ctrl.save = function (form) {
+            if (form.$valid) {
+                $uibModalInstance.close({elem: ctrl.fgElem});
+            }
         };
     };
 

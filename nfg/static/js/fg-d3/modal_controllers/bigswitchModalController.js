@@ -75,6 +75,15 @@
 
         ctrl.editRule = function (rule) {
             var modal = editFlowRulesModal(rule, schema);
+            modal.result.then(function (result) {
+                var elem = result.elem;
+                for(var i = 0; i < ctrl.flowRules.length; i++){
+                    if(ctrl.flowRules[i].id == elem.id){
+                        ctrl.flowRules[i] = elem;
+                        break;
+                    }
+                }
+            });
         };
 
         /**
@@ -86,24 +95,9 @@
         /**
          * Function used to save all the modification after modal is closed
          */
-        ctrl.save = function (form) {
+        ctrl.save = function () {
             //validazione e controllo
-            if (form.$valid) {
-                /* for (var i = 0; i < ctrl.EPSchema.properties['type'].enum.length; i++) {
-                 if (ctrl.fgElem.type != ctrl.EPSchema.properties['type'].enum[i]) {
-                 // emptying field not belonging to selected endpoint-type
-                 ctrl.fgElem[ctrl.EPSchema.properties['type'].enum[i]] = undefined;
-                 }
-                 }
-
-                 ctrl.fgPosElem.ref = "end-point";
-                 ctrl.fgPosElem.id = ctrl.fgElem.id;                      // id unique between end points
-                 ctrl.fgPosElem.full_id = "endpoint:" + ctrl.fgElem.id;   // id unique across all elements
-                 ctrl.fgPosElem.isLinked = false;
-
-                 $uibModalInstance.close({elem: ctrl.fgElem, pos: ctrl.fgPosElem});
-                 */
-            }
+            $uibModalInstance.close({rules: ctrl.flowRules});
         };
     };
     bigSwitchModalController.$inject = ['$uibModalInstance', 'fg', 'fgPos', 'schema', 'config', 'editFlowRulesModal'];

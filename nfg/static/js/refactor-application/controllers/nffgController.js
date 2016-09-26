@@ -227,7 +227,7 @@
                 ctrl.fgPos["end-points"][res.pos.id] = res.pos;
                 ctrl.fgPos["big-switch"].interfaces[res.pos.full_id] = {
                     ref: "BS_interface",
-                    id: res.pos.full_id,         // use the same id to match them during graph build
+                    full_id: res.pos.full_id,         // use the same id to match them during graph build
                     parent_ep_id: res.pos.id     // id of the endpoint
                 };
 
@@ -252,7 +252,7 @@
                         // adding information ( some may be deleted because unused)
                         ctrl.fgPos["big-switch"].interfaces[port.full_id] = {
                             ref: "BS_interface",
-                            id: port.full_id,                   // use the same id to match them during graph build
+                            full_id: port.full_id,                   // use the same id to match them during graph build
                             parent_vnf_id: port.parent_vnf_id,  // vnf of the port
                             parent_vnf_port: port.id            // id of the port
                         }
@@ -398,8 +398,9 @@
             for (; ctrl.fg["VNFs"][i].id != res.elem.id; i++);
             ctrl.fg["VNFs"][i] = res.elem;
         });
-        $rootScope.$on("flowRuleUpdated", function (event, res) {
-
+        $rootScope.$on("flowRulesUpdated", function (event, res) {
+            ctrl.fgPos["big-switch"]["flow-rules"] = InitializationService.initFlowRulesLink(res.rules);
+            ctrl.fg["big-switch"]["flow-rules"] = res.rules;
         });
     };
 

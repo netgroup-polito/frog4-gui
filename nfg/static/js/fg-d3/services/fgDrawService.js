@@ -7,7 +7,7 @@
      * Service to draw element in the graph
      * @param $rootScope
      * @param graphConstant The constant used in the graph directive as parameter
-     * @returns {{buildEPs: _buildEPs, buildVNFs: _buildVNFs, buildBigSwitch: _buildBigSwitch, buildLink: _buildLink, buildBigSwitchLink: _buildBigSwitchLink, buildAllLink: _buildAllLink}}
+     * @returns {{buildEPs: _buildEPs, buildVNFs: _buildVNFs, buildBigSwitch: _buildBigSwitch, buildLink: _buildLink, buildBigSwitchLink: _buildBigSwitchLink, buildAllLink: _buildAllLink, buildToolTip: _BuildToolTip}}
      */
     var fgDrawService = function ($rootScope, graphConstant) {
         /**
@@ -339,7 +339,7 @@
                     d3.event.preventDefault();
                     var modal = graph.update.bigSwitch(bigswitch, pos);
                     modal.result.then(function (res) {
-                        $rootScope.$broadcast("rulesUpdate", res);
+                        $rootScope.$broadcast("flowRulesUpdated ", res);
                     });
                 })
             /*.on("click", selectBS);*/
@@ -446,7 +446,7 @@
                     return "fr-" + d.origin + ";" + d.destination;    //id of the element
                 })
                 .attr("title", function (d) {
-                    return "Source: " + d.origin + " Action: " + d.destination;  //title of the element, used to display tips
+                    return "Source: " + d.origin + " Destination: " + d.destination;  //title of the element, used to display tips
                 })
                 .attr("x1", function (d) {
                     return parseInt(d["origin-x"]);// origin x
@@ -597,13 +597,42 @@
             _buildBigSwitchLink(pos, graph);
         }
 
+        /**
+         * Function used to draw all the tooltip
+         * @private
+         */
+        function _BuildToolTip() {
+            $(".tooltip").remove();
+
+            $(".end-points").tooltip({
+                'container': 'body',
+                'placement': 'top'
+            });
+
+            $(".line").tooltip({
+                'container': 'body',
+                'placement': 'top'
+            });
+
+            $(".menu").tooltip({
+                'container': 'body',
+                'placement': 'top'
+            });
+
+            $(".interface").tooltip({
+                'container': 'body',
+                'placement': 'top'
+            });
+        }
+
         return {
             buildEPs: _buildEPs,
             buildVNFs: _buildVNFs,
             buildBigSwitch: _buildBigSwitch,
             buildLink: _buildLink,
             buildBigSwitchLink: _buildBigSwitchLink,
-            buildAllLink: _buildAllLink
+            buildAllLink: _buildAllLink,
+            buildToolTip: _BuildToolTip
         }
     };
     fgDrawService.$inject = ['$rootScope', 'graphConstant'];

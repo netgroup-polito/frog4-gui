@@ -331,6 +331,8 @@
                     // if big-switch and flow-rules exists (should not happen in the json is valid)
                     if (fg["big-switch"] && fg["big-switch"]["flow-rules"])
                         fgDrawService.buildAllLink(fgPos, ctrl.graph);
+                    // drawing all tooltip
+                    fgDrawService.buildToolTip();
                 };
                 /**
                  * Function that clear the graph
