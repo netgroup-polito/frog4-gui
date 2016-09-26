@@ -190,13 +190,33 @@
             });
         };
 
+        //TO TEST
+        var _configVNFModal = function (vnfModel, vnfState) {
+            return $uibModal.open({
+                animation: false,
+                templateUrl: '/static/js/fg-d3/modal_view/vnfConfigModalView.html',
+                controller: 'ConfigVNFModalController',
+                controllerAs: 'ConfigVNFCtrl',
+                size: 'lg',
+                resolve: {
+                    model: function () {
+                        return clone(vnfModel);
+                    },
+                    state: function () {
+                        return clone(vnfState);
+                    }
+                }
+            });
+        };
+
         return {
             newEndpointModal: _newEndpointModal,
             editEndpointModal: _editEndpointModal,
             newVNFModal: _newVNFModal,
             editVNFModal: _editVNFModal,
             newFlowRulesModal: _newFlowRulesModal,
-            editFlowRulesModal: _editFlowRulesModal
+            editFlowRulesModal: _editFlowRulesModal,
+            configVNFModal: _configVNFModal
         };
     };
 

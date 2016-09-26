@@ -235,9 +235,50 @@
             });
         };
 
+        //TO TEST
+        ctrl.configVNF = function (vnfType) {
+            BackendCallService.getYangModelVNF(vnfType).then(function (resultModel) {
+                BackendCallService.getStateVNF(vnfType).then(function (resultState) {
+                    ctrl.stateVNF = resultState.state;
+                    //this function calls the open method of the modal
+                    var confVNFModal = FgModalService.configVNFModal(resultModel.model, resultState.state);
+
+                    //I need to save into a variable scope the state received from the server
+                    //somthing like: ctrl.stateVNF
+
+                    confVNFModal.result.then(function (updatedStateVNF) {
+                        //i send the post iff the state of the vnf is changed
+                        if (!angular.equals(ctrl.stateVNF, updatedStateVNF)) {
+                            $http.post("https://posttestserver.com/post.php", newState) //send data to the server here
+                                .then(
+                                    function (data, status) {
+                                       console.log("Post successed", data, status);
+                                        ctrl.stateVNF = updatedStateVNF;
+                                        //manca questa libreria
+                                        //swal({title: "Changes saved!", timer: 1000, showConfirmButton: false });
+                                    },
+                                    function (error) {
+                                        console.log("Post failed: ", error);
+                                    }
+                                )
+                        };
+                    }, function (error) {//function called when 'cancel' has been pressed in the modal
+                        console.log("Config VNF Modal has been closed: ", error);
+                    });
+
+                }, function (error) {
+                    console.log("BackendCallService.getStateVNF() failed:", error);
+                    //TODO: mostrare errore
+                });
+            }, function (error) {
+                console.log("BackendCallService.getYangModelVNF() failed:", error);
+                //TODO: mostrare errore
+            });
+
+        };
+
         ctrl.newVNF = function () {
             BackendCallService.getTemplates().then(function (result) {
-
                 var epModal = FgModalService.newVNFModal(ctrl.fg, ctrl.fgPos, ctrl.schema, result.templates);
 
                 epModal.result.then(function (res) {
@@ -396,6 +437,7 @@
         $rootScope.$on("flowRuleUpdated", function (event, res) {
 
         });
+
     };
 
     NFFGController.$inject = ['$rootScope', '$scope', 'BackendCallService', '$uibModal', 'dialogs', 'graphConstant', 'forwardingGraphConstant', 'InitializationService', "FgModalService"];

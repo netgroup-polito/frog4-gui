@@ -48,10 +48,39 @@
             return deferred.promise;
         };
 
+        //TO TEST
+        //understanding whether it's possible to make a single GET and retrieve the two files(state and model of vnf)
+        //i should pass to the server the type of the vnf
+        var _getYangModelVNF = function (vnfType) {
+            var deferred = $q.defer();
+            $http.get("config-dhcp-server.json") //get the yang model here
+                .success(function (result) {
+                    deferred.resolve(result);
+                })
+                .error(function (err) {
+                    deferred.reject(err);
+                });
+            return deferred.promise;
+        };
+
+        var _getStateVNF = function (vnfType) {
+            var deferred = $q.defer();
+            $http.get("state-dhcp-server.json") //get the state here
+                .success(function (result) {
+                    deferred.resolve(result);
+                })
+                .error(function (err) {
+                    deferred.reject(err);
+                });
+            return deferred.promise;
+        };
+
         return {
             getAvailableGraphs: _getAvailableGraphs,
             getJSONSchema: _getJSONSchema,
-            getTemplates: _getTemplates
+            getTemplates: _getTemplates,
+            getYangModelVNF: _getYangModelVNF,
+            getStateVNF: _getStateVNF
         };
     };
 

@@ -1,0 +1,7 @@
+<!--<pre>{{listModel}}</pre><br>
+<pre>{{listStateObject}}</pre><br>-->
+<div ng-repeat="el in listStateObject"> <!--listObject è una lista di oggetti-->
+    <h4>{{listModel['@name']}}[{{$index}}]</h4>
+    <leaf ng-repeat="le in listModel.leaf" leaf-object="le" state-object="el"></leaf>
+    <br>
+</div>

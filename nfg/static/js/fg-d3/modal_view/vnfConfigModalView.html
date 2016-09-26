@@ -1,0 +1,22 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <!--<h3 class="modal-title" id="modal-title">{{$ctrl.model['@name'].replace("-", " ").replace("-", " ") | capitalize:true}}</h3>-->
+        <h3 class="modal-title" id="modal-title">{{ConfigVNFCtrl.model['@name']}}</h3>
+        <hr>
+        <h4>{{ConfigVNFCtrl.model.description.text}}</h4>
+    </div>
+    <div class="modal-body" id="modal-body">
+			<span ng-if="ConfigVNFCtrl.isArray(ConfigVNFCtrl.model.container)">
+				<container ng-repeat="el in ConfigVNFCtrl.model.container" container-object="el"
+                           container-state-object="ConfigVNFCtrl.myFunction(el['@name'])"></container>
+			</span>
+        <span ng-if="!ConfigVNFCtrl.isArray(ConfigVNFCtrl.model.container)">
+				<container container-object="ConfigVNFCtrl.model.container"
+                           container-state-object="ConfigVNFCtrl.myFunction(ConfigVNFCtrl.model.container['@name'])"></container>
+			</span>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" type="button" ng-click="ConfigVNFCtrl.ok()">OK</button>
+        <button class="btn btn-warning" type="button" ng-click="ConfigVNFCtrl.cancel()">Cancel</button>
+    </div>
+</div>
