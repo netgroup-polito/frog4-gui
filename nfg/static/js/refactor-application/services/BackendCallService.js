@@ -53,7 +53,8 @@
         //i should pass to the server the type of the vnf
         var _getYangModelVNF = function (vnfType) {
             var deferred = $q.defer();
-            $http.get("config-dhcp-server.json") //get the yang model here
+            var url = "temporary_config_vnf_folder/" + vnfType;
+            $http.get(url) //get the yang model here
                 .success(function (result) {
                     deferred.resolve(result);
                 })
@@ -75,12 +76,32 @@
             return deferred.promise;
         };
 
+        var _postStateVNF = function (oldstateVNF, updatedStateVNF) {
+            var deferred = $q.defer();
+            if (!angular.equals(oldstateVNF, updatedStateVNF)) {
+                $http.post("https://posttestserver.com/post.php", updatedStateVNF) //send data to the server here
+                    .then(
+                        function (data) {
+                            console.log("Post successed", data);
+                            deferred.resolve(data);
+                        },
+                        function (error) {
+                            console.log("Post failed: ", error);
+                            deferred.reject(error);
+                        }
+                    )
+                return deferred.promise;
+            };
+            return deferred.promise;
+        }
+
         return {
             getAvailableGraphs: _getAvailableGraphs,
             getJSONSchema: _getJSONSchema,
             getTemplates: _getTemplates,
             getYangModelVNF: _getYangModelVNF,
-            getStateVNF: _getStateVNF
+            getStateVNF: _getStateVNF,
+            postStateVNF: _postStateVNF
         };
     };
 

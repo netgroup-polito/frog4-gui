@@ -2,6 +2,13 @@
  * Created by riccardodiomedi on 23/09/16.
  */
 (function () {
+    'use strict';
+    /**
+     * Modal controller in order to configure the VNF
+     * @param $uibModalInstance
+     * @param model
+     * @param state
+     */
     var vnfConfigModalController = function ($uibModalInstance, model, state) {
         var ctrl = this;
         //in order to have the 'isArray' function of angular within the template
@@ -9,9 +16,13 @@
 
         //i need to copy the state in order to modify a copy of it and not the original
         ctrl.model = model;
-        ctrl.state = angular.copy(state);
+        ctrl.state = state;
+
+        console.log("ctrl.model", ctrl.model);
+        console.log("ctrl.state", ctrl.state);
 
         ctrl.ok = function () {
+            console.log("ok", ctrl.state);
             $uibModalInstance.close(ctrl.state);
         };
         ctrl.cancel = function () {

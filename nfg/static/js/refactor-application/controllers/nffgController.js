@@ -237,31 +237,30 @@
 
         //TO TEST
         ctrl.configVNF = function (vnfType) {
+            vnfType = "dhcp";
             BackendCallService.getYangModelVNF(vnfType).then(function (resultModel) {
                 BackendCallService.getStateVNF(vnfType).then(function (resultState) {
-                    ctrl.stateVNF = resultState.state;
+
+                    ctrl.stateVNF = resultState;
                     //this function calls the open method of the modal
-                    var confVNFModal = FgModalService.configVNFModal(resultModel.model, resultState.state);
+                    var confVNFModal = FgModalService.configVNFModal(resultModel, resultState);
 
                     //I need to save into a variable scope the state received from the server
                     //somthing like: ctrl.stateVNF
 
                     confVNFModal.result.then(function (updatedStateVNF) {
+                        //if you are here means that user clicked 'ok'
                         //i send the post iff the state of the vnf is changed
-                        if (!angular.equals(ctrl.stateVNF, updatedStateVNF)) {
-                            $http.post("https://posttestserver.com/post.php", newState) //send data to the server here
-                                .then(
-                                    function (data, status) {
-                                       console.log("Post successed", data, status);
-                                        ctrl.stateVNF = updatedStateVNF;
-                                        //manca questa libreria
-                                        //swal({title: "Changes saved!", timer: 1000, showConfirmButton: false });
-                                    },
-                                    function (error) {
-                                        console.log("Post failed: ", error);
-                                    }
-                                )
-                        };
+                        console.log("updatedStateVNF", updatedStateVNF);
+                        BackendCallService.postStateVNF(ctrl.stateVNF, updatedStateVNF).then(function (resultPost) {
+                            console.log("resultPost", resultPost);
+                            ctrl.stateVNF = updatedStateVNF;
+                            console.log("ctrl.stateVNF", ctrl.stateVNF);
+                            //swal({title: "Changes saved!", timer: 1000, showConfirmButton: false });
+                        }, function (error) {
+                            console.log("BackendCallService.postStateVNF() failed:", error);
+                            //TODO: mostrare errore
+                        });
                     }, function (error) {//function called when 'cancel' has been pressed in the modal
                         console.log("Config VNF Modal has been closed: ", error);
                     });
