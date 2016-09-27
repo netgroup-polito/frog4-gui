@@ -53,7 +53,14 @@
         //i should pass to the server the type of the vnf
         var _getYangModelVNF = function (vnfType) {
             var deferred = $q.defer();
-            var url = "temporary_config_vnf_model/" + vnfType;
+            if (vnfType == "dhcp") {
+                var url = "status/get_vnf_model/dhcp_cfg";
+            } else if (vnfType == "nat") {
+                var url = "status/get_vnf_model/nat_cfg";
+            } else {
+                return;
+            }
+            //var url = "temporary_config_vnf_model/" + vnfType;
             $http.get(url) //get the yang model here
                 .success(function (result) {
                     deferred.resolve(result);
@@ -64,10 +71,12 @@
             return deferred.promise;
         };
 
-        var _getStateVNF = function (username, vnfMac, vnfType) {
+        var _getStateVNF = function (vnfMac, username) {
+            //some input controller put here
+            var url = "configure/get_vnf_state/" + vnfMac + "/user/" + username;
             var deferred = $q.defer();
             //this part must be modified when the server is ready
-            var url = "temporary_config_vnf_state/" + vnfType;
+            //var url = "temporary_config_vnf_state/" + vnfType;
             $http.get(url) //get the state here
                 .success(function (result) {
                     deferred.resolve(result);
@@ -78,22 +87,20 @@
             return deferred.promise;
         };
 
-        var _postStateVNF = function (oldstateVNF, updatedStateVNF) {
+        var _postStateVNF = function (vnfMac, username, updatedStateVNF) {
             var deferred = $q.defer();
-            if (!angular.equals(oldstateVNF, updatedStateVNF)) {
-                $http.post("https://posttestserver.com/post.php", updatedStateVNF) //send data to the server here
-                    .then(
-                        function (data) {
-                            console.log("Post successed", data.data);
-                            deferred.resolve(data);
-                        },
-                        function (error) {
-                            console.log("Post failed: ", error);
-                            deferred.reject(error);
-                        }
-                    );
-                return deferred.promise;
-            }
+            var url = "configure/put_vnf_updated_state/" + vnfMac + "/user/" + username;
+            $http.put(url, updatedStateVNF) //send data to the server here
+                .then(
+                    function (data) {
+                        console.log("Post successed", data);
+                        deferred.resolve(data);
+                    },
+                    function (error) {
+                        console.log("Post failed: ", error);
+                        deferred.reject(error);
+                    }
+                );
             return deferred.promise;
         };
 
