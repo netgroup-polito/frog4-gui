@@ -235,11 +235,11 @@
             });
         };
 
-        //TO TEST
-        ctrl.configVNF = function (username, vnfMac, vnfType) {
-            vnfType = "nat";
+        ctrl.configVNF = function (vnfType, vnfMac, username) {
+            console.log(vnfType, vnfMac);
+            //vnfType = "nat";
             username = "davide";
-            vnfMac = "52:54:00:3e:28:86"; //nat state
+            //vnfMac = "52:54:00:3e:28:86"; //nat state
             //vnfMac = "52:54:00:fc:92:6e"; //dhcp state
             BackendCallService.getYangModelVNF(vnfType).then(function (resultModel) {
                 BackendCallService.getStateVNF(vnfMac, username).then(function (resultState) {
@@ -281,12 +281,22 @@
 
         };
 
+        ctrl.configurableVNFs = function (elem) {
+            if (elem.id != ("dhcp") && elem.id != ("nat")) {
+                return false;
+            }
+            if (!elem.ports[0].trusted) {
+                return false;
+            }
+            return true;
+        };
+
         ctrl.newVNF = function () {
             BackendCallService.getTemplates().then(function (result) {
                 var epModal = FgModalService.newVNFModal(ctrl.fg, ctrl.fgPos, ctrl.schema, result.templates);
 
                 epModal.result.then(function (res) {
-                    //
+                    console.log(res);
                     console.log(JSON.stringify(res));
                     //copiare la pos e copiare l'EP
                     ctrl.fgPos["VNFs"][res.pos.id] = res.pos;

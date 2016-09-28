@@ -18,9 +18,6 @@
         ctrl.model = model;
         ctrl.state = state;
 
-        console.log("ctrl.model", ctrl.model);
-        console.log("ctrl.state", ctrl.state);
-
         ctrl.ok = function () {
             console.log("ok", ctrl.state);
             $uibModalInstance.close(ctrl.state);
