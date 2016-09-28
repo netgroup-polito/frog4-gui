@@ -29,20 +29,15 @@ class ModelStateVNFManager:
 			# t=json.loads(response.content)["list"]
 			return {"status": response.status_code,
 					"state": json.loads(response.content)}
-		else:  # todo: gestione errori comuni
+		else: # todo: gestione errori comuni
 			return {"status": response.status_code, "error": "Unknown Error"}
 
-	def put_vnf_updated_state(self, mac_address, username, data):
-		headers = {'Content-type': 'application/json'}
+	def put_vnf_updated_state(self, mac_address, username, data, token):
+		headers = {'Content-type': 'application/json', 'X-Auth-Token': token}
 		path = "configure/" + mac_address + "/user/" + username;
 		response = requests.put(self.un_protocol + '://' + self.un_host + ':' + self.un_port + '/' + self.base_path + path, data=data, headers=headers)
 		print response
 		if response.status_code == 200:
-			print response
-			print response.headers['content-type']
-			if response.headers['content-type'] == 'application/token':
-				return {"status": response.status_code, "token": response.content}
-			else:
-				return {"status": response.status_code, "error": "No Token in the Response"}
-		else:
+			return {"status": response.status_code}
+		else: # todo: gestione errori comuni
 			return {"status": response.status_code, "error": "Unknown Error"}

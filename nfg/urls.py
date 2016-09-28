@@ -6,9 +6,6 @@ urlpatterns = [url(r'^$', views.index, name='index'),
                url(r'^refactor$', views.refactor, name='refactor'),
                url(r'^ajax_data_request/$', views.ajax_data_request, name='ajax_data_request'),
 
-               url(r'^temporary_config_vnf_model/(?P<vnf_type>dhcp|nat)$', views.temporary_config_vnf_model, name='temporary_config_vnf_model'),
-               url(r'^temporary_config_vnf_state/(?P<vnf_type>.*)$', views.temporary_config_vnf_state, name='temporary_config_vnf_state'),#it should be modified
-
                url(r'^status/get_vnf_model/(?P<vnf_type>dhcp_cfg|nat_cfg)$', views.status_get_vnf_model, name='status_get_vnf_model'),
                url(r'^configure/get_vnf_state/(?P<mac_address>([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2}))/user/(?P<username>.*)$', views.configure_get_vnf_state, name='configure_get_vnf_state'),
                url(r'^configure/put_vnf_updated_state/(?P<mac_address>([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2}))/user/(?P<username>.*)$', views.configure_put_vnf_updated_state, name='configure_put_vnf_updated_state'),
