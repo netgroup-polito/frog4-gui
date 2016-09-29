@@ -348,5 +348,6 @@ html {
     color: #a94442;
 }
 
-
-
+.unselectable {
+    cursor: default;
+}

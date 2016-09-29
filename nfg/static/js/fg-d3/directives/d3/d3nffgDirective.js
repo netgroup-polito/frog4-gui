@@ -83,9 +83,7 @@
                     var bigSwitch_section = d3Service.addSection(svg, "bigSwitch_section");
                     // define a section of the graph containing all the VNF
                     var VNF_section = d3Service.addSection(svg, "VNF_section");
-                    // define a section of the graph containing all the VNF text
-                    var VNF_text_section = d3Service.addSection(svg, "VNF_text_section");
-                    // define a section of the graph containing all the connection
+                   // define a section of the graph containing all the connection
                     var connection_section = d3Service.addSection(svg, "connection_section");
                     // define a section of the graph containing all interface and EndPoint
                     var interface_section = d3Service.addSection(svg, "interface_section");
@@ -101,16 +99,6 @@
                             "height": graphConstant.vnfHeigth,
                             "class": "nf"
                         });
-                    // adding a graph definition for the vnf selected (to be substituted)
-                    d3Service.addSimpleDefinition(
-                        definitions_section,
-                        "rect",
-                        {
-                            "id": "VNF_selected",
-                            "width": graphConstant.vnfWidth,
-                            "height": graphConstant.vnfHeigth,
-                            "class": "nf-select"
-                        });
                     // adding a graph definition for the big-switch
                     d3Service.addSimpleDefinition(
                         definitions_section,
@@ -119,19 +107,9 @@
                             "id": "BIG_SWITCH",
                             "width": graphConstant.bigSwitchWidth,
                             "height": graphConstant.bigSwitchHeight,
-                            "class": "big-switch"
+                            "class": "bs"
                         });
-                    // adding a graph definition for the big-switch selected (to be substituted)
-                    d3Service.addSimpleDefinition(
-                        definitions_section,
-                        "rect",
-                        {
-                            "id": "BIG_SWITCH_selected",
-                            "width": graphConstant.bigSwitchWidth,
-                            "height": graphConstant.bigSwitchHeight,
-                            "class": "big-switch-select"
-                        });
-                    // adding a graph definition for the big-switch selected (to be substituted)
+                    // adding a graph definition for the host icon
                     d3Service.addNestedDefinition(
                         definitions_section,
                         "pattern",
@@ -152,6 +130,26 @@
                             ]
                         });
 
+                    // adding a graph definition for the internet icon
+                    d3Service.addNestedDefinition(
+                        definitions_section,
+                        "pattern",
+                        {
+                            "id": "internet-icon",
+                            "width": 1,
+                            "height": 1,
+                            "patternContentUnits": "objectBoundingBox",
+                            "children": [
+                                {
+                                    "type": "svg:image",
+                                    "xlink:href": "/static/img/internet-blue.png",
+                                    //"/static/img/icon-pc.png",
+                                    "width": "1",
+                                    "height": "1",
+                                    "preserveAspectRatio": "xMinYMin slice"
+                                }
+                            ]
+                        });
 
                     // adding a nested definition for the arrow used for endpoints
                     d3Service.addNestedDefinition(
@@ -201,7 +199,6 @@
                         bigSwitch: bigSwitch_section,
                         interfaces: interface_section,
                         vnfs: VNF_section,
-                        vnfsText: VNF_text_section,
                         connections: connection_section,
                         showBigSwitch: $scope.showBigSwitch ? true : false
                     };
@@ -341,7 +338,6 @@
                     ctrl.graph.bigSwitch.selectAll("*").remove();
                     ctrl.graph.interfaces.selectAll("*").remove();
                     ctrl.graph.vnfs.selectAll("*").remove();
-                    ctrl.graph.vnfsText.selectAll("*").remove();
                     ctrl.graph.connections.selectAll("*").remove();
                 };
                 /**
