@@ -724,6 +724,19 @@ def api_get_json_schema(request):
         return HttpResponse(status=501)
 
 
+def api_get_fr_table_config(request):
+    if request.method == "GET":
+        try:
+            with open('nfg/flow_rules_table_config.json') as data_file:
+                data = json.load(data_file)
+            return HttpResponse("%s" % json.dumps(data), status=200, content_type="application/json")
+        except IOError as err:
+            logging.error(err.message)
+            return HttpResponse(status=404)
+    else:
+        return HttpResponse(status=501)
+
+
 def api_get_vnf_templates(request):
     if request.method == "GET":
         if "token" in request.session:
