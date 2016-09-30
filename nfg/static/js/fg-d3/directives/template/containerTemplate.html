@@ -3,24 +3,24 @@
 <uib-accordion>
     <div ng-switch="checkArray(containerObject)">
         <div ng-switch-when="true">
-            <container ng-repeat="el in containerObject" container-object="el" container-state-object="containerStateObject[el['@name']]"></container>
+            <container ng-repeat="el in containerObject" level="level+1" container-object="el" container-state-object="containerStateObject[el['@name']]"></container>
         </div>
         <div ng-switch-when="false">
-            <div uib-accordion-group class="panel-default" is-open="panel.open" is-disabled="false" ng-click="open = !panel.open">
+            <div uib-accordion-group ng-style="style" class="panel-default" is-open="panel.open" is-disabled="false" ng-click="open = !panel.open">
                 <uib-accordion-heading>
                     {{containerObject['@name']}}
                     <i class="pull-right glyphicon" ng-class="{'glyphicon glyphicon-minus': panel.open, 'glyphicon glyphicon-plus': !panel.open}"></i>
                 </uib-accordion-heading>
                 <span ng-if="containerObject.hasOwnProperty('container')">
 					<span ng-if="checkArray(containerObject.container)">
-						<container container-object="containerObject.container" container-state-object="containerStateObject"></container>
+						<container level="level+1" container-object="containerObject.container" container-state-object="containerStateObject"></container>
 					</span>
 					<span ng-if="!checkArray(containerObject.container)">
-						<container container-object="containerObject.container" container-state-object="containerStateObject[containerObject.container['@name']]"></container>
+						<container level="level+1" container-object="containerObject.container" container-state-object="containerStateObject[containerObject.container['@name']]"></container>
 					</span>
 				</span>
                 <list list-state-object="containerStateObject[containerObject.list['@name']]" list-model="containerObject.list"></list>
-                <leaf ng-repeat="le in containerObject.leaf" leaf-object="le" state-object="containerStateObject"></leaf>
+                <leaf class="col-sm-12" ng-repeat="le in containerObject.leaf" leaf-object="le" state-object="containerStateObject"></leaf>
             </div>
         </div>
     </div>

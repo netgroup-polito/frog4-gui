@@ -134,7 +134,7 @@ def login(request):
             # todo: sostituire con un valore sensato ( 300 = 5 Min)
             request.session.set_expiry(0)
 
-            return HttpResponseRedirect("/")
+            return HttpResponseRedirect("/refactor")
         else:
             logging.info("%s : %s", str(result["status"]), result["error"])
             if result["status"] == 403:
