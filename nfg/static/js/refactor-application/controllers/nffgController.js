@@ -399,7 +399,7 @@
         $rootScope.$on("epUpdated", function (event, res) {
             ctrl.fgPos["end-points"][res.pos.id] = res.pos;
             var i = 0;
-            for (; i < ctrl.fg["end-points"][i].id == res.elem.id; i++);
+            for (; ctrl.fg["end-points"][i].id != res.elem.id; i++);
             ctrl.fg["end-points"][i] = res.elem;
         });
         $rootScope.$on("vnfUpdated", function (event, res) {
