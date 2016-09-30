@@ -796,27 +796,34 @@
          * @private
          */
         function _BuildToolTip() {
-            $(".tooltip").remove();
 
-            $(".end-points").tooltip({
-                'container': 'body',
-                'placement': 'top'
-            });
+            $(".end-points")
+                .data('bs.tooltip', false)
+                .tooltip({
+                    'container': 'body',
+                    'placement': 'top'
+                });
 
-            $(".line").tooltip({
-                'container': 'body',
-                'placement': 'top'
-            });
+            $(".line")
+                .data('bs.tooltip', false)
+                .tooltip({
+                    'container': 'body',
+                    'placement': 'top'
+                });
 
-            $(".menu").tooltip({
-                'container': 'body',
-                'placement': 'top'
-            });
+            $(".menu")
+                .data('bs.tooltip', false)
+                .tooltip({
+                    'container': 'body',
+                    'placement': 'top'
+                });
 
-            $(".interface").tooltip({
-                'container': 'body',
-                'placement': 'top'
-            });
+            $(".interface")
+                .data('bs.tooltip', false)
+                .tooltip({
+                    'container': 'body',
+                    'placement': 'top'
+                });
         }
 
         return {
