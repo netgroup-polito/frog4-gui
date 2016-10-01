@@ -32,7 +32,11 @@
         //i don't know if it's more correct to use model or ctrl.model (the same for state)
         ctrl.myFunction = function (val) {
             var nameExternalContainer = model['@name'] + ":" + val; //accrocchio
-            return state[nameExternalContainer];
+            return ctrl.state[nameExternalContainer];
+        };
+
+        ctrl.showContent = function($fileContent){
+            ctrl.state = JSON.parse($fileContent);
         };
     };
     vnfConfigModalController.$inject = ['$uibModalInstance', 'model', 'state'];

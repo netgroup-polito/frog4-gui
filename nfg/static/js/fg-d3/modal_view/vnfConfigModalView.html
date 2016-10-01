@@ -1,5 +1,6 @@
 <div class="modal-content">
     <div class="modal-header">
+        <button class="close" type="button" aria-hidden="true" ng-click="ConfigVNFCtrl.cancel()">×</button>
         <!--<h3 class="modal-title" id="modal-title">{{$ctrl.model['@name'].replace("-", " ").replace("-", " ") | capitalize:true}}</h3>-->
         <h3 class="modal-title" id="modal-title">{{ConfigVNFCtrl.model['@name']}}</h3>
         <hr>
@@ -17,6 +18,8 @@
     </div>
     <div class="modal-footer">
         <button class="btn btn-primary" type="button" ng-click="ConfigVNFCtrl.ok()">OK</button>
-        <button class="btn btn-warning" type="button" ng-click="ConfigVNFCtrl.cancel()">Cancel</button>
+        <label class="btn btn-default btn-file">
+            Browse <input type="file" on-read-file="ConfigVNFCtrl.showContent($fileContent)" style="display: none;">
+        </label>
     </div>
 </div>
