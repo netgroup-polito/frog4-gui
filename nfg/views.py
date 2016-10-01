@@ -735,7 +735,7 @@ def api_get_vnf_templates(request):
     else:
         return HttpResponse(status=501)
 
-#added by riccardo - these two function must be modified when the server is ready
+#added by riccardo
 def status_get_vnf_model(request, vnf_type):
     print request
     print vnf_type

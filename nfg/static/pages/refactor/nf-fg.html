@@ -98,7 +98,7 @@
 
                 <div class="btn-group" uib-dropdown is-open="false" ng-if="NFFGCtrl.fg['VNFs'].length > 0">
                     <button id="single-button" type="button" class="menu btn btn-default btn-lg" uib-dropdown-toggle ng-disabled="disabled">
-                        VNF Config <span class="caret"></span>
+                        <i class="fa fa-wrench" aria-hidden="true"></i>
                     </button>
                     <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
                         <li role="menuitem" ng-repeat="el in NFFGCtrl.fg['VNFs']" ng-if="NFFGCtrl.configurableVNFs(el)">

@@ -53,14 +53,14 @@
         //i should pass to the server the type of the vnf
         var _getYangModelVNF = function (vnfType) {
             var deferred = $q.defer();
+            var url;
             if (vnfType == "dhcp") {
-                var url = "status/get_vnf_model/dhcp_cfg";
+                url = "status/get_vnf_model/dhcp_cfg";
             } else if (vnfType == "nat") {
-                var url = "status/get_vnf_model/nat_cfg";
-            } else {
-                return;
+                url = "status/get_vnf_model/nat_cfg";
+            } else if (vnfType == "firewall") {
+                url = "status/get_vnf_model/firewall_cfg";
             }
-            //var url = "temporary_config_vnf_model/" + vnfType;
             $http.get(url) //get the yang model here
                 .success(function (result) {
                     deferred.resolve(result);

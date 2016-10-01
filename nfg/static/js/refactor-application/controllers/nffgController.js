@@ -235,15 +235,37 @@
             });
         };
 
+        /**
+         * Temporary function
+         *
+         * Note: augment argument is a feature of a yang model in order to declare a CONDITIONAL leaf
+         * This function is used to parsed the 'augment' argument
+         * I do this in order to simplify the check of the condition of the augment
+         * @param augment
+         */
+        function parseAugment (augment) {
+            augment['@target-node'] = augment['@target-node'].split("/");
+            var splt = augment.when['@condition'].split("=");
+            delete augment.when['@condition'];
+            augment.when['@condition'] = splt[0];
+            splt[1] = splt[1].replace("'", "").replace("'", "");
+            augment.when['@value'] = splt[1];
+        }
+
         ctrl.configVNF = function (vnfType, vnfMac, username) {
             console.log(vnfType, vnfMac);
-            //vnfType = "nat";
             username = "davide";
             //vnfMac = "52:54:00:3e:28:86"; //nat state
             //vnfMac = "52:54:00:fc:92:6e"; //dhcp state
             BackendCallService.getYangModelVNF(vnfType).then(function (resultModel) {
                 BackendCallService.getStateVNF(vnfMac, username).then(function (resultState) {
 
+                    //this piece of code needs to handle the augment argument
+                    /*
+                    if (typeof(resultModel.model.augment) != "undefined") {
+                        parseAugment(resultModel.model.augment);
+                    }
+                    */
                     ctrl.stateVNF = resultState.state;
                     //this function calls the open method of the modal
                     var confVNFModal = FgModalService.configVNFModal(resultModel.model, resultState.state);
@@ -281,8 +303,15 @@
 
         };
 
+        /**
+         * I use this function in order to display only the configurable VNF,
+         * that is, a VNF with an interface with a mac address and trusted set to true
+         * Note: I suppose that the management port is always the first declared port (this might be changed)
+         * @param elem
+         * @returns {boolean}
+         */
         ctrl.configurableVNFs = function (elem) {
-            if (elem.id != ("dhcp") && elem.id != ("nat")) {
+            if (elem.id != ("dhcp") && elem.id != ("nat") && elem.id != ("firewall")) {
                 return false;
             }
             if (!elem.ports[0].trusted) {
