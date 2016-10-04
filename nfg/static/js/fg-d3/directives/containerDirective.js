@@ -37,7 +37,7 @@
                     if (typeof(stateObject) != 'undefined') {
                         for (var i = 0; i < modelObject.length; i++) {
                             if (!stateObject.hasOwnProperty(modelObject[i]['@name'])) {
-                                stateObject[modelObject[i]['@name']] = "test";
+                                stateObject[modelObject[i]['@name']] = "";
                             }
                         }
                     }
