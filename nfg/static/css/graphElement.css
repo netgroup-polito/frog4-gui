@@ -1,69 +1,80 @@
-    .nf{
-        fill: #80A926;
-        stroke: #000;
-        stroke-width: 1px;
-    }
+.nf {
+    fill: inerith;
+    stroke: #000;
+    stroke-width: 1px;
+}
 
-    .nf-select{
-        fill: #ED571C;
-        stroke: #000;
-        stroke-width: 1px;
+.vnf-selected {
+    fill: #ED571C;
+}
 
-    }
-   
-    .interface{
-        stroke-width:1px;
-        fill: #337AB7;
-        stroke: #000;       
-    }
+.vnf {
+    fill: #80A926;
+}
 
-    .end-points{
-        fill:#013E72;
-        stroke: #000;
-        stroke-width: 0px;
-    }
+.vnf-gear {
+    font-size: 22px !important;
+    fill: white;
+    text-anchor: end;
+    cursor: pointer
+}
 
-    .end-points-select{
-        fill:#ED571C;
-        stroke: #000;
-        stroke-width: 0px;
-    }
+.vnf-text {
+    fill: white;
+    text-anchor: middle;
+}
 
-    .big-switch{
-        fill: rgba(131, 176, 34, 0.7);
-        stroke: #000;
-        stroke-width: 3px;
-    }
+.interface {
+    stroke-width: 1px;
+    fill: #337AB7;
+    stroke: #000;
+}
 
-    .big-switch-select{
-        fill: rgba(237, 87, 28, 0.7);
-        stroke: #000;
-        stroke-width: 3px;
-    }
+.end-points {
+    fill: #013E72;
+    stroke: #000;
+    stroke-width: 0px;
+}
 
-    .line,.BS-line,.line_menu{
-       stroke-width: 2.5px;
-    }
-    #EPArrow{
-        color:greenyellow;
-    }
-    .line{
-        stroke: #000;
-    }
+.end-points-selected {
+    fill: #ED571C;
+    stroke: #000;
+    stroke-width: 0px;
+}
 
-    .line-selected{
-        stroke-width: 2.5px;
-        stroke: #ED571C;
-        color: #ED571C;
-    }
+.bs {
+    fill: inerith;
+    stroke: #000;
+    stroke-width: 3px;
+}
 
-    .BS-line-selected{
-        stroke-width: 2.5px;
-        stroke: #ED571C; 
-    }
+.big-switch {
+    fill: rgba(131, 176, 34, 0.7);
+}
 
+.big-switch-selected {
+    fill: rgba(237, 87, 28, 0.7);
+}
 
-    .internet{
-        stroke: transparent;
-    }
+.line, .line_menu {
+    stroke-width: 2.5px;
+}
+
+#EPArrow {
+    color: greenyellow;
+}
+
+.line {
+    stroke: #000;
+}
+
+.link-selected {
+    stroke-width: 2.5px;
+    stroke: #ED571C;
+    color: #ED571C;
+}
+
+.internet {
+    stroke: transparent;
+}
 

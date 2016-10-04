@@ -8,11 +8,10 @@
      * @param $uibModalInstance The instance of the modal which load the controller
      * @param fgConst
      * @param fg
-     * @param fgPos
      * @param schema
      * @param elements
      */
-    var newLinkModalController = function ($uibModalInstance, fgConst, fg, fgPos, schema, elements) {
+    var newLinkModalController = function ($uibModalInstance, fgConst, fg, schema, elements) {
         var ctrl = this;
         ctrl.saveText = "Add Flow Rule";
 
@@ -73,22 +72,44 @@
             }
         };
     };
-    newLinkModalController.$inject = ['$uibModalInstance', 'forwardingGraphConstant', 'fg', 'fgPos', 'schema', 'elements'];
+    newLinkModalController.$inject = ['$uibModalInstance', 'forwardingGraphConstant', 'fg', 'schema', 'elements'];
     angular.module('d3').controller('NewLinkModalController', newLinkModalController);
 
     /**
      * The controller for the modal used to edit an end-point
      * @param $uibModalInstance The instance of the modal which load the controller
      * @param fgConst
-     * @param elem
-     * @param pos
+     * @param rule
      * @param schema
      */
-    var editLinkModalController = function ($uibModalInstance, fgConst, elem, pos, schema) {
+    var editLinkModalController = function ($uibModalInstance, fgConst, rule, schema) {
         var ctrl = this;
-        ctrl.saveText = "Save Endpoint";
-        ctrl.LKSchema = schema.properties["forwarding-graph"].properties["end-points"].items;
-        ctrl.EPProperties = null;
+        ctrl.saveText = "Save Flow Rule";
+
+        ctrl.fgElem = rule;
+
+        ctrl.matchShown = true;
+        ctrl.actionShown = true;
+
+        ctrl.LKSchema = schema.properties["forwarding-graph"].properties["big-switch"].properties["flow-rules"].items;
+        ctrl.LKMatch = navigateThroughSchema(ctrl.LKSchema.properties["match"]["$ref"]);
+        ctrl.LKAction = navigateThroughSchema(ctrl.LKSchema.properties["actions"].items["$ref"]);
+
+
+
+        function navigateThroughSchema(href) {
+            var splitted = href.split("/");
+            var temp = schema;
+            for (var i = 0; i < splitted.length; i++) {
+                if (splitted[i] == "#") {
+                    temp = schema;
+                } else {
+                    temp = temp[splitted[i]];
+                }
+            }
+            return temp;
+        }
+
         /**
          * Function used to undo all the modification and close the modal
          */
@@ -98,16 +119,14 @@
         /**
          * Function used to save all the modification after modal is closed
          */
-        ctrl.save = function () {
-            $uibModalInstance.close();
+        ctrl.save = function (form) {
+            if (form.$valid) {
+                $uibModalInstance.close({elem: ctrl.fgElem});
+            }
         };
-
-        ctrl.typeChanged = function () {
-            console.log("typechanged")
-        }
     };
 
-    editLinkModalController.$inject = ['$uibModalInstance', 'forwardingGraphConstant', 'elem', 'pos', 'schema'];
+    editLinkModalController.$inject = ['$uibModalInstance', 'forwardingGraphConstant', 'rule', 'schema'];
     angular.module('d3').controller('EditLinkModalController', editLinkModalController);
 
 })();

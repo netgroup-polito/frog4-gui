@@ -6,6 +6,7 @@
         return {
             restrict: "E",
             scope: {
+				level: "=",
                 containerObject: "=",
                 containerStateObject: "="
             },
@@ -13,6 +14,9 @@
             controller: function($scope){
                 $scope.panel = {
                     open: true
+                }
+                $scope.style = {
+                	"background-color":"rgba(0, 191, 255, " + (0.03 + (0.06 * $scope.level )) + ")"
                 }
             },
             compile: function (element) {

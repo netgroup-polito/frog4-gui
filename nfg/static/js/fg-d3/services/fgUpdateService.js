@@ -21,13 +21,16 @@
             //contex menu di una vnf
             //apro il modale corrispondente
             return function (elem, pos) {
-                return fgModalService.editVNFModal(elem, pos, scope.schema,scope.onTemplateRequest);
+                return fgModalService.editVNFModal(elem, pos, scope.schema, scope.onTemplateRequest);
             }
         }
 
-        function _updateBS() {
+        function _updateBS(scope) {
             //contex menu del big switch
             //apro il modale corrispondente
+            return function (fg, pos) {
+                return fgModalService.bigSwitchModal(fg, pos, scope.schema, scope.onFrTableConfigRequest);
+            }
         }
 
         return {

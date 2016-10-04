@@ -5,8 +5,9 @@
     "use strict";
     /**
      * Service to draw element in the graph
+     * @param $rootScope
      * @param graphConstant The constant used in the graph directive as parameter
-     * @returns {{buildEPs: _buildEPs, buildVNFs: _buildVNFs, buildBigSwitch: _buildBigSwitch, buildLink: _buildLink, buildBigSwitchLink: _buildBigSwitchLink, buildAllLink: _buildAllLink}}
+     * @returns {{buildEPs: _buildEPs, buildVNFs: _buildVNFs, buildBigSwitch: _buildBigSwitch, buildLink: _buildLink, buildBigSwitchLink: _buildBigSwitchLink, buildAllLink: _buildAllLink, buildToolTip: _BuildToolTip}}
      */
     var fgDrawService = function ($rootScope, graphConstant) {
         /**
@@ -30,7 +31,9 @@
                 .enter()
                 .append("circle")
                 .attr("r", graphConstant.epRadius)
-                .attr("class", "end-points")// "end-points" class is the one used for selection in the first step of this function
+                .attr("class", function (d) {
+                    return "end-points" + ( false ? "end-points-selected" : "" );
+                })// "end-points" class is the one used for selection in the first step of this function
                 .merge(epElements)// from now on operation on new and existing element of the list
                 .attr("id", function (d) {
                     return pos[d.id].full_id; //id of the element
@@ -88,7 +91,7 @@
          * @param graph The graph container of the directive
          * @private
          */
-        function _buildVNFs(vnfs, pos, graph) {
+        function _oldbuildVNFs(vnfs, pos, graph) {
             var alfa = 2 * Math.PI / vnfs.length;
             //selection of all vnfs in the graph and association with vnf of the json
             var vnfElements = graph.vnfs.selectAll(".vnf")
@@ -260,6 +263,192 @@
             portElements.exit().remove()
         }
 
+        /**
+         * Function to draw the VNFs in the graph and its ports
+         * @param vnfs The portion  of the forwarding graph for the vnfs fg["VNFs"]
+         * @param pos The portion of the position structure for the vnfs fgPos["VNFs"]
+         * @param graph The graph container of the directive
+         * @private
+         */
+        function _buildVNFs(vnfs, pos, graph) {
+            var alfa = 2 * Math.PI / vnfs.length;
+            //selection of all vnfs in the graph and association with vnf of the json
+            var vnfElements = graph.vnfs.selectAll(".vnf")
+                .data(vnfs, function (d) {
+                    //this function is used to identify each item
+                    return d.id;
+                });
+            //operation on new element of the collection, add to the graph using template "VNF"
+
+            var groups = vnfElements
+                .enter()
+                .append("g")
+                .attr("class", "vnf")
+                .attr("id", function (d) {
+                    return pos[d.id].full_id;    //id of the element
+                })
+                .on("contextmenu", function (d) {
+                    d3.event.preventDefault();
+                    var modal = graph.update.vnfUpdate(d, pos[d.id]);
+                    modal.result.then(function (res) {
+                        $rootScope.$broadcast("vnfUpdated", res);
+                    });
+                })
+                .call(graph.drag.vnfDrag) //adding drag functionality
+            /*.on("mousedown", selectVNFs)*/
+            groups
+                .append("use")
+                .attr("xlink:href", "#VNF");
+            groups
+                .append("text")
+                .attr("class", "vnf-text unselectable")
+                .attr("id", function (d) {
+                    return "text_" + pos[d.id].full_id; //id of the element
+                })
+                .attr("x", function (d) {   // x position of the element
+                    return parseInt(graphConstant.vnfWidth / 2)
+                })
+                .attr("y", function (d) {   // y position of the element
+                    return parseInt(graphConstant.vnfHeigth / 2 + 4)
+                });
+            groups
+                .append("text")
+                .attr("class", "fa vnf-gear unselectable")
+                .attr("x", graphConstant.vnfWidth)
+                .attr("y", 20)
+                .text("")
+                .on("click", function (d) {
+                    //todo: riccardo
+                });
+
+            //operation on element updating and new
+            groups = groups
+                .merge(vnfElements)
+                .attr("id", function (d) {
+                    return pos[d.id].full_id;    //id of the element
+                })
+                .attr("class", function (d) {
+                    return "vnf" + ( false ? "vnf-selected" : "" );
+                })
+                .attr("transform", function (d, i) {
+                    if (typeof pos[d.id].x != "number") {//if is not a number use calculate it
+                        var limitx = graph.svg.node().getBoundingClientRect().width / 2
+                            - graphConstant.vnfWidth / 2;
+                        //limit is the size of the circle in which we distribute the item
+                        //10 is subtracted to make distance from border
+                        var xCenter = (limitx - 10) * Math.cos(alfa * (i) + Math.PI / 2);
+                        //position is then normalized and saved (center moved to middle of graph
+                        pos[d.id].x = parseInt(xCenter + limitx);
+                    }
+                    if (typeof pos[d.id].y != "number") {//if is not a number use calculate it
+                        var limity = graph.svg.node().getBoundingClientRect().height / 2
+                            - graphConstant.vnfHeigth / 2;
+                        //limit is the size of the circle in which we distribute the item
+                        //10 is subtracted to make distance from border
+                        var yCenter = (limity - 10) * Math.sin(alfa * (i) + Math.PI / 2);
+                        //position is then normalized and saved (center moved to middle of graph
+                        pos[d.id].y = parseInt(yCenter + limity);
+                    }
+                    return "translate(" + pos[d.id].x + ',' + pos[d.id].y + ")";
+                });
+            groups
+                .select(".vnf-gear")
+                .attr("visibility", function (d) {
+                    return "visible";
+                });
+            groups
+                .select(".vnf-text")
+                .text(function (d) {
+                    //text inside the vnf ( is a separate element that follow the vnf
+                    var text;
+                    if (!d.name) {
+                        text = "Unnamed VNF";
+                    } else if (d.name.length >= 18) {
+                        text = d.name.slice(0, 18);
+                    } else {
+                        text = d.name;
+                    }
+                    return text;
+                });
+
+            //operation on element going out of the collection
+            vnfElements.exit().remove();
+
+            var ports = [];
+
+            vnfs.forEach(function (vnf) {
+                vnf.ports.forEach(function (port) {
+                    ports.push({
+                        port: port,
+                        parent: vnf.id,
+                        full_id: pos[vnf.id].ports[port.id].full_id
+                    });
+                });
+            });
+
+            var portElements = graph.interfaces.selectAll(".vnf-interface")
+                .data(ports, function (d) {
+                    //this function is used to identify each item
+                    return d.full_id;
+                });
+            portElements
+                .enter()
+                .append("circle")
+                .attr("r", graphConstant.ifRadius)  //radius of the circle element
+                .attr("class", "interface vnf-interface") // "vnf-interface" is the class used for selection
+                .merge(portElements)// from now on operation on new and existing
+                .attr("id", function (d) {
+                    return d.full_id; //id of the element
+                })
+                .attr("title", function (d) {
+                    return d.full_id;  //title of the element, used to display tips
+                })
+                .attr("cx", function (d, i) {   // x position of the center of the element
+                    var portPos = pos[d.parent].ports[d.port.id];
+                    portPos.parent_vnf_x = pos[d.parent].x;
+                    if (typeof portPos.x != "number") {//if x position has not been calculated yet
+                        //the algorithm distribute the interface equally across one side
+                        var totVNFPorts = 0;
+                        var me = 0;
+                        ports.forEach(function (port) {
+                            if (port.parent == d.parent)
+                                totVNFPorts++;
+                            if (d.full_id == port.full_id)
+                                me = totVNFPorts - 1;
+                        });
+                        portPos.x = parseInt(graphConstant.vnfWidth / totVNFPorts * (me + 0.5));
+                    }
+                    return parseInt(portPos.x + portPos.parent_vnf_x);
+                })
+                .attr("cy", function (d) {   // y position of the center of the element
+                    var portPos = pos[d.parent].ports[d.port.id];
+                    portPos.parent_vnf_y = pos[d.parent].y;
+                    if (typeof portPos.y != "number")//if position has not been calculated yet
+                    //it's positioned in the long side near the center
+                        portPos.y = parseInt(portPos.parent_vnf_y < graph.svg.node().getBoundingClientRect().height / 2 ? graphConstant.vnfHeigth : 0);
+                    return parseInt(portPos.y + portPos.parent_vnf_y);
+                })
+                .attr("parent_NF_position_x", function (d) {
+                    return pos[d.parent].x; // x position of the parent vnf probably to be deleted
+                })
+                .attr("parent_NF_position_y", function (d) {
+                    return pos[d.parent].y; // y position of the parent vnf probably to be deleted
+                })
+                .attr("parent", function (d) {
+                    return pos[d.parent].full_id;    // id of the parent vnf
+                })
+                .on("click", function (d) {
+
+                    var elem = clone(pos[d.parent].ports[d.port.id]);
+                    elem.x += pos[d.parent].x;
+                    elem.y += pos[d.parent].y;
+                    graph.link.vnfPortLink(elem);
+                })
+                .call(graph.drag.vnfPortDrag); //adding drag functionality
+            //operation on element going out of the collection
+            portElements.exit().remove()
+        }
+
         /***
          * This function is used to calculate the position of the interface along the bigSwitch
          * @param element referring ep or vnf
@@ -319,7 +508,9 @@
                 .append("use")
                 .style("stroke-dasharray", ("8, 4"))
                 .attr("xlink:href", "#BIG_SWITCH") // use bigswitch definition as template
-                .attr("class", "big-switch bigSwitchView")//class bigSwitchView is used to change the display mode
+                .attr("class", function () {
+                    return "big-switch bigSwitchView" + ( false ? "big-switch-selected" : "" );
+                })//class bigSwitchView is used to change the display mode
                 .merge(bigswitchElement)// from now on operation on new and existing element of the list
                 .attr("x", function () { // x position of the big switch
                     if (typeof pos.x == "number") //if the position is already defined use it
@@ -334,6 +525,13 @@
                         return pos.y = graph.svg.node().getBoundingClientRect().height / 2 - graphConstant.bigSwitchHeight / 2;
                 })
                 .call(graph.drag.bigSwitchDrag)
+                .on("contextmenu", function (d) {
+                    d3.event.preventDefault();
+                    var modal = graph.update.bigSwitch(bigswitch, pos);
+                    modal.result.then(function (res) {
+                        $rootScope.$broadcast("flowRulesUpdated ", res);
+                    });
+                })
             /*.on("click", selectBS);*/
 
             //the d3 library needs an array, so the position are extracted from the object
@@ -431,14 +629,16 @@
             links
                 .enter()
                 .append("line")
-                .attr("class", "link line normalView")// class normalView is used to identify the element displayed only in standard view
+                .attr("class", function (d) {
+                    return "link line normalView" + ( false ? "link-selected" : "" );
+                })// class normalView is used to identify the element displayed only in standard view
                 .attr("stroke", "black")
                 .merge(links) // from now on operation on new and existing element of the list
                 .attr("id", function (d) {
                     return "fr-" + d.origin + ";" + d.destination;    //id of the element
                 })
                 .attr("title", function (d) {
-                    return "Source: " + d.origin + " Action: " + d.destination;  //title of the element, used to display tips
+                    return "Source: " + d.origin + " Destination: " + d.destination;  //title of the element, used to display tips
                 })
                 .attr("x1", function (d) {
                     return parseInt(d["origin-x"]);// origin x
@@ -533,7 +733,9 @@
             internalLinks
                 .enter()
                 .append("line")
-                .attr("class", "internalLink line bigSwitchView")// class bigSwitchView is used to identify the element displayed only in complex view
+                .attr("class", function (d) {
+                    return "internalLink line bigSwitchView" + ( false ? "link-selected" : "" );
+                })// class bigSwitchView is used to identify the element displayed only in complex view
                 .attr("stroke", "black")
                 .merge(internalLinks)// from now on operation on new and existing element of the list
                 .attr("id", function (d) {
@@ -589,13 +791,49 @@
             _buildBigSwitchLink(pos, graph);
         }
 
+        /**
+         * Function used to draw all the tooltip
+         * @private
+         */
+        function _BuildToolTip() {
+
+            $(".end-points")
+                .data('bs.tooltip', false)
+                .tooltip({
+                    'container': 'body',
+                    'placement': 'top'
+                });
+
+            $(".line")
+                .data('bs.tooltip', false)
+                .tooltip({
+                    'container': 'body',
+                    'placement': 'top'
+                });
+
+            $(".menu")
+                .data('bs.tooltip', false)
+                .tooltip({
+                    'container': 'body',
+                    'placement': 'top'
+                });
+
+            $(".interface")
+                .data('bs.tooltip', false)
+                .tooltip({
+                    'container': 'body',
+                    'placement': 'top'
+                });
+        }
+
         return {
             buildEPs: _buildEPs,
             buildVNFs: _buildVNFs,
             buildBigSwitch: _buildBigSwitch,
             buildLink: _buildLink,
             buildBigSwitchLink: _buildBigSwitchLink,
-            buildAllLink: _buildAllLink
+            buildAllLink: _buildAllLink,
+            buildToolTip: _BuildToolTip
         }
     };
     fgDrawService.$inject = ['$rootScope', 'graphConstant'];

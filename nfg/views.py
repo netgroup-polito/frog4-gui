@@ -134,7 +134,7 @@ def login(request):
             # todo: sostituire con un valore sensato ( 300 = 5 Min)
             request.session.set_expiry(0)
 
-            return HttpResponseRedirect("/")
+            return HttpResponseRedirect("/refactor")
         else:
             logging.info("%s : %s", str(result["status"]), result["error"])
             if result["status"] == 403:
@@ -715,6 +715,19 @@ def api_get_json_schema(request):
     if request.method == "GET":
         try:
             with open('nfg/nffg_library/schema.json') as data_file:
+                data = json.load(data_file)
+            return HttpResponse("%s" % json.dumps(data), status=200, content_type="application/json")
+        except IOError as err:
+            logging.error(err.message)
+            return HttpResponse(status=404)
+    else:
+        return HttpResponse(status=501)
+
+
+def api_get_fr_table_config(request):
+    if request.method == "GET":
+        try:
+            with open('nfg/flow_rules_table_config.json') as data_file:
                 data = json.load(data_file)
             return HttpResponse("%s" % json.dumps(data), status=200, content_type="application/json")
         except IOError as err:
