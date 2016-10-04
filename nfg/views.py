@@ -768,6 +768,7 @@ def configure_put_vnf_updated_state(request, mac_address, username):
     if request.method == "PUT":
         if "token" in request.session:
             updated_state = request.body
+            print updated_state
             result = modelm.put_vnf_updated_state(mac_address, username, updated_state, request.session["token"])
             serialized_obj = json.dumps(result)
             return HttpResponse("%s" % serialized_obj, status=result["status"], content_type="application/json")
