@@ -4,3 +4,6 @@
     <h4 class="col-sm-3">{{listModel['@name']}}[{{$index}}]</h4>
     <leaf class="col-sm-12" ng-repeat="le in listModel.leaf" leaf-object="le" state-object="el"></leaf>
 </div>
+<div ng-if="listStateObject.length == 0">
+    <leaf ng-repeat="le in listModel.leaf" leaf-object="le" state-object="stateLeafHandler(listModel, listStateObject)"></leaf>
+</div>

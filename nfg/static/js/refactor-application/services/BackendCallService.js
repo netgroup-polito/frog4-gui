@@ -59,9 +59,8 @@
                 });
             return deferred.promise;
         };
+
         //TO TEST
-        //understanding whether it's possible to make a single GET and retrieve the two files(state and model of vnf)
-        //i should pass to the server the type of the vnf
         var _getYangModelVNF = function (vnfType) {
             var deferred = $q.defer();
             var url;

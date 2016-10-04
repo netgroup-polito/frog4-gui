@@ -253,6 +253,17 @@
             augment.when['@value'] = splt[1];
         }
 
+        ctrl.getYangModelVNF = function (vnfType) {
+            vnfType = "dhcp";
+            return BackendCallService.getYangModelVNF(vnfType);
+        };
+
+        ctrl.getStateVNF = function (vnfMac, username) {
+            vnfMac = "52:54:00:fc:92:6e";
+            username = "davide";
+            return BackendCallService.getStateVNF(vnfMac, username);
+        };
+
         ctrl.configVNF = function (vnfType, vnfMac, username) {
             console.log(vnfType, vnfMac);
             username = "davide";
@@ -295,6 +306,47 @@
 
                 }, function (error) {
                     console.log("BackendCallService.getStateVNF() failed:", error);
+                    /* possible failure causes:
+                     • connection error with the server
+                     • the server doesn't have the state of the VNF
+                     */
+
+                    var buildState = {};
+                    if (angular.isArray(resultModel.model.container)) {
+                        for (var i = 0; i < resultModel.model.container.length; i++) {
+                            var name = resultModel.model['@name'] + ":" + resultModel.model.container[i]['@name'];
+                            buildState[name] = {};
+                        }
+                    } else{
+                        var name = resultModel.model['@name'] + ":" + resultModel.model.container['@name'];
+                        buildState[name] = {};
+                    }
+                    console.log(buildState);
+                    ctrl.stateVNF = buildState;
+                    var confVNFModal = FgModalService.configVNFModal(resultModel.model, buildState);
+
+                    confVNFModal.result.then(function (updatedStateVNF) {
+                        //if you are here means that user clicked 'ok'
+                        //i send the post iff the state of the vnf is changed
+                        console.log("updatedStateVNF", updatedStateVNF);
+                        if (!angular.equals(ctrl.stateVNF, updatedStateVNF)) {
+                            ctrl.stateVNF = updatedStateVNF;
+                            //console.log("ctrl.stateVNF", ctrl.stateVNF);
+
+                            BackendCallService.postStateVNF(vnfMac, username, updatedStateVNF).then(function (resultPost) {
+                                console.log("resultPost", resultPost);
+                                ctrl.stateVNF = updatedStateVNF;
+                                console.log("ctrl.stateVNF", ctrl.stateVNF);
+                                //swal({title: "Changes saved!", timer: 1000, showConfirmButton: false });
+                            }, function (error) {
+                                console.log("BackendCallService.postStateVNF() failed:", error);
+                                //TODO: mostrare errore
+                            });
+                        }
+                    }, function (error) {//function called when 'cancel' has been pressed in the modal
+                        console.log("Config VNF Modal has been closed: ", error);
+                        ctrl.stateVNF = {};
+                    });
                     //TODO: mostrare errore
                 });
             }, function (error) {
@@ -424,6 +476,7 @@
         ctrl.getFRTableConfig = function () {
             return BackendCallService.getFRTableConfig();
         };
+
 
         $rootScope.$on("epUpdated", function (event, res) {
             ctrl.fgPos["end-points"][res.pos.id] = res.pos;
