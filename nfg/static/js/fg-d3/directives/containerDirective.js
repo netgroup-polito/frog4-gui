@@ -13,35 +13,25 @@
             templateUrl: '/static/js/fg-d3/directives/template/containerTemplate.html',
             controller: function($scope){
 
-                $scope.stateContainerHandler = function (modelObject, stateObject, stateVal) {
-                    if (typeof(stateVal) != 'undefined') {
-                        return stateVal;
-                    }
-                    if (typeof(stateObject) != 'undefined' /*&& typeof(modelObject) != 'undefined'*/) {
-                        stateObject[modelObject['@name']] = {};
-                        return stateObject[modelObject['@name']];
-                    }
+                $scope.stateListHandler = function (state, list) {
+                    if (typeof(state[list['@name']]) == 'undefined') {
+                        state[list['@name']] = [];
+                    };
+                    return state[list['@name']];
                 };
 
-                $scope.stateListHandler = function (modelObject, stateObject, stateVal) {
-                    //console.log("stateObject", stateObject);
-                    if (typeof(stateVal) != 'undefined') {
-                        return stateVal;
+                $scope.stateLeafHandler = function (state, leaf) {
+                    if (typeof(state[leaf['@name']]) == 'undefined') {
+                        state[leaf['@name']] = "test";
                     }
-                    if (typeof(stateObject) != 'undefined') {// && typeof(modelObject) != 'undefined'
-                        stateObject[modelObject['@name']] = [];
-                    }
+                    return state;
                 };
 
-                $scope.stateLeafHandler = function (modelObject, stateObject) {
-                    if (typeof(stateObject) != 'undefined') {
-                        for (var i = 0; i < modelObject.length; i++) {
-                            if (!stateObject.hasOwnProperty(modelObject[i]['@name'])) {
-                                stateObject[modelObject[i]['@name']] = "";
-                            }
-                        }
+                $scope.stateContainerHandler = function (state, container) {
+                    if (typeof(state[container['@name']]) == 'undefined') {
+                        state[container['@name']] = {};
                     }
-                    return stateObject;
+                    return state[container['@name']]
                 };
 
                 $scope.panel = {
