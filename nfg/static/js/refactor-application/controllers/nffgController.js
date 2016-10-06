@@ -253,16 +253,6 @@
             augment.when['@value'] = splt[1];
         }
 
-        ctrl.getYangModelVNF = function (vnfType) {
-            vnfType = "dhcp";
-            return BackendCallService.getYangModelVNF(vnfType);
-        };
-
-        ctrl.getStateVNF = function (vnfMac, username) {
-            vnfMac = "52:54:00:fc:92:6e";
-            username = "davide";
-            return BackendCallService.getStateVNF(vnfMac, username);
-        };
 
         ctrl.configVNF = function (vnfType, vnfMac, username) {
             console.log(vnfType, vnfMac);
@@ -290,18 +280,19 @@
                         //i send the post iff the state of the vnf is changed
                         console.log("updatedStateVNF", updatedStateVNF);
                         if (!angular.equals(ctrl.stateVNF, updatedStateVNF)) {
-                            BackendCallService.postStateVNF(vnfMac, username, updatedStateVNF).then(function (resultPost) {
-                                console.log("resultPost", resultPost);
+                            BackendCallService.putStateVNF(vnfMac, username, updatedStateVNF).then(function (resultPut) {
+                                console.log("resultPost", resultPut);
                                 ctrl.stateVNF = updatedStateVNF;
                                 console.log("ctrl.stateVNF", ctrl.stateVNF);
                                 //swal({title: "Changes saved!", timer: 1000, showConfirmButton: false });
                             }, function (error) {
-                                console.log("BackendCallService.postStateVNF() failed:", error);
+                                console.log("BackendCallService.putStateVNF() failed:", error);
                                 //TODO: mostrare errore
                             });
                         }
                     }, function (error) {//function called when 'cancel' has been pressed in the modal
                         console.log("Config VNF Modal has been closed: ", error);
+                        ctrl.stateVNF = {};
                     });
 
                 }, function (error) {
@@ -310,8 +301,9 @@
                      • connection error with the server
                      • the server doesn't have the state of the VNF
                      */
-
+                    ctrl.stateVNF = {};
                     var buildState = {};
+                    /*
                     if (angular.isArray(resultModel.model.container)) {
                         for (var i = 0; i < resultModel.model.container.length; i++) {
                             var name = resultModel.model['@name'] + ":" + resultModel.model.container[i]['@name'];
@@ -321,6 +313,7 @@
                         var name = resultModel.model['@name'] + ":" + resultModel.model.container['@name'];
                         buildState[name] = {};
                     }
+                    */
                     console.log(buildState);
                     ctrl.stateVNF = buildState;
                     var confVNFModal = FgModalService.configVNFModal(resultModel.model, buildState);
@@ -333,8 +326,8 @@
                             ctrl.stateVNF = updatedStateVNF;
                             //console.log("ctrl.stateVNF", ctrl.stateVNF);
 
-                            BackendCallService.postStateVNF(vnfMac, username, updatedStateVNF).then(function (resultPost) {
-                                console.log("resultPost", resultPost);
+                            BackendCallService.putStateVNF(vnfMac, username, updatedStateVNF).then(function (resultPut) {
+                                console.log("resultPut", resultPut);
                                 ctrl.stateVNF = updatedStateVNF;
                                 console.log("ctrl.stateVNF", ctrl.stateVNF);
                                 //swal({title: "Changes saved!", timer: 1000, showConfirmButton: false });
@@ -476,6 +469,30 @@
         ctrl.getFRTableConfig = function () {
             return BackendCallService.getFRTableConfig();
         };
+
+        ctrl.getYangModelVNF = function (vnfType) {
+            return BackendCallService.getYangModelVNF(vnfType);
+        };
+
+        ctrl.getStateVNF = function (vnfMac, username) {
+            return BackendCallService.getStateVNF(vnfMac, username);
+        };
+
+        $rootScope.$on("vnfConfig", function (event, res) {
+            console.log("event", event);
+            console.log("res", res);
+
+            //i don't know how to pass the other parameters so by now i cannot do the put
+            /*
+            BackendCallService.putStateVNF(vnfMac, username, updatedStateVNF).then(function (resultPut) {
+                console.log("resultPut", resultPut);
+                //swal({title: "Changes saved!", timer: 1000, showConfirmButton: false });
+            }, function (error) {
+                console.log("BackendCallService.putStateVNF() failed:", error);
+                //TODO: mostrare errore
+            });
+            */
+        });
 
 
         $rootScope.$on("epUpdated", function (event, res) {

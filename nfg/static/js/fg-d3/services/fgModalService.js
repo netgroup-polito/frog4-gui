@@ -218,8 +218,8 @@
             });
         };
 
-        //TO TEST
-        var _configVNFModal = function (vnfModel, vnfState) {
+        /*
+        var _configVNFModal = function (model, state) {
             return $uibModal.open({
                 animation: false,
                 templateUrl: '/static/js/fg-d3/modal_view/vnfConfigModalView.html',
@@ -228,10 +228,39 @@
                 size: 'lg',
                 resolve: {
                     model: function () {
-                        return clone(vnfModel);
+                        return clone(model);
                     },
                     state: function () {
-                        return clone(vnfState);
+                        return clone(state);
+                    }
+                }
+            });
+        };
+        */
+
+
+        var _configVNFModal = function (vnfType, vnfMac, username, vnfModelFunction, vnfStateFunction) {
+            return $uibModal.open({
+                animation: false,
+                templateUrl: '/static/js/fg-d3/modal_view/vnfConfigModalView.html',
+                controller: 'ConfigVNFModalController',
+                controllerAs: 'ConfigVNFCtrl',
+                size: 'lg',
+                resolve: {
+                    type: function () {
+                        return clone(vnfType);
+                    },
+                    mac: function () {
+                        return clone(vnfMac);
+                    },
+                    username: function () {
+                        return clone(username);
+                    },
+                    modelFunc: function () {
+                        return clone(vnfModelFunction);
+                    },
+                    stateFunc: function () {
+                        return clone(vnfStateFunction);
                     }
                 }
             });

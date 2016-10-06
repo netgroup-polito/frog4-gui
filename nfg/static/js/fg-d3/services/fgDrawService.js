@@ -318,6 +318,14 @@
                 .attr("y", 20)
                 .text("")
                 .on("click", function (d) {
+                    console.log("d", d);
+
+                    var modal = graph.update.vnfConfig(d);
+                    //find a way to get back the old state
+                    modal.result.then(function (res) {
+                        $rootScope.$broadcast("vnfConfig", res);
+                    });
+
                     //todo: riccardo
                 });
 
@@ -354,7 +362,13 @@
             groups
                 .select(".vnf-gear")
                 .attr("visibility", function (d) {
-                    return "visible";
+                    if (d.ports[0].trusted) {
+                        return "visible";
+                    } else {
+                        return "hidden";
+                    }
+                    //todo: mostrare ingranaggio solo se trusted e mac address
+                    //return "visible"; //hidden
                 });
             groups
                 .select(".vnf-text")

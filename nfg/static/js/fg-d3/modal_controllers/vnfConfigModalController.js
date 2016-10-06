@@ -6,21 +6,50 @@
     /**
      * Modal controller in order to configure the VNF
      * @param $uibModalInstance
-     * @param model
-     * @param state
+     * @param type
+     * @param mac
+     * @param username
+     * @param modelFunc
+     * @param stateFunc
      */
-    var vnfConfigModalController = function ($uibModalInstance, model, state) {
+
+    var vnfConfigModalController = function ($uibModalInstance, type, mac, username, modelFunc, stateFunc) {
+        //passare tutto l'oggetto
+    //var vnfConfigModalController = function ($uibModalInstance, model, state) {
         var ctrl = this;
         //in order to have the 'isArray' function of angular within the template
         ctrl.isArray = angular.isArray;
+        var oldState;
 
-        //i need to copy the state in order to modify a copy of it and not the original
-        ctrl.model = model;
-        ctrl.state = state;
+        modelFunc(type).then(function (resultModel) {
+            stateFunc(mac, username).then(function (resultState) {
+                oldState = clone(resultState.state);
+                //gestione delle ifEntry su resultState
+                ctrl.state = resultState.state;
+                ctrl.model = resultModel.model;
+
+                console.log(ctrl.model);
+                console.log(ctrl.state);
+
+            }, function (error) {
+                ctrl.model = resultModel.model;
+                console.log(error);
+            });
+        }, function (error) {
+           console.log(error);
+        });
+
+        //ctrl.model = model;
+        //ctrl.state = state;
 
         ctrl.ok = function () {
+            //passare l'oggetto con tutto
             console.log("ok", ctrl.state);
-            $uibModalInstance.close(ctrl.state);
+            if (angular.equals(oldState, ctrl.state)) {
+                $uibModalInstance.dismiss('equal states');
+            } else {
+                $uibModalInstance.close(ctrl.state);
+            }
         };
         ctrl.cancel = function () {
             $uibModalInstance.dismiss('cancel');
@@ -28,10 +57,11 @@
 
         //i need this function in order to parse the external containers
         //val: name of the external container
-
-        //i don't know if it's more correct to use model or ctrl.model (the same for state)
         ctrl.myFunction = function (val) {
-            var nameExternalContainer = model['@name'] + ":" + val; //accrocchio
+            var nameExternalContainer = ctrl.model['@name'] + ":" + val; //accrocchio
+            if (typeof(ctrl.state[nameExternalContainer]) == 'undefined') {
+                ctrl.state[nameExternalContainer] = {};
+            }
             return ctrl.state[nameExternalContainer];
         };
 
@@ -39,6 +69,7 @@
             ctrl.state = JSON.parse($fileContent);
         };
     };
-    vnfConfigModalController.$inject = ['$uibModalInstance', 'model', 'state'];
+    vnfConfigModalController.$inject = ['$uibModalInstance', 'type', 'mac', 'username', 'modelFunc', 'stateFunc'];
+    //vnfConfigModalController.$inject = ['$uibModalInstance', 'model', 'state'];
     angular.module('d3').controller('ConfigVNFModalController', vnfConfigModalController);
 })();

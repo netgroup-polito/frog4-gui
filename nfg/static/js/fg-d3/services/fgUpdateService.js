@@ -33,10 +33,17 @@
             }
         }
 
+        function _configVNF(scope) {
+            return function (elem) {
+                return fgModalService.configVNFModal(elem.id, elem.ports[0].mac, "davide", scope.onYangModelRequest, scope.onStateRequest);
+            }
+        }
+
         return {
             updateEP: _updateEP,
             updateVNF: _updateVNF,
-            updateBS: _updateBS
+            updateBS: _updateBS,
+            configVNF: _configVNF
         }
 
     };

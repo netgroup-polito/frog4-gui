@@ -60,7 +60,6 @@
             return deferred.promise;
         };
 
-        //TO TEST
         var _getYangModelVNF = function (vnfType) {
             var deferred = $q.defer();
             var url;
@@ -85,8 +84,6 @@
             //some input controller put here
             var url = "configure/get_vnf_state/" + vnfMac + "/user/" + username;
             var deferred = $q.defer();
-            //this part must be modified when the server is ready
-            //var url = "temporary_config_vnf_state/" + vnfType;
             $http.get(url) //get the state here
                 .success(function (result) {
                     deferred.resolve(result);
@@ -97,7 +94,7 @@
             return deferred.promise;
         };
 
-        var _postStateVNF = function (vnfMac, username, updatedStateVNF) {
+        var _putStateVNF = function (vnfMac, username, updatedStateVNF) {
             var deferred = $q.defer();
             var url = "configure/put_vnf_updated_state/" + vnfMac + "/user/" + username;
             $http.put(url, updatedStateVNF) //send data to the server here
@@ -121,7 +118,7 @@
             getFRTableConfig: _getFRTableConfig,
             getYangModelVNF: _getYangModelVNF,
             getStateVNF: _getStateVNF,
-            postStateVNF: _postStateVNF
+            putStateVNF: _putStateVNF
         };
     };
 
