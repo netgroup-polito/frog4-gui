@@ -24,7 +24,11 @@
                 ep.ref = "end-point";                       // to be deleted
                 ep.id = EP_list[i].id;                      // id unique between end points
                 ep.full_id = "endpoint:" + EP_list[i].id;   // id unique across all elements
-                ep.isLinked = false;                        //
+                ep.isLinked = false;
+                if (EP_list[i]["gui-position"]) {
+                    ep.x = EP_list[i]["gui-position"].x;
+                    ep.y = EP_list[i]["gui-position"].y;
+                }
                 EP_Pos[ep.id] = ep;
             }
             return EP_Pos;
@@ -46,6 +50,10 @@
                 vnf.full_id = "vnf:" + VNF_list[i].id;  // id unique across all elements
                 //transforming also ports into object for easier access
                 vnf.ports = {};
+                if (VNF_list[i]["gui-position"]) {
+                    vnf.x = VNF_list[i]["gui-position"].x;
+                    vnf.y = VNF_list[i]["gui-position"].y;
+                }
                 VNF_list[i].ports.forEach(function (port) {
                     //adding information ( some may be deleted because unused)
                     var e = {};
@@ -53,7 +61,12 @@
                     e.id = port.id;                                         // id of the port, unique in vnf
                     e.full_id = "vnf:" + VNF_list[i].id + ":" + port.id;    // id unique across all elements
                     e.parent_vnf_id = VNF_list[i].id;                       // id of the vnf associated
-                    e.isLinked = false;                                     //
+                    e.isLinked = false;
+
+                    if (port["gui-position"]) {
+                        e.x = port["gui-position"].x;
+                        e.y = port["gui-position"].y;
+                    }
                     vnf.ports[port.id] = e
                 });
                 VNF_Pos[VNF_list[i].id] = vnf;
