@@ -73,13 +73,13 @@
                     }
                 )
                 .on("click", function (d) {
-                    graph.link.epLink(pos[d.id]);
+                    if(!graph.link.epLink(pos[d.id])){
+                        $rootScope.$broadcast("selectElement", pos[d.id].full_id);
+                    }
                 })
                 .call(graph.drag.epDrag); //adding drag functionality
 
-
-            /**/
-//operation on element going out of the collection
+            //operation on element going out of the collection
             epElements.exit().remove();
 
         }
@@ -294,8 +294,10 @@
                         $rootScope.$broadcast("vnfUpdated", res);
                     });
                 })
-                .call(graph.drag.vnfDrag) //adding drag functionality
-            /*.on("mousedown", selectVNFs)*/
+                .on("click",function (d) {
+                    $rootScope.$broadcast("selectElement", pos[d.id].full_id);
+                })
+                .call(graph.drag.vnfDrag);//adding drag functionality
             groups
                 .append("use")
                 .attr("xlink:href", "#VNF");
@@ -638,7 +640,15 @@
                     return "fr-" + d.origin + ";" + d.destination;    //id of the element
                 })
                 .attr("title", function (d) {
-                    return "Source: " + d.origin + " Destination: " + d.destination;  //title of the element, used to display tips
+                    //return "Source: " + d.origin + " Destination: " + d.destination;  //title of the element, used to display tips
+                    //title of the element, used to display tips
+                    if (d.isFullDuplex == true) {
+                        /* Bidirectional link */
+                        return d.origin + "<br><i class='fa fa-exchange'></i><br>" + d.destination;
+                    } else {
+                        /* Unidirectional link */
+                        return d.origin + "<br><i class='fa fa-long-arrow-right'></i><br>" + d.destination;
+                    }
                 })
                 .attr("x1", function (d) {
                     return parseInt(d["origin-x"]);// origin x
@@ -664,7 +674,9 @@
                 .attr("marker-end", function (d) {//the end marker, arrow if half duplex (big if end into endpoint)
                     return d.isFullDuplex === true ? "default" : d.destination.indexOf("endpoint") == -1 ? "url(#interfaceArrow)" : "url(#EndpointArrow)";
                 })
-            //.on("click", selectSimpleLines);
+                .on("click", function (d) {
+                    $rootScope.$broadcast("selectElement", d.rules);
+                });
             links.exit().remove();
         }
 
@@ -743,7 +755,7 @@
                 })
                 .attr("title", function (d) {
                     //title of the element, used to display tips
-                    if (d.full_duplex == true) {
+                    if (d.isFullDuplex == true) {
                         /* Bidirectional link */
                         return d.origin + "<br><i class='fa fa-exchange'></i><br>" + d.destination;
                     } else {
@@ -775,7 +787,9 @@
                 .attr("marker-end", function (d) {
                     return d.isFullDuplex === true ? "default" : "url(#InterfaceArrow)"; //marker is arrow if half duplex
                 })
-            //.on("click", selectSimpleLines);
+                .on("click", function (d) {
+                    $rootScope.$broadcast("selectElement", d.rules);
+                });
             internalLinks.exit().remove();
 
         }
@@ -797,32 +811,38 @@
          */
         function _BuildToolTip() {
 
+            $(".tooltip").remove();
+
             $(".end-points")
                 .data('bs.tooltip', false)
                 .tooltip({
                     'container': 'body',
-                    'placement': 'top'
+                    'placement': 'top',
+                    'html': true
                 });
 
             $(".line")
                 .data('bs.tooltip', false)
                 .tooltip({
                     'container': 'body',
-                    'placement': 'top'
+                    'placement': 'top',
+                    'html': true
                 });
 
             $(".menu")
                 .data('bs.tooltip', false)
                 .tooltip({
                     'container': 'body',
-                    'placement': 'top'
+                    'placement': 'top',
+                    'html': true
                 });
 
             $(".interface")
                 .data('bs.tooltip', false)
                 .tooltip({
                     'container': 'body',
-                    'placement': 'top'
+                    'placement': 'top',
+                    'html': true
                 });
         }
 
