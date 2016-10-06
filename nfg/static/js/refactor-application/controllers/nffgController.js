@@ -253,7 +253,7 @@
             augment.when['@value'] = splt[1];
         }
 
-
+        /*
         ctrl.configVNF = function (vnfType, vnfMac, username) {
             console.log(vnfType, vnfMac);
             username = "davide";
@@ -263,11 +263,11 @@
                 BackendCallService.getStateVNF(vnfMac, username).then(function (resultState) {
 
                     //this piece of code needs to handle the augment argument
-                    /*
-                    if (typeof(resultModel.model.augment) != "undefined") {
-                        parseAugment(resultModel.model.augment);
-                    }
-                    */
+
+                    //if (typeof(resultModel.model.augment) != "undefined") {
+                    //    parseAugment(resultModel.model.augment);
+                    //}
+
                     ctrl.stateVNF = resultState.state;
                     //this function calls the open method of the modal
                     var confVNFModal = FgModalService.configVNFModal(resultModel.model, resultState.state);
@@ -297,23 +297,22 @@
 
                 }, function (error) {
                     console.log("BackendCallService.getStateVNF() failed:", error);
-                    /* possible failure causes:
-                     • connection error with the server
-                     • the server doesn't have the state of the VNF
-                     */
+                    // possible failure causes:
+                    // connection error with the server
+                    // the server doesn't have the state of the VNF
                     ctrl.stateVNF = {};
                     var buildState = {};
-                    /*
-                    if (angular.isArray(resultModel.model.container)) {
-                        for (var i = 0; i < resultModel.model.container.length; i++) {
-                            var name = resultModel.model['@name'] + ":" + resultModel.model.container[i]['@name'];
-                            buildState[name] = {};
-                        }
-                    } else{
-                        var name = resultModel.model['@name'] + ":" + resultModel.model.container['@name'];
-                        buildState[name] = {};
-                    }
-                    */
+
+                    //if (angular.isArray(resultModel.model.container)) {
+                    //    for (var i = 0; i < resultModel.model.container.length; i++) {
+                    //        var name = resultModel.model['@name'] + ":" + resultModel.model.container[i]['@name'];
+                    //        buildState[name] = {};
+                    //    }
+                    //} else{
+                    //    var name = resultModel.model['@name'] + ":" + resultModel.model.container['@name'];
+                    //    buildState[name] = {};
+                    //}
+
                     console.log(buildState);
                     ctrl.stateVNF = buildState;
                     var confVNFModal = FgModalService.configVNFModal(resultModel.model, buildState);
@@ -349,13 +348,7 @@
 
         };
 
-        /**
-         * I use this function in order to display only the configurable VNF,
-         * that is, a VNF with an interface with a mac address and trusted set to true
-         * Note: I suppose that the management port is always the first declared port (this might be changed)
-         * @param elem
-         * @returns {boolean}
-         */
+
         ctrl.configurableVNFs = function (elem) {
             if (elem.id != ("dhcp") && elem.id != ("nat") && elem.id != ("firewall")) {
                 return false;
@@ -365,6 +358,7 @@
             }
             return true;
         };
+        */
 
         ctrl.newVNF = function () {
             BackendCallService.getTemplates().then(function (result) {
@@ -479,19 +473,17 @@
         };
 
         $rootScope.$on("vnfConfig", function (event, res) {
+            //if I'm here, means that the state has been modified, so I can put the file into the server
             console.log("event", event);
             console.log("res", res);
 
-            //i don't know how to pass the other parameters so by now i cannot do the put
-            /*
-            BackendCallService.putStateVNF(vnfMac, username, updatedStateVNF).then(function (resultPut) {
+            BackendCallService.putStateVNF(res.macAdd, res.username, res.newState).then(function (resultPut) {
                 console.log("resultPut", resultPut);
                 //swal({title: "Changes saved!", timer: 1000, showConfirmButton: false });
             }, function (error) {
                 console.log("BackendCallService.putStateVNF() failed:", error);
                 //TODO: mostrare errore
             });
-            */
         });
 
 

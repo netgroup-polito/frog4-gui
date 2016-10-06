@@ -13,7 +13,7 @@
      * @param stateFunc
      */
 
-    var vnfConfigModalController = function ($uibModalInstance, type, mac, username, modelFunc, stateFunc) {
+    var vnfConfigModalController = function ($uibModalInstance, vnf, username, modelFunc, stateFunc) {
         //passare tutto l'oggetto
     //var vnfConfigModalController = function ($uibModalInstance, model, state) {
         var ctrl = this;
@@ -21,8 +21,8 @@
         ctrl.isArray = angular.isArray;
         var oldState;
 
-        modelFunc(type).then(function (resultModel) {
-            stateFunc(mac, username).then(function (resultState) {
+        modelFunc(vnf.id).then(function (resultModel) {
+            stateFunc(vnf.ports[0].mac, username).then(function (resultState) {
                 oldState = clone(resultState.state);
                 //gestione delle ifEntry su resultState
                 ctrl.state = resultState.state;
@@ -32,8 +32,20 @@
                 console.log(ctrl.state);
 
             }, function (error) {
-                ctrl.model = resultModel.model;
                 console.log(error);
+                ctrl.model = resultModel.model;
+
+                //gestisco qui le ifEntry dell'interfaces
+                var nameContainer = ctrl.model['@name'] + ':interfaces';
+                ctrl.state[nameContainer] = {};
+                ctrl.state[nameContainer]['ifEntry'] = [];
+                for (var i = 0; i < vnf.ports.length; i++) {
+                    var obj = {};
+                    obj['name'] = 'eth' + i;
+                    ctrl.state[nameContainer]['ifEntry'].push(obj);
+                }
+
+                console.log(ctrl.state);
             });
         }, function (error) {
            console.log(error);
@@ -43,12 +55,25 @@
         //ctrl.state = state;
 
         ctrl.ok = function () {
-            //passare l'oggetto con tutto
+
             console.log("ok", ctrl.state);
+            //passare l'oggetto con stato attuale, mac address e username
             if (angular.equals(oldState, ctrl.state)) {
                 $uibModalInstance.dismiss('equal states');
             } else {
-                $uibModalInstance.close(ctrl.state);
+                //mettere il controllo sullo stato vuoto
+                //to fix
+                for (var prop in ctrl.state) {
+                    if (prop == ":") {
+                        delete ctrl.state[prop];
+                    }
+                }
+                var res = {
+                    newState: ctrl.state,
+                    macAdd: vnf.ports[0].mac,
+                    username: username
+                };
+                $uibModalInstance.close(res);
             }
         };
         ctrl.cancel = function () {
@@ -57,6 +82,7 @@
 
         //i need this function in order to parse the external containers
         //val: name of the external container
+        /*
         ctrl.myFunction = function (val) {
             var nameExternalContainer = ctrl.model['@name'] + ":" + val; //accrocchio
             if (typeof(ctrl.state[nameExternalContainer]) == 'undefined') {
@@ -64,12 +90,13 @@
             }
             return ctrl.state[nameExternalContainer];
         };
+        */
 
         ctrl.showContent = function($fileContent){
             ctrl.state = JSON.parse($fileContent);
         };
     };
-    vnfConfigModalController.$inject = ['$uibModalInstance', 'type', 'mac', 'username', 'modelFunc', 'stateFunc'];
+    vnfConfigModalController.$inject = ['$uibModalInstance', 'vnf', 'username', 'modelFunc', 'stateFunc'];
     //vnfConfigModalController.$inject = ['$uibModalInstance', 'model', 'state'];
     angular.module('d3').controller('ConfigVNFModalController', vnfConfigModalController);
 })();

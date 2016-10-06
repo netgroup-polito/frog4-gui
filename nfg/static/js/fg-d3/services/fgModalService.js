@@ -239,7 +239,7 @@
         */
 
 
-        var _configVNFModal = function (vnfType, vnfMac, username, vnfModelFunction, vnfStateFunction) {
+        var _configVNFModal = function (vnf, username, vnfModelFunction, vnfStateFunction) {
             return $uibModal.open({
                 animation: false,
                 templateUrl: '/static/js/fg-d3/modal_view/vnfConfigModalView.html',
@@ -247,11 +247,8 @@
                 controllerAs: 'ConfigVNFCtrl',
                 size: 'lg',
                 resolve: {
-                    type: function () {
-                        return clone(vnfType);
-                    },
-                    mac: function () {
-                        return clone(vnfMac);
+                    vnf: function () {
+                        return clone(vnf);
                     },
                     username: function () {
                         return clone(username);

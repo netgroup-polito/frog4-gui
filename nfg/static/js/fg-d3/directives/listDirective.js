@@ -11,6 +11,7 @@
             },
             templateUrl: '/static/js/fg-d3/directives/template/listTemplate.html',
             controller: function($scope){
+                /*
                 $scope.stateLeafHandler = function (modelList, stateList) {
                     //all this should happen iff the state of vnf is undefined
                     var stateLeafs = {};
@@ -21,6 +22,7 @@
                         stateList.push(stateLeafs);
                     }
                 }
+                */
             },
             link: function (scope, element, attrs, ngModel) {
                 if (!scope.listStateObject) {

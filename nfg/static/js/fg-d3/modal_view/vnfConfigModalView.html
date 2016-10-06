@@ -2,11 +2,8 @@
     <div class="modal-header">
 
         <button class="close" type="button" aria-hidden="true" ng-click="ConfigVNFCtrl.cancel()">×</button>
-        <!--<h3 class="modal-title" id="modal-title">{{$ctrl.model['@name'].replace("-", " ").replace("-", " ") | capitalize:true}}</h3>-->
 
-        <h3 class="modal-title" id="modal-title">{{ConfigVNFCtrl.model['@name']}}</h3>
-        <hr>
-        <h3>{{ConfigVNFCtrl.model.description.text}}</h3>
+        <h3 class="modal-title" id="modal-title">{{ConfigVNFCtrl.model.description.text}}</h3>
     </div>
     <div class="modal-body" id="modal-body">
 		<form class="form-horizontal">

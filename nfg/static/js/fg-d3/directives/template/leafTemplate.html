@@ -5,21 +5,42 @@
 	<div class="col-sm-8" ng-switch="leafObject.type['@name']">
 
 		<div ng-switch-when="enumeration">
-		    <select class="form-control" ng-model="stateObject[leafObject['@name']]" ng-options="en['@name'] as en['@name'] for en in leafObject.type.enum"></select>
+		    <select class="form-control"
+					ng-model="stateObject[leafObject['@name']]"
+					ng-options="en['@name'] as en['@name'] for en in leafObject.type.enum">
+
+			</select>
 		</div>
 
 		<div ng-switch-when="string">
 			<span ng-if="leafObject.hasOwnProperty('description')">
-				<input uib-popover="{{leafObject.description.text}}"  popover-trigger="'focus'" class="form-control" ng-model="stateObject[leafObject['@name']]" type="text"/>
+				<span ng-if="leafObject.description.text == 'readonly'">
+					<input disabled
+						   class="form-control"
+						   ng-model="stateObject[leafObject['@name']]"
+						   type="text"/>
+				</span>
+				<span ng-if="leafObject.description.text != 'readonly'">
+					<input uib-popover="{{leafObject.description.text}}"
+						   popover-trigger="'focus'"
+						   class="form-control"
+						   ng-model="stateObject[leafObject['@name']]"
+						   type="text"/>
+				</span>
 			</span>
 		    <span ng-if="!leafObject.hasOwnProperty('description')">
-				<input class="form-control" ng-model="stateObject[leafObject['@name']]" type="text"/>
+				<input class="form-control"
+					   ng-model="stateObject[leafObject['@name']]"
+					   type="text"/>
 			</span>
 		</div>
 
 		<div ng-switch-when="inet:ip-address">
 		    <span ng-if="leafObject.hasOwnProperty('description')">
-				<input uib-popover="{{leafObject.description.text}}"  popover-trigger="'focus'" class="form-control" ng-model="stateObject[leafObject['@name']]" type="text"/>
+				<input uib-popover="{{leafObject.description.text}}"
+					   popover-trigger="'focus'" class="form-control"
+					   ng-model="stateObject[leafObject['@name']]"
+					   type="text"/>
 			</span>
 		    <span ng-if="!leafObject.hasOwnProperty('description')">
 				<input class="form-control" ng-model="stateObject[leafObject['@name']]" type="text"/>
@@ -28,10 +49,15 @@
 
 		<div ng-switch-when="inet:ipv4-address">
 		    <span ng-if="leafObject.hasOwnProperty('description')">
-		        <input uib-popover="{{leafObject.description.text}}"  popover-trigger="'focus'" class="form-control" ng-model="stateObject[leafObject['@name']]" type="text"/>
+		        <input uib-popover="{{leafObject.description.text}}"
+					   popover-trigger="'focus'" class="form-control"
+					   ng-model="stateObject[leafObject['@name']]"
+					   type="text"/>
 		    </span>
 		    <span ng-if="!leafObject.hasOwnProperty('description')">
-		        <input class="form-control" ng-model="stateObject[leafObject['@name']]" type="text"/>
+		        <input class="form-control"
+					   ng-model="stateObject[leafObject['@name']]"
+					   type="text"/>
 		    </span>
 		</div>
 	</div>

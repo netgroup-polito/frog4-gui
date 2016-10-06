@@ -5,6 +5,8 @@
     <leaf class="col-sm-12" ng-repeat="le in listModel.leaf" leaf-object="le" state-object="el"></leaf>
 </div>
 <div ng-if="listStateObject.length == 0">
-    Non sono presenti oggetti per questa lista
+    <h4 class="col-sm-3">{{listModel['@name']}}</h4>
+    <!--<div class="alert alert-info">No available items in this list</div>-->
+    <br><p class="text-warning">No available items in this list.</p>
     <!--<leaf ng-repeat="le in listModel.leaf" leaf-object="le" state-object="listStateObject"></leaf>-->
 </div>

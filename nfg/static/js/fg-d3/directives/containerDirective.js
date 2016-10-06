@@ -13,6 +13,7 @@
             templateUrl: '/static/js/fg-d3/directives/template/containerTemplate.html',
             controller: function($scope){
 
+                /*
                 $scope.stateListHandler = function (state, list) {
                     if (typeof(state[list['@name']]) == 'undefined') {
                         state[list['@name']] = [];
@@ -33,6 +34,7 @@
                     }
                     return state[container['@name']]
                 };
+                */
 
                 $scope.panel = {
                     open: true
@@ -47,6 +49,7 @@
                         return angular.isArray(val);
                     };
                     scope.hideComponent = false;
+
                     if (!scope.containerStateObject) {
                         scope.containerStateObject = {};
                     }

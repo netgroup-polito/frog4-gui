@@ -35,7 +35,7 @@
 
         function _configVNF(scope) {
             return function (elem) {
-                return fgModalService.configVNFModal(elem.id, elem.ports[0].mac, "davide", scope.onYangModelRequest, scope.onStateRequest);
+                return fgModalService.configVNFModal(elem, "davide", scope.onYangModelRequest, scope.onStateRequest);
             }
         }
 
