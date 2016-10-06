@@ -23,6 +23,9 @@
                 }
             },
             link: function (scope, element, attrs, ngModel) {
+                if (!scope.listStateObject) {
+                    scope.listStateObject = [];
+                }
             }
         };
     };

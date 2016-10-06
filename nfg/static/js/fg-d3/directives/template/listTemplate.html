@@ -5,5 +5,6 @@
     <leaf class="col-sm-12" ng-repeat="le in listModel.leaf" leaf-object="le" state-object="el"></leaf>
 </div>
 <div ng-if="listStateObject.length == 0">
-    <leaf ng-repeat="le in listModel.leaf" leaf-object="le" state-object="stateLeafHandler(listModel, listStateObject)"></leaf>
+    Non sono presenti oggetti per questa lista
+    <!--<leaf ng-repeat="le in listModel.leaf" leaf-object="le" state-object="listStateObject"></leaf>-->
 </div>

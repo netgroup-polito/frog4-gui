@@ -51,6 +51,8 @@
                  * {function} Used to get the current Flow Rules Table config
                  */
                 onFrTableConfigRequest: "=",
+                onYangModelRequest: "=",
+                onStateRequest: "=",
                 /**
                  * {function} Used to trigger the link creation event
                  */
@@ -272,10 +274,13 @@
 
                     // initialize update functionality for flow rules
                     var bigSwitch = fgUpdateService.updateBS($scope);
+
+                    var vnfConfig = fgUpdateService.configVNF($scope);
                     ctrl.graph.update = {
                         epUpdate: epUpdate,
                         vnfUpdate: vnfUpdate,
-                        bigSwitch: bigSwitch
+                        bigSwitch: bigSwitch,
+                        vnfConfig: vnfConfig
                         /*flowRulesUpdate: flowRulesUpdate*/
                     }
                 };

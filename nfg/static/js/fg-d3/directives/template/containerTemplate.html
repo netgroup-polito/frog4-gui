@@ -8,7 +8,7 @@
             <container ng-repeat="el in containerObject"
                        level="level+1"
                        container-object="el"
-                       container-state-object="stateContainerHandler(containerStateObject, el)">
+                       container-state-object="containerStateObject[el['@name']]">
 
             </container>
         </div>
@@ -35,7 +35,7 @@
                     <span ng-if="!checkArray(containerObject.container)">
 						<container level="level+1"
                                    container-object="containerObject.container"
-                                   container-state-object="stateContainerHandler(containerStateObject, containerObject.container)">
+                                   container-state-object="containerStateObject[containerObject.container['@name']]">
 
                         </container>
                     </span>
@@ -44,7 +44,7 @@
 
                 <span ng-if="containerObject.hasOwnProperty('list')">
                     <list list-model="containerObject.list"
-                          list-state-object="stateListHandler(containerStateObject, containerObject.list)">
+                          list-state-object="containerStateObject[containerObject.list['@name']]">
 
                     </list>
                 </span>
@@ -53,7 +53,7 @@
                     <leaf class="col-sm-12"
                           ng-repeat="le in containerObject.leaf"
                           leaf-object="le"
-                          state-object="stateLeafHandler(containerStateObject, le)">
+                          state-object="containerStateObject">
 
                     </leaf>
                 </span>

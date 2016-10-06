@@ -47,6 +47,9 @@
                         return angular.isArray(val);
                     };
                     scope.hideComponent = false;
+                    if (!scope.containerStateObject) {
+                        scope.containerStateObject = {};
+                    }
                 }
                 return RecursionHelper.compile(element, link);
             }

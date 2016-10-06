@@ -11,6 +11,9 @@
             },
             templateUrl: '/static/js/fg-d3/directives/template/leafTemplate.html',
             link: function (scope, element, attrs, ngModel) {
+                if (!scope.stateObject) {
+                    scope.stateObject = "";
+                }
             }
         };
     };
