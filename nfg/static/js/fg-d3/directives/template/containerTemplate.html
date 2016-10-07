@@ -1,68 +1,67 @@
 <!--<pre>{{containerObject}}</pre><br>
 <pre>{{containerStateObject}}</pre><hr>-->
 <uib-accordion>
+    
+    <div ng-if="checkArray(containerObject)">
+        <container ng-repeat="el in containerObject"
+                   level="level+1"
+                   container-object="el"
+                   container-state-object="containerStateObject[el['@name']]">
 
-    <div ng-switch="checkArray(containerObject)">
+        </container>
+    </div>
 
-        <div ng-switch-when="true">
-            <container ng-repeat="el in containerObject"
-                       level="level+1"
-                       container-object="el"
-                       container-state-object="containerStateObject[el['@name']]">
+    <div ng-if="!checkArray(containerObject)">
 
-            </container>
-        </div>
+        <div uib-accordion-group ng-style="style" class="panel-default" is-open="panel.open" is-disabled="false" ng-click="open = !panel.open">
 
-        <div ng-switch-when="false">
+            <uib-accordion-heading>
+                {{containerName}}
 
-            <div uib-accordion-group ng-style="style" class="panel-default" is-open="panel.open" is-disabled="false" ng-click="open = !panel.open">
+                <!-- ho dovuto mettere questo span perché nel caso in cui ho un solo container, non mi stampa il nome -->
+                <span ng-if="!containerName">{{containerObject['@name']}}</span>
 
-                <uib-accordion-heading>
-                    {{containerObject['@name']}}
-                    <i class="pull-right glyphicon" ng-class="{'glyphicon glyphicon-minus': panel.open, 'glyphicon glyphicon-plus': !panel.open}"></i>
-                </uib-accordion-heading>
+                <i class="pull-right glyphicon" ng-class="{'glyphicon glyphicon-minus': panel.open, 'glyphicon glyphicon-plus': !panel.open}"></i>
+            </uib-accordion-heading>
 
-                <span ng-if="containerObject.hasOwnProperty('container')">
+            <span ng-if="containerObject.hasOwnProperty('container')">
 
-                    <span ng-if="checkArray(containerObject.container)">
-						<container level="level+1"
-                                   container-object="containerObject.container"
-                                   container-state-object="containerStateObject">
+                <span ng-if="checkArray(containerObject.container)">
+                    <container level="level+1"
+                               container-object="containerObject.container"
+                               container-state-object="containerStateObject">
 
-                        </container>
-					</span>
-
-                    <span ng-if="!checkArray(containerObject.container)">
-						<container level="level+1"
-                                   container-object="containerObject.container"
-                                   container-state-object="containerStateObject[containerObject.container['@name']]">
-
-                        </container>
-                    </span>
-
+                    </container>
                 </span>
 
-                <span ng-if="containerObject.hasOwnProperty('list')">
-                    <list list-model="containerObject.list"
-                          list-state-object="containerStateObject[containerObject.list['@name']]">
+                <span ng-if="!checkArray(containerObject.container)">
+                    <container level="level+1"
+                               container-object="containerObject.container"
+                               container-state-object="containerStateObject[containerObject.container['@name']]">
 
-                    </list>
+                    </container>
                 </span>
 
-                <span ng-if="containerObject.hasOwnProperty('leaf')">
-                    <leaf class="col-sm-12"
-                          ng-repeat="le in containerObject.leaf"
-                          leaf-object="le"
-                          state-object="containerStateObject">
+            </span>
 
-                    </leaf>
-                </span>
+            <span ng-if="containerObject.hasOwnProperty('list')">
+                <list list-model="containerObject.list"
+                      list-state-object="containerStateObject[containerObject.list['@name']]">
 
-            </div>
+                </list>
+            </span>
+
+            <span ng-if="containerObject.hasOwnProperty('leaf')">
+                <leaf class="col-sm-12"
+                      ng-repeat="le in containerObject.leaf"
+                      leaf-object="le"
+                      state-object="containerStateObject">
+
+                </leaf>
+            </span>
 
         </div>
 
     </div>
-
 
 </uib-accordion>

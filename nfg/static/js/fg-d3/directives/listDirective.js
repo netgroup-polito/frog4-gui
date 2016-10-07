@@ -11,22 +11,23 @@
             },
             templateUrl: '/static/js/fg-d3/directives/template/listTemplate.html',
             controller: function($scope){
-                /*
-                $scope.stateLeafHandler = function (modelList, stateList) {
-                    //all this should happen iff the state of vnf is undefined
-                    var stateLeafs = {};
-                    for (var i = 0; i < modelList.leaf.length; i++) {
-                        stateLeafs[modelList.leaf[i]['@name']] = ""; //initialize the object
-                    }
-                    if (stateList.length == 0) {
-                        stateList.push(stateLeafs);
-                    }
-                }
-                */
             },
             link: function (scope, element, attrs, ngModel) {
                 if (!scope.listStateObject) {
                     scope.listStateObject = [];
+                }
+                scope.listName = scope.listModel['@name'];
+
+                if (scope.listModel.description) { // se c'è description
+                    var text = scope.listModel.description.text;
+                    var split = text.split(",");
+                    for (var i = 0; i < split.length; i++) {
+
+                        if (split[i].indexOf('name=') != -1) {
+                            var split2 = split[i].split("=");
+                            scope.listName = split2[1].replace(/[']/g, "");
+                        }
+                    }
                 }
             }
         };

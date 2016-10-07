@@ -13,29 +13,6 @@
             templateUrl: '/static/js/fg-d3/directives/template/containerTemplate.html',
             controller: function($scope){
 
-                /*
-                $scope.stateListHandler = function (state, list) {
-                    if (typeof(state[list['@name']]) == 'undefined') {
-                        state[list['@name']] = [];
-                    };
-                    return state[list['@name']];
-                };
-
-                $scope.stateLeafHandler = function (state, leaf) {
-                    if (typeof(state[leaf['@name']]) == 'undefined') {
-                        state[leaf['@name']] = "test";
-                    }
-                    return state;
-                };
-
-                $scope.stateContainerHandler = function (state, container) {
-                    if (typeof(state[container['@name']]) == 'undefined') {
-                        state[container['@name']] = {};
-                    }
-                    return state[container['@name']]
-                };
-                */
-
                 $scope.panel = {
                     open: true
                 };
@@ -52,6 +29,22 @@
 
                     if (!scope.containerStateObject) {
                         scope.containerStateObject = {};
+                    }
+
+                    if (scope.containerObject) {
+                        scope.containerName = scope.containerObject['@name'];
+                    }
+
+                    if (scope.containerObject && scope.containerObject.description) { // se c'è description
+                        var text = scope.containerObject.description.text;
+                        var split = text.split(",");
+                        for (var i = 0; i < split.length; i++) {
+
+                            if (split[i].indexOf('name=') != -1) {
+                                var split2 = split[i].split("=");
+                                scope.containerName = split2[1].replace(/[']/g, "");
+                            }
+                        }
                     }
                 }
                 return RecursionHelper.compile(element, link);

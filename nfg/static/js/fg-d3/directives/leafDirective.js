@@ -42,7 +42,7 @@
                             var split2 = split[i].split("=");
                             var tip = split2[1].replace(/[']/g, "");
                             scope.attrs.push({attr: 'uib-popover', value: tip});
-                            scope.attrs.push({attr: 'popover-trigger', value: 'focus'});
+                            scope.attrs.push({attr: 'popover-trigger', value: "focus'"});
                         }
                         if (split[i].indexOf('name=') != -1) {
                             var split2 = split[i].split("=");
