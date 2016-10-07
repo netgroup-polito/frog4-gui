@@ -35,7 +35,7 @@
                  */
                 showBigSwitch: "=",
                 /**
-                 * {booelan} Used from the view using the directive to be aware if the graph is forced to complex mode
+                 * {boolean} Used from the view using the directive to be aware if the graph is forced to complex mode
                  * @readonly
                  */
                 isForced: "=",
@@ -58,7 +58,11 @@
                 /**
                  * {boolean} Used to be aware of link creation request
                  */
-                isLinkCreation: "="
+                isLinkCreation: "=",
+                /**
+                 * {String} The currently selected element
+                 */
+                selectedElement: "="
             },
             /**
              * Controller of the directive
@@ -200,7 +204,8 @@
                         interfaces: interface_section,
                         vnfs: VNF_section,
                         connections: connection_section,
-                        showBigSwitch: $scope.showBigSwitch ? true : false
+                        showBigSwitch: $scope.showBigSwitch ? true : false,
+                        selectedElement: $scope.selectedElement
                     };
                 };
                 /**
