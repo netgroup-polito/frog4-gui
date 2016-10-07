@@ -80,6 +80,8 @@ var currentEP;
 var editRuleMatch;
 var editRuleAction;
 var infoRule;
+var automaticUpdate=false;
+var intervalID;
 
 
 /* main */
@@ -194,9 +196,31 @@ $(document).ready(function() {
 
     $('#my-checkbox').change(function() {
       console.log('Toggle: ' + $(this).prop('checked'));
-    })
-});
+        automaticUpdate=$(this).prop('checked');
+        if(automaticUpdate)
+            intervalID = setInterval(worker, 5000);
+        else
+            clearInterval(intervalID);
+        
 
+    })
+}
+);
+
+
+
+function worker() {
+
+        console.log("filename "+ file_name_fg);
+
+        for(var i=0;i<userGraphsRepository.length;i++)
+        if(userGraphsRepository[i].file_name_fg==file_name_fg){
+            console.log(JSON.stringify(userGraphsRepository[i]))
+            DrawGraph(JSON.stringify(userGraphsRepository[i]));
+        }
+
+
+};
 
 
 
