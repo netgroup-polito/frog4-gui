@@ -2,6 +2,10 @@
  * Created by riccardodiomedi on 07/10/16.
  */
 (function() {
+    /**
+     * This directive is used to pass multiple attribute to a html dom
+     * @returns {{scope: {list: string}, link: link}}
+     */
     var dynamicAttribute = function () {
         return {
             scope: {

@@ -326,7 +326,6 @@
                         $rootScope.$broadcast("vnfConfig", res);
                     });
 
-                    //todo: riccardo
                 });
 
             //operation on element updating and new
