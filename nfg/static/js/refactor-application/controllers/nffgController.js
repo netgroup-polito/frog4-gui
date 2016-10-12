@@ -152,6 +152,21 @@
             });
         };
 
+		/**
+		 * Function to deploy a graph
+		 */
+		ctrl.deploy = function () {
+			BackendCallService.putGraph(ctrl.fg).then(function (result) {
+				console.log("put completed");
+				console.log(result);
+				if(result.success != 'undefined')
+					$dialogs.notify('Deploy','The graph has been successfully deployed');
+				else
+					$dialogs.notify('Deploy','Error - see the universal node log');
+			}, function () {
+				console.log("Something went wrong");
+			});
+		};
 
         /**
          * Function to show the dialog used to load a graph from the local file system
