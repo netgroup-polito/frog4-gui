@@ -59,11 +59,32 @@
                 });
             return deferred.promise;
         };
+        
+		var _putGraph = function(json_graph) {
+			var deferred = $q.defer();
+			var req = {
+				method: 'PUT',
+				url: 'api/v1/graphs_api/put_graph/',
+				headers: {
+				'Content-Type': 'application/json'
+				},
+				data: { 'forwarding-graph': json_graph }
+			}
+			$http(req)
+				.success(function (result) {
+					deferred.resolve(result);
+				})
+				.error(function (err) {
+					deferred.reject(err);
+				});
+			return deferred.promise;
+		}
         return {
             getAvailableGraphs: _getAvailableGraphs,
             getJSONSchema: _getJSONSchema,
             getTemplates: _getTemplates,
-            getFRTableConfig: _getFRTableConfig
+            getFRTableConfig: _getFRTableConfig,
+            putGraph: _putGraph
         };
     };
 
