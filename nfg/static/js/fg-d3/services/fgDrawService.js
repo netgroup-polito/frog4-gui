@@ -31,22 +31,28 @@
                 .enter()
                 .append("circle")
                 .attr("r", graphConstant.epRadius)
-                .attr("class", function (d) {
-                    return "end-points" + ( false ? "end-points-selected" : "" );
-                })// "end-points" class is the one used for selection in the first step of this function
                 .merge(epElements)// from now on operation on new and existing element of the list
                 .attr("id", function (d) {
                     return pos[d.id].full_id; //id of the element
                 })
+                .attr("class", function (d) {
+                    return "end-points" + ( graph.selectedElement == pos[d.id].full_id ? " end-points-selected" : "" );
+                })// "end-points" class is the one used for selection in the first step of this function
                 .attr("title", function (d) {
                     return d.name;  //title of the element, used to display tips
                 })
                 .style("fill", function (d) {
                     switch (pos[d.id].icon) {
                         case "host":
-                            return "url(#host-icon)";
+                            if (graph.selectedElement == pos[d.id].full_id)
+                                return "url(#host-icon-selected)";
+                            else
+                                return "url(#host-icon)";
                         case "internet":
-                            return "url(#internet-icon)";
+                            if (graph.selectedElement == pos[d.id].full_id)
+                                return "url(#internet-icon-selected)";
+                            else
+                                return "url(#internet-icon)";
                     }
                 })
                 .attr("cx", function (d, i) {   // x position of the center of the element
@@ -73,7 +79,7 @@
                     }
                 )
                 .on("click", function (d) {
-                    if(!graph.link.epLink(pos[d.id])){
+                    if (!graph.link.epLink(pos[d.id])) {
                         $rootScope.$broadcast("selectElement", pos[d.id].full_id);
                     }
                 })
@@ -294,7 +300,7 @@
                         $rootScope.$broadcast("vnfUpdated", res);
                     });
                 })
-                .on("click",function (d) {
+                .on("click", function (d) {
                     $rootScope.$broadcast("selectElement", pos[d.id].full_id);
                 })
                 .call(graph.drag.vnfDrag);//adding drag functionality
@@ -330,7 +336,7 @@
                     return pos[d.id].full_id;    //id of the element
                 })
                 .attr("class", function (d) {
-                    return "vnf" + ( false ? "vnf-selected" : "" );
+                    return "vnf" + (  graph.selectedElement == pos[d.id].full_id ? " vnf-selected" : "" );
                 })
                 .attr("transform", function (d, i) {
                     if (typeof pos[d.id].x != "number") {//if is not a number use calculate it
@@ -631,11 +637,11 @@
             links
                 .enter()
                 .append("line")
-                .attr("class", function (d) {
-                    return "link line normalView" + ( false ? "link-selected" : "" );
-                })// class normalView is used to identify the element displayed only in standard view
                 .attr("stroke", "black")
                 .merge(links) // from now on operation on new and existing element of the list
+                .attr("class", function (d) {
+                    return "link line normalView" + (  graph.selectedElement == d.rules ? " link-selected" : "" );
+                })// class normalView is used to identify the element displayed only in standard view
                 .attr("id", function (d) {
                     return "fr-" + d.origin + ";" + d.destination;    //id of the element
                 })
@@ -745,11 +751,11 @@
             internalLinks
                 .enter()
                 .append("line")
-                .attr("class", function (d) {
-                    return "internalLink line bigSwitchView" + ( false ? "link-selected" : "" );
-                })// class bigSwitchView is used to identify the element displayed only in complex view
                 .attr("stroke", "black")
                 .merge(internalLinks)// from now on operation on new and existing element of the list
+                .attr("class", function (d) {
+                    return "internalLink line bigSwitchView" + (  graph.selectedElement == d.rules ? " link-selected" : "" );
+                })// class bigSwitchView is used to identify the element displayed only in complex view
                 .attr("id", function (d) {
                     return "fr-int-" + d.origin + ";" + d.destination; ///id of the element
                 })

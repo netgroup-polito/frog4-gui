@@ -12,9 +12,10 @@
      * @param fgClickService The service used to add a click behavior to the forwarding-graph element
      * @param fgUpdateService
      * @param graphConstant The constant used in the graph directive as parameter
+     * @param $rootScope
      * @returns {{restrict: string, require: string[], scope: {position: string, showBigSwitch: string, isForced: string}, controller: controller, link: link}}
      */
-    var d3nffg = function (d3Service, fgDrawService, fgDragService, fgModalService, fgLinkService, fgClickService, fgUpdateService, graphConstant) {
+    var d3nffg = function (d3Service, fgDrawService, fgDragService, fgModalService, fgLinkService, fgClickService, fgUpdateService, graphConstant, $rootScope) {
         return {
             /**
              * type of angular directive (can be used via attribute only)
@@ -58,11 +59,7 @@
                 /**
                  * {boolean} Used to be aware of link creation request
                  */
-                isLinkCreation: "=",
-                /**
-                 * {String} The currently selected element
-                 */
-                selectedElement: "="
+                isLinkCreation: "="
             },
             /**
              * Controller of the directive
@@ -87,7 +84,7 @@
                     var bigSwitch_section = d3Service.addSection(svg, "bigSwitch_section");
                     // define a section of the graph containing all the VNF
                     var VNF_section = d3Service.addSection(svg, "VNF_section");
-                   // define a section of the graph containing all the connection
+                    // define a section of the graph containing all the connection
                     var connection_section = d3Service.addSection(svg, "connection_section");
                     // define a section of the graph containing all interface and EndPoint
                     var interface_section = d3Service.addSection(svg, "interface_section");
@@ -133,6 +130,26 @@
                                 }
                             ]
                         });
+                    // adding a graph definition for the selected host icon
+                    d3Service.addNestedDefinition(
+                        definitions_section,
+                        "pattern",
+                        {
+                            "id": "host-icon-selected",
+                            "width": 1,
+                            "height": 1,
+                            "patternContentUnits": "objectBoundingBox",
+                            "children": [
+                                {
+                                    "type": "svg:image",
+                                    "xlink:href": "/static/img/pc-red.png",
+                                    //"/static/img/icon-pc.png",
+                                    "width": "1",
+                                    "height": "1",
+                                    "preserveAspectRatio": "xMinYMin slice"
+                                }
+                            ]
+                        });
 
                     // adding a graph definition for the internet icon
                     d3Service.addNestedDefinition(
@@ -146,7 +163,27 @@
                             "children": [
                                 {
                                     "type": "svg:image",
-                                    "xlink:href": "/static/img/internet-blue.png",
+                                    "xlink:href": "/static/img/internet-blue2.png",
+                                    //"/static/img/icon-pc.png",
+                                    "width": "1",
+                                    "height": "1",
+                                    "preserveAspectRatio": "xMinYMin slice"
+                                }
+                            ]
+                        });
+                    // adding a graph definition for the internet icon
+                    d3Service.addNestedDefinition(
+                        definitions_section,
+                        "pattern",
+                        {
+                            "id": "internet-icon-selected",
+                            "width": 1,
+                            "height": 1,
+                            "patternContentUnits": "objectBoundingBox",
+                            "children": [
+                                {
+                                    "type": "svg:image",
+                                    "xlink:href": "/static/img/internet-red2.png",
                                     //"/static/img/icon-pc.png",
                                     "width": "1",
                                     "height": "1",
@@ -205,7 +242,7 @@
                         vnfs: VNF_section,
                         connections: connection_section,
                         showBigSwitch: $scope.showBigSwitch ? true : false,
-                        selectedElement: $scope.selectedElement
+                        selectedElement: null
                     };
                 };
                 /**
@@ -420,6 +457,18 @@
                             ngModel.$render()
                     });
                 /**
+                 * function to watch the change of selectedElement
+                 */
+                $rootScope.$on("selectElement",
+                    function (event, res) {
+                        if (ctrl.graph.selectedElement == res) {
+                            ctrl.graph.selectedElement = null;
+                        } else {
+                            ctrl.graph.selectedElement = res;
+                        }
+                        ngModel.$render();
+                    });
+                /**
                  * function to watch the change of the flow-rules
                  */
                 scope.$watchCollection(function () {
@@ -460,7 +509,7 @@
         };
     };
 
-    d3nffg.$inject = ["d3Service", "fgDrawService", "fgDragService", "FgModalService", "fgLinkService", "fgClickService" ,"fgUpdateService", "graphConstant"];
+    d3nffg.$inject = ["d3Service", "fgDrawService", "fgDragService", "FgModalService", "fgLinkService", "fgClickService", "fgUpdateService", "graphConstant", "$rootScope"];
     angular.module("d3").directive("d3nffg", d3nffg);
 
 })();

@@ -75,6 +75,8 @@
         ctrl.fg = null;
         //the position object of the loaded graph
         ctrl.fgPos = null;
+        //the currently selected element
+        ctrl.selectedElement = null;
         
         /**
          * Function to toggle the view of the button to add element to the graph
@@ -401,6 +403,13 @@
         $rootScope.$on("flowRulesUpdated", function (event, res) {
             ctrl.fgPos["big-switch"]["flow-rules"] = InitializationService.initFlowRulesLink(res.rules);
             ctrl.fg["big-switch"]["flow-rules"] = res.rules;
+        });
+        $rootScope.$on("selectElement", function (event, res) {
+            if(ctrl.selectedElement == res){
+                ctrl.selectedElement = null;
+            } else {
+                ctrl.selectedElement = res;
+            }
         });
     };
 
