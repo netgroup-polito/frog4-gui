@@ -49,10 +49,7 @@ userm = UserManager(parser.get('un_orchestrator', 'address'),
                     parser.get('un_orchestrator', 'port'))
 dbm = DBManager("db.sqlite3")
 graphm = NFFGManager(parser.get('un_orchestrator', 'address'),
-                     parser.get('un_orchestrator', 'port'),
-                     parser.get('graph-repository', 'address'),
-                     parser.get('graph-repository', 'port')
-                     )
+                     parser.get('un_orchestrator', 'port'))
 
 templatem = TemplateManager(parser.get('vnf-template', 'address'),
                             parser.get('vnf-template', 'port'))
@@ -104,7 +101,7 @@ def logout(request):
 def login(request):
     if request.method == 'GET':
         if "username" in request.session:
-            return HttpResponseRedirect("/")
+            return HttpResponseRedirect("/refactor")
         if request.GET.has_key('err_message'):
             err_msg = request.GET['err_message']
         else:
@@ -131,12 +128,12 @@ def login(request):
             # todo: sostituire con un valore sensato ( 300 = 5 Min)
             request.session.set_expiry(0)
 
-            return HttpResponseRedirect("/")
+            return HttpResponseRedirect("/refactor")
         else:
             logging.info("%s : %s", str(result["status"]), result["error"])
             if result["status"] == 403:
                 if "token" in request.session:
-                    return HttpResponseRedirect("/")
+                    return HttpResponseRedirect("/refactor")
                 else:
                     return HttpResponseRedirect("/login?err_message=User already logged-in from another terminal!")
             else:
@@ -228,7 +225,7 @@ def ajax_data_request(request):
     #     msg = json.dumps(msg)
     #     return HttpResponse("%s" % msg)
 
-    # If the validation success return a string of json forwarding graph 
+    # If the validation success return a string of json forwarding graph
     return HttpResponse("%s" % json_data_string)
 
 
@@ -459,7 +456,7 @@ def ajax_save_request(request):
         json_string = json_string.replace("output", "output_to_port")
         json_string = json_string.replace("controller", "output_to_controller")
 
-        resp = graphm.add_user_graph(request.session["file_name_fg"], json.loads(json_string), request.session["token"])
+        resp = graphm.put_user_graph(request.session["file_name_fg"], json.loads(json_string), request.session["token"])
         if resp["status"] == 201:
             msg["success"] = "Salvataggio Riuscito"
             msg = json.dumps(msg)
@@ -537,39 +534,42 @@ def ajax_download_request(request):
 # deploy : new view for extends the application
 @csrf_exempt
 def deploy(request):
-	msg = {}
+    msg = {}
 
-	try:
-		'''
-		Expected a response object with the following fields:
-		- 'title' (e.g. "202 Accepted")
-		- 'message' (e.g. "Graph 977 succesfully processed.")
-		'''
+    try:
+        '''
+        Expected a response object with the following fields:
+        - 'title' (e.g. "202 Accepted")
+        - 'message' (e.g. "Graph 977 succesfully processed.")
+        '''
 
-		headers = {'Content-Type': 'application/json', 'X-Auth-Token': request.session["token"]}
-		print request.body
-		json_string = json.loads(request.body)
-		id = json_string["forwarding-graph"]["id"]
-		print id
-		response = requests.put("http://"+parser.get('un_orchestrator', 'address')+":"+parser.get('un_orchestrator', 'port')+"/NF-FG/"+id, request.body, headers=headers)
-		print response.status_code
+        headers = {'Content-Type': 'application/json', 'X-Auth-Token': request.session["token"]}
+        print request.body
+        json_string = json.loads(request.body)
+        id = json_string["forwarding-graph"]["id"]
+        print id
+        response = requests.put(
+            "http://" + parser.get('un_orchestrator', 'address') + ":" + parser.get('un_orchestrator',
+                                                                                    'port') + "/NF-FG/" + id,
+            request.body, headers=headers)
+        print response.status_code
 
-		if response.status_code == 201:
-			msg["success"] = "success"
-		else:
-			msg["err"] = "error"
+        if response.status_code == 201:
+            msg["success"] = "success"
+        else:
+            msg["err"] = "error"
 
-		msg = json.dumps(msg)
-		return HttpResponse("%s " % msg)
-	except Exception as err:
-		print err.message
-		msg["err"] = "Unexpected error"
-		if hasattr(err, "description"):
-			msg["text"] = err.message
-		elif hasattr(err, "args"):
-			msg["text"] = err.args[0]
-		msg = json.dumps(msg)
-		return HttpResponse("%s" % msg)
+        msg = json.dumps(msg)
+        return HttpResponse("%s " % msg)
+    except Exception as err:
+        print err.message
+        msg["err"] = "Unexpected error"
+        if hasattr(err, "description"):
+            msg["text"] = err.message
+        elif hasattr(err, "args"):
+            msg["text"] = err.args[0]
+        msg = json.dumps(msg)
+        return HttpResponse("%s" % msg)
 
 
 # users : view to manage users, group and permission
@@ -699,6 +699,23 @@ def api_get_available_graphs_debug(request):
         return HttpResponse(status=501)
 
 
+def api_put_graph(request):
+    if request.method == "POST":
+        if "token" in request.session:
+
+            new_graph = json.loads(request.body)
+
+            result = graphm.put_user_graph(new_graph["forwarding-graph"]["id"],
+                                           new_graph,
+                                           request.session["token"])
+            serialized_obj = json.dumps(result)
+            return HttpResponse("%s" % serialized_obj, status=result["status"], content_type="application/json")
+        else:
+            return HttpResponse(status=401)
+    else:
+        return HttpResponse(status=501)
+
+
 def api_get_json_schema(request):
     if request.method == "GET":
         try:
@@ -735,4 +752,3 @@ def api_get_vnf_templates(request):
             return HttpResponse(status=401)
     else:
         return HttpResponse(status=501)
-
