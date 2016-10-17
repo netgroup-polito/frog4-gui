@@ -152,6 +152,37 @@
             });
         };
 
+        /**
+         * Function to save a current graph on local file
+         */
+        ctrl.saveOnLocalFS = function () {
+            //the new modal description
+            var saveOnLocalModal = $uibModal.open({
+                animation: false,
+                templateUrl: '/static/pages/refactor/modals/saveOnLocalFS.html',
+                controller: 'SaveOnLocalController',
+                controllerAs: 'saveClientCtrl',
+                size: 'lg'
+            });
+            // function to get the result of the dialog
+            saveOnLocalModal.result.then(function (fg) {
+                // check if all component exist ( should not be needed )
+                if (!fg["forwarding-graph"]["end-points"])
+                    fg["forwarding-graph"]["end-points"] = [];
+                if (!fg["forwarding-graph"]["VNFs"])
+                    fg["forwarding-graph"]["VNFs"] = [];
+                if (!fg["forwarding-graph"]["big-switch"])
+                    fg["forwarding-graph"]["big-switch"] = {"flow-rules": []};
+                if (fg["forwarding-graph"]["big-switch"] && !fg["forwarding-graph"]["big-switch"]["flow-rules"])
+                    fg["forwarding-graph"]["big-switch"]["flow-rules"] = [];
+
+                // Initialize the graph position object (missing the possibility to load the position too)
+                ctrl.fgPos = initializePosition(fg["forwarding-graph"]);
+                // loading the graph (always load the graph later to prevent error)
+                ctrl.fg = fg["forwarding-graph"];
+            });
+        };
+
 
         /**
          * Function to show the dialog used to load a graph from the local file system
