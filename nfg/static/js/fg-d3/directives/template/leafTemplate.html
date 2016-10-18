@@ -1,7 +1,7 @@
 <!--<pre>{{stateObject | json}}</pre><br>
 <pre>{{leafObject | json}}</pre><br>-->
 <div class="form-group">
-	<label class="control-label col-sm-3">{{leafName}}:</label>
+	<label class="control-label col-sm-3">{{leafObject['@name'] | vnfCompName:leafObject.description}}:</label>
 	<div class="col-sm-8" ng-switch="leafObject.type['@name']">
 
 

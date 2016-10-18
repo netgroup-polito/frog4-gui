@@ -16,10 +16,7 @@
         <div uib-accordion-group ng-style="style" class="panel-default" is-open="panel.open" is-disabled="false" ng-click="open = !panel.open">
 
             <uib-accordion-heading>
-                {{containerName}}
-
-                <!-- ho dovuto mettere questo span perché nel caso in cui ho un solo container, non mi stampa il nome -->
-                <span ng-if="!containerName">{{containerObject['@name']}}</span>
+                {{containerObject['@name'] | vnfCompName:containerObject.description}}
 
                 <i class="pull-right glyphicon" ng-class="{'glyphicon glyphicon-minus': panel.open, 'glyphicon glyphicon-plus': !panel.open}"></i>
             </uib-accordion-heading>

@@ -11,23 +11,6 @@
             },
             templateUrl: '/static/js/fg-d3/directives/template/leafTemplate.html',
             controller: function ($scope) {
-                /**
-                 * If the description statement is present, check the existence of field name
-                 * @param text
-                 * @returns {boolean}
-                 */
-                $scope.isThereName = function (text) {
-                    var split = text.split(",");
-                    for (var i = 0; i < split.length; i++) {
-                        if (split[i].indexOf('name=') != -1) {
-                            console.log(split[i]);
-                            var split2 = split[i].split("=");
-                            $scope.yName = split2[1].replace(/[']/g, "");
-                            return true;
-                        }
-                    }
-                    return false;
-                }
             },
             link: function (scope, element, attrs, ngModel) {
                 if (!scope.stateObject) {
@@ -36,8 +19,6 @@
                 /**
                  * Check the different fields in description statement
                  */
-                scope.leafName = scope.leafObject['@name'];
-
                 if (scope.leafObject.description) {
                     var text = scope.leafObject.description.text;
                     scope.attrs = [];
@@ -51,10 +32,6 @@
                             var tip = split2[1].replace(/[']/g, "");
                             scope.attrs.push({attr: 'uib-popover', value: tip});
                             scope.attrs.push({attr: 'popover-trigger', value: "'focus'"});
-                        }
-                        if (split[i].indexOf('name=') != -1) {
-                            var split2 = split[i].split("=");
-                            scope.leafName = split2[1].replace(/[']/g, "");
                         }
                     }
                 }

@@ -30,22 +30,6 @@
                     if (!scope.containerStateObject) {
                         scope.containerStateObject = {};
                     }
-
-                    if (scope.containerObject) {
-                        scope.containerName = scope.containerObject['@name'];
-                    }
-
-                    if (scope.containerObject && scope.containerObject.description) { // se c'è description
-                        var text = scope.containerObject.description.text;
-                        var split = text.split(",");
-                        for (var i = 0; i < split.length; i++) {
-
-                            if (split[i].indexOf('name=') != -1) {
-                                var split2 = split[i].split("=");
-                                scope.containerName = split2[1].replace(/[']/g, "");
-                            }
-                        }
-                    }
                 }
                 return RecursionHelper.compile(element, link);
             }

@@ -1,11 +1,11 @@
 <!--<pre>{{listModel}}</pre><br>
 <pre>{{listStateObject}}</pre><br>-->
 <div ng-repeat="el in listStateObject"> <!--listObject è una lista di oggetti-->
-    <h4 class="col-sm-3">{{listName}}[{{$index}}]</h4>
+    <h4 class="col-sm-3">{{listModel['@name'] | vnfCompName:listModel.description}}[{{$index}}]</h4>
     <leaf class="col-sm-12" ng-repeat="le in listModel.leaf" leaf-object="le" state-object="el"></leaf>
 </div>
 <div ng-if="listStateObject.length == 0">
-    <h4 class="col-sm-3">{{listName}}</h4>
+    <h4 class="col-sm-3">{{listModel['@name'] | vnfCompName:listModel.description}}</h4>
     <!--<div class="alert alert-info">No available items in this list</div>-->
     <br><p class="text-warning">No available items in this list.</p>
     <!--<leaf ng-repeat="le in listModel.leaf" leaf-object="le" state-object="listStateObject"></leaf>-->
