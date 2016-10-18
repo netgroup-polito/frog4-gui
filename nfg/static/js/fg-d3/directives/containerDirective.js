@@ -8,7 +8,8 @@
             scope: {
 				level: "=",
                 containerObject: "=",
-                containerStateObject: "="
+                containerStateObject: "=",
+                augmentObject: "="
             },
             templateUrl: '/static/js/fg-d3/directives/template/containerTemplate.html',
             controller: function($scope){

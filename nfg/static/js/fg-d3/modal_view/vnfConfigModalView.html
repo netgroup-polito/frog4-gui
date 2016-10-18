@@ -8,14 +8,19 @@
     <div class="modal-body" id="modal-body">
 		<form class="form-horizontal">
 			<span ng-if="ConfigVNFCtrl.isArray(ConfigVNFCtrl.model.container)">
-				<container ng-repeat="el in ConfigVNFCtrl.model.container" level="0" container-object="el"
-		                   container-state-object="ConfigVNFCtrl.state[ConfigVNFCtrl.model['@name'] + ':' + el['@name']]">
+				<container ng-repeat="el in ConfigVNFCtrl.model.container"
+                           level="0"
+                           container-object="el"
+		                   container-state-object="ConfigVNFCtrl.state[ConfigVNFCtrl.model['@name'] + ':' + el['@name']]"
+                           augment-object="ConfigVNFCtrl.augment[el['@name']]">
 
                 </container>
 			</span>
 		    <span ng-if="!ConfigVNFCtrl.isArray(ConfigVNFCtrl.model.container)">
-				<container container-object="ConfigVNFCtrl.model.container" level="0"
-		                   container-state-object="ConfigVNFCtrl.state[ConfigVNFCtrl.model['@name'] + ':' + ConfigVNFCtrl.model.container['@name']]">
+				<container container-object="ConfigVNFCtrl.model.container"
+                           level="0"
+		                   container-state-object="ConfigVNFCtrl.state[ConfigVNFCtrl.model['@name'] + ':' + ConfigVNFCtrl.model.container['@name']]"
+                           augment-object="ConfigVNFCtrl.augment[model.container['@name']]">
                 </container>
 			</span>
 		</form>

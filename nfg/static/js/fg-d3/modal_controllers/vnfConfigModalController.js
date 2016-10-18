@@ -3,6 +3,31 @@
  */
 (function () {
     'use strict';
+
+    /**
+     * These two functions need to handle the augment obj of a yang model
+     * @param augment
+     */
+    var parseAugment = function (augment) {
+        augment['@target-node'] = augment['@target-node'].split("/").slice(1);
+        var toRet = pathToObj(augment['@target-node'], augment['@target-node'].length, augment);
+        return toRet;
+    };
+    var pathToObj = function (array, length, aug) {
+        if (array.length > 1) {
+            //GO DEEP
+            var objj = {};
+            objj[array[0]] = pathToObj(array.slice(1), length, aug);
+            return objj;
+        } else if (array.length == 1) {
+            var obj = {};
+            delete aug['@target-node'];
+            aug.when['@condition'] = aug.when['@condition'].replace(/[']/g, "");
+            obj[array[0]] = aug;
+            return obj;
+        }
+    };
+
     /**
      * Modal controller in order to configure the VNF
      * @param $uibModalInstance
@@ -12,7 +37,6 @@
      * @param modelFunc
      * @param stateFunc
      */
-
     var vnfConfigModalController = function ($uibModalInstance, vnf, username, modelFunc, stateFunc) {
 
         var ctrl = this;
@@ -25,8 +49,10 @@
                 ctrl.state = resultState.state;
                 ctrl.model = resultModel.model;
 
-                console.log(ctrl.model);
-                console.log(ctrl.state);
+                if (resultModel.model.augment) {
+                    ctrl.augment = parseAugment(resultModel.model.augment);
+                    console.log("augment", ctrl.augment);
+                }
 
             }, function (error) {
                 console.log(error);
@@ -42,7 +68,11 @@
                     ctrl.state[nameContainer]['ifEntry'].push(obj);
                 }
 
-                console.log(ctrl.state);
+                if (resultModel.model.augment) {
+                    ctrl.augment = parseAugment(resultModel.model.augment);
+                    console.log("augment", ctrl.augment);
+                }
+
             });
         }, function (error) {
            console.log(error);
@@ -50,7 +80,6 @@
 
         ctrl.ok = function () {
 
-            console.log("ok", ctrl.state);
             //passare l'oggetto con stato attuale, mac address e username
             if (angular.equals(oldState, ctrl.state)) {
                 $uibModalInstance.dismiss('equal states');

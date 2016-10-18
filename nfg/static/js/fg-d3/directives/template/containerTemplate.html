@@ -43,7 +43,8 @@
 
             <span ng-if="containerObject.hasOwnProperty('list')">
                 <list list-model="containerObject.list"
-                      list-state-object="containerStateObject[containerObject.list['@name']]">
+                      list-state-object="containerStateObject[containerObject.list['@name']]"
+                      augment-object="augmentObject[containerObject.list['@name']]">
 
                 </list>
             </span>
