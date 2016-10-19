@@ -6,13 +6,13 @@
 	* ```jsoned_yang_model``` + ```json_state```: DOM HTML(input text, optional input, ...) created from jsoned_yang_model and then filled with the content of the json_state
 	* ```jsoned_yang_model``` + ```undefined state``` -> same as before but this time, the state is created as the GUI is depicted.
     
-    Note: the ```jsoned_yang_model``` is the JSON version of a yang model created by the server that handles VNF models.
+    Note: the ```jsoned_yang_model``` is the JSON version of a YANG model created by the server that handles VNF models.
 
-    Once loaded the model and optionally the state in two scope variable, the modal is then opened and depicted exploiting angular directives. In other words, each yang statement is modeled with an angular directive.
+    Once loaded the model and optionally the state in two scope variable, the modal is then opened and depicted exploiting angular directives. In other words, each YANG statement is modeled with an angular directive.
 
 	The configuration state changes modifying the input values on the graphic interface thanks to the 2-way binding of angular.
 
-	E.g. yang model:
+	E.g. YANG model:
 	```
 	container interfaces { 
 		list ifEntry { 
@@ -49,7 +49,7 @@
 	The ```list``` statement needs to handle a list of leaves, so every time I define a list tag, I automatically generate a list of leaves.
 	Same behavior for the ```leaf``` where according to the type of leaf: string, enumeration, ip-address; it generates either an input text or an optional input.
 
-	In general, the supported yang statements are:
+	In general, the supported YANG statements are:
 	* container
 	* list
 	* leaf
