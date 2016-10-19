@@ -1,9 +1,8 @@
-Supported features from the configuration of the VNFs modal
+# Supported features from the configuration of the VNFs modal
 
-* depicting configuration vnf modal starting from YANG MODEL of a vnf and optionally its STATE
-	making a GET request to the server I can have two cases:
-		§ jsoned_yang_model + json_state -> DOM HTML(input text, optional input, ...) created from jsoned_yang_model and then filled with the content of the json_state
-		§ jsoned_yang_model + NO state -> same as before but this time, the state is created as the gui is depicted.
+* depicting configuration vnf modal starting from YANG MODEL of a vnf and optionally its STATE making a GET request to the server I can have two cases:
+		* jsoned_yang_model + json_state -> DOM HTML(input text, optional input, ...) created from jsoned_yang_model and then filled with the content of the json_state
+		* jsoned_yang_model + NO state -> same as before but this time, the state is created as the gui is depicted.
 
 		Once loaded the model and optionally the state in two scope variable, the modal is opened and depicted exploiting angular directive. In other words, each yang statement is modelled with an angular directive.
 
