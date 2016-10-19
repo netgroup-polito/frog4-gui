@@ -46,8 +46,8 @@
 	In the case of an 'undefined' state, this is automatically created by the gui.
 
 	E.g.
-	The list statement needs to handle a list of leaves, so every time I define a "list" tag, I automatically generate a list of leaves.
-	Same behavior for the leaf where according to the type of leaf: string, enumeration, ip-address; it generates either an input text or an optional input.
+	The ```list``` statement needs to handle a list of leaves, so every time I define a list tag, I automatically generate a list of leaves.
+	Same behavior for the ```leaf``` where according to the type of leaf: string, enumeration, ip-address; it generates either an input text or an optional input.
 
 	In general, the supported yang statements are:
 	* container
