@@ -75,7 +75,7 @@
         ctrl.fg = null;
         //the position object of the loaded graph
         ctrl.fgPos = null;
-        
+
         /**
          * Function to toggle the view of the button to add element to the graph
          */
@@ -162,24 +162,16 @@
                 templateUrl: '/static/pages/refactor/modals/saveOnLocalFS.html',
                 controller: 'SaveOnLocalController',
                 controllerAs: 'saveClientCtrl',
-                size: 'lg'
+                size: 'lg',
+                resolve: {
+                    graph: function () {
+                        return clone(ctrl.fg)
+                    }
+                }
             });
             // function to get the result of the dialog
-            saveOnLocalModal.result.then(function (fg) {
-                // check if all component exist ( should not be needed )
-                if (!fg["forwarding-graph"]["end-points"])
-                    fg["forwarding-graph"]["end-points"] = [];
-                if (!fg["forwarding-graph"]["VNFs"])
-                    fg["forwarding-graph"]["VNFs"] = [];
-                if (!fg["forwarding-graph"]["big-switch"])
-                    fg["forwarding-graph"]["big-switch"] = {"flow-rules": []};
-                if (fg["forwarding-graph"]["big-switch"] && !fg["forwarding-graph"]["big-switch"]["flow-rules"])
-                    fg["forwarding-graph"]["big-switch"]["flow-rules"] = [];
+            saveOnLocalModal.result.then(function () {
 
-                // Initialize the graph position object (missing the possibility to load the position too)
-                ctrl.fgPos = initializePosition(fg["forwarding-graph"]);
-                // loading the graph (always load the graph later to prevent error)
-                ctrl.fg = fg["forwarding-graph"];
             });
         };
 

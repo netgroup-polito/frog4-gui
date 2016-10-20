@@ -9,6 +9,7 @@ function addFormPort(){
 	console.log(template_js);
 	var port_template = template_js.ports;
 
+
             $html = '<div class="boxPort">'+
                     '    <div class="form-group">'+
                     '        <label class="control-label col-sm-2" for="title" id="titleInterface"><a>Ports info:</a></label>'+     
