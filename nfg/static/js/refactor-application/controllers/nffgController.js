@@ -173,6 +173,25 @@
         };
 
         /**
+         * Function to save a current graph on local file
+         */
+        ctrl.saveOnLocalFS = function () {
+            //the new modal description
+            var saveOnLocalModal = $uibModal.open({
+                animation: false,
+                templateUrl: '/static/pages/refactor/modals/saveOnLocalFS.html',
+                controller: 'SaveOnLocalController',
+                controllerAs: 'saveClientCtrl',
+                size: 'lg'
+            });
+            // function to get the result of the dialog
+            saveOnLocalModal.result.then(function (fg) {
+               //Correctly saved
+            });
+        };
+
+
+        /**
          * Function to show the dialog used to load a graph from the local file system
          */
         ctrl.loadFromLocalFS = function () {
