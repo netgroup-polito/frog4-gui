@@ -1,15 +1,5 @@
 <div class="row">
-
-    <div id="selectedElementInfos" class="col-sm-3">
-        <!-- Left column -->
-        <br>
-
-        <div class="info"></div>
-
-
-    </div>
-    <!-- /col-3 -->
-    <div class="col-sm-9">
+    <div class="col-sm-12">
         <!-- The icons used in this menubar you can find at: http://fortawesome.github.io/Font-Awesome/icons/ -->
         <div id="menubar">
             <div class="btn-group" role="group" aria-label="...">
@@ -64,9 +54,8 @@
                 </button>
 
                 <!-- Deploy(Test) Button -->
-                <button type="button" class="menu btn btn-default btn-lg" onclick="deploy();"
-                        title="Deploy(Test)"
-                        disabled>
+                <button type="button" class="menu btn btn-default btn-lg" ng-click="NFFGCtrl.deploy();"
+                        title="Deploy(Test)">
                     <i class="fa fa-paper-plane"></i>
 
                 </button>
@@ -95,20 +84,6 @@
                         id="newLinkButton">
                     <i class="fa fa-arrows-h fa-lg"></i>
                 </button>
-                <!--
-                <div class="btn-group" uib-dropdown is-open="false" ng-if="NFFGCtrl.fg['VNFs'].length > 0">
-                    <button id="single-button" type="button" class="menu btn btn-default btn-lg" uib-dropdown-toggle ng-disabled="disabled">
-                        <i class="fa fa-wrench" aria-hidden="true"></i>
-                    </button>
-                    <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
-                        <li role="menuitem" ng-repeat="el in NFFGCtrl.fg['VNFs']" ng-if="NFFGCtrl.configurableVNFs(el)">
-                            <a ng-click="NFFGCtrl.configVNF(el.id, el.ports[0].mac);">
-                                {{el.name}}
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-                -->
 
                 <!-- Info Button -->
                 <button type="button" class="menu btn btn-default btn-lg"

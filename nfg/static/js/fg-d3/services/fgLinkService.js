@@ -63,7 +63,7 @@
             return function (elem) {
                 if (scope.isLinkCreation) {
                     if (firstElem == null) {
-                        
+
                         firstElem = elem;
                         drawTempLink(firstElem, connectionSection, svg);
                     } else {
@@ -75,9 +75,11 @@
                             secondElem = null;
                         }
                     }
+                    return true;
                 } else {
                     if (firstElem)
                         firstElem = null;
+                    return false;
                 }
             }
         }

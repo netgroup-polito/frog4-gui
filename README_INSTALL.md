@@ -17,7 +17,7 @@ This document presents how to install the Virtualized Network Services GUI.
 * Required Jsonschema and Json-schema-validator 2.3.1
 
 ```sh
-        $ sudo pip install jsonschema json-schema-validator
+        $ sudo pip install jsonschema json-schema-validator requests
 ```
 
 * Required NFFG_library 
