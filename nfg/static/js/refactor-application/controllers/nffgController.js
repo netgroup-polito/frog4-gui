@@ -77,7 +77,7 @@
         ctrl.fgPos = null;
         //the currently selected element
         ctrl.selectedElement = null;
-        
+
         /**
          * Function to toggle the view of the button to add element to the graph
          */
@@ -151,24 +151,26 @@
                 ctrl.fgPos = initializePosition(fg["forwarding-graph"]);
                 // loading the graph (always load the graph later to prevent error)
                 ctrl.fg = fg["forwarding-graph"];
+
+                ctrl.selectedElement = null;
             });
         };
 
-		/**
-		 * Function to deploy a graph
-		 */
-		ctrl.deploy = function () {
-			BackendCallService.putGraph(ctrl.fg).then(function (result) {
-				console.log("put completed");
-				console.log(result);
-				if(result.success != 'undefined')
-					$dialogs.notify('Deploy','The graph has been successfully deployed');
-				else
-					$dialogs.notify('Deploy','Error - see the universal node log');
-			}, function () {
-				console.log("Something went wrong");
-			});
-		};
+        /**
+         * Function to deploy a graph
+         */
+        ctrl.deploy = function () {
+            BackendCallService.putGraph(ctrl.fg)
+                .then(function (result) {
+                    if (result.success != 'undefined')
+                        $dialogs.notify('Deploy', 'The graph has been successfully deployed');
+                    else
+                        $dialogs.error('Deploy', 'Error - see the universal node log');
+                }, function () {
+                    console.log("Something went wrong");
+                    $dialogs.error('Deploy', 'Error - see the universal node log');
+                });
+        };
 
         /**
          * Function to show the dialog used to load a graph from the local file system
@@ -198,6 +200,8 @@
                 ctrl.fgPos = initializePosition(fg["forwarding-graph"]);
                 // loading the graph (always load the graph later to prevent error)
                 ctrl.fg = fg["forwarding-graph"];
+
+                ctrl.selectedElement = null;
             });
         };
 
@@ -420,7 +424,7 @@
             ctrl.fg["big-switch"]["flow-rules"] = res.rules;
         });
         $rootScope.$on("selectElement", function (event, res) {
-            if(ctrl.selectedElement == res){
+            if (ctrl.selectedElement == res) {
                 ctrl.selectedElement = null;
             } else {
                 ctrl.selectedElement = res;

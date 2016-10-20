@@ -101,7 +101,7 @@ def logout(request):
 def login(request):
     if request.method == 'GET':
         if "username" in request.session:
-            return HttpResponseRedirect("/refactor")
+            return HttpResponseRedirect("/")
         if request.GET.has_key('err_message'):
             err_msg = request.GET['err_message']
         else:
@@ -128,12 +128,12 @@ def login(request):
             # todo: sostituire con un valore sensato ( 300 = 5 Min)
             request.session.set_expiry(0)
 
-            return HttpResponseRedirect("/refactor")
+            return HttpResponseRedirect("/")
         else:
             logging.info("%s : %s", str(result["status"]), result["error"])
             if result["status"] == 403:
                 if "token" in request.session:
-                    return HttpResponseRedirect("/refactor")
+                    return HttpResponseRedirect("/")
                 else:
                     return HttpResponseRedirect("/login?err_message=User already logged-in from another terminal!")
             else:

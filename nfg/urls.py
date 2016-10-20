@@ -3,8 +3,8 @@ from django.conf.urls import url
 from . import views
 
 urlpatterns = [
-    url(r'^$', views.index, name='index'),
-    url(r'^refactor$', views.refactor, name='refactor'),
+    url(r'^$', views.refactor, name='refactor'),
+    url(r'^old', views.index, name='old'),
     url(r'^ajax_data_request/$', views.ajax_data_request, name='ajax_data_request'),
     url(r'^ajax_template_request/(?P<id_template>\w{0,15})/$', views.ajax_template_request,
         name='ajax_template_request'),
