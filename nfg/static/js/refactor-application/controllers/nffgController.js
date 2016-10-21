@@ -14,9 +14,10 @@
      * @param fgConst
      * @param InitializationService
      * @param FgModalService
+     * @param ExporterService
      * @constructor
      */
-    var NFFGController = function ($rootScope, $scope, BackendCallService, $uibModal, $dialogs, graphConstant, fgConst, InitializationService, FgModalService) {
+    var NFFGController = function ($rootScope, $scope, BackendCallService, $uibModal, $dialogs, graphConstant, fgConst, InitializationService, FgModalService, ExporterService) {
         var ctrl = this;
 
         //list of the existing graph from the server
@@ -160,7 +161,7 @@
          * Function to deploy a graph
          */
         ctrl.deploy = function () {
-            BackendCallService.putGraph(ctrl.fg)
+            BackendCallService.putGraph(ExporterService.exportForwardingGraph(ctrl.fg,ctrl.fgPos))
                 .then(function (result) {
                     if (result.success != 'undefined')
                         $dialogs.notify('Deploy', 'The graph has been successfully deployed');
@@ -171,6 +172,33 @@
                     $dialogs.error('Deploy', 'Error - see the universal node log');
                 });
         };
+
+        /**
+         * Function to save a current graph on local file
+         */
+        ctrl.saveOnLocalFS = function () {
+            //the new modal description
+            var saveOnLocalModal = $uibModal.open({
+                animation: false,
+                templateUrl: '/static/pages/refactor/modals/saveOnLocalFS.html',
+                controller: 'SaveOnLocalController',
+                controllerAs: 'saveClientCtrl',
+                size: 'md',
+                resolve: {
+                    graph: function () {
+                        return clone(ctrl.fg)
+                    },
+                    graphPosition: function () {
+                        return clone(ctrl.fgPos)
+                    }
+                }
+            });
+            // function to get the result of the dialog
+            saveOnLocalModal.result.then(function () {
+                //Correctly saved
+            });
+        };
+
 
         /**
          * Function to show the dialog used to load a graph from the local file system
@@ -455,7 +483,7 @@
         });
     };
 
-    NFFGController.$inject = ['$rootScope', '$scope', 'BackendCallService', '$uibModal', 'dialogs', 'graphConstant', 'forwardingGraphConstant', 'InitializationService', "FgModalService"];
+    NFFGController.$inject = ['$rootScope', '$scope', 'BackendCallService', '$uibModal', 'dialogs', 'graphConstant', 'forwardingGraphConstant', 'InitializationService', "FgModalService", "ExporterService"];
     angular.module('fg-gui').controller('NFFGController', NFFGController);
 
 })();

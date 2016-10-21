@@ -44,5 +44,4 @@ urlpatterns = [
     url(r'^api/v1/graphs_api/get_vnf_templates/$', views.api_get_vnf_templates, name='get_vnf_templates'),
     url(r'^graphs_from_repository_request/$', views.graphs_from_repository_request,
         name='graphs_from_repository_request')
-
 ]

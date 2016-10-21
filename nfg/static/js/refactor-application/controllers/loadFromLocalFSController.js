@@ -2,9 +2,6 @@
  * Created by valentin on 17/09/16.
  */
 
-/**
- * Created by giacomo on 16/05/16.
- */
 (function () {
     'use strict';
     /**
