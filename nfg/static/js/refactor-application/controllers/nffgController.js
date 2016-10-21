@@ -182,10 +182,15 @@
                 templateUrl: '/static/pages/refactor/modals/saveOnLocalFS.html',
                 controller: 'SaveOnLocalController',
                 controllerAs: 'saveClientCtrl',
-                size: 'lg'
+                size: 'lg',
+                resolve: {
+                    graph: function () {
+                        return clone(ctrl.fg)
+                    }
+                }
             });
             // function to get the result of the dialog
-            saveOnLocalModal.result.then(function (fg) {
+            saveOnLocalModal.result.then(function () {
                //Correctly saved
             });
         };

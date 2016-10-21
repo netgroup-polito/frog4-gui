@@ -28,7 +28,9 @@
                 </button>
 
                 <!-- Save Button -->
-                <button type="button" class="menu btn btn-default btn-lg" ng-click="NFFGCtrl.saveOnLocalFS();"
+                <button type="button" class="menu btn btn-default btn-lg"
+                        ng-disabled="!NFFGCtrl.fg"
+                        ng-click="NFFGCtrl.saveOnLocalFS();"
                         title="Save">
                     <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>
                 </button>
