@@ -5,7 +5,7 @@
 (function () {
     /**
      * Service to initialize position element used in graph building phase
-     * @returns {{initEPsPos: _initEPsPos, initVNFsPos: _initVNFsPos, initBigSwitchPos: _initBigSwitchPos, initFlowRulesLink: _initFlowRulesLink}}
+     * @returns {{exportEPs: _exportEPs, exportVNFs: _exportVNFs, exportBigSwitch: _exportBigSwitch, exportFlowRules: _exportFlowRules, exportForwardingGraph: _exportForwardingGraph}}
      * @constructor
      */
     var ExporterService = function () {
@@ -18,7 +18,15 @@
          * @private
          */
         function _exportEPs(eps, epsPos) {
-
+            if (epsPos) {
+                for (var i = 0; i < eps.length; i++) {
+                    var pos = {};
+                    pos.x = epsPos[eps[i].id].x;
+                    pos.y = epsPos[eps[i].id].y;
+                    eps[i]["gui-position"] = pos;
+                }
+            }
+            return eps;
         }
 
         /**
@@ -29,7 +37,21 @@
          * @private
          */
         function _exportVNFs(vnfs, vnfsPos) {
-
+            if (vnfsPos) {
+                for (var i = 0; i < vnfs.length; i++) {
+                    var pos = {};
+                    pos.x = vnfsPos[vnfs[i].id].x;
+                    pos.y = vnfsPos[vnfs[i].id].y;
+                    vnfs[i]["gui-position"] = pos;
+                    for (var j = 0; j < vnfs[i].ports.length; j++) {
+                        var pos2 = {};
+                        pos2.x = vnfsPos[vnfs[i].id].ports[vnfs[i].ports[j]].x;
+                        pos2.y = vnfsPos[vnfs[i].id].ports[vnfs[i].ports[j]].y;
+                        vnfs[i]["gui-position"] = pos2;
+                    }
+                }
+            }
+            return vnfs;
         }
 
         /**
@@ -40,7 +62,7 @@
          * @private
          */
         function _exportBigSwitch(bigSwitch, bigSwitchPos) {
-
+            return bigSwitch;
         }
 
         /**
@@ -51,7 +73,7 @@
          * @private
          */
         function _exportFlowRules(flowRules, flowRulesPos) {
-
+            return flowRules;
         }
 
         /**
@@ -62,12 +84,13 @@
          * @private
          */
         function _exportForwardingGraph(fg, fgPos) {
-            var graph = {
-                "fowarding-graph": clone(fg)
+            var graph = clone(fg);
+            graph["end-points"] = _exportEPs(fg["end-points"], fgPos ? fgPos["end-points"] : undefined);
+            graph["VNFs"] = _exportVNFs(fg["VNFs"], fgPos ? fgPos["VNFs"] : undefined);
+            graph["big-switch"] = _exportBigSwitch(fg["big-switch"], fgPos ? fgPos["big-switch"] : undefined);
+            return {
+                "forwarding-graph": graph
             };
-            graph["end-points"] = _exportEPs(fg["end-points"], fgPos["end-points"]);
-            graph["VNFs"] = _exportVNFs(fg["VNFs"], fgPos["VNFs"]);
-            graph["big-switch"] = _exportBigSwitch(fg["big-switch"], fgPos["big-switch"]);
         }
 
         return {

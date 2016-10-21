@@ -14,9 +14,10 @@
      * @param fgConst
      * @param InitializationService
      * @param FgModalService
+     * @param ExporterService
      * @constructor
      */
-    var NFFGController = function ($rootScope, $scope, BackendCallService, $uibModal, $dialogs, graphConstant, fgConst, InitializationService, FgModalService) {
+    var NFFGController = function ($rootScope, $scope, BackendCallService, $uibModal, $dialogs, graphConstant, fgConst, InitializationService, FgModalService, ExporterService) {
         var ctrl = this;
 
         //list of the existing graph from the server
@@ -160,7 +161,7 @@
          * Function to deploy a graph
          */
         ctrl.deploy = function () {
-            BackendCallService.putGraph(ctrl.fg)
+            BackendCallService.putGraph(ExporterService.exportForwardingGraph(ctrl.fg,ctrl.fgPos))
                 .then(function (result) {
                     if (result.success != 'undefined')
                         $dialogs.notify('Deploy', 'The graph has been successfully deployed');
@@ -182,16 +183,19 @@
                 templateUrl: '/static/pages/refactor/modals/saveOnLocalFS.html',
                 controller: 'SaveOnLocalController',
                 controllerAs: 'saveClientCtrl',
-                size: 'lg',
+                size: 'md',
                 resolve: {
                     graph: function () {
                         return clone(ctrl.fg)
+                    },
+                    graphPosition: function () {
+                        return clone(ctrl.fgPos)
                     }
                 }
             });
             // function to get the result of the dialog
             saveOnLocalModal.result.then(function () {
-               //Correctly saved
+                //Correctly saved
             });
         };
 
@@ -456,7 +460,7 @@
         });
     };
 
-    NFFGController.$inject = ['$rootScope', '$scope', 'BackendCallService', '$uibModal', 'dialogs', 'graphConstant', 'forwardingGraphConstant', 'InitializationService', "FgModalService"];
+    NFFGController.$inject = ['$rootScope', '$scope', 'BackendCallService', '$uibModal', 'dialogs', 'graphConstant', 'forwardingGraphConstant', 'InitializationService', "FgModalService", "ExporterService"];
     angular.module('fg-gui').controller('NFFGController', NFFGController);
 
 })();

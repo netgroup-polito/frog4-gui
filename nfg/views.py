@@ -700,7 +700,7 @@ def api_get_available_graphs_debug(request):
 
 
 def api_put_graph(request):
-    if request.method == "POST":
+    if request.method == "PUT":
         if "token" in request.session:
 
             new_graph = json.loads(request.body)

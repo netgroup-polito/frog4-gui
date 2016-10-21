@@ -63,7 +63,7 @@
         var _putGraph = function (json_graph) {
             var deferred = $q.defer();
             $http.put("/api/v1/graphs_api/put_graph/",
-                {'forwarding-graph': json_graph},
+                json_graph,
                 {
                     headers: {
                         'Content-type': 'application/json'
@@ -76,7 +76,8 @@
                     deferred.reject(err);
                 });
             return deferred.promise;
-        }
+        };
+
         return {
             getAvailableGraphs: _getAvailableGraphs,
             getJSONSchema: _getJSONSchema,
