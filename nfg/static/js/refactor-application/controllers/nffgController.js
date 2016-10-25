@@ -241,6 +241,7 @@
             ctrl.fgPos = null;
             //istanzio un grafico vuoto
             ctrl.fg = {
+		"id": Math.floor((Math.random() * 1000000) + 1).toString(),
                 "VNFs": [],
                 "end-points": [],
                 "big-switch": {

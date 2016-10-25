@@ -22,7 +22,8 @@
         ctrl.LKMatch = navigateThroughSchema(ctrl.LKSchema.properties["match"]["$ref"]);
         ctrl.LKAction = navigateThroughSchema(ctrl.LKSchema.properties["actions"].items["$ref"]);
         ctrl.fgElem = {
-            id: newID()
+            id: newID(),
+	    priority: 1
         };
 
         ctrl.fgElem[fgConst.lkOrigLev1] = {};
