@@ -45,9 +45,9 @@
                     vnfs[i]["gui-position"] = pos;
                     for (var j = 0; j < vnfs[i].ports.length; j++) {
                         var pos2 = {};
-                        pos2.x = vnfsPos[vnfs[i].id].ports[vnfs[i].ports[j]].x;
-                        pos2.y = vnfsPos[vnfs[i].id].ports[vnfs[i].ports[j]].y;
-                        vnfs[i]["gui-position"] = pos2;
+                        pos2.x = vnfsPos[vnfs[i].id].ports[vnfs[i].ports[j].id].x;
+                        pos2.y = vnfsPos[vnfs[i].id].ports[vnfs[i].ports[j].id].y;
+                        vnfs[i].ports[j]["gui-position"] = pos2;
                     }
                 }
             }
