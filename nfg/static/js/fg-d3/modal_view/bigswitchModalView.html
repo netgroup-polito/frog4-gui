@@ -10,12 +10,14 @@
                 <thead>
                 <tr ng-if="BSViewCtrl.config">
                     <th ng-repeat="elem in BSViewCtrl.config" >{{ elem.capitalizeFirstLetter() }}</th>
+                    <th></th>
                 </tr>
                 <tr ng-if="!BSViewCtrl.config"><!--Fallback-->
                     <th>Id</th>
                     <th>Description</th>
                     <th>Match:port_in</th>
                     <th>Action:output_to_port</th>
+                    <th></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -23,6 +25,7 @@
                     <td ng-repeat="elem in BSViewCtrl.config" >{{ BSViewCtrl.getValue(rule,elem) }}</td>
                     <td>
                         <button type="button" class="btn btn-info" ng-click="BSViewCtrl.editRule(rule)">Edit</button>
+                        <button type="button" class="btn btn-danger" ng-click="BSViewCtrl.removeRule(rule)">Delete</button>
                     </td>
                 </tr>
                 <tr ng-repeat="rule in BSViewCtrl.flowRules" ng-if="!BSViewCtrl.config"><!--Fallback-->
@@ -32,6 +35,7 @@
                     <td>{{ BSViewCtrl.getValue(rule,'action:output_to_port') }}</td>
                     <td>
                         <button type="button" class="btn btn-info" ng-click="BSViewCtrl.editRule(rule)">Edit</button>
+                        <button type="button" class="btn btn-danger" ng-click="BSViewCtrl.removeRule(rule)">Delete</button>
                     </td>
                 </tr>
                 </tbody>
