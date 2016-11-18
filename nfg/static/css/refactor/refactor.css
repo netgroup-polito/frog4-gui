@@ -108,3 +108,8 @@ html, body, .col-md-12, .row {
     line-height: 1.33;
     border-radius: 35px;
 }
+
+table tr td:last-child {
+    white-space: nowrap;
+    width: 1px;
+}

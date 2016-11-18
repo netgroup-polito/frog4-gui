@@ -12,7 +12,7 @@
      * @param $routeProvider
      * @constructor
      */
-    var RouteProvider = function ($routeProvider) {
+    var RouteProvider = function ($routeProvider/*,$locationProvider*/) {
         $routeProvider.when('/home', {
             redirectTo: "/"
         }).when('/nf-fg', {
@@ -20,11 +20,16 @@
         }).when('/', { // Forwarding-graph View
             templateUrl: applicationViewBasePath + 'nf-fg.html',
             controller: 'NFFGController',
-            controllerAs: 'NFFGCtrl'
+            controllerAs: 'NFFGCtrl',
+            hotkeys: [
+                ['del', 'Delete the currently selected element', 'NFFGCtrl.deleteSelected()'],
+                ['esc', 'Deselect the currently selected element', 'NFFGCtrl.deselectSelected()']
+            ]
         });
+        //$locationProvider.html5Mode(true);
     };
 
-    RouteProvider.$inject = ['$routeProvider'];
+    RouteProvider.$inject = ['$routeProvider'/*,'$locationProvider'*/];
 
     angular.module("fg-gui").config(RouteProvider);
 })();

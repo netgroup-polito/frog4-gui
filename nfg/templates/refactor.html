@@ -1,26 +1,29 @@
 {% load staticfiles %}
 <!DOCTYPE html>
 <html lang="en">
+<!--<base href="/">-->
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta charset="UTF-8">
     <title>{{ guiName }} - NF-FG Refactor</title>
     <link rel="icon" href="{% static "img/favicon.ico" %}">
-    <link rel="stylesheet" href="{% static "css/bootstrap.css" %}">
-    <link rel="stylesheet" href="{% static "css/dialogs.css" %}">
-    <link rel="stylesheet" href="{% static "css/style.css" %}">
-    <link rel="stylesheet" href="{% static "css/graphElement.css" %}">
-    <link rel="stylesheet" href="{% static "css/font-awesome.css" %}">
-    <link rel="stylesheet" href="{% static "css/refactor/refactor.css" %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'css/dialogs.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/graphElement.css' %}">
+    <link rel="stylesheet" href="{% static 'css/font-awesome.css' %}">
+    <link rel="stylesheet" href="{% static 'css/refactor/refactor.css' %}">
+    <link rel="stylesheet" href="{% static 'css/hotkeys.min.css' %}">
 
     <!-- Javascipt Library -->
     <script type="text/javascript" src="{% static 'js/libs/jquery/jquery.min.js' %}"></script>
     <!--<script type="text/javascript" src="{% static 'js/libs/d3/d3.v3.min.js' %}"></script>-->
-    <script type="text/javascript" src="{% static 'js/libs/d3/d3.v4.min.js' %}"></script>
-    <script type="text/javascript" src="{% static 'js/libs/d3/d3-dispatch.v1.min.js' %}"></script>
-    <script type="text/javascript" src="{% static 'js/libs/d3/d3-selection.v1.min.js' %}"></script>
-    <script type="text/javascript" src="{% static 'js/libs/d3/d3-selection-multi.v1.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/libs/d3/d3.v4.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/libs/d3/d3-selection.v1.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/libs/d3/d3-selection-multi.v1.js' %}"></script>
+    <!--<script type="text/javascript" src="{% static 'js/libs/d3/d3-dispatch.v1.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/libs/d3/d3-drag.v1.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/libs/d3/d3-zoom.v1.js' %}"></script>-->
     <script type="text/javascript" src="{% static 'js/libs/bootstrap/bootstrap.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/libs/bootstrap/bootstrap-filestyle.min.js' %}"></script>
 
@@ -35,6 +38,7 @@
     <script type="text/javascript" src="{% static 'js/libs/angular/angular-sanitize.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/libs/bootstrap/ui-bootstrap-tpls-1.3.3.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/libs/dialogs.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/libs/hotkeys.min.js' %}"></script>
 
     <!-- Angular JS application -->
     <script type="text/javascript" src="{% static 'js/refactor-application/app.js' %}"></script>
@@ -44,11 +48,11 @@
     <!-- Angular Service -->
     <script type="text/javascript" src="{% static 'js/fg-d3/services/InitializationService.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/fg-d3/services/ExporterService.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/fg-d3/services/ManipulationService.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/fg-d3/services/d3Service.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/fg-d3/services/fgDrawService.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/fg-d3/services/fgDragService.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/fg-d3/services/fgModalService.js' %}"></script>
-    <script type="text/javascript" src="{% static 'js/fg-d3/services/fgClickService.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/fg-d3/services/fgLinkService.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/fg-d3/services/fgUpdateService.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/fg-d3/services/recursionHelperService.js' %}"></script>

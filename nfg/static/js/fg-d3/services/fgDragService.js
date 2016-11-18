@@ -30,7 +30,6 @@
                     callback();
                 })
                 .on("start", function () {
-                    
                     d3.event.sourceEvent.stopPropagation();
                 })
                 .filter(function () {
@@ -38,6 +37,7 @@
                 });
             return drag;
         }
+
         /**
          * Drag functionality for the VNF
          * @param getPosition Function to get the position element of the vnf
@@ -58,7 +58,6 @@
                     callback();
                 })
                 .on("start", function (d) {
-                    
                     d3.event.sourceEvent.stopPropagation();
                 })
                 .filter(function () {
@@ -87,7 +86,6 @@
                     callback();
                 })
                 .on("start", function () {
-                    
                     d3.event.sourceEvent.stopPropagation();
                 })
                 .filter(function () {
@@ -109,7 +107,6 @@
             var prevDragY = 0;
             var drag = d3Service.addDragBehavior()
                 .on("start", function (d) {
-                    
                     d3.event.sourceEvent.stopPropagation();
                     // at start of a drag reset the value to current position
                     prevDragX = d.x;
@@ -175,7 +172,6 @@
             var prevDragY = 0;
             var drag = d3Service.addDragBehavior()
                 .on("start", function (d) {
-                    
                     d3.event.sourceEvent.stopPropagation();
                     // at start of a drag reset the value to current position
 
@@ -229,12 +225,33 @@
             return drag;
         }
 
+        /**
+         *
+         * @param getPosition
+         * @param callback
+         * @private
+         */
+        function _dragGraph(getPosition, callback) {
+            var drag = d3Service.addDragBehavior()
+                .on("drag", function () {
+                    callback(getPosition().translate(d3.event.dx,d3.event.dy));
+                })
+                .on("start", function () {
+                    d3.event.sourceEvent.stopPropagation();
+                })
+                .filter(function () {
+                    return !d3.event.button;
+                });
+            return drag;
+        }
+
         return {
             dragEP: _dragEP,
             dragVNF: _dragVNF,
             dragPort: _dragPort,
             dragBS: _dragBS,
-            dragBSInterface: _dragBSInterface
+            dragBSInterface: _dragBSInterface,
+            dragGraph: _dragGraph
         }
 
     };

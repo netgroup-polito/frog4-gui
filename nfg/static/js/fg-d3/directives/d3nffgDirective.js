@@ -9,13 +9,12 @@
      * @param fgDragService The service used to add drag behavior the forwarding-graph element
      * @param fgModalService The service used to open a modal view
      * @param fgLinkService The service used to add a linking functionality to the forwarding-graph element
-     * @param fgClickService The service used to add a click behavior to the forwarding-graph element
      * @param fgUpdateService
      * @param graphConstant The constant used in the graph directive as parameter
      * @param $rootScope
      * @returns {{restrict: string, require: string[], scope: {position: string, showBigSwitch: string, isForced: string}, controller: controller, link: link}}
      */
-    var d3nffg = function (d3Service, fgDrawService, fgDragService, fgModalService, fgLinkService, fgClickService, fgUpdateService, graphConstant, $rootScope) {
+    var d3nffg = function (d3Service, fgDrawService, fgDragService, fgModalService, fgLinkService, fgUpdateService, graphConstant, $rootScope) {
         return {
             /**
              * type of angular directive (can be used via attribute only)
@@ -80,16 +79,26 @@
                     svg = d3Service.addAttribute(svg, "width", graphConstant.graphWidth);
                     svg = d3Service.addAttribute(svg, "height", graphConstant.graphHeight);
 
+                    var container = d3Service.addSection(svg, "graphContainer");
+
+                    var graphDrag = fgDragService.dragGraph(
+                        function () {
+                            return d3Service.getTransform(container);
+                        }, function (transform) {
+                            d3Service.setTransform(container, transform);
+                        });
+                    svg.call(graphDrag);
+
                     // define a section of the graph with object definition
-                    var definitions_section = d3Service.addSection(svg, "definitions_section");
+                    var definitions_section = d3Service.addSection(container, "definitions_section");
                     // define a section of the graph containing the big switch
-                    var bigSwitch_section = d3Service.addSection(svg, "bigSwitch_section");
+                    var bigSwitch_section = d3Service.addSection(container, "bigSwitch_section");
                     // define a section of the graph containing all the VNF
-                    var VNF_section = d3Service.addSection(svg, "VNF_section");
+                    var VNF_section = d3Service.addSection(container, "VNF_section");
                     // define a section of the graph containing all the connection
-                    var connection_section = d3Service.addSection(svg, "connection_section");
+                    var connection_section = d3Service.addSection(container, "connection_section");
                     // define a section of the graph containing all interface and EndPoint
-                    var interface_section = d3Service.addSection(svg, "interface_section");
+                    var interface_section = d3Service.addSection(container, "interface_section");
 
                     //TODO cambiare la modalità di selezione usando applicando una classe
                     // adding a graph definition for the vnf
@@ -214,6 +223,25 @@
                                 }
                             ]
                         });
+                    d3Service.addNestedDefinition(
+                        definitions_section,
+                        "marker",
+                        {
+                            "id": "EndpointArrowSelected",
+                            "viewBox": "0 -5 10 10",
+                            "refX": 25,
+                            "refY": 0,
+                            "markerWidth": 5,
+                            "markerHeight": 5,
+                            "orient": "auto",
+                            "children": [
+                                {
+                                    "type": "path",
+                                    "d": "M0,-5 L10,0 L0,5",
+                                    "class": "arrowHead arrowHead-selected"
+                                }
+                            ]
+                        });
                     //adding a nest definition for the arrow used for port and interface
                     d3Service.addNestedDefinition(
                         definitions_section,
@@ -234,10 +262,30 @@
                                 }
                             ]
                         });
+                    d3Service.addNestedDefinition(
+                        definitions_section,
+                        "marker",
+                        {
+                            "id": "InterfaceArrowSelected",
+                            "viewBox": "0 -5 10 10",
+                            "refX": 15,
+                            "refY": 0,
+                            "markerWidth": 5,
+                            "markerHeight": 5,
+                            "orient": "auto",
+                            "children": [
+                                {
+                                    "type": "path",
+                                    "d": "M0,-5 L10,0 L0,5",
+                                    "class": "arrowHead arrowHead-selected"
+                                }
+                            ]
+                        });
 
 
                     ctrl.graph = {
                         svg: svg,
+                        container: container,
                         definitions: definitions_section,
                         bigSwitch: bigSwitch_section,
                         interfaces: interface_section,
@@ -326,21 +374,6 @@
                         /*flowRulesUpdate: flowRulesUpdate*/
                     }
                 };
-
-                /**
-                 * Function to initialize the click behavior of the different item
-                 * @param ngModel {object} The ngModel Controller used to access the forwarding-graph instance
-                 * @param $scope {object} The scope of the directive used to access the position object
-                 */
-                ctrl.initializeClick = function (ngModel, $scope) {
-                    // ngModel.$modelValue = forwarding graph
-                    // $scope.position = position object
-
-
-                    /*ctrl.graph.click = {
-                     epClick: epClick
-                     }*/
-                };
                 /**
                  * Function to initialize the link behavior of the different item
                  * @param ngModel {object} The ngModel Controller used to access the forwarding-graph instance
@@ -386,6 +419,10 @@
                     ctrl.graph.interfaces.selectAll("*").remove();
                     ctrl.graph.vnfs.selectAll("*").remove();
                     ctrl.graph.connections.selectAll("*").remove();
+                    ctrl.resetTransform();
+                };
+                ctrl.resetTransform = function () {
+                    d3Service.setTransform(ctrl.graph.container);
                 };
                 /**
                  * Function to check if a graph has splitted traffic
@@ -473,6 +510,9 @@
                         }
                         ngModel.$render();
                     });
+                $rootScope.$on("changedGraph",function () {
+                    ctrl.resetTransform();
+                });
                 /**
                  * function to watch the change of the flow-rules
                  */
@@ -508,13 +548,12 @@
                 ctrl.initializeGraph(element[0]);
                 ctrl.initializeDrag(ngModel, scope);
                 ctrl.initializeUpdate(ngModel, scope);
-                ctrl.initializeClick(ngModel, scope);
                 ctrl.initializeLink(ngModel, scope);
             }
         };
     };
 
-    d3nffg.$inject = ["d3Service", "fgDrawService", "fgDragService", "FgModalService", "fgLinkService", "fgClickService", "fgUpdateService", "graphConstant", "$rootScope"];
+    d3nffg.$inject = ["d3Service", "fgDrawService", "fgDragService", "FgModalService", "fgLinkService", "fgUpdateService", "graphConstant", "$rootScope"];
     angular.module("d3").directive("d3nffg", d3nffg);
 
 })();

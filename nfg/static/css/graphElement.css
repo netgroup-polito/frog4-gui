@@ -66,7 +66,10 @@
 .link-selected {
     stroke-width: 2.5px;
     stroke: #ED571C;
-    color: #ED571C;
+}
+.arrowHead-selected {
+    stroke: #ED571C;
+    fill: #ED571C;
 }
 
 .internet {

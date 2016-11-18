@@ -138,21 +138,21 @@
                             origin: orig,
                             destination: dest,
                             isFullDuplex: false,
-                            rules: ["flow-rules:" + rule.id]
+                            rules: ["flow-rule:" + rule.id]
                         };
                     }
                 } else { //if it does not exist
                     if (flow_rules_link[dest]) { //check if it exist rule from the destination
                         if (flow_rules_link[dest][orig]) { //if it exist check if exist the opposite of this rule
                             flow_rules_link[dest][orig].isFullDuplex = true;
-                            flow_rules_link[dest][orig].rules.push("flow-rules:" + rule.id);
+                            flow_rules_link[dest][orig].rules.push("flow-rule:" + rule.id);
                         } else { // if not add the rule orig -> dest
                             flow_rules_link[orig] = {};
                             flow_rules_link[orig][dest] = {
                                 origin: orig,
                                 destination: dest,
                                 isFullDuplex: false,
-                                rules: ["flow-rules:" + rule.id]
+                                rules: ["flow-rule:" + rule.id]
                             };
                         }
                     } else { //if no rule exist for the destination create a new rule orig -> dest
@@ -161,7 +161,7 @@
                             origin: orig,
                             destination: dest,
                             isFullDuplex: false,
-                            rules: ["flow-rules:" + rule.id]
+                            rules: ["flow-rule:" + rule.id]
                         };
                     }
                 }

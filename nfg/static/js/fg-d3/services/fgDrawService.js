@@ -72,6 +72,7 @@
                 })
                 .on("contextmenu", function (d) {
                         d3.event.preventDefault();
+                        d3.event.stopPropagation();
                         var modal = graph.update.epUpdate(d, pos[d.id]);
                         modal.result.then(function (res) {
                             $rootScope.$broadcast("epUpdated", res);
@@ -80,6 +81,7 @@
                 )
                 .on("click", function (d) {
                     if (!graph.link.epLink(pos[d.id])) {
+                        d3.event.stopPropagation();
                         $rootScope.$broadcast("selectElement", pos[d.id].full_id);
                     }
                 })
@@ -144,6 +146,7 @@
                 })
                 .on("contextmenu", function (d) {
                     d3.event.preventDefault();
+                    d3.event.stopPropagation();
                     var modal = graph.update.vnfUpdate(d, pos[d.id]);
                     modal.result.then(function (res) {
                         $rootScope.$broadcast("vnfUpdated", res);
@@ -258,7 +261,7 @@
                     return pos[d.parent].full_id;    // id of the parent vnf
                 })
                 .on("click", function (d) {
-
+                    d3.event.stopPropagation();
                     var elem = clone(pos[d.parent].ports[d.port.id]);
                     elem.x += pos[d.parent].x;
                     elem.y += pos[d.parent].y;
@@ -295,12 +298,14 @@
                 })
                 .on("contextmenu", function (d) {
                     d3.event.preventDefault();
+                    d3.event.stopPropagation();
                     var modal = graph.update.vnfUpdate(d, pos[d.id]);
                     modal.result.then(function (res) {
                         $rootScope.$broadcast("vnfUpdated", res);
                     });
                 })
                 .on("click", function (d) {
+                    d3.event.stopPropagation();
                     $rootScope.$broadcast("selectElement", pos[d.id].full_id);
                 })
                 .call(graph.drag.vnfDrag);//adding drag functionality
@@ -326,7 +331,7 @@
                 .attr("y", 20)
                 .text("")
                 .on("click", function (d) {
-                    console.log("d", d);
+                    d3.event.stopPropagation();
 
                     var modal = graph.update.vnfConfig(d);
                     //find a way to get back the old state
@@ -459,7 +464,7 @@
                     return pos[d.parent].full_id;    // id of the parent vnf
                 })
                 .on("click", function (d) {
-
+                    d3.event.stopPropagation();
                     var elem = clone(pos[d.parent].ports[d.port.id]);
                     elem.x += pos[d.parent].x;
                     elem.y += pos[d.parent].y;
@@ -548,12 +553,12 @@
                 .call(graph.drag.bigSwitchDrag)
                 .on("contextmenu", function (d) {
                     d3.event.preventDefault();
+                    d3.event.stopPropagation();
                     var modal = graph.update.bigSwitch(bigswitch, pos);
                     modal.result.then(function (res) {
-                        $rootScope.$broadcast("flowRulesUpdated ", res);
+                        $rootScope.$broadcast("flowRulesUpdated", res);
                     });
-                })
-            /*.on("click", selectBS);*/
+                });
 
             //the d3 library needs an array, so the position are extracted from the object
             var interfaces = [];
@@ -589,6 +594,7 @@
                     return parseInt(pos.y + d.y);
                 })
                 .on("click", function (d) {
+                    d3.event.stopPropagation();
                     var elem = clone(pos.interfaces[d.full_id]);
                     elem.x += pos.x;
                     elem.y += pos.y;
@@ -691,9 +697,10 @@
                     return d.isFullDuplex;
                 })
                 .attr("marker-end", function (d) {//the end marker, arrow if half duplex (big if end into endpoint)
-                    return d.isFullDuplex === true ? "default" : d.destination.indexOf("endpoint") == -1 ? "url(#interfaceArrow)" : "url(#EndpointArrow)";
+                    return d.isFullDuplex === true ? "default" : (d.destination.indexOf("endpoint") == -1 ? (  graph.selectedElement == d.rules ? "url(#InterfaceArrowSelected)" : "url(#InterfaceArrow)" ) : (  graph.selectedElement == d.rules ? "url(#EndpointArrowSelected)" : "url(#EndpointArrow)" ));
                 })
                 .on("click", function (d) {
+                    d3.event.stopPropagation();
                     $rootScope.$broadcast("selectElement", d.rules);
                 });
             links.exit().remove();
@@ -804,9 +811,10 @@
                     return d.isFullDuplex;
                 })
                 .attr("marker-end", function (d) {
-                    return d.isFullDuplex === true ? "default" : "url(#InterfaceArrow)"; //marker is arrow if half duplex
+                    return d.isFullDuplex === true ? "default" : (  graph.selectedElement == d.rules ? "url(#InterfaceArrowSelected)" : "url(#InterfaceArrow)" ); //marker is arrow if half duplex
                 })
                 .on("click", function (d) {
+                    d3.event.stopPropagation();
                     $rootScope.$broadcast("selectElement", d.rules);
                 });
             internalLinks.exit().remove();
