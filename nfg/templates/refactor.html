@@ -18,9 +18,9 @@
     <!-- Javascipt Library -->
     <script type="text/javascript" src="{% static 'js/libs/jquery/jquery.min.js' %}"></script>
     <!--<script type="text/javascript" src="{% static 'js/libs/d3/d3.v3.min.js' %}"></script>-->
-    <script type="text/javascript" src="{% static 'js/libs/d3/d3.v4.js' %}"></script>
-    <script type="text/javascript" src="{% static 'js/libs/d3/d3-selection.v1.js' %}"></script>
-    <script type="text/javascript" src="{% static 'js/libs/d3/d3-selection-multi.v1.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/libs/d3/d3.v4.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/libs/d3/d3-selection.v1.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/libs/d3/d3-selection-multi.v1.min.js' %}"></script>
     <!--<script type="text/javascript" src="{% static 'js/libs/d3/d3-dispatch.v1.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/libs/d3/d3-drag.v1.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/libs/d3/d3-zoom.v1.js' %}"></script>-->
@@ -80,6 +80,7 @@
     <!-- Angular Controller -->
     <script type="text/javascript" src="{% static 'js/refactor-application/controllers/mainController.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/refactor-application/controllers/nffgController.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/refactor-application/controllers/guiInfoController.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/refactor-application/controllers/updateFGInfoController.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/refactor-application/controllers/loadFromServerController.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/refactor-application/controllers/loadFromLocalFSController.js' %}"></script>
@@ -120,7 +121,7 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="/info"><i class="glyphicon glyphicon-info-sign"></i> Info</a>
+                    <a ng-click="MainCtrl.showInfo()"><i class="glyphicon glyphicon-info-sign"></i> Info</a>
                 <li>
                 <li><a>Welcome {{ username }}</a></li>
                 <li><a href="/logout/"><i class="glyphicon glyphicon-lock"></i> Logout</a></li>

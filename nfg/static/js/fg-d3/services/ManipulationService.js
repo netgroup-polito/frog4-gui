@@ -38,7 +38,7 @@
                 }
                 //check each output to port
                 for (var k = 0; k < fg["big-switch"]["flow-rules"][j][fgConst.lkDestLev1].length; k++) {
-                    if (ctrl.fg["big-switch"]["flow-rules"][j][fgConst.lkDestLev1][k][fgConst.lkDestLev3].indexOf("endpoint:" + epId) >= 0) {
+                    if (fg["big-switch"]["flow-rules"][j][fgConst.lkDestLev1][k][fgConst.lkDestLev3].indexOf("endpoint:" + epId) >= 0) {
                         //remove rules terminating in the vnf
                         fg["big-switch"]["flow-rules"].splice(j, 1);
                         j--;
