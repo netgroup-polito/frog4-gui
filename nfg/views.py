@@ -719,6 +719,20 @@ def api_put_graph(request):
         return HttpResponse(status=501)
 
 
+def api_delete_graph(request, graph_id):
+    if request.method == "DELETE":
+        if "token" in request.session:
+
+            result = graphm.delete_user_graph(graph_id,
+                                              request.session["token"])
+            serialized_obj = json.dumps(result)
+            return HttpResponse("%s" % serialized_obj, status=result["status"], content_type="application/json")
+        else:
+            return HttpResponse(status=401)
+    else:
+        return HttpResponse(status=501)
+
+
 def api_get_json_schema(request):
     if request.method == "GET":
         try:
@@ -756,11 +770,12 @@ def api_get_vnf_templates(request):
     else:
         return HttpResponse(status=501)
 
-#added by riccardo
+
+# added by riccardo
 def status_get_vnf_model(request, vnf_type):
     print request
     print vnf_type
-    #here a control on the input value should be done, even if the control is already done by the regex
+    # here a control on the input value should be done, even if the control is already done by the regex
     if request.method == "GET":
         if "token" in request.session:
             result = modelm.get_vnf_model(vnf_type)
@@ -771,6 +786,7 @@ def status_get_vnf_model(request, vnf_type):
             return HttpResponse(status=401)
     else:
         return HttpResponse(status=501)
+
 
 def configure_get_vnf_state(request, mac_address, username):
     print mac_address
@@ -784,6 +800,7 @@ def configure_get_vnf_state(request, mac_address, username):
             return HttpResponse(status=401)
     else:
         return HttpResponse(status=501)
+
 
 def configure_put_vnf_updated_state(request, mac_address, username):
     if request.method == "PUT":

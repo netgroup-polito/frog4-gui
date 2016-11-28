@@ -10,21 +10,33 @@
 
         <div class="form-group">
             <label class="control-label col-sm-2" for="graphList">Select Graph:</label>
-            <div class="col-sm-10">
+            <div class="col-sm-9">
                 <select class="form-control" id="graphList"
                         name="graph"
                         required
+                        ng-disabled="loadServerCtrl.availableGraphs.length == 0"
                         ng-model="loadServerCtrl.selectedGraph"
                         ng-options="graph['forwarding-graph'].id + ' - ' + graph['forwarding-graph'].name for graph in loadServerCtrl.availableGraphs">
                 </select>
             </div>
+            <div class="col-sm-1">
+                <button type="button" class="btn btn-primary"
+                        ng-click="loadServerCtrl.reload()"><i class="fa fa-refresh"></i></button>
+            </div>
+
         </div>
 
     </div>
 
     <div class="modal-footer">
-        <button id="Preview" type="submit" ng-click="loadServerCtrl.preview()" class="btn btn-primary">Preview</button>
-        <button id="Upload" ng-click="loadServerCtrl.load()" class="btn btn-primary">Open</button>
+        <button type="button" class="btn btn-primary"
+                ng-click="loadServerCtrl.preview()"
+                ng-disabled="loadServerCtrl.availableGraphs.length == 0">Preview
+        </button>
+        <button type="submit" class="btn btn-primary"
+                ng-click="loadServerCtrl.load()"
+                ng-disabled="loadServerCtrl.availableGraphs.length == 0">Open
+        </button>
 
     </div>
 </form>

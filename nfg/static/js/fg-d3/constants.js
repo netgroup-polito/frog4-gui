@@ -33,5 +33,4 @@
 
     angular.module("d3").constant("graphConstant", graphConstant);
     angular.module("d3").constant("forwardingGraphConstant", forwardingGraphConstant);
-
 })();

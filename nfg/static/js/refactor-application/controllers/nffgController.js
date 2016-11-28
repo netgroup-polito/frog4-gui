@@ -10,6 +10,7 @@
      * @param BackendCallService Service used to dialog with the backend
      * @param $uibModal Provider used to initialize a modal instance
      * @param $dialogs Provide used to initialize a dialog instance
+     * @param AppConstant
      * @param graphConstant
      * @param fgConst
      * @param InitializationService
@@ -18,11 +19,11 @@
      * @param ManipulationService
      * @constructor
      */
-    var NFFGController = function ($rootScope, $scope, BackendCallService, $uibModal, $dialogs, graphConstant, fgConst, InitializationService, FgModalService, ExporterService, ManipulationService) {
+    var NFFGController = function ($rootScope, $scope, BackendCallService, $uibModal, $dialogs, AppConstant, graphConstant, fgConst, InitializationService, FgModalService, ExporterService, ManipulationService) {
         var ctrl = this;
+        $scope.AppConstant = AppConstant;
 
-        //list of the existing graph from the server
-        ctrl.existingGraph = [];
+        ctrl.graphOrigin = AppConstant.graphOrigin.LOCAL;
         /*        // WIP, load the first graph
          BackendCallService.getAvailableGraphs().then(function (result) {
          ctrl.existingGraph = [];
@@ -154,6 +155,7 @@
                 ctrl.fgPos = initializePosition(fg["forwarding-graph"]);
                 // loading the graph (always load the graph later to prevent error)
                 ctrl.fg = fg["forwarding-graph"];
+                ctrl.graphOrigin = AppConstant.graphOrigin.UN;
 
                 $rootScope.$broadcast("selectElement", null);
             });
@@ -174,6 +176,41 @@
                     $dialogs.error('Deploy', 'Error - see the universal node log');
                 });
         };
+
+        /**
+         * Function to delete a graph from it's original location
+         */
+        ctrl.delete = function () {
+            var confirm = $dialogs.confirm('Please Confirm', 'You are about to delete the graph with id: ' + ctrl.fg.id + ' from the ' + (ctrl.graphOrigin == AppConstant.graphOrigin.UN ? 'Universal Node' : 'Repository') + '. Continue?');
+            confirm.result.then(function () {
+                BackendCallService.deleteGraph(ctrl.fg.id)
+                    .then(function (result) {
+                        if (result.success != 'undefined')
+                            $dialogs.notify('Delete', 'The graph has been successfully deleted');
+                        else {
+                            if (ctrl.graphOrigin == AppConstant.graphOrigin.UN)
+                                $dialogs.error('Delete', 'Error - see the universal node log');
+                            else
+                                $dialogs.error('Delete', 'Error - see the repository node log');
+                        }
+                    }, function (error) {
+                        console.log("Something went wrong");
+                        if (error.status != "404")
+                            if (ctrl.graphOrigin == AppConstant.graphOrigin.UN)
+                                $dialogs.error('Delete', 'Error - see the universal node log');
+                            else
+                                $dialogs.error('Delete', 'Error - see the repository node log');
+                        else {
+                            if (ctrl.graphOrigin == AppConstant.graphOrigin.UN)
+                                $dialogs.error('Delete', 'Error - the graph does not exist on the Universal Node');
+                            else
+                                $dialogs.error('Delete', 'Error - the graph does not exist in the Repository');
+                        }
+                    });
+            });
+
+
+        }
 
         /**
          * Function to save a current graph on local file
@@ -231,6 +268,7 @@
                 ctrl.fgPos = initializePosition(fg["forwarding-graph"]);
                 // loading the graph (always load the graph later to prevent error)
                 ctrl.fg = fg["forwarding-graph"];
+                ctrl.graphOrigin = "local";
 
                 $rootScope.$broadcast("selectElement", null);
             });
@@ -244,7 +282,7 @@
             ctrl.fgPos = null;
             //istanzio un grafico vuoto
             ctrl.fg = {
-		"id": Math.floor((Math.random() * 1000000) + 1).toString(),
+                "id": Math.floor((Math.random() * 1000000) + 1).toString(),
                 "VNFs": [],
                 "end-points": [],
                 "big-switch": {
@@ -259,6 +297,7 @@
                     "interfaces": {}
                 }
             };
+            ctrl.graphOrigin = AppConstant.graphOrigin.LOCAL;
             $rootScope.$broadcast("changedGraph");
         };
 
@@ -511,7 +550,7 @@
         });
     };
 
-    NFFGController.$inject = ['$rootScope', '$scope', 'BackendCallService', '$uibModal', 'dialogs', 'graphConstant', 'forwardingGraphConstant', 'InitializationService', "FgModalService", "ExporterService", "ManipulationService"];
+    NFFGController.$inject = ['$rootScope', '$scope', 'BackendCallService', '$uibModal', 'dialogs', 'AppConstant', 'graphConstant', 'forwardingGraphConstant', 'InitializationService', "FgModalService", "ExporterService", "ManipulationService"];
     angular.module('fg-gui').controller('NFFGController', NFFGController);
 
 })();
