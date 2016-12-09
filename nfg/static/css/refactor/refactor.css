@@ -122,3 +122,21 @@ table tr td:last-child {
 .margin-base-vertical {
     margin-top: 40px;
 }
+
+.graphSpace {
+    margin: 5px;
+    border: 2px solid #80A926;
+    border-radius: 5px;
+}
+
+.svgRoot {
+    cursor: -webkit-grab;
+    cursor: -moz-grab;
+    cursor: grab;
+}
+
+.grabbing {
+    cursor: -webkit-grabbing;
+    cursor: -moz-grabbing;
+    cursor: grabbing;
+}

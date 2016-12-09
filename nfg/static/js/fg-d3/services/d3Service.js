@@ -76,6 +76,20 @@
         }
 
         /**
+         * Function to append a new element to another
+         * @param attachPoint {object} The element to which attack the new element
+         * @param type {string} the type of the new element
+         * @param attrsObject {object} The object name-value containing all the properties
+         * @returns {*}
+         * @private
+         */
+        function _addElement(attachPoint,type,attrsObject) {
+            return attachPoint
+                .append(type)
+                .attrs(attrsObject);
+        }
+
+        /**
          * Function to add a new definition to a section
          * @param section {object} The section to which add the new definition
          * @param type {string} The base type of the new definition
@@ -154,6 +168,8 @@
                 var translateEnd = transform.indexOf(")", translateStart);
                 var translate = transform.substring(translateStart, translateEnd);
                 var translateCoord = translate.substring(translateStart + "translate(".length, translateEnd).split(',');
+                if (translateCoord.length != 2)
+                    translateCoord = translateCoord[0].split(' ');
                 /*
                  var scaleStart = transform.indexOf("scale(", translateEnd);
                  var scaleEnd = transform.indexOf(")", scaleStart);
@@ -182,6 +198,7 @@
             deleteGraph: _deleteGraph,
             addAttribute: _addAttribute,
             addSection: _addSection,
+            addElement: _addElement,
             addSimpleDefinition: _addSimpleDefinition,
             addNestedDefinition: _addNestedDefinition,
             addDragBehavior: _addDragBehavior,

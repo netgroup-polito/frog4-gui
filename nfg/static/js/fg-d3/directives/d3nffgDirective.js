@@ -35,6 +35,10 @@
                  */
                 showBigSwitch: "=",
                 /**
+                 * {boolean} Used to hide or show the grid
+                 */
+                showGrid: "=",
+                /**
                  * {boolean} Used from the view using the directive to be aware if the graph is forced to complex mode
                  * @readonly
                  */
@@ -78,6 +82,15 @@
                     svg = d3Service.initiateGraph(element);
                     svg = d3Service.addAttribute(svg, "width", graphConstant.graphWidth);
                     svg = d3Service.addAttribute(svg, "height", graphConstant.graphHeight);
+                    svg = d3Service.addAttribute(svg, "class", "svgRoot");
+
+                    var grid = d3Service.addElement(svg,"rect",{
+                        "id":"pixelGrid",
+                        "width":"100%",
+                        "height":"100%",
+                        "fill":"url(#grid)",
+                        "class":$scope.showGrid?'':'hidden'
+                    });
 
                     var container = d3Service.addSection(svg, "graphContainer");
 
@@ -100,7 +113,49 @@
                     // define a section of the graph containing all interface and EndPoint
                     var interface_section = d3Service.addSection(container, "interface_section");
 
-                    //TODO cambiare la modalità di selezione usando applicando una classe
+
+
+                    d3Service.addNestedDefinition(
+                        definitions_section,
+                        "pattern",
+                        {
+                            "id": "smallGrid",
+                            "width": 10,
+                            "height": 10,
+                            "patternUnits": "userSpaceOnUse",
+                            "children": [{
+                                "type": "path",
+                                "d": "M 10 0 L 0 0 0 10",
+                                "fill": "none",
+                                "stroke": "gray",
+                                "stroke-width": 0.5
+                            }]
+                        }
+                    );
+
+                    d3Service.addNestedDefinition(
+                        definitions_section,
+                        "pattern",
+                        {
+                            "id": "grid",
+                            "width": 100,
+                            "height": 100,
+                            "patternUnits": "userSpaceOnUse",
+                            "children": [{
+                                "type": "rect",
+                                "fill": "url(#smallGrid)",
+                                "height": 100,
+                                "width": 100
+                            }, {
+                                "type": "path",
+                                "d": "M 100 0 L 0 0 0 100",
+                                "fill": "none",
+                                "stroke": "gray",
+                                "stroke-width": 1
+                            }]
+                        }
+                    );
+
                     // adding a graph definition for the vnf
                     d3Service.addSimpleDefinition(
                         definitions_section,
@@ -285,6 +340,7 @@
 
                     ctrl.graph = {
                         svg: svg,
+                        grid: grid,
                         container: container,
                         definitions: definitions_section,
                         bigSwitch: bigSwitch_section,
@@ -498,6 +554,17 @@
                         if (scope.showBigSwitch != ctrl.graph.showBigSwitch)
                             ngModel.$render()
                     });
+
+                /**
+                 * function to watch the change of the grid mode
+                 */
+                scope.$watch(function () {
+                        return scope.showGrid;
+                    },
+                    function (newValue) {
+                        d3Service.addAttribute(ctrl.graph.grid,"class",newValue?'':'hidden');
+                    });
+
                 /**
                  * function to watch the change of selectedElement
                  */
@@ -510,7 +577,7 @@
                         }
                         ngModel.$render();
                     });
-                $rootScope.$on("changedGraph",function () {
+                $rootScope.$on("changedGraph", function () {
                     ctrl.resetTransform();
                 });
                 /**

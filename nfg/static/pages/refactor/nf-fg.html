@@ -53,6 +53,15 @@
                     <i class="fa fa-square-o fa-lg"></i>
                 </button>
 
+                <!-- Grid Switch Button -->
+                <button type="button" class="menu btn btn-default btn-lg"
+                        ng-disabled="!NFFGCtrl.fg"
+                        ng-click="NFFGCtrl.toggleGrid()"
+                        ng-class="NFFGCtrl.isGridShown?'btn-info':''"
+                        title="Toggle grid visibility">
+                    <i class="fa fa-table fa-lg"></i>
+                </button>
+
                 <!-- Save Button -->
                 <button type="button" class="menu btn btn-default btn-lg"
                         ng-disabled="!NFFGCtrl.fg"
@@ -170,10 +179,12 @@
             <p class="labelRight" ng-hide="NFFGCtrl.fg">
                 <b>Load a graph to show its information</b>
             </p>
-            <div id="svg_graph" d3nffg
+            <div id="svg_graph" class="graphSpace"
+                 d3nffg
                  ng-model="NFFGCtrl.fg"
                  x-position="NFFGCtrl.fgPos"
                  x-show-big-switch="NFFGCtrl.showBigSwitch"
+                 x-show-grid="NFFGCtrl.isGridShown"
                  x-is-forced="NFFGCtrl.isForced"
                  x-schema="NFFGCtrl.schema"
                  x-on-template-request="NFFGCtrl.getTemplates"

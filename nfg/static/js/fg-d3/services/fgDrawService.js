@@ -39,7 +39,8 @@
                     return "end-points" + ( graph.selectedElement == pos[d.id].full_id ? " end-points-selected" : "" );
                 })// "end-points" class is the one used for selection in the first step of this function
                 .attr("title", function (d) {
-                    return d.name;  //title of the element, used to display tips
+                    //return d.name;  //title of the element, used to display tips
+                    return generateEPTooltip(d);
                 })
                 .style("fill", function (d) {
                     switch (pos[d.id].icon) {
@@ -71,14 +72,13 @@
                         return pos[d.id].y = parseInt(250 * Math.sin(alfa * (i)) + graph.svg.node().getBoundingClientRect().height / 2)
                 })
                 .on("contextmenu", function (d) {
-                        d3.event.preventDefault();
-                        d3.event.stopPropagation();
-                        var modal = graph.update.epUpdate(d, pos[d.id]);
-                        modal.result.then(function (res) {
-                            $rootScope.$broadcast("epUpdated", res);
-                        });
-                    }
-                )
+                    d3.event.preventDefault();
+                    d3.event.stopPropagation();
+                    var modal = graph.update.epUpdate(d, pos[d.id]);
+                    modal.result.then(function (res) {
+                        $rootScope.$broadcast("epUpdated", res);
+                    });
+                })
                 .on("click", function (d) {
                     if (!graph.link.epLink(pos[d.id])) {
                         d3.event.stopPropagation();
@@ -90,6 +90,36 @@
             //operation on element going out of the collection
             epElements.exit().remove();
 
+        }
+
+
+        function generateEPTooltip(ep) {
+            var tooltip = ep.name;
+            tooltip += "</br>type: " + ep.type;
+            switch (ep.type) {
+                case  "host-stack":
+                    tooltip += "</br>configuration: " + ep["host-stack"]["configuration"];
+                    if (ep["host-stack"]["IPv4"])
+                        tooltip += "</br>ip: " + ep["host-stack"]["IPv4"];
+                    break;
+                case  "internal":
+                    tooltip += "</br>internal-group: " + ep["internal"]["internal-group"];
+                    break;
+                case  "interface":
+                    tooltip += "</br>if-name: " + ep["interface"]["if-name"];
+                    break;
+                case  "interface-out":
+                    break;
+                case  "gre-tunnel":
+                    tooltip += "</br>key: " + ep["gre-tunnel"]["gre-key"];
+                    tooltip += "</br>L: " + ep["gre-tunnel"]["local-ip"] + " R: " + ep["gre-tunnel"]["remote-ip"];
+                    break;
+                case  "vlan":
+                    tooltip += "</br>if-name: " + ep["vlan"]["if-name"];
+                    tooltip += "</br>vlan-id: " + ep["vlan"]["vlan-id"];
+                    break;
+            }
+            return tooltip;
         }
 
         /**

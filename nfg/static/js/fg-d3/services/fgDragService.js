@@ -237,6 +237,11 @@
                     callback(getPosition().translate(d3.event.dx,d3.event.dy));
                 })
                 .on("start", function () {
+                    arguments[2][0].classList.add("grabbing");
+                    d3.event.sourceEvent.stopPropagation();
+                })
+                .on("end", function () {
+                    arguments[2][0].classList.remove("grabbing");
                     d3.event.sourceEvent.stopPropagation();
                 })
                 .filter(function () {

@@ -73,6 +73,9 @@
         ctrl.isForced = false;
         //control variable used to start the link creation process
         ctrl.isLinkCreation = false;
+        //control variable used to change visibility for the grid
+        ctrl.isGridShown = false;
+
 
         //the forwarding graph loaded
         ctrl.fg = null;
@@ -94,6 +97,13 @@
             ctrl.showBigSwitch = !ctrl.showBigSwitch;
             if (ctrl.isForced)
                 $dialogs.notify('Splitted Rules', 'Your graph has a split, only Complex View is available!');
+        };
+
+        /**
+         * Function to toggle the view of the grid
+         */
+        ctrl.toggleGrid = function () {
+            ctrl.isGridShown = !ctrl.isGridShown;
         };
 
         /**
