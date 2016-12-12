@@ -158,7 +158,6 @@ a:focus, .navbar-inverse .navbar-nav > .open > a:hover {
     border-top: 0px;
     border-bottom-left-radius: 6px;
     border-bottom-right-radius: 6px;
-    margin-right: 20px;
     margin-bottom: 20px;
     overflow: scroll;
     height: 550px;
@@ -302,7 +301,6 @@ html {
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 14px;
     line-height: 1.42857;
-    margin-right: 20px;
 }
 
 .row {

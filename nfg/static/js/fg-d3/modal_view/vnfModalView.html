@@ -1,152 +1,150 @@
-<div class="modal-content">
-    <div class="modal-header">
-        <button type="button" class="close" aria-hidden="true"
-                ng-click="VNFCtrl.cancel()">×
-        </button>
-        <h4 class="modal-title">Network Function properties</h4>
-    </div>
-    <form class="form-horizontal"
-          name="vnfForm"
-          novalidate
-          ng-submit="VNFCtrl.save(vnfForm)">
-        <div class="modal-body">
-            <div class="form-group">
-                <label class="control-label col-sm-2" for="vnfId">ID:</label>
+<div class="modal-header">
+    <button type="button" class="close" aria-hidden="true"
+            ng-click="VNFCtrl.cancel()">×
+    </button>
+    <h4 class="modal-title">Network Function properties</h4>
+</div>
+<form class="form-horizontal"
+      name="vnfForm"
+      novalidate
+      ng-submit="VNFCtrl.save(vnfForm)">
+    <div class="modal-body">
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="vnfId">ID:</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control"
+                       id="vnfId"
+                       name="idVNF"
+                       ng-model="VNFCtrl.fgElem.id"
+                       disabled>
+            </div>
+        </div>
+        <div class="form-group ">
+            <label class="control-label col-sm-2" for="vnfName">Name:</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control"
+                       id="vnfName"
+                       name="nameVNF"
+                       ng-model="VNFCtrl.fgElem.name">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="vnf-template">Template:</label>
+            <div class="col-sm-10">
+                <select class="form-control"
+                        id="vnfTemplate"
+                        required
+                        name="templateVNF"
+                        ng-disabled="!VNFCtrl.newVNF"
+                        ng-options="item.id as item.template.name for item in VNFCtrl.templates"
+                        ng-model="VNFCtrl.fgElem.vnf_template"
+                        ng-change="VNFCtrl.templateChanged()">
+                </select>
+
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="title" id="titleInfo">
+                <a ng-click="VNFCtrl.infoShown = !VNFCtrl.infoShown">VNF Info:
+                    <span class="fa" ng-class="VNFCtrl.infoShown?'fa-caret-right':'fa-caret-down'"></span></a>
+            </label>
+        </div>
+        <div id="infoTemplate" uib-collapse="VNFCtrl.infoShown">
+            <object-visualization reference-object="VNFCtrl.VNFProperties" ng-if="VNFCtrl.VNFProperties"></object-visualization>
+            <div class="form-group" ng-if="!VNFCtrl.VNFProperties">
+                <div class="col-sm-2"></div>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control"
-                           id="vnfId"
-                           name="idVNF"
-                           ng-model="VNFCtrl.fgElem.id"
-                           disabled>
+                    <p>The VNF template is not available</p>
                 </div>
             </div>
-            <div class="form-group ">
-                <label class="control-label col-sm-2" for="vnfName">Name:</label>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control"
-                           id="vnfName"
-                           name="nameVNF"
-                           ng-model="VNFCtrl.fgElem.name">
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="title" id="titleInfo">
+                <a ng-click="VNFCtrl.portShown = !VNFCtrl.portShown">Port Info:
+                    <span class="fa" ng-class="VNFCtrl.portShown?'fa-caret-right':'fa-caret-down'"></span></a>
+            </label>
+        </div>
+        <div id="infoPort" uib-collapse="VNFCtrl.portShown">
+            <div ng-if="VNFCtrl.VNFProperties">
+                <div class="form-group"
+                     ng-repeat="portInfo in VNFCtrl.vnfPortInfo">
+                    <label class="control-label col-sm-2">{{ portInfo.label }}</label>
+                    <div class="col-sm-10">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>id</th>
+                                <th ng-repeat="(key,value) in VNFCtrl.VNFSchema.properties['ports'].items.properties"
+                                    ng-if="key !='id'">
+                                    {{ key }}</th>
+                                <th>
+                                    <button class="btn btn-default btn-circle"
+                                            type="button"
+                                            ng-if="portInfo.tot < portInfo.max"
+                                            ng-click="VNFCtrl.addPort(portInfo)">
+                                        <span class="fa fa-plus"></span>
+                                    </button>
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="port in VNFCtrl.fgElem['ports'] | filter:{'id':portInfo.label}">
+                                <th>{{ port['id'] }}</th>
+                                <th ng-repeat="(key,value) in VNFCtrl.VNFSchema.properties['ports'].items.properties"
+                                    ng-if="key !='id'">
+                                    <input type="text"
+                                           class="form-control"
+                                           ng-model="port[key]">
+                                </th>
+                                <th>
+                                    <button class="btn btn-default btn-circle"
+                                            type="button"
+                                            ng-if="portInfo.tot > portInfo.min"
+                                            ng-click="VNFCtrl.removePort(port, portInfo)">
+                                        <span class="fa fa-minus"></span>
+                                    </button>
+                                </th>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
-
-            <div class="form-group">
-                <label class="control-label col-sm-2" for="vnf-template">Template:</label>
-                <div class="col-sm-10">
-                    <select class="form-control"
-                            id="vnfTemplate"
-                            required
-                            name="templateVNF"
-                            ng-disabled="!VNFCtrl.newVNF"
-                            ng-options="item.id as item.template.name for item in VNFCtrl.templates"
-                            ng-model="VNFCtrl.fgElem.vnf_template"
-                            ng-change="VNFCtrl.templateChanged()">
-                    </select>
-
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label class="control-label col-sm-2" for="title" id="titleInfo">
-                    <a ng-click="VNFCtrl.infoShown = !VNFCtrl.infoShown">VNF Info:
-                        <span class="fa" ng-class="VNFCtrl.infoShown?'fa-caret-right':'fa-caret-down'"></span></a>
-                </label>
-            </div>
-            <div id="infoTemplate" uib-collapse="VNFCtrl.infoShown">
-                <object-visualization reference-object="VNFCtrl.VNFProperties" ng-if="VNFCtrl.VNFProperties"></object-visualization>
-                <div class="form-group" ng-if="!VNFCtrl.VNFProperties">
+            <div ng-if="!VNFCtrl.VNFProperties">
+                <div class="form-group">
                     <div class="col-sm-2"></div>
                     <div class="col-sm-10">
-                        <p>The VNF template is not available</p>
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>id</th>
+                                <th ng-repeat="(key,value) in VNFCtrl.VNFSchema.properties['ports'].items.properties"
+                                    ng-if="key !='id'">
+                                    {{ key }}
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="port in VNFCtrl.fgElem['ports']">
+                                <th>{{ port['id'] }}</th>
+                                <th ng-repeat="(key,value) in VNFCtrl.VNFSchema.properties['ports'].items.properties"
+                                    ng-if="key !='id'">
+                                    {{ port[key] }}
+                                </th>
+                            </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
-            </div>
 
-            <div class="form-group">
-                <label class="control-label col-sm-2" for="title" id="titleInfo">
-                    <a ng-click="VNFCtrl.portShown = !VNFCtrl.portShown">Port Info:
-                        <span class="fa" ng-class="VNFCtrl.portShown?'fa-caret-right':'fa-caret-down'"></span></a>
-                </label>
-            </div>
-            <div id="infoPort" uib-collapse="VNFCtrl.portShown">
-                <div ng-if="VNFCtrl.VNFProperties">
-                    <div class="form-group"
-                         ng-repeat="portInfo in VNFCtrl.vnfPortInfo">
-                        <label class="control-label col-sm-2">{{ portInfo.label }}</label>
-                        <div class="col-sm-10">
-                            <table class="table">
-                                <thead>
-                                <tr>
-                                    <th>id</th>
-                                    <th ng-repeat="(key,value) in VNFCtrl.VNFSchema.properties['ports'].items.properties"
-                                        ng-if="key !='id'">
-                                        {{ key }}</th>
-                                    <th>
-                                        <button class="btn btn-default btn-circle"
-                                                type="button"
-                                                ng-if="portInfo.tot < portInfo.max"
-                                                ng-click="VNFCtrl.addPort(portInfo)">
-                                            <span class="fa fa-plus"></span>
-                                        </button>
-                                    </th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr ng-repeat="port in VNFCtrl.fgElem['ports'] | filter:{'id':portInfo.label}">
-                                    <th>{{ port['id'] }}</th>
-                                    <th ng-repeat="(key,value) in VNFCtrl.VNFSchema.properties['ports'].items.properties"
-                                        ng-if="key !='id'">
-                                        <input type="text"
-                                               class="form-control"
-                                               ng-model="port[key]">
-                                    </th>
-                                    <th>
-                                        <button class="btn btn-default btn-circle"
-                                                type="button"
-                                                ng-if="portInfo.tot > portInfo.min"
-                                                ng-click="VNFCtrl.removePort(port, portInfo)">
-                                            <span class="fa fa-minus"></span>
-                                        </button>
-                                    </th>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-                <div ng-if="!VNFCtrl.VNFProperties">
-                    <div class="form-group">
-                        <div class="col-sm-2"></div>
-                        <div class="col-sm-10">
-                            <table class="table">
-                                <thead>
-                                <tr>
-                                    <th>id</th>
-                                    <th ng-repeat="(key,value) in VNFCtrl.VNFSchema.properties['ports'].items.properties"
-                                        ng-if="key !='id'">
-                                        {{ key }}
-                                    </th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr ng-repeat="port in VNFCtrl.fgElem['ports']">
-                                    <th>{{ port['id'] }}</th>
-                                    <th ng-repeat="(key,value) in VNFCtrl.VNFSchema.properties['ports'].items.properties"
-                                        ng-if="key !='id'">
-                                        {{ port[key] }}
-                                    </th>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-
-                </div>
             </div>
         </div>
+    </div>
 
-        <div class="modal-footer">
-            <button class="btn btn-primary" type="submit">{{ VNFCtrl.saveText }}</button>
-        </div>
-    </form>
-</div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" type="submit">{{ VNFCtrl.saveText }}</button>
+    </div>
+</form>

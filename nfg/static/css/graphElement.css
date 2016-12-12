@@ -2,6 +2,7 @@
     fill: inerith;
     stroke: #000;
     stroke-width: 1px;
+    cursor: default;
 }
 
 .vnf {
@@ -27,12 +28,14 @@
     stroke-width: 1px;
     fill: #337AB7;
     stroke: #000;
+    cursor: default;
 }
 
 .end-points {
     fill: #013E72;
     stroke: #000;
     stroke-width: 0px;
+    cursor: default;
 }
 
 .end-points-selected {
@@ -45,6 +48,7 @@
     fill: inerith;
     stroke: #000;
     stroke-width: 3px;
+    cursor: default;
 }
 
 .big-switch {
@@ -56,7 +60,8 @@
 }
 
 .line, .line_menu {
-    stroke-width: 2.5px;
+    stroke-width: 3px;
+    cursor: default;
 }
 
 .line {
@@ -64,9 +69,12 @@
 }
 
 .link-selected {
-    stroke-width: 2.5px;
+    stroke-width: 3px;
     stroke: #ED571C;
-    color: #ED571C;
+}
+.arrowHead-selected {
+    stroke: #ED571C;
+    fill: #ED571C;
 }
 
 .internet {

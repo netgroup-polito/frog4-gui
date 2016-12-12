@@ -1,34 +1,32 @@
-<div class="modal-content">
-    <div class="modal-header">
+<div class="modal-header">
 
-        <button class="close" type="button" aria-hidden="true" ng-click="ConfigVNFCtrl.cancel()">×</button>
+    <button class="close" type="button" aria-hidden="true" ng-click="ConfigVNFCtrl.cancel()">×</button>
 
-        <h3 class="modal-title" id="modal-title">{{ConfigVNFCtrl.model.description.text}}</h3>
-    </div>
-    <div class="modal-body" id="modal-body">
-		<form class="form-horizontal">
+    <h3 class="modal-title" id="modal-title">{{ ConfigVNFCtrl.model.description.text }}</h3>
+</div>
+<div class="modal-body" id="modal-body">
+    <form class="form-horizontal">
 			<span ng-if="ConfigVNFCtrl.isArray(ConfigVNFCtrl.model.container)">
 				<container ng-repeat="el in ConfigVNFCtrl.model.container"
                            level="0"
                            container-object="el"
-		                   container-state-object="ConfigVNFCtrl.state[ConfigVNFCtrl.model['@name'] + ':' + el['@name']]"
+                           container-state-object="ConfigVNFCtrl.state[ConfigVNFCtrl.model['@name'] + ':' + el['@name']]"
                            augment-object="ConfigVNFCtrl.augment[el['@name']]">
 
                 </container>
 			</span>
-		    <span ng-if="!ConfigVNFCtrl.isArray(ConfigVNFCtrl.model.container)">
+        <span ng-if="!ConfigVNFCtrl.isArray(ConfigVNFCtrl.model.container)">
 				<container container-object="ConfigVNFCtrl.model.container"
                            level="0"
-		                   container-state-object="ConfigVNFCtrl.state[ConfigVNFCtrl.model['@name'] + ':' + ConfigVNFCtrl.model.container['@name']]"
+                           container-state-object="ConfigVNFCtrl.state[ConfigVNFCtrl.model['@name'] + ':' + ConfigVNFCtrl.model.container['@name']]"
                            augment-object="ConfigVNFCtrl.augment[model.container['@name']]">
                 </container>
 			</span>
-		</form>
-    </div>
-    <div class="modal-footer">
-        <button class="btn btn-primary" type="button" ng-click="ConfigVNFCtrl.ok()">OK</button>
-        <label class="btn btn-default btn-file">
-            Browse <input type="file" on-read-file="ConfigVNFCtrl.showContent($fileContent)" style="display: none;">
-        </label>
-    </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" type="button" ng-click="ConfigVNFCtrl.ok()">OK</button>
+    <label class="btn btn-default btn-file">
+        Browse <input type="file" on-read-file="ConfigVNFCtrl.showContent($fileContent)" style="display: none;">
+    </label>
 </div>

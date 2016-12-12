@@ -6,13 +6,14 @@
     /**
      * The controller for the modal used to add an end-point
      * @param $uibModalInstance The instance of the modal which load the controller
+     * @param dialogs
      * @param fg
      * @param fgPos
      * @param schema
      * @param config
      * @param editFlowRulesModal
      */
-    var bigSwitchModalController = function ($uibModalInstance, fg, fgPos, schema, config, editFlowRulesModal) {
+    var bigSwitchModalController = function ($uibModalInstance, dialogs, fg, fgPos, schema, config, editFlowRulesModal) {
         var ctrl = this;
 
         ctrl.flowRules = fg['flow-rules'];
@@ -86,6 +87,19 @@
             });
         };
 
+        ctrl.removeRule = function (rule) {
+
+            var confirm = dialogs.confirm("Remove flow-rule","Are you sure you want to remove this flow-rule?");
+            confirm.result.then(function (result) {
+                for(var i = 0; i < ctrl.flowRules.length; i++){
+                    if(ctrl.flowRules[i].id == rule.id){
+                        ctrl.flowRules.splice(i, 1);
+                        break;
+                    }
+                }
+            });
+        };
+
         /**
          * Function used to undo all the modification and close the modal
          */
@@ -100,7 +114,7 @@
             $uibModalInstance.close({rules: ctrl.flowRules});
         };
     };
-    bigSwitchModalController.$inject = ['$uibModalInstance', 'fg', 'fgPos', 'schema', 'config', 'editFlowRulesModal'];
+    bigSwitchModalController.$inject = ['$uibModalInstance','dialogs', 'fg', 'fgPos', 'schema', 'config', 'editFlowRulesModal'];
     angular.module('d3').controller('BigSwitchModalController', bigSwitchModalController);
 
 })();

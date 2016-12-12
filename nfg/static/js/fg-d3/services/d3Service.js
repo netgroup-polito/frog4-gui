@@ -76,6 +76,20 @@
         }
 
         /**
+         * Function to append a new element to another
+         * @param attachPoint {object} The element to which attack the new element
+         * @param type {string} the type of the new element
+         * @param attrsObject {object} The object name-value containing all the properties
+         * @returns {*}
+         * @private
+         */
+        function _addElement(attachPoint,type,attrsObject) {
+            return attachPoint
+                .append(type)
+                .attrs(attrsObject);
+        }
+
+        /**
          * Function to add a new definition to a section
          * @param section {object} The section to which add the new definition
          * @param type {string} The base type of the new definition
@@ -140,15 +154,56 @@
             return d3.drag();
         }
 
+        /**
+         *
+         * @param element
+         * @returns {*}
+         * @private
+         */
+        function _getTransform(element) {
+            var transform = element.attr("transform");
+            if (transform) {
+
+                var translateStart = transform.indexOf("translate(");
+                var translateEnd = transform.indexOf(")", translateStart);
+                var translate = transform.substring(translateStart, translateEnd);
+                var translateCoord = translate.substring(translateStart + "translate(".length, translateEnd).split(',');
+                if (translateCoord.length != 2)
+                    translateCoord = translateCoord[0].split(' ');
+                /*
+                 var scaleStart = transform.indexOf("scale(", translateEnd);
+                 var scaleEnd = transform.indexOf(")", scaleStart);
+                 var scale = transform.substring(scaleStart, scaleEnd);
+                 var scaleValue = scale.substring(scaleStart + "scale(".length, scaleEnd);
+                 */
+                return d3.zoomIdentity.scale(/*Number(scaleValue)*/1).translate(Number(translateCoord[0]), Number(translateCoord[1]));
+            }
+            return d3.zoomIdentity;
+        }
+
+        /**
+         *
+         * @param element
+         * @param transform
+         * @returns {*}
+         * @private
+         */
+        function _setTransform(element, transform) {
+            return element.attr("transform", transform);
+        }
+
         return {
             d3: _d3,
             initiateGraph: _initiateGraph,
             deleteGraph: _deleteGraph,
             addAttribute: _addAttribute,
             addSection: _addSection,
+            addElement: _addElement,
             addSimpleDefinition: _addSimpleDefinition,
             addNestedDefinition: _addNestedDefinition,
-            addDragBehavior: _addDragBehavior
+            addDragBehavior: _addDragBehavior,
+            getTransform: _getTransform,
+            setTransform: _setTransform
         };
     };
 

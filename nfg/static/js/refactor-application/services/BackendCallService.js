@@ -78,6 +78,23 @@
             return deferred.promise;
         };
 
+        var _deleteGraph = function (graph_id) {
+            var deferred = $q.defer();
+            $http.delete("/api/v1/graphs_api/delete_graph/"+graph_id,
+                {
+                    headers: {
+                        'Content-type': 'application/json'
+                    }
+                })
+                .success(function (result) {
+                    deferred.resolve(result);
+                })
+                .error(function (err) {
+                    deferred.reject(err);
+                });
+            return deferred.promise;
+        };
+
         var _getYangModelVNF = function (vnfType) {
             var deferred = $q.defer();
             var url;
@@ -186,6 +203,7 @@
             getTemplates: _getTemplates,
             getFRTableConfig: _getFRTableConfig,
             putGraph: _putGraph,
+            deleteGraph: _deleteGraph,
             getYangModelVNF: _getYangModelVNF,
             getStateVNF: _getStateVNF,
             putStateVNF: _putStateVNF,

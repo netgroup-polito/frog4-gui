@@ -37,10 +37,11 @@ urlpatterns = [
     url(r'^api/v1/users_api/delete_group/$', views.api_delete_group, name='delete_group'),
 
     url(r'^api/v1/graphs_api/get_available_graphs/$', views.api_get_available_graphs, name='get_available_graphs'),
-    # url(r'^api/v1/graphs_api/get_available_graphs/$', views.api_get_available_graphs_debug, name='get_available_graphs'),
+    #url(r'^api/v1/graphs_api/get_available_graphs/$', views.api_get_available_graphs_debug, name='get_available_graphs'),
     url(r'^api/v1/graphs_api/get_json_schema/$', views.api_get_json_schema, name='get_json_schema'),
     url(r'^api/v1/graphs_api/get_fr_table_config', views.api_get_fr_table_config, name='get_fr_table_config'),
     url(r'^api/v1/graphs_api/put_graph/$', views.api_put_graph, name='put_graph'),
+    url(r'^api/v1/graphs_api/delete_graph/(?P<graph_id>\w)$', views.api_delete_graph, name='delete_graph'),
     url(r'^api/v1/graphs_api/get_vnf_templates/$', views.api_get_vnf_templates, name='get_vnf_templates'),
     url(r'^graphs_from_repository_request/$', views.graphs_from_repository_request,
         name='graphs_from_repository_request'),

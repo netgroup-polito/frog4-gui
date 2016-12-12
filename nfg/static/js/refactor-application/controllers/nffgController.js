@@ -10,18 +10,20 @@
      * @param BackendCallService Service used to dialog with the backend
      * @param $uibModal Provider used to initialize a modal instance
      * @param $dialogs Provide used to initialize a dialog instance
+     * @param AppConstant
      * @param graphConstant
      * @param fgConst
      * @param InitializationService
      * @param FgModalService
      * @param ExporterService
+     * @param ManipulationService
      * @constructor
      */
-    var NFFGController = function ($rootScope, $scope, BackendCallService, $uibModal, $dialogs, graphConstant, fgConst, InitializationService, FgModalService, ExporterService) {
+    var NFFGController = function ($rootScope, $scope, BackendCallService, $uibModal, $dialogs, AppConstant, graphConstant, fgConst, InitializationService, FgModalService, ExporterService, ManipulationService) {
         var ctrl = this;
+        $scope.AppConstant = AppConstant;
 
-        //list of the existing graph from the server
-        ctrl.existingGraph = [];
+        ctrl.graphOrigin = AppConstant.graphOrigin.LOCAL;
         /*        // WIP, load the first graph
          BackendCallService.getAvailableGraphs().then(function (result) {
          ctrl.existingGraph = [];
@@ -71,6 +73,9 @@
         ctrl.isForced = false;
         //control variable used to start the link creation process
         ctrl.isLinkCreation = false;
+        //control variable used to change visibility for the grid
+        ctrl.isGridShown = false;
+
 
         //the forwarding graph loaded
         ctrl.fg = null;
@@ -92,6 +97,13 @@
             ctrl.showBigSwitch = !ctrl.showBigSwitch;
             if (ctrl.isForced)
                 $dialogs.notify('Splitted Rules', 'Your graph has a split, only Complex View is available!');
+        };
+
+        /**
+         * Function to toggle the view of the grid
+         */
+        ctrl.toggleGrid = function () {
+            ctrl.isGridShown = !ctrl.isGridShown;
         };
 
         /**
@@ -148,12 +160,14 @@
                 if (fg["forwarding-graph"]["big-switch"] && !fg["forwarding-graph"]["big-switch"]["flow-rules"])
                     fg["forwarding-graph"]["big-switch"]["flow-rules"] = [];
 
+                resetGraph();
                 // Initialize the graph position object (missing the possibility to load the position too)
                 ctrl.fgPos = initializePosition(fg["forwarding-graph"]);
                 // loading the graph (always load the graph later to prevent error)
                 ctrl.fg = fg["forwarding-graph"];
+                ctrl.graphOrigin = AppConstant.graphOrigin.UN;
 
-                ctrl.selectedElement = null;
+                $rootScope.$broadcast("selectElement", null);
             });
         };
 
@@ -161,7 +175,7 @@
          * Function to deploy a graph
          */
         ctrl.deploy = function () {
-            BackendCallService.putGraph(ExporterService.exportForwardingGraph(ctrl.fg,ctrl.fgPos))
+            BackendCallService.putGraph(ExporterService.exportForwardingGraph(ctrl.fg, ctrl.fgPos))
                 .then(function (result) {
                     if (result.success != 'undefined')
                         $dialogs.notify('Deploy', 'The graph has been successfully deployed');
@@ -172,6 +186,41 @@
                     $dialogs.error('Deploy', 'Error - see the universal node log');
                 });
         };
+
+        /**
+         * Function to delete a graph from it's original location
+         */
+        ctrl.delete = function () {
+            var confirm = $dialogs.confirm('Please Confirm', 'You are about to delete the graph with id: ' + ctrl.fg.id + ' from the ' + (ctrl.graphOrigin == AppConstant.graphOrigin.UN ? 'Universal Node' : 'Repository') + '. Continue?');
+            confirm.result.then(function () {
+                BackendCallService.deleteGraph(ctrl.fg.id)
+                    .then(function (result) {
+                        if (result.success != 'undefined')
+                            $dialogs.notify('Delete', 'The graph has been successfully deleted');
+                        else {
+                            if (ctrl.graphOrigin == AppConstant.graphOrigin.UN)
+                                $dialogs.error('Delete', 'Error - see the universal node log');
+                            else
+                                $dialogs.error('Delete', 'Error - see the repository node log');
+                        }
+                    }, function (error) {
+                        console.log("Something went wrong");
+                        if (error.status != "404")
+                            if (ctrl.graphOrigin == AppConstant.graphOrigin.UN)
+                                $dialogs.error('Delete', 'Error - see the universal node log');
+                            else
+                                $dialogs.error('Delete', 'Error - see the repository node log');
+                        else {
+                            if (ctrl.graphOrigin == AppConstant.graphOrigin.UN)
+                                $dialogs.error('Delete', 'Error - the graph does not exist on the Universal Node');
+                            else
+                                $dialogs.error('Delete', 'Error - the graph does not exist in the Repository');
+                        }
+                    });
+            });
+
+
+        }
 
         /**
          * Function to save a current graph on local file
@@ -224,12 +273,14 @@
                 if (fg["forwarding-graph"]["big-switch"] && !fg["forwarding-graph"]["big-switch"]["flow-rules"])
                     fg["forwarding-graph"]["big-switch"]["flow-rules"] = [];
 
+                resetGraph();
                 // Initialize the graph position object (missing the possibility to load the position too)
                 ctrl.fgPos = initializePosition(fg["forwarding-graph"]);
                 // loading the graph (always load the graph later to prevent error)
                 ctrl.fg = fg["forwarding-graph"];
+                ctrl.graphOrigin = "local";
 
-                ctrl.selectedElement = null;
+                $rootScope.$broadcast("selectElement", null);
             });
         };
 
@@ -241,7 +292,7 @@
             ctrl.fgPos = null;
             //istanzio un grafico vuoto
             ctrl.fg = {
-		"id": Math.floor((Math.random() * 1000000) + 1).toString(),
+                "id": Math.floor((Math.random() * 1000000) + 1).toString(),
                 "VNFs": [],
                 "end-points": [],
                 "big-switch": {
@@ -256,6 +307,8 @@
                     "interfaces": {}
                 }
             };
+            ctrl.graphOrigin = AppConstant.graphOrigin.LOCAL;
+            $rootScope.$broadcast("changedGraph");
         };
 
         ctrl.newForwardingGraph = function () {
@@ -346,36 +399,9 @@
                     //
                     console.log(JSON.stringify(res));
 
-
-                    if (ctrl.fgPos["big-switch"]["flow-rules"][orig.full_id]) { // if it exist a rules starting from the same origin
-                        if (!ctrl.fgPos["big-switch"]["flow-rules"][orig.full_id][dest.full_id]) { // if it does not exist this rules add it else do nothing
-                            ctrl.fgPos["big-switch"]["flow-rules"][orig.full_id][dest.full_id] = {
-                                origin: orig.full_id,
-                                destination: dest.full_id,
-                                isFullDuplex: false
-                            };
-                        }
-                    } else { //if it does not exist
-                        if (ctrl.fgPos["big-switch"]["flow-rules"][dest.full_id]) { //check if it exist rule from the destination
-                            if (ctrl.fgPos["big-switch"]["flow-rules"][dest.full_id][orig.full_id]) { //if it exist check if exist the opposite of this rule
-                                ctrl.fgPos["big-switch"]["flow-rules"][dest.full_id][orig.full_id].isFullDuplex = true;
-                            } else { // if not add the rule orig -> dest
-                                ctrl.fgPos["big-switch"]["flow-rules"][orig.full_id] = {};
-                                ctrl.fgPos["big-switch"]["flow-rules"][orig.full_id][dest.full_id] = {
-                                    origin: orig.full_id,
-                                    destination: dest.full_id,
-                                    isFullDuplex: false
-                                };
-                            }
-                        } else { //if no rule exist for the destination create a new rule orig -> dest
-                            ctrl.fgPos["big-switch"]["flow-rules"][orig.full_id] = {};
-                            ctrl.fgPos["big-switch"]["flow-rules"][orig.full_id][dest.full_id] = {
-                                origin: orig.full_id,
-                                destination: dest.full_id,
-                                isFullDuplex: false
-                            };
-                        }
-                    }
+                    var currentRules = clone(ctrl.fg["big-switch"]["flow-rules"]);
+                    currentRules.push(res.elem);
+                    ctrl.fgPos["big-switch"]["flow-rules"] = InitializationService.initFlowRulesLink(currentRules);
 
                     ctrl.fg["big-switch"]["flow-rules"].push(res.elem);
 
@@ -399,6 +425,53 @@
             return BackendCallService.getStateVNF(vnfMac, username);
         };
 
+        ctrl.deleteSelected = function () {
+            var toRemove = ctrl.selectedElement;
+            //console.log(JSON.stringify(ctrl.selectedElement, null, '\t'))
+            if (toRemove) {
+                var dialog = null;
+                if (Array.isArray(toRemove)) {
+                    //It's a flow rule or a set of
+                    if (toRemove.length > 1) {
+                        dialog = $dialogs.confirm("Delete link", "This link is made by multiple flow-rules. If you delete it you will delete all the flowr-rules. Are you sure you want to delete it?");
+                    } else {
+                        dialog = $dialogs.confirm("Delete element", "Are you sure you want to delete this element?");
+                    }
+                } else {
+                    dialog = $dialogs.confirm("Delete element", "Are you sure you want to delete this element?");
+                }
+                dialog.result.then(function (result) {
+                    var newData = {fg: clone(ctrl.fg), fgPos: clone(ctrl.fgPos)}, parts;
+                    if (Array.isArray(toRemove)) {
+                        //flowrules
+                        for (var i = 0; i < toRemove.length; i++) {
+                            parts = toRemove[i].split(":");
+                            newData = ManipulationService.removeFlowrule(newData.fg, newData.fgPos, parts[1]);
+                        }
+                        ctrl.fgPos = newData.fgPos;
+                        ctrl.fg = newData.fg;
+                        //console.log(JSON.stringify(ctrl.fg["big-switch"]["flow-rules"], null, '\t'))
+                        //console.log(JSON.stringify(ctrl.fgPos["big-switch"]["flow-rules"], null, '\t'))
+                    } else {
+                        parts = toRemove.split(":");
+                        if (parts[0] == "vnf") {
+                            newData = ManipulationService.removeVNF(newData.fg, newData.fgPos, parts[1]);
+                            ctrl.fgPos = newData.fgPos;
+                            ctrl.fg = newData.fg;
+                        } else if (parts[0] == "endpoint") {
+                            newData = ManipulationService.removeEP(newData.fg, newData.fgPos, parts[1]);
+                            ctrl.fgPos = newData.fgPos;
+                            ctrl.fg = newData.fg;
+                        }
+                    }
+                })
+            }
+        };
+
+        ctrl.deselectSelected = function () {
+            $rootScope.$broadcast("selectElement", null);
+        };
+
         $rootScope.$on("vnfConfig", function (event, res) {
             //if I'm here, means that the state has been modified, so I can put the file into the server
             console.log("event", event);
@@ -412,7 +485,6 @@
                 //TODO: mostrare errore
             });
         });
-
 
         $rootScope.$on("epUpdated", function (event, res) {
             ctrl.fgPos["end-points"][res.pos.id] = res.pos;
@@ -459,9 +531,12 @@
                 for (var j = 0; j < ctrl.fg["big-switch"]["flow-rules"].length; j++) {
                     if (ctrl.fg["big-switch"]["flow-rules"][j][fgConst.lkOrigLev1][fgConst.lkOrigLev2] == key) {
                         ctrl.fg["big-switch"]["flow-rules"].splice(j, 1);
+                        j--;
+                        continue;
                     }
                     if (ctrl.fg["big-switch"]["flow-rules"][j][fgConst.lkDestLev1][fgConst.lkDestLev2][fgConst.lkDestLev3] == key) {
                         ctrl.fg["big-switch"]["flow-rules"].splice(j, 1);
+                        j--;
                     }
                 }
             });
@@ -475,6 +550,7 @@
             ctrl.fgPos["big-switch"]["flow-rules"] = InitializationService.initFlowRulesLink(res.rules);
             ctrl.fg["big-switch"]["flow-rules"] = res.rules;
         });
+
         $rootScope.$on("selectElement", function (event, res) {
             if (ctrl.selectedElement == res) {
                 ctrl.selectedElement = null;
@@ -484,7 +560,7 @@
         });
     };
 
-    NFFGController.$inject = ['$rootScope', '$scope', 'BackendCallService', '$uibModal', 'dialogs', 'graphConstant', 'forwardingGraphConstant', 'InitializationService', "FgModalService", "ExporterService"];
+    NFFGController.$inject = ['$rootScope', '$scope', 'BackendCallService', '$uibModal', 'dialogs', 'AppConstant', 'graphConstant', 'forwardingGraphConstant', 'InitializationService', "FgModalService", "ExporterService", "ManipulationService"];
     angular.module('fg-gui').controller('NFFGController', NFFGController);
 
 })();

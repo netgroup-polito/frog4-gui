@@ -12,6 +12,7 @@
         var ctrl = this;
         // the selected Graph
         ctrl.selectedGraph = null;
+        ctrl.availableGraphs = [];
         // control variable used to show the forwarding graph preview
         ctrl.showGraph = false;
 
@@ -24,6 +25,20 @@
                 ctrl.selectedGraph = ctrl.availableGraphs[0];
         });
 
+        /**
+         * function used to get all available graphs again
+         */
+        ctrl.reload = function () {
+            BackendCallService.getAvailableGraphs().then(function (result) {
+                ctrl.availableGraphs = result["NF-FG"];
+                /*for(var i = 0; i < ctrl.availableGraphs.length; i++){
+                    if(ctrl.availableGraphs[i]["forwarding-graph"].id == ctrl.selectedGraph["forwarding-graph"].id)
+                        break;
+                }*/
+                if (ctrl.availableGraphs.length > 0)
+                    ctrl.selectedGraph = ctrl.availableGraphs[0];
+            });
+        };
         /**
          * function used to close the graph, without doing anything
          */

@@ -4,4 +4,13 @@
 (function () {
     "use strict";
 
+    var appConstant = {
+        graphOrigin: {
+            LOCAL: 'local',
+            UN: 'un',
+            REPOSITORY: 'repo'
+        }
+    };
+
+    angular.module("fg-gui").constant("AppConstant", appConstant)
 })();

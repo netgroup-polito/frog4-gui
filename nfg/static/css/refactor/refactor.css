@@ -109,6 +109,39 @@ html, body, .col-md-12, .row {
     border-radius: 35px;
 }
 
+table tr td:last-child {
+    white-space: nowrap;
+    width: 1px;
+}
+
+.info-body {
+    border-radius: 2px;
+    padding: 3em 3em;
+    font-size: 16px;
+}
+
+.margin-base-vertical {
+    margin-top: 40px;
+}
+
+.graphSpace {
+    margin: 5px;
+    border: 2px solid #80A926;
+    border-radius: 5px;
+}
+
+.svgRoot {
+    cursor: -webkit-grab;
+    cursor: -moz-grab;
+    cursor: grab;
+}
+
+.grabbing {
+    cursor: -webkit-grabbing;
+    cursor: -moz-grabbing;
+    cursor: grabbing;
+}
+
 /* START USERS/VNFs LIST STYLES */
 .list-table {
     background-color: #EEE;
