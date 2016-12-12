@@ -23,6 +23,7 @@ This document presents how to install the Virtualized Network Services GUI.
 * Required NFFG_library 
 
 ```sh
+        $ cd [fg-gui]
         $ git submodule update --init --recursive
 ```
 
