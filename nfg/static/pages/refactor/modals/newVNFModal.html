@@ -1,0 +1,78 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="NewVNFCtrl.cancel()" aria-hidden="true">×</button>
+        <h4 class="modal-title">Add new VNF</h4>
+    </div>
+    <form class="form-horizontal" role="form" name="formAddVNF" novalidate>
+        <div class="modal-body">
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="vnfName">VNF ID:</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control"
+                           id="vnfName"
+                           name="vnfName"
+                           ng-model="NewVNFCtrl.vnf_id" required>
+                    <div class="message"
+                         ng-show="formAddVNF.vnfName.$touched || formAddVNF.$submitted">
+                        <div ng-show="formAddVNF.vnfName.$error.required">The field is required!</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="templateFile">Select Template:</label>
+                <div class="col-sm-10">
+                    <input type="file" id="templateFile" name="templateFile"
+                           filereader ng-model="NewVNFCtrl.selectedTemplate" required>
+                    <div class="message"
+                         ng-show="formAddVNF.templateFile.$touched || formAddVNF.$submitted">
+                        <div ng-show="formAddVNF.templateFile.$error.required">The VNF Template is required!</div>
+                    </div>
+                </div>
+            </div>
+
+            <pre id="file_content_download" ng-if="NewVNFCtrl.selectedTemplate"
+                 style="max-height: 300px">{{ NewVNFCtrl.selectedTemplate |json }}</pre>
+
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="imageFile">Select Image:</label>
+                <div class="col-sm-10">
+                    <input type="file" id="imageFile" name="the_file"
+                           vnf-image-uploader
+                           url="{{NewVNFCtrl.url}}"
+                           md5="{{NewVNFCtrl.md5}}"
+                           vnf-id="{{NewVNFCtrl.vnf_id}}"
+                           upload-disabled="NewVNFCtrl.upload_disabled"
+                           form-data="NewVNFCtrl.form_data"
+                           current-offset="NewVNFCtrl.current_offset"
+                           retries="NewVNFCtrl.retries"
+                           progress="NewVNFCtrl.progress"
+                           data="NewVNFCtrl.data"
+                           calculate-md5="NewVNFCtrl.calculate_md5(file, chunk_size)"
+                           upload-done="NewVNFCtrl.upload_done()">
+                    <div class="message"
+                         ng-show="formAddVNF.the_file.$touched || formAddVNF.$submitted">
+                        <div ng-show="NewVNFCtrl.upload_disabled">The VNF Image is required!</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="progressbar">Upload Status:</label>
+                <div class="col-sm-10">
+                    <div id="progressbar" class="progress">
+                        <div class="progress-bar progress-bar-striped active" role="progressbar"
+                             ng-attr-aria-valuenow="{{ NewVNFCtrl.progress }}" aria-valuemin="0" aria-valuemax="100"
+                             ng-attr-style="{{ 'width:' + NewVNFCtrl.progress + '%' }}">{{ NewVNFCtrl.progress }}</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="modal-footer">
+            <button id="Upload" ng-click="NewVNFCtrl.load()" class="btn btn-primary">Add VNF</button>
+        </div>
+    </form>
+
+</div>

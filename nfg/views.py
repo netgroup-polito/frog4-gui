@@ -35,6 +35,7 @@ from nffg_library.validator import ValidateNF_FG
 from authentication_manager import AuthenticationManager
 from nfg.nffg_manager import NFFGManager
 from nfg.template_manager import TemplateManager
+from nfg.image_manager import ImageManager
 from user_library.user_manager import UserManager
 from nfg.model_state_vnf_manager import ModelStateVNFManager
 
@@ -54,6 +55,9 @@ graphm = NFFGManager(parser.get('un_orchestrator', 'address'),
 
 templatem = TemplateManager(parser.get('vnf-template', 'address'),
                             parser.get('vnf-template', 'port'))
+
+imagem = ImageManager(parser.get('vnf-template', 'address'),
+                      parser.get('vnf-template', 'port'))
 
 modelm = ModelStateVNFManager(parser.get('vnf-config', 'address'), parser.get('vnf-config', 'port'))
 
@@ -756,6 +760,46 @@ def api_get_vnf_templates(request):
     else:
         return HttpResponse(status=501)
 
+
+#added by Luigi
+def api_get_repo_address(request):
+    if request.method == "GET":
+        if "token" in request.session:
+            result = imagem.get_repo_address()
+            return HttpResponse("%s" % result["url"], status=result["status"])
+        else:
+            return HttpResponse(status=401)
+    else:
+        return HttpResponse(status=501)
+
+
+def api_put_vnf_template(request, vnf_id):
+    if request.method == "PUT":
+        if "token" in request.session:
+            new_vnf = json.loads(request.body)
+            result = templatem.put_template(vnf_id, new_vnf)
+            return HttpResponse(status=result["status"])
+        else:
+            return HttpResponse(status=401)
+    else:
+        return HttpResponse(status=501)
+
+
+def api_delete_vnf(request, vnf_id):
+    if request.method == "DELETE":
+        if "token" in request.session:
+            result = imagem.delete_image(vnf_id)
+            if result["status"] == 200:
+                result = templatem.delete_template(vnf_id)
+                return HttpResponse(status=result["status"])
+            else:
+                return HttpResponse(status=result["status"])
+        else:
+            return HttpResponse(status=401)
+    else:
+        return HttpResponse(status=501)
+
+
 #added by riccardo
 def status_get_vnf_model(request, vnf_type):
     print request
@@ -772,6 +816,7 @@ def status_get_vnf_model(request, vnf_type):
     else:
         return HttpResponse(status=501)
 
+
 def configure_get_vnf_state(request, mac_address, username):
     print mac_address
     print username
@@ -784,6 +829,7 @@ def configure_get_vnf_state(request, mac_address, username):
             return HttpResponse(status=401)
     else:
         return HttpResponse(status=501)
+
 
 def configure_put_vnf_updated_state(request, mac_address, username):
     if request.method == "PUT":

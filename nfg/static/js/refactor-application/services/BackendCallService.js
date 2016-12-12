@@ -129,6 +129,57 @@
             return deferred.promise;
         };
 
+        var _getVNFList = function () {
+            var deferred = $q.defer();
+            $http.get("api/v1/repository_api/get_vnf_list/")
+                .success(function (result) {
+                    deferred.resolve(result);
+                })
+                .error(function (err) {
+                    deferred.reject(err);
+                });
+            return deferred.promise;
+        };
+
+        var _putVNFTemplate = function (vnf_id, json_template) {
+            var deferred = $q.defer();
+            $http.put("api/v1/repository_api/put_vnf_template/" + vnf_id + "/",
+                json_template,
+                {
+                    headers: {
+                        'Content-type': 'application/json'
+                    }
+                })
+                .success(function (result) {
+                    deferred.resolve(result);
+                })
+                .error(function (err) {
+                    deferred.reject(err);
+                });
+            return deferred.promise;
+        };
+
+        var _deleteVNF = function (vnf_id) {
+            var deferred = $q.defer();
+            $http.delete("api/v1/repository_api/delete_vnf/" + vnf_id + "/")
+                .success(function (result) {
+                    deferred.resolve(result);
+                })
+                .error(function (err) {
+                    deferred.reject(err);
+                });
+            return deferred.promise;
+        };
+
+        var _getRepoAddress = function () {
+            var deferred = $q.defer();
+            $http.get("api/v1/repository_api/get_repo_address/")
+                .success(function (result) {
+                    deferred.resolve(result);
+                });
+            return deferred.promise;
+        };
+
         return {
             getAvailableGraphs: _getAvailableGraphs,
             getJSONSchema: _getJSONSchema,
@@ -137,7 +188,11 @@
             putGraph: _putGraph,
             getYangModelVNF: _getYangModelVNF,
             getStateVNF: _getStateVNF,
-            putStateVNF: _putStateVNF
+            putStateVNF: _putStateVNF,
+            getVNFList: _getVNFList,
+            putVNFTemplate: _putVNFTemplate,
+            deleteVNF: _deleteVNF,
+            getRepoAddress: _getRepoAddress
         };
     };
 

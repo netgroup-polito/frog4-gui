@@ -1,0 +1,94 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="EditVNFCtrl.cancel()" aria-hidden="true">×</button>
+        <h4 class="modal-title">Edit VNF: {{ EditVNFCtrl.vnf_id }}</h4>
+    </div>
+
+    <div class="tabbable">
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#tab1" data-toggle="tab">Template</a></li>
+            <li><a href="#tab2" data-toggle="tab">Image</a></li>
+        </ul>
+        <div class="tab-content">
+
+            <!-- Edit Template Tab -->
+            <div class="tab-pane active" id="tab1">
+                <form class="form-horizontal" role="form" name="formEditTemplate" novalidate>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="old_template">Current Template:</label>
+                            <div class="col-sm-10">
+                                <pre id="old_template" ng-if="EditVNFCtrl.oldTemplate"
+                                     style="max-height: 200px">{{ EditVNFCtrl.oldTemplate |json }}</pre>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="templateFile">New Template:</label>
+                            <div class="col-sm-10">
+                                <input type="file" id="templateFile" name="templateFile"
+                                       filereader ng-model="EditVNFCtrl.selectedTemplate" required>
+                                <div class="message"
+                                     ng-show="formEditTemplate.templateFile.$touched || formEditTemplate.$submitted">
+                                    <div ng-show="formEditTemplate.templateFile.$error.required">The VNF Template is
+                                        required!
+                                    </div>
+                                </div>
+                                <pre id="file_content_download" ng-if="EditVNFCtrl.selectedTemplate"
+                                     style="max-height: 200px">{{ EditVNFCtrl.selectedTemplate |json }}</pre>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button ng-click="EditVNFCtrl.loadTemplate()" class="btn btn-primary">Apply</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Edit Image Tab -->
+            <div class="tab-pane" id="tab2">
+                <form class="form-horizontal" role="form" name="formEditImage" novalidate>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="imageFile">New Image:</label>
+                            <div class="col-sm-10">
+                                <input type="file" id="imageFile" name="the_file"
+                                       vnf-image-uploader
+                                       url="{{ EditVNFCtrl.url }}"
+                                       md5="{{ EditVNFCtrl.md5 }}"
+                                       vnf-id="{{ EditVNFCtrl.vnf_id }}"
+                                       upload-disabled="EditVNFCtrl.upload_disabled"
+                                       form-data="EditVNFCtrl.form_data"
+                                       current-offset="EditVNFCtrl.current_offset"
+                                       retries="EditVNFCtrl.retries"
+                                       progress="EditVNFCtrl.progress"
+                                       data="EditVNFCtrl.data"
+                                       calculate-md5="EditVNFCtrl.calculate_md5(file, chunk_size)"
+                                       upload-done="EditVNFCtrl.upload_done()">
+                                <div class="message"
+                                     ng-show="formEditImage.the_file.$touched || formEditImage.$submitted">
+                                    <div ng-show="EditVNFCtrl.upload_disabled">The VNF Image is required!</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="progressbar">Upload Status:</label>
+                            <div class="col-sm-10">
+                                <div id="progressbar" class="progress">
+                                    <div class="progress-bar progress-bar-striped active" role="progressbar"
+                                         ng-attr-aria-valuenow="{{ EditVNFCtrl.progress }}" aria-valuemin="0"
+                                         aria-valuemax="100"
+                                         ng-attr-style="{{ 'width:' + EditVNFCtrl.progress + '%' }}">{{ EditVNFCtrl.progress }}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button ng-click="EditVNFCtrl.loadImage()" class="btn btn-primary">Apply</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+
+</div>

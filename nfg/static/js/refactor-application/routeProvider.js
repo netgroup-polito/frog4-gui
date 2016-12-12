@@ -18,9 +18,9 @@
         }).when('/nf-fg', {
             redirectTo: "/"
         }).when('/vnf-repository', { // VNF Repository View
-            templateUrl: applicationViewBasePath + 'vnf-repository.html'
-            //controller: 'VNFRepController',
-            //controllerAs: 'VNFRepCtrl'
+            templateUrl: applicationViewBasePath + 'vnf-repository.html',
+            controller: 'VNFRepoController',
+            controllerAs: 'VNFRepoCtrl'
         }).when('/', { // Forwarding-graph View
             templateUrl: applicationViewBasePath + 'nf-fg.html',
             controller: 'NFFGController',
