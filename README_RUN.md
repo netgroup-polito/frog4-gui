@@ -11,6 +11,7 @@ To run the application with a custom settings file:
         $ cd [fg-gui]
         $ python manage.py runserver --d <configuration file>
 ```
+An example of configuration file is available [here](./config/default-config.ini).
 
 To connect to application write http://[IP]:[Port]/ on the url of the browser.
 
