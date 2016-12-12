@@ -814,7 +814,7 @@ def api_delete_vnf(request, vnf_id):
         return HttpResponse(status=501)
 
 
-#added by riccardo
+# added by riccardo
 def status_get_vnf_model(request, vnf_type):
     print request
     print vnf_type

@@ -72,7 +72,6 @@ form.ng-submitted select.ng-invalid:focus {
     box-shadow: rgb(206, 132, 131) 0px 0px 6px 0px;
 }
 
-
 html, body, .col-md-12, .row {
     height: 100%;
 }
@@ -107,6 +106,39 @@ html, body, .col-md-12, .row {
     font-size: 24px;
     line-height: 1.33;
     border-radius: 35px;
+}
+
+table tr td:last-child {
+    white-space: nowrap;
+    width: 1px;
+}
+
+.info-body {
+    border-radius: 2px;
+    padding: 3em 3em;
+    font-size: 16px;
+}
+
+.margin-base-vertical {
+    margin-top: 40px;
+}
+
+.graphSpace {
+    margin: 5px;
+    border: 2px solid #80A926;
+    border-radius: 5px;
+}
+
+.svgRoot {
+    cursor: -webkit-grab;
+    cursor: -moz-grab;
+    cursor: grab;
+}
+
+.grabbing {
+    cursor: -webkit-grabbing;
+    cursor: -moz-grabbing;
+    cursor: grabbing;
 }
 
 table tr td:last-child {
