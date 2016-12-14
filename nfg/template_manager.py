@@ -48,10 +48,23 @@ class TemplateManager:
         else:  # todo: gestione errori comuni
             return {"status": response.status_code, "error": "Unknown Error"}
 
+    # Added by Luigi
+    def get_templates_v2(self):
+        headers = {'Content-type': 'application/json'}
+        path = 'v2/nf_template/?format=json'
+        response = requests.get(
+            self.un_protocol + '://' + self.un_host + ':' + self.un_port + '/' + self.base_path + path,
+            headers=headers)
+        if response.status_code == 200:
+            return {"status": response.status_code,
+                    "templates": json.loads(response.content)["list"]}
+        else:  # todo: gestione errori comuni
+            return {"status": response.status_code, "error": "Unknown Error"}
+
     def put_template(self, vnf_id, template):
         data_json = json.dumps(template)
         headers = {'Content-Type': u'application/json'}
-        path = 'v1/VNF/' + vnf_id + '/'
+        path = 'v2/nf_template/' + vnf_id + '/'
         response = requests.put(self.un_protocol + '://' + self.un_host + ':' + self.un_port + '/' + self.base_path + path, data=data_json, headers=headers)
         if response.status_code == 200: #Not 201 CREATED?
             return {"status": response.status_code}
@@ -59,7 +72,7 @@ class TemplateManager:
             return {"status": response.status_code, "error": "Unknown Error"}
 
     def delete_template(self, vnf_id):
-        path = 'v1/VNF/' + vnf_id
+        path = 'v2/nf_template/' + vnf_id
         response = requests.delete(
             self.un_protocol + '://' + self.un_host + ':' + self.un_port + '/' + self.base_path + path)
         if response.status_code == 200:

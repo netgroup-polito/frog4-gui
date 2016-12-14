@@ -776,11 +776,23 @@ def api_get_vnf_templates(request):
 
 
 #added by Luigi
-def api_get_repo_address(request):
+def api_get_datastore_address(request):
     if request.method == "GET":
         if "token" in request.session:
-            result = imagem.get_repo_address()
+            result = imagem.get_datastore_address()
             return HttpResponse("%s" % result["url"], status=result["status"])
+        else:
+            return HttpResponse(status=401)
+    else:
+        return HttpResponse(status=501)
+
+
+def api_get_vnf_list(request):
+    if request.method == "GET":
+        if "token" in request.session:
+            result = templatem.get_templates_v2()
+            json_data_string = json.dumps(result)
+            return HttpResponse("%s" % json_data_string, status=result["status"], content_type="application/json")
         else:
             return HttpResponse(status=401)
     else:

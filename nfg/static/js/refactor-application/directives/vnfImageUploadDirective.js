@@ -26,23 +26,22 @@
                     if(newVal) {
                         scope.url = newVal;
                         elem.fileupload({
-                            url: scope.url + "v1/VNF/chunked_upload/",
+                            url: scope.url + "v2/nf_image/chunked_upload/",
                             dataType: "json",
                             maxChunkSize: 1000000, // Chunks of 1000 kB
                             replaceFileInput: false,
-                            add: function(e, data) { // Called before starting upload
+                            add: function(e, data) { // Called when a file is chosen
                                 scope.$apply(function() {
                                     scope.progress = "";
                                     // scope.messages = "";
                                     // If this is the second file you're uploading we need to remove the
-                                    // old upload_id.
+                                    // old upload_id and reset some upload session variables.
                                     scope.formData = [];
                                     scope.currentOffset = 0;
                                     scope.retries = 0;
                                     scope.calculateMd5({file:data.files[0], chunk_size:1000000});  // Again, chunks of 1000 kB
-                                    //$('#uploadbtn').data(data).prop("disabled", false);
                                     scope.data = data;
-                                    scope.uploadDisabled = false;
+                                    scope.uploadDisabled = false; // When a file is chosen the Upload button becomes active
                                 });
                             },
                             chunkdone: function (e, data) { // Called after uploading each chunk
@@ -52,11 +51,8 @@
                                             {"name": "upload_id", "value": data.result.upload_id}
                                         );
                                     }
-                                    //$("#messages").append($('<p>').text(JSON.stringify(data.result)));
                                     // scope.messages += '<p>' + JSON.stringify(data.result) + '</p>';
                                     scope.currentOffset = data.result.offset;
-                                    // var progress = parseInt(data.loaded / data.total * 100.0, 10);
-                                    // scope.progress = Array(progress).join("=") + "> " + progress + "%";
                                     scope.progress = parseInt(data.loaded / data.total * 100.0, 10);
                                 });
                             },
@@ -66,7 +62,7 @@
                             done: function (e, data) { // Called when the file has completely uploaded
                                 $.ajax({
                                     type: "POST",
-                                    url: scope.url + "v1/VNF/chunked_upload_complete/",
+                                    url: scope.url + "v2/nf_image/chunked_upload_complete/",
                                     data: {
                                         upload_id: data.result.upload_id,
                                         md5: scope.md5,
@@ -74,28 +70,24 @@
                                     },
                                     dataType: "json",
                                     success: function(data) {
-                                        // scope.$apply(function() {
-                                            // scope.messages += '<p>' + JSON.stringify(data) + '</p>';
-                                        // });
                                         scope.uploadDone();
                                     }
                                 });
                             },
                             fail: function (e, data) {
-                                // jQuery Widget Factory uses "namespace-widgetname" since version 1.10.0:
                                 var retry = function () {
                                         data.uploadedBytes = scope.currentOffset;
-                                        // clear the previous data:
+                                        // Clear the previous data and restart the upload from current offset
                                         data.data = null;
                                         data.submit();
                                     };
                                 if (data.errorThrown !== 'abort' &&
                                         data.uploadedBytes < data.files[0].size &&
-                                        scope.retries < 100) {
+                                        scope.retries < 100) { // Max 100 retries
                                     scope.$apply(function() {
                                         scope.retries += 1;
                                     });
-                                    window.setTimeout(retry, 1000);
+                                    window.setTimeout(retry, 1000);  // Retry to upload the failed chunk every 1 second
                                     return;
                                 }
                                 scope.$apply(function() {
@@ -108,9 +100,7 @@
 			}
 		};
 
-
     };
 
-    // vnfImageUploader.$inject = ["$q"];
     angular.module('fg-gui').directive('vnfImageUploader', vnfImageUploader);
 })();

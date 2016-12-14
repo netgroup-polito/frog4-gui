@@ -8,12 +8,12 @@ class ImageManager:
         self.un_port = port
         self.base_path = ''
 
-    def get_repo_address(self):
+    def get_datastore_address(self):
         return {"status": 200,
                 "url": self.un_protocol + '://' + self.un_host + ':' + self.un_port + '/' + self.base_path}
 
     def delete_image(self, vnf_id):
-        path = 'v1/VNF/image/' + vnf_id
+        path = 'v2/nf_image/' + vnf_id
         response = requests.delete(
             self.un_protocol + '://' + self.un_host + ':' + self.un_port + '/' + self.base_path + path)
         if response.status_code == 200:

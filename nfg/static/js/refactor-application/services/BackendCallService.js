@@ -148,7 +148,7 @@
 
         var _getVNFList = function () {
             var deferred = $q.defer();
-            $http.get("api/v1/repository_api/get_vnf_list/")
+            $http.get("api/v2/datastore_api/get_vnf_list/")
                 .success(function (result) {
                     deferred.resolve(result);
                 })
@@ -160,7 +160,7 @@
 
         var _putVNFTemplate = function (vnf_id, json_template) {
             var deferred = $q.defer();
-            $http.put("api/v1/repository_api/put_vnf_template/" + vnf_id + "/",
+            $http.put("api/v2/datastore_api/put_vnf_template/" + vnf_id + "/",
                 json_template,
                 {
                     headers: {
@@ -178,7 +178,7 @@
 
         var _deleteVNF = function (vnf_id) {
             var deferred = $q.defer();
-            $http.delete("api/v1/repository_api/delete_vnf/" + vnf_id + "/")
+            $http.delete("api/v2/datastore_api/delete_vnf/" + vnf_id + "/")
                 .success(function (result) {
                     deferred.resolve(result);
                 })
@@ -190,7 +190,7 @@
 
         var _getRepoAddress = function () {
             var deferred = $q.defer();
-            $http.get("api/v1/repository_api/get_repo_address/")
+            $http.get("api/v2/datastore_api/get_datastore_address/")
                 .success(function (result) {
                     deferred.resolve(result);
                 });

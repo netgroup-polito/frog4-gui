@@ -46,8 +46,8 @@ urlpatterns = [
     url(r'^graphs_from_repository_request/$', views.graphs_from_repository_request,
         name='graphs_from_repository_request'),
 
-    url(r'^api/v1/repository_api/get_vnf_list/$', views.api_get_vnf_templates, name='get_vnf_templates'),
-    url(r'^api/v1/repository_api/put_vnf_template/(?P<vnf_id>[^/]+)/$', views.api_put_vnf_template, name='put_vnf_template'),
-    url(r'^api/v1/repository_api/delete_vnf/(?P<vnf_id>[^/]+)/$', views.api_delete_vnf, name='delete_vnf'),
-    url(r'^api/v1/repository_api/get_repo_address/$', views.api_get_repo_address, name='get_repo_address')
+    url(r'^api/v2/datastore_api/get_vnf_list/$', views.api_get_vnf_list, name='get_vnf_templates'),
+    url(r'^api/v2/datastore_api/put_vnf_template/(?P<vnf_id>[^/]+)/$', views.api_put_vnf_template, name='put_vnf_template'),
+    url(r'^api/v2/datastore_api/delete_vnf/(?P<vnf_id>[^/]+)/$', views.api_delete_vnf, name='delete_vnf'),
+    url(r'^api/v2/datastore_api/get_datastore_address/$', views.api_get_datastore_address, name='get_datastore_address')
 ]
