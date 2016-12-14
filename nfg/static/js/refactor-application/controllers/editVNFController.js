@@ -14,8 +14,7 @@
             ctrl.url = res;
         });
         ctrl.vnf_id = currentVNF.id;
-        ctrl.oldTemplate = currentVNF.template;
-        ctrl.selectedTemplate = null;
+        ctrl.currentTemplate = currentVNF.template;
         ctrl.md5 = "";
 		ctrl.form_data = [];
 		ctrl.data = null;
@@ -54,9 +53,9 @@
             $uibModalInstance.dismiss('cancel');
         };
         ctrl.loadTemplate = function () {
-            if (ctrl.selectedTemplate) {
-                BackendCallService.putVNFTemplate(ctrl.vnf_id, ctrl.selectedTemplate).then(function () {
-                    var updatedVNF = {id: ctrl.vnf_id, template: ctrl.selectedTemplate};
+            if (ctrl.currentTemplate) {
+                BackendCallService.putVNFTemplate(ctrl.vnf_id, ctrl.currentTemplate).then(function () {
+                    var updatedVNF = {id: ctrl.vnf_id, template: ctrl.currentTemplate};
                     $uibModalInstance.close(updatedVNF);
                 }, function (fail) {
                     console.error(JSON.stringify(fail));

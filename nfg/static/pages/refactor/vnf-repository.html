@@ -1,7 +1,7 @@
 <div class="col-md-offset-3 col-md-6">
     <div class="row">
         <div class="btn-toolbar list-menu" role="toolbar">
-            <h4 class="pull-left">VNFs</h4>
+            <h4 class="pull-left">Available NFs</h4>
             <div class="btn-group pull-right" role="group" aria-label="...">
                 <button class="menu btn btn-default" title="Add VNF" ng-click="VNFRepoCtrl.add()">
                     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
@@ -13,6 +13,7 @@
                 <thead>
                 <tr>
                     <th ng-repeat="(key,value) in VNFRepoCtrl.vnfs[0]">{{ key.capitalizeFirstLetter() }}</th>
+                    <th>Capability</th>
                     <th></th>
                     <th></th>
                 </tr>
@@ -21,6 +22,7 @@
                 <tr ng-repeat="vnf in VNFRepoCtrl.vnfs">
                     <th ng-repeat="(key,value) in vnf" ng-if="key == 'id'">{{ value }}</th>
                     <th ng-repeat="(key,value) in vnf" ng-if="key == 'template'">{{ value.name }}</th>
+                    <th ng-repeat="(key,value) in vnf" ng-if="key == 'template'">{{ value['functional-capability'] }}</th>
                     <td>
                         <button type="button" class="pull-right btn btn-danger btn-delete" ng-click="VNFRepoCtrl.delete(vnf)">
                             <span class="glyphicon glyphicon-trash"

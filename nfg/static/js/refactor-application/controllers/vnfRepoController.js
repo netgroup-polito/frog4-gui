@@ -14,7 +14,7 @@
         });
 
         ctrl.delete = function (vnf) {
-            var confirm = $dialogs.confirm('Please Confirm', 'Do you want to delete the VNF "' + vnf.id + '"?');
+            var confirm = $dialogs.confirm('Deleting NF', 'The NF with ID "' + vnf.id + '" will be deleted. Are you sure?');
             confirm.result.then(function () {
                 BackendCallService.deleteVNF(vnf.id).then(function () {
                     ctrl.vnfs.splice(ctrl.vnfs.indexOf(vnf), 1);

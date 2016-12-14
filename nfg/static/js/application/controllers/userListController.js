@@ -14,7 +14,7 @@
         });
 
         ctrl.delete = function (user) {
-            var confirm = $dialogs.confirm('Please Confirm', 'Do you want to delete the user "' + user.username + '"?');
+            var confirm = $dialogs.confirm('Deleting User', 'The user "' + user.username + '" will be deleted. Are you sure?');
             confirm.result.then(function () {
                 BackendCallService.deleteUser(user).then(function () {
                     ctrl.users.splice(ctrl.users.indexOf(user), 1);

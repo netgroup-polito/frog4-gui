@@ -1,7 +1,7 @@
 <div class="modal-content">
     <div class="modal-header">
         <button type="button" class="close" ng-click="EditVNFCtrl.cancel()" aria-hidden="true">×</button>
-        <h4 class="modal-title">Edit VNF: {{ EditVNFCtrl.vnf_id }}</h4>
+        <h4 class="modal-title">Edit NF: {{ EditVNFCtrl.vnf_id }}</h4>
     </div>
 
     <div class="tabbable">
@@ -16,25 +16,10 @@
                 <form class="form-horizontal" role="form" name="formEditTemplate" novalidate>
                     <div class="modal-body">
                         <div class="form-group">
-                            <label class="control-label col-sm-2" for="old_template">Current Template:</label>
+                            <label class="control-label col-sm-2" for="file_content_download">Current Template:</label>
                             <div class="col-sm-10">
-                                <pre id="old_template" ng-if="EditVNFCtrl.oldTemplate"
-                                     style="max-height: 200px">{{ EditVNFCtrl.oldTemplate |json }}</pre>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-sm-2" for="templateFile">New Template:</label>
-                            <div class="col-sm-10">
-                                <input type="file" id="templateFile" name="templateFile"
-                                       filereader ng-model="EditVNFCtrl.selectedTemplate" required>
-                                <div class="message"
-                                     ng-show="formEditTemplate.templateFile.$touched || formEditTemplate.$submitted">
-                                    <div ng-show="formEditTemplate.templateFile.$error.required">The VNF Template is
-                                        required!
-                                    </div>
-                                </div>
-                                <pre id="file_content_download" ng-if="EditVNFCtrl.selectedTemplate"
-                                     style="max-height: 200px">{{ EditVNFCtrl.selectedTemplate |json }}</pre>
+                                <textarea id="file_content_download" ng-if="EditVNFCtrl.currentTemplate" to-json-directive
+                                          ng-model="EditVNFCtrl.currentTemplate" class="form-control" rows="10"></textarea>
                             </div>
                         </div>
                     </div>
@@ -66,7 +51,7 @@
                                        upload-done="EditVNFCtrl.upload_done()">
                                 <div class="message"
                                      ng-show="formEditImage.the_file.$touched || formEditImage.$submitted">
-                                    <div ng-show="EditVNFCtrl.upload_disabled">The VNF Image is required!</div>
+                                    <div ng-show="EditVNFCtrl.upload_disabled">The NF Image is required!</div>
                                 </div>
                             </div>
                         </div>
