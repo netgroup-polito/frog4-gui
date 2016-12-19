@@ -799,11 +799,23 @@ def api_get_vnf_list(request):
         return HttpResponse(status=501)
 
 
-def api_put_vnf_template(request, vnf_id):
+def api_put_vnf_template(request):
     if request.method == "PUT":
         if "token" in request.session:
             new_vnf = json.loads(request.body)
-            result = templatem.put_template(vnf_id, new_vnf)
+            result = templatem.put_template(new_vnf)
+            return HttpResponse("%s" % result["vnf_id"], status=result["status"])
+        else:
+            return HttpResponse(status=401)
+    else:
+        return HttpResponse(status=501)
+
+
+def api_update_vnf_template(request, vnf_id):
+    if request.method == "PUT":
+        if "token" in request.session:
+            new_vnf = json.loads(request.body)
+            result = templatem.update_template(vnf_id, new_vnf)
             return HttpResponse(status=result["status"])
         else:
             return HttpResponse(status=401)

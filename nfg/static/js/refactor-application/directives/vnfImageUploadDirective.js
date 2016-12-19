@@ -19,7 +19,8 @@
 				// messages: '=',
 				uploadDisabled: '=',
 				calculateMd5: '&',
-                uploadDone: '&'
+                uploadDone: '&',
+                uploadAborted: '&'
 			},
 			link: function(scope, elem, attrs) {
                 scope.$watch('url', function(newVal) {
@@ -46,7 +47,7 @@
                             },
                             chunkdone: function (e, data) { // Called after uploading each chunk
                                 scope.$apply(function() {
-                                    if (scope.formData.length < 1) {
+                                    if (scope.formData.length < 2) {
                                         scope.formData.push(
                                             {"name": "upload_id", "value": data.result.upload_id}
                                         );
@@ -83,7 +84,7 @@
                                     };
                                 if (data.errorThrown !== 'abort' &&
                                         data.uploadedBytes < data.files[0].size &&
-                                        scope.retries < 100) { // Max 100 retries
+                                        scope.retries < 1000) { // Max 100 retries
                                     scope.$apply(function() {
                                         scope.retries += 1;
                                     });
@@ -93,6 +94,7 @@
                                 scope.$apply(function() {
                                     scope.retries = 0;
                                 });
+                                scope.uploadAborted();
                             }
                         });
                     }

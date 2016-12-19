@@ -52,11 +52,11 @@
             });
             addModal.result.then(
                 function (newVNF) {
-                    BackendCallService.putVNFTemplate(newVNF.id, newVNF.template).then(function () {
+                    // BackendCallService.putVNFTemplate(newVNF.id, newVNF.template).then(function () {
                         ctrl.vnfs.push(newVNF);
-                    }, function (fail) {
-                        console.error(JSON.stringify(fail));
-                    });
+                    // }, function (fail) {
+                    //     console.error(JSON.stringify(fail));
+                    // });
                 }
             )
         };

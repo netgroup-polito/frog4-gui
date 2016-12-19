@@ -54,7 +54,7 @@
         };
         ctrl.loadTemplate = function () {
             if (ctrl.currentTemplate) {
-                BackendCallService.putVNFTemplate(ctrl.vnf_id, ctrl.currentTemplate).then(function () {
+                BackendCallService.updateVNFTemplate(ctrl.vnf_id, ctrl.currentTemplate).then(function () {
                     var updatedVNF = {id: ctrl.vnf_id, template: ctrl.currentTemplate};
                     $uibModalInstance.close(updatedVNF);
                 }, function (fail) {

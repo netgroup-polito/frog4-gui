@@ -18,13 +18,17 @@
                         <div class="form-group">
                             <label class="control-label col-sm-2" for="file_content_download">Current Template:</label>
                             <div class="col-sm-10">
-                                <textarea id="file_content_download" ng-if="EditVNFCtrl.currentTemplate" to-json-directive
-                                          ng-model="EditVNFCtrl.currentTemplate" class="form-control" rows="10"></textarea>
+                                <textarea id="file_content_download" name="templateText"
+                                          ng-if="EditVNFCtrl.currentTemplate"
+                                          to-json-directive
+                                          ng-model="EditVNFCtrl.currentTemplate"
+                                          class="form-control" rows="10"></textarea>
+                                <div class="message" ng-show="formEditTemplate.templateText.$error.jsonError">Incorrect JSON syntax!</div>
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button ng-click="EditVNFCtrl.loadTemplate()" class="btn btn-primary">Apply</button>
+                        <button ng-click="formEditTemplate.$valid && EditVNFCtrl.loadTemplate()" class="btn btn-primary">Apply</button>
                     </div>
                 </form>
             </div>

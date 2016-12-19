@@ -13,7 +13,7 @@
                 <thead>
                 <tr>
                     <th ng-repeat="(key,value) in VNFRepoCtrl.vnfs[0]">{{ key.capitalizeFirstLetter() }}</th>
-                    <th>Capability</th>
+                    <th ng-show="VNFRepoCtrl.vnfs.length">Capability</th>
                     <th></th>
                     <th></th>
                 </tr>

@@ -5,19 +5,6 @@
     </div>
     <form class="form-horizontal" role="form" name="formAddVNF" novalidate>
         <div class="modal-body">
-            <div class="form-group">
-                <label class="control-label col-sm-2" for="vnfName">NF ID:</label>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control"
-                           id="vnfName"
-                           name="vnfName"
-                           ng-model="NewVNFCtrl.vnf_id" required>
-                    <div class="message"
-                         ng-show="formAddVNF.vnfName.$touched || formAddVNF.$submitted">
-                        <div ng-show="formAddVNF.vnfName.$error.required">The field is required!</div>
-                    </div>
-                </div>
-            </div>
 
             <div class="form-group">
                 <label class="control-label col-sm-2" for="templateFile">Select Template:</label>
@@ -31,8 +18,14 @@
                 </div>
             </div>
 
-            <textarea id="file_content_download" ng-if="NewVNFCtrl.selectedTemplate" to-json-directive
-                      ng-model="NewVNFCtrl.selectedTemplate" class="form-control" rows="10"></textarea>
+            <textarea id="file_content_download" name="templateText"
+                      ng-if="NewVNFCtrl.selectedTemplate"
+                      to-json-directive
+                      ng-model="NewVNFCtrl.selectedTemplate"
+                      class="form-control" rows="10"></textarea>
+            <div class="message" ng-show="formAddVNF.templateFile.$touched || formAddVNF.$submitted">
+                <div ng-show="formAddVNF.templateText.$error.jsonError">Incorrect JSON syntax!</div>
+            </div>
 
             <div class="form-group">
                 <label class="control-label col-sm-2" for="imageFile">Select Image:</label>
@@ -49,7 +42,8 @@
                            progress="NewVNFCtrl.progress"
                            data="NewVNFCtrl.data"
                            calculate-md5="NewVNFCtrl.calculate_md5(file, chunk_size)"
-                           upload-done="NewVNFCtrl.upload_done()">
+                           upload-done="NewVNFCtrl.upload_done()"
+                           upload-aborted="NewVNFCtrl.upload_aborted()">
                     <div class="message"
                          ng-show="formAddVNF.the_file.$touched || formAddVNF.$submitted">
                         <div ng-show="NewVNFCtrl.upload_disabled">The NF Image is required!</div>
@@ -71,7 +65,7 @@
         </div>
 
         <div class="modal-footer">
-            <button id="Upload" ng-click="NewVNFCtrl.load()" class="btn btn-primary">Add NF</button>
+            <button id="Upload" ng-click="formAddVNF.$valid && NewVNFCtrl.load()" class="btn btn-primary">Add NF</button>
         </div>
     </form>
 

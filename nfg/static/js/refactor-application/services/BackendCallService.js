@@ -158,7 +158,25 @@
             return deferred.promise;
         };
 
-        var _putVNFTemplate = function (vnf_id, json_template) {
+        var _putVNFTemplate = function (json_template) {
+            var deferred = $q.defer();
+            $http.put("api/v2/datastore_api/put_vnf_template/",
+                json_template,
+                {
+                    headers: {
+                        'Content-type': 'application/json'
+                    }
+                })
+                .success(function (result) {
+                    deferred.resolve(result);
+                })
+                .error(function (err) {
+                    deferred.reject(err);
+                });
+            return deferred.promise;
+        };
+
+        var _updateVNFTemplate = function (vnf_id, json_template) {
             var deferred = $q.defer();
             $http.put("api/v2/datastore_api/put_vnf_template/" + vnf_id + "/",
                 json_template,
@@ -209,6 +227,7 @@
             putStateVNF: _putStateVNF,
             getVNFList: _getVNFList,
             putVNFTemplate: _putVNFTemplate,
+            updateVNFTemplate: _updateVNFTemplate,
             deleteVNF: _deleteVNF,
             getRepoAddress: _getRepoAddress
         };

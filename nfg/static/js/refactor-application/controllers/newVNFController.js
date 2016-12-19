@@ -55,14 +55,23 @@
             $uibModalInstance.dismiss('cancel');
         };
         ctrl.load = function () {
-            if (ctrl.selectedTemplate && !ctrl.upload_disabled && ctrl.vnf_id) {
-                ctrl.data.submit();
+            if (ctrl.selectedTemplate && !ctrl.upload_disabled) {
+                BackendCallService.putVNFTemplate(ctrl.selectedTemplate).then(function (result) {
+                    ctrl.vnf_id = result;
+                    ctrl.form_data.push({"name": "vnf_id", "value": ctrl.vnf_id});
+                    ctrl.data.submit();
+                }, function (fail) {
+                    console.error(JSON.stringify(fail));
+                });
             }
         };
         ctrl.upload_done = function () {
             var newVNF = {id: ctrl.vnf_id, template: ctrl.selectedTemplate};
             $uibModalInstance.close(newVNF);
         };
+        ctrl.upload_aborted = function () {
+            ctrl.progress = 0;
+        }
     };
 
     NewVNFController.$inject = ['BackendCallService', '$uibModalInstance'];

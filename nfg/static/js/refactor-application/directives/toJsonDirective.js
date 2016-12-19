@@ -8,11 +8,18 @@
             require: 'ngModel',
             link: function (scope, element, attrs, ngModelController) {
                 ngModelController.$parsers.push(function (data) {
-                    var json_obj = JSON.parse(data);
-                    return json_obj;
+                    try {
+                        var json_obj = JSON.parse(data);
+                        ngModelController.$setValidity('jsonError', true);
+                        return json_obj;
+                    } catch (err) {
+                        ngModelController.$setValidity('jsonError', false);
+                        return data;
+                    }
                 });
 
                 ngModelController.$formatters.push(function (json_obj) {
+                    ngModelController.$setValidity('jsonError', null);
                     var data = $filter('json')(json_obj);
                     return data;
                 });
