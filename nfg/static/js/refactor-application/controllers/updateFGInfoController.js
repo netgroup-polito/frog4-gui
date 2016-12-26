@@ -25,12 +25,14 @@
         /**
          * Function used to save all the modification after modal is closed
          */
-        ctrl.save = function () {
-            $uibModalInstance.close(ctrl.info);
+        ctrl.save = function (form) {
+            if (form.$valid) {
+                $uibModalInstance.close(ctrl.info);
+            }
         };
     };
 
-    updateFGInfoController.$inject = ['$uibModalInstance','info'];
+    updateFGInfoController.$inject = ['$uibModalInstance', 'info'];
     angular.module('fg-gui').controller('UpdateFGInfoController', updateFGInfoController);
 
 })();

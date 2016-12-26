@@ -20,13 +20,41 @@ body {
     height: calc(100% - 64px);
 }
 
-#svg_graph {
-    flex: 1;
-    position: relative;
+.graphSpace > svg {
+    position: absolute;
 }
 
-#svg_graph > svg {
-    position: absolute;
+.graphSpace {
+    flex: 1;
+    position: relative;
+    margin: 5px;
+    border: 2px solid #80A926;
+    border-radius: 5px;
+}
+
+.outerSpace {
+    display: table;
+    width: 100%;
+    height: 100%;
+    background-color: #dddddd;
+}
+
+.innerSpace {
+    margin: auto;
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.realSpace {
+    font-size: 20px;
+    color: #5f5f5f;
+    text-align: center;
+    width: 250px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 5px;
+    border: 2px dashed #5f5f5f;
+    border-radius: 5px;
 }
 
 .labelRight {
@@ -123,12 +151,6 @@ table tr td:last-child {
     margin-top: 40px;
 }
 
-.graphSpace {
-    margin: 5px;
-    border: 2px solid #80A926;
-    border-radius: 5px;
-}
-
 .svgRoot {
     cursor: -webkit-grab;
     cursor: -moz-grab;
@@ -156,12 +178,6 @@ table tr td:last-child {
     margin-top: 40px;
 }
 
-.graphSpace {
-    margin: 5px;
-    border: 2px solid #80A926;
-    border-radius: 5px;
-}
-
 .svgRoot {
     cursor: -webkit-grab;
     cursor: -moz-grab;
@@ -184,6 +200,7 @@ table tr td:last-child {
     margin: 0;
     border-collapse: initial;
 }
+
 .list-menu {
     border: 2px solid #80A926;
     border-bottom: 0px;
@@ -191,18 +208,21 @@ table tr td:last-child {
     border-top-right-radius: 6px;
     padding: 8px;
     background-color: #EEE;
-    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 14px;
     margin: 0;
 }
-.btn-delete{
+
+.btn-delete {
 
 }
-.btn-edit{
+
+.btn-edit {
     margin-right: 5px;
 }
 
 .glyphicon-group:before {
-  content: "\e284";
+    content: "\e284";
 }
+
 /* END USERS/VNFs LIST STYLES
