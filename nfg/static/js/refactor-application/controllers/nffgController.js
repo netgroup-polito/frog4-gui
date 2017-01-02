@@ -180,10 +180,10 @@
                     if (result.success != 'undefined')
                         $dialogs.notify('Deploy', 'The graph has been successfully deployed');
                     else
-                        $dialogs.error('Deploy', 'Error - see the universal node log');
+                        $dialogs.error('Deploy', 'Error - see the orchestrator log');
                 }, function () {
                     console.log("Something went wrong");
-                    $dialogs.error('Deploy', 'Error - see the universal node log');
+                    $dialogs.error('Deploy', 'Error - see the orchestrator log');
                 });
         };
 
@@ -191,7 +191,7 @@
          * Function to delete a graph from it's original location
          */
         ctrl.delete = function () {
-            var confirm = $dialogs.confirm('Please Confirm', 'You are about to delete the graph with id: ' + ctrl.fg.id + ' from the ' + (ctrl.graphOrigin == AppConstant.graphOrigin.UN ? 'Universal Node' : 'Repository') + '. Continue?');
+            var confirm = $dialogs.confirm('Please Confirm', 'You are about to delete the graph with id: ' + ctrl.fg.id + ' from the ' + (ctrl.graphOrigin == AppConstant.graphOrigin.UN ? 'Orchestrator' : 'Repository') + '. Continue?');
             confirm.result.then(function () {
                 BackendCallService.deleteGraph(ctrl.fg.id)
                     .then(function (result) {
@@ -199,20 +199,20 @@
                             $dialogs.notify('Delete', 'The graph has been successfully deleted');
                         else {
                             if (ctrl.graphOrigin == AppConstant.graphOrigin.UN)
-                                $dialogs.error('Delete', 'Error - see the universal node log');
+                                $dialogs.error('Delete', 'Error - see the orchestrator log');
                             else
-                                $dialogs.error('Delete', 'Error - see the repository node log');
+                                $dialogs.error('Delete', 'Error - see the repository log');
                         }
                     }, function (error) {
                         console.log("Something went wrong");
                         if (error.status != "404")
                             if (ctrl.graphOrigin == AppConstant.graphOrigin.UN)
-                                $dialogs.error('Delete', 'Error - see the universal node log');
+                                $dialogs.error('Delete', 'Error - see the orchestrator log');
                             else
-                                $dialogs.error('Delete', 'Error - see the repository node log');
+                                $dialogs.error('Delete', 'Error - see the repository log');
                         else {
                             if (ctrl.graphOrigin == AppConstant.graphOrigin.UN)
-                                $dialogs.error('Delete', 'Error - the graph does not exist on the Universal Node');
+                                $dialogs.error('Delete', 'Error - the graph does not exist on the orchestrator');
                             else
                                 $dialogs.error('Delete', 'Error - the graph does not exist in the Repository');
                         }
@@ -293,6 +293,7 @@
             //istanzio un grafico vuoto
             ctrl.fg = {
                 "id": Math.floor((Math.random() * 1000000) + 1).toString(),
+                "name":"New Forwarding Graph",
                 "VNFs": [],
                 "end-points": [],
                 "big-switch": {
@@ -417,12 +418,12 @@
             return BackendCallService.getFRTableConfig();
         };
 
-        ctrl.getYangModelVNF = function (vnfType) {
-            return BackendCallService.getYangModelVNF(vnfType);
+        ctrl.getVNFModel = function (vnfType) {
+            return BackendCallService.getVNFModel(vnfType);
         };
 
-        ctrl.getStateVNF = function (vnfMac, username) {
-            return BackendCallService.getStateVNF(vnfMac, username);
+        ctrl.getVNFState = function (vnfMac, username) {
+            return BackendCallService.getVNFState(vnfMac, username);
         };
 
         ctrl.deleteSelected = function () {

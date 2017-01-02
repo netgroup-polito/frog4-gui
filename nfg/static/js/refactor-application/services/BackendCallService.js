@@ -95,15 +95,15 @@
             return deferred.promise;
         };
 
-        var _getYangModelVNF = function (vnfType) {
+        var _getVNFModel = function (vnfType) {
             var deferred = $q.defer();
             var url;
             if (vnfType == "dhcp") {
-                url = "status/get_vnf_model/dhcp_cfg";
+                url = "api/v1/config_api/get_vnf_model/dhcp_cfg";
             } else if (vnfType == "nat") {
-                url = "status/get_vnf_model/nat_cfg";
+                url = "api/v1/config_api/get_vnf_model/nat_cfg";
             } else if (vnfType == "firewall") {
-                url = "status/get_vnf_model/firewall_cfg";
+                url = "api/v1/config_api/get_vnf_model/firewall_cfg";
             }
             $http.get(url) //get the yang model here
                 .success(function (result) {
@@ -115,9 +115,9 @@
             return deferred.promise;
         };
 
-        var _getStateVNF = function (vnfMac, username) {
+        var _getVNFState = function (vnfMac, username) {
             //some input controller put here
-            var url = "configure/get_vnf_state/" + vnfMac + "/user/" + username;
+            var url = "api/v1/config_api/get_vnf_state/" + vnfMac + "/user/" + username;
             var deferred = $q.defer();
             $http.get(url) //get the state here
                 .success(function (result) {
@@ -131,15 +131,13 @@
 
         var _putStateVNF = function (vnfMac, username, updatedStateVNF) {
             var deferred = $q.defer();
-            var url = "configure/put_vnf_updated_state/" + vnfMac + "/user/" + username;
+            var url = "api/v1/config_api/put_vnf_state/" + vnfMac + "/user/" + username;
             $http.put(url, updatedStateVNF) //send data to the server here
                 .then(
                     function (data) {
-                        console.log("Post successed", data);
                         deferred.resolve(data);
                     },
                     function (error) {
-                        console.log("Post failed: ", error);
                         deferred.reject(error);
                     }
                 );
@@ -222,8 +220,8 @@
             getFRTableConfig: _getFRTableConfig,
             putGraph: _putGraph,
             deleteGraph: _deleteGraph,
-            getYangModelVNF: _getYangModelVNF,
-            getStateVNF: _getStateVNF,
+            getVNFModel: _getVNFModel,
+            getVNFState: _getVNFState,
             putStateVNF: _putStateVNF,
             getVNFList: _getVNFList,
             putVNFTemplate: _putVNFTemplate,

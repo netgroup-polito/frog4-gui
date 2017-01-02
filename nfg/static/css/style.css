@@ -307,18 +307,14 @@ html {
     margin-right: 0px;
 }
 
-#fg_id {
-    text-align: right;
+.fgLabel {
+    margin-left: auto;
     padding-top: 10px;
     padding-right: 40px;
     color: #337AB7;
-    cursor: pointer;
 }
 
-#fg_id:hover {
-    text-align: right;
-    padding-top: 10px;
-    padding-right: 40px;
+.fgLabel:hover {
     color: #013E72;
     cursor: pointer;
 }

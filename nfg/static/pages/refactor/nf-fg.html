@@ -172,14 +172,15 @@
         </div>
         <div id="my_canvas">
 
-            <p id="fg_id" ng-show="NFFGCtrl.fg" ng-click="NFFGCtrl.updateFGInfo();">
+            <p class="fgLabel" ng-show="NFFGCtrl.fg" ng-click="NFFGCtrl.updateFGInfo();">
                 <b ng-if="!NFFGCtrl.fg.name ">ID: {{ NFFGCtrl.fg.id }}</b>
                 <b ng-if="NFFGCtrl.fg.name ">{{ NFFGCtrl.fg.name }} (ID: {{ NFFGCtrl.fg.id }})</b>
             </p>
             <p class="labelRight" ng-hide="NFFGCtrl.fg">
                 <b>Load a graph to show its information</b>
             </p>
-            <div id="svg_graph" class="graphSpace"
+            <div class="graphSpace"
+                 ng-if="NFFGCtrl.fg"
                  d3nffg
                  ng-model="NFFGCtrl.fg"
                  x-position="NFFGCtrl.fgPos"
@@ -188,11 +189,21 @@
                  x-is-forced="NFFGCtrl.isForced"
                  x-schema="NFFGCtrl.schema"
                  x-on-template-request="NFFGCtrl.getTemplates"
-                 x-on-yang-model-request="NFFGCtrl.getYangModelVNF"
-                 x-on-state-request="NFFGCtrl.getStateVNF"
+                 x-on-yang-model-request="NFFGCtrl.getVNFModel"
+                 x-on-state-request="NFFGCtrl.getVNFState"
                  x-on-fr-table-config-request="NFFGCtrl.getFRTableConfig"
                  x-is-link-creation="NFFGCtrl.isLinkCreation"
                  x-on-link-creation="NFFGCtrl.onLinkCreation">
+            </div>
+            <div class="graphSpace unselectable"
+                 ng-if="!NFFGCtrl.fg">
+                <div class="outerSpace">
+                    <div class="innerSpace">
+                        <div class="realSpace">
+                            Load or create a new forwarding graph.
+                        </div>
+                    </div>
+                </div>
             </div>
 
         </div>

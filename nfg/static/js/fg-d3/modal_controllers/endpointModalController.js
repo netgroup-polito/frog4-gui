@@ -46,7 +46,7 @@
         }
 
         ctrl.selectFirstType = function () {
-            ctrl.fgElem.type = ctrl.EPSchema.properties['type'].enum[0];
+            ctrl.fgElem.type = "interface";
             ctrl.typeChanged();
         };
         ctrl.typeChanged = function () {
