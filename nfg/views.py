@@ -804,7 +804,10 @@ def api_get_datastore_address(request):
 def api_get_vnf_list(request):
     if request.method == "GET":
         if "token" in request.session:
-            result = templatem.get_templates_v2()
+            try:
+                result = templatem.get_templates_v2()
+            except:
+                return HttpResponse(status=503)
             json_data_string = json.dumps(result)
             return HttpResponse("%s" % json_data_string, status=result["status"], content_type="application/json")
         else:
@@ -817,7 +820,10 @@ def api_put_vnf_template(request):
     if request.method == "PUT":
         if "token" in request.session:
             new_vnf = json.loads(request.body)
-            result = templatem.put_template(new_vnf)
+            try:
+                result = templatem.put_template(new_vnf)
+            except:
+                return HttpResponse(status=503)
             return HttpResponse("%s" % result["vnf_id"], status=result["status"])
         else:
             return HttpResponse(status=401)
@@ -829,7 +835,10 @@ def api_update_vnf_template(request, vnf_id):
     if request.method == "PUT":
         if "token" in request.session:
             new_vnf = json.loads(request.body)
-            result = templatem.update_template(vnf_id, new_vnf)
+            try:
+                result = templatem.update_template(vnf_id, new_vnf)
+            except:
+                return HttpResponse(status=503)
             return HttpResponse(status=result["status"])
         else:
             return HttpResponse(status=401)
@@ -840,7 +849,10 @@ def api_update_vnf_template(request, vnf_id):
 def api_delete_vnf(request, vnf_id):
     if request.method == "DELETE":
         if "token" in request.session:
-            result = imagem.delete_image(vnf_id)
+            try:
+                result = imagem.delete_image(vnf_id)
+            except:
+                return HttpResponse(status=503)
             if result["status"] == 200:
                 try:
                     result = templatem.delete_template(vnf_id)
