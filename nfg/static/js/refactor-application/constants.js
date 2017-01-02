@@ -9,6 +9,11 @@
             LOCAL: 'local',
             UN: 'un',
             REPOSITORY: 'repo'
+        },
+        imgUploadStatus: {
+            IN_PROGRESS: 'IP',
+            COMPLETED: 'CO',
+            REMOTE: 'RE'
         }
     };
 

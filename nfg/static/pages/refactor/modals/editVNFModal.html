@@ -1,80 +1,121 @@
 <div class="modal-content">
     <div class="modal-header">
-        <button type="button" class="close" ng-click="EditVNFCtrl.cancel()" aria-hidden="true">×</button>
+        <button ng-if="!EditVNFCtrl.uploadStep || (EditVNFCtrl.uploadStep && EditVNFCtrl.uploading)"
+                type="button" class="close" ng-click="EditVNFCtrl.cancel()" aria-hidden="true">×</button>
+        <button ng-if="EditVNFCtrl.uploadStep && !EditVNFCtrl.uploading"
+                type="button" class="close" ng-click="EditVNFCtrl.close()" aria-hidden="true">×</button>
         <h4 class="modal-title">Edit NF: {{ EditVNFCtrl.vnf_id }}</h4>
     </div>
 
     <div class="tabbable">
-        <ul class="nav nav-tabs">
+        <ul ng-show="!EditVNFCtrl.uploadStep" class="nav nav-tabs">
             <li class="active"><a href="#tab1" data-toggle="tab">Template</a></li>
-            <li><a href="#tab2" data-toggle="tab">Image</a></li>
+            <li ng-show="!EditVNFCtrl.remote_image"><a href="#tab2" data-toggle="tab">Image</a></li>
         </ul>
         <div class="tab-content">
 
             <!-- Edit Template Tab -->
             <div class="tab-pane active" id="tab1">
-                <form class="form-horizontal" role="form" name="formEditTemplate" novalidate>
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label class="control-label col-sm-2" for="file_content_download">Current Template:</label>
-                            <div class="col-sm-10">
-                                <textarea id="file_content_download" name="templateText"
-                                          ng-if="EditVNFCtrl.currentTemplate"
-                                          to-json-directive
-                                          ng-model="EditVNFCtrl.currentTemplate"
-                                          class="form-control" rows="10"></textarea>
-                                <div class="message" ng-show="formEditTemplate.templateText.$error.jsonError">Incorrect JSON syntax!</div>
+                <div ng-show="!EditVNFCtrl.uploadStep">
+                    <form class="form-horizontal" role="form" name="formEditTemplate" novalidate>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label class="control-label col-sm-2" for="file_content_download">Current Template:</label>
+                                <div class="col-sm-10">
+                                    <textarea id="file_content_download" name="templateText"
+                                              to-json-directive
+                                              ng-model="EditVNFCtrl.currentTemplate"
+                                              class="form-control" rows="10"></textarea>
+                                    <div class="message" ng-show="formEditTemplate.templateText.$error.jsonError">Incorrect JSON syntax!</div>
+                                </div>
                             </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button ng-click="formEditTemplate.$valid && EditVNFCtrl.loadTemplate()" class="btn btn-primary">Apply</button>
+                        </div>
+                    </form>
+                </div>
+                <div ng-show="EditVNFCtrl.uploadStep">
+                    <div class="modal-body">
+                        <label for="progressbar">Upload Status:</label>
+                        <div id="progressbar" class="progress">
+                            <div class="progress-bar progress-bar-striped active" role="progressbar"
+                                 ng-attr-aria-valuenow="{{ EditVNFCtrl.progress }}" aria-valuemin="0" aria-valuemax="100"
+                                 ng-attr-style="{{ 'width:' + EditVNFCtrl.progress + '%' }}">{{ EditVNFCtrl.progress }}</div>
+                        </div>
+                        <div ng-if="EditVNFCtrl.progress == 100" class="alert alert-success">
+                            <strong>Success!</strong> NF template succesfully updated.
+                        </div>
+                        <div ng-if="EditVNFCtrl.messages" class="alert alert-danger">
+                            <strong>Error!</strong> {{ EditVNFCtrl.messages }}
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button ng-click="formEditTemplate.$valid && EditVNFCtrl.loadTemplate()" class="btn btn-primary">Apply</button>
+                        <button ng-if="EditVNFCtrl.uploading" id="Abort"
+                                ng-click="EditVNFCtrl.cancel()" class="btn btn-primary">Abort</button>
+                        <button ng-if="!EditVNFCtrl.uploading" id="Close"
+                                ng-click="EditVNFCtrl.close()" class="btn btn-primary">Close</button>
                     </div>
-                </form>
+                </div>
             </div>
 
             <!-- Edit Image Tab -->
             <div class="tab-pane" id="tab2">
-                <form class="form-horizontal" role="form" name="formEditImage" novalidate>
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label class="control-label col-sm-2" for="imageFile">New Image:</label>
-                            <div class="col-sm-10">
-                                <input type="file" id="imageFile" name="the_file"
-                                       vnf-image-uploader
-                                       url="{{ EditVNFCtrl.url }}"
-                                       md5="{{ EditVNFCtrl.md5 }}"
-                                       vnf-id="{{ EditVNFCtrl.vnf_id }}"
-                                       upload-disabled="EditVNFCtrl.upload_disabled"
-                                       form-data="EditVNFCtrl.form_data"
-                                       current-offset="EditVNFCtrl.current_offset"
-                                       retries="EditVNFCtrl.retries"
-                                       progress="EditVNFCtrl.progress"
-                                       data="EditVNFCtrl.data"
-                                       calculate-md5="EditVNFCtrl.calculate_md5(file, chunk_size)"
-                                       upload-done="EditVNFCtrl.upload_done()">
-                                <div class="message"
-                                     ng-show="formEditImage.the_file.$touched || formEditImage.$submitted">
-                                    <div ng-show="EditVNFCtrl.upload_disabled">The NF Image is required!</div>
+                <div ng-show="!EditVNFCtrl.uploadStep">
+                    <form class="form-horizontal" role="form" name="formEditImage" novalidate>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label class="control-label col-sm-2" for="imageFile">New Image:</label>
+                                <div class="col-sm-10">
+                                    <input type="file" id="imageFile" name="the_file"
+                                           vnf-image-uploader
+                                           ng-model="EditVNFCtrl.selectedImage"
+                                           url="{{ EditVNFCtrl.url }}"
+                                           md5="{{ EditVNFCtrl.md5 }}"
+                                           vnf-id="{{ EditVNFCtrl.vnf_id }}"
+                                           form-data="EditVNFCtrl.form_data"
+                                           current-offset="EditVNFCtrl.current_offset"
+                                           retries="EditVNFCtrl.retries"
+                                           messages="EditVNFCtrl.messages"
+                                           progress="EditVNFCtrl.progress"
+                                           timeout="EditVNFCtrl.timeout"
+                                           data="EditVNFCtrl.data"
+                                           calculate-md5="EditVNFCtrl.calculate_md5(file, chunk_size)"
+                                           upload-done="EditVNFCtrl.upload_done()"
+                                           upload-aborted="EditVNFCtrl.upload_aborted()" required>
+                                    <div class="message" ng-show="formEditImage.the_file.$touched || formEditImage.$submitted">
+                                        <div ng-show="formEditImage.the_file.$error.required">The NF Image is required!</div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label class="control-label col-sm-2" for="progressbar">Upload Status:</label>
-                            <div class="col-sm-10">
-                                <div id="progressbar" class="progress">
-                                    <div class="progress-bar progress-bar-striped active" role="progressbar"
-                                         ng-attr-aria-valuenow="{{ EditVNFCtrl.progress }}" aria-valuemin="0"
-                                         aria-valuemax="100"
-                                         ng-attr-style="{{ 'width:' + EditVNFCtrl.progress + '%' }}">{{ EditVNFCtrl.progress }}</div>
-                                </div>
-                            </div>
+                        <div class="modal-footer">
+                            <button ng-click="formEditImage.$valid && EditVNFCtrl.loadImage()" class="btn btn-primary">Apply</button>
+                        </div>
+                    </form>
+                </div>
+                <div ng-show="EditVNFCtrl.uploadStep">
+                    <div class="modal-body">
+                        <label for="progressbar">Upload Status:</label>
+                        <div id="progressbar" class="progress">
+                            <div class="progress-bar progress-bar-striped active" role="progressbar"
+                                 ng-attr-aria-valuenow="{{ EditVNFCtrl.progress }}" aria-valuemin="0" aria-valuemax="100"
+                                 ng-attr-style="{{ 'width:' + EditVNFCtrl.progress + '%' }}">{{ EditVNFCtrl.progress }}</div>
+                        </div>
+                        <div ng-if="EditVNFCtrl.progress == 100" class="alert alert-success">
+                            <strong>Success!</strong> NF image succesfully updated.
+                        </div>
+                        <div ng-if="EditVNFCtrl.messages" class="alert alert-danger">
+                            <strong>Error!</strong> {{ EditVNFCtrl.messages }}
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button ng-click="EditVNFCtrl.loadImage()" class="btn btn-primary">Apply</button>
+                        <button ng-if="EditVNFCtrl.uploading" id="Abort"
+                                ng-click="EditVNFCtrl.cancel()" class="btn btn-primary">Abort</button>
+                        <button ng-if="!EditVNFCtrl.uploading" id="Close"
+                                ng-click="EditVNFCtrl.close()" class="btn btn-primary">Close</button>
                     </div>
-                </form>
+                </div>
             </div>
 
         </div>

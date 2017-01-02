@@ -11,24 +11,25 @@
         <div class="list-table">
             <table class="table table-striped">
                 <thead>
-                <tr>
-                    <th ng-repeat="(key,value) in VNFRepoCtrl.vnfs[0]">{{ key.capitalizeFirstLetter() }}</th>
-                    <th ng-show="VNFRepoCtrl.vnfs.length">Capability</th>
+                <tr ng-show="VNFRepoCtrl.vnfs.length">
+                    <th>Id</th>
+                    <th>Template</th>
+                    <th>Capability</th>
                     <th></th>
                     <th></th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr ng-repeat="vnf in VNFRepoCtrl.vnfs">
-                    <th ng-repeat="(key,value) in vnf" ng-if="key == 'id'">{{ value }}</th>
-                    <th ng-repeat="(key,value) in vnf" ng-if="key == 'template'">{{ value.name }}</th>
-                    <th ng-repeat="(key,value) in vnf" ng-if="key == 'template'">{{ value['functional-capability'] }}</th>
+                    <th>{{ vnf.id }}</th>
+                    <th>{{ vnf.template.name }}</th>
+                    <th>{{ vnf.template['functional-capability'] }}</th>
                     <td>
                         <button type="button" class="pull-right btn btn-danger btn-delete" ng-click="VNFRepoCtrl.delete(vnf)">
                             <span class="glyphicon glyphicon-trash"
                                   aria-hidden="true"></span>
                         </button>
-                        </td>
+                    </td>
                     <td>
                         <button type="button" class="pull-right btn btn-info btn-edit" ng-click="VNFRepoCtrl.update(vnf)">
                             <span class="glyphicon glyphicon-pencil"

@@ -225,4 +225,9 @@ table tr td:last-child {
     content: "\e284";
 }
 
+@media (min-width: 768px) {
+    .pull-sm-right {
+        float: right;
+    }
+}
 /* END USERS/VNFs LIST STYLES

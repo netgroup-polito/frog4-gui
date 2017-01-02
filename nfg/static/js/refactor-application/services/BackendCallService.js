@@ -156,10 +156,13 @@
             return deferred.promise;
         };
 
-        var _putVNFTemplate = function (json_template) {
+        var _putVNFTemplate = function (json_template, image_upload_status) {
             var deferred = $q.defer();
             $http.put("api/v2/datastore_api/put_vnf_template/",
-                json_template,
+                {
+                    'template': json_template,
+                    'image-upload-status': image_upload_status
+                },
                 {
                     headers: {
                         'Content-type': 'application/json'

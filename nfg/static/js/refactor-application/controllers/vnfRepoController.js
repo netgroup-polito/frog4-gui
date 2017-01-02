@@ -30,6 +30,8 @@
                 controller: 'EditVNFController',
                 controllerAs: 'EditVNFCtrl',
                 size: 'lg',
+                backdrop: 'static',
+                keyboard: false,
                 resolve: {
                     currentVNF: function() {
                         return vnf;
@@ -48,15 +50,13 @@
                 templateUrl: '/static/pages/refactor/modals/newVNFModal.html',
                 controller: 'NewVNFController',
                 controllerAs: 'NewVNFCtrl',
-                size: 'lg'
+                size: 'lg',
+                backdrop: 'static',
+                keyboard: false
             });
             addModal.result.then(
                 function (newVNF) {
-                    // BackendCallService.putVNFTemplate(newVNF.id, newVNF.template).then(function () {
-                        ctrl.vnfs.push(newVNF);
-                    // }, function (fail) {
-                    //     console.error(JSON.stringify(fail));
-                    // });
+                    ctrl.vnfs.push(newVNF);
                 }
             )
         };

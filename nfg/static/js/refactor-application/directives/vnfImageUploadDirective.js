@@ -16,13 +16,20 @@
                 progress: '=',
                 currentOffset: '=',
 				retries: '=',
-				// messages: '=',
-				uploadDisabled: '=',
+				messages: '=',
+                timeout: '=',
 				calculateMd5: '&',
                 uploadDone: '&',
                 uploadAborted: '&'
 			},
-			link: function(scope, elem, attrs) {
+            require: 'ngModel',
+			link: function(scope, elem, attrs, ngModel) {
+                elem.bind('change', function() {
+                    scope.$apply(function() {
+                        ngModel.$setViewValue(elem.val());
+                        ngModel.$render();
+                    });
+                });
                 scope.$watch('url', function(newVal) {
                     if(newVal) {
                         scope.url = newVal;
@@ -33,8 +40,8 @@
                             replaceFileInput: false,
                             add: function(e, data) { // Called when a file is chosen
                                 scope.$apply(function() {
-                                    scope.progress = "";
-                                    // scope.messages = "";
+                                    scope.progress = 0;
+                                    scope.messages = null;
                                     // If this is the second file you're uploading we need to remove the
                                     // old upload_id and reset some upload session variables.
                                     scope.formData = [];
@@ -42,7 +49,6 @@
                                     scope.retries = 0;
                                     scope.calculateMd5({file:data.files[0], chunk_size:1000000});  // Again, chunks of 1000 kB
                                     scope.data = data;
-                                    scope.uploadDisabled = false; // When a file is chosen the Upload button becomes active
                                 });
                             },
                             chunkdone: function (e, data) { // Called after uploading each chunk
@@ -52,7 +58,8 @@
                                             {"name": "upload_id", "value": data.result.upload_id}
                                         );
                                     }
-                                    // scope.messages += '<p>' + JSON.stringify(data.result) + '</p>';
+                                    scope.messages = null;
+                                    scope.retries = 0;
                                     scope.currentOffset = data.result.offset;
                                     scope.progress = parseInt(data.loaded / data.total * 100.0, 10);
                                 });
@@ -61,6 +68,9 @@
                                 data.formData = scope.formData;
                             },
                             done: function (e, data) { // Called when the file has completely uploaded
+                                scope.$apply(function () {
+                                    scope.progress = 100;
+                                });
                                 $.ajax({
                                     type: "POST",
                                     url: scope.url + "v2/nf_image/chunked_upload_complete/",
@@ -71,7 +81,7 @@
                                     },
                                     dataType: "json",
                                     success: function(data) {
-                                        scope.uploadDone();
+                                        scope.$apply(scope.uploadDone());
                                     }
                                 });
                             },
@@ -84,17 +94,16 @@
                                     };
                                 if (data.errorThrown !== 'abort' &&
                                         data.uploadedBytes < data.files[0].size &&
-                                        scope.retries < 1000) { // Max 100 retries
+                                        scope.retries < 100) { // Max 100 retries
                                     scope.$apply(function() {
                                         scope.retries += 1;
+                                        scope.messages = 'Error during NF image upload. Retry ' + scope.retries + '/100...';
+                                        // Retry to upload the failed chunk every 1 second
+                                        scope.timeout = window.setTimeout(retry, 1000);
                                     });
-                                    window.setTimeout(retry, 1000);  // Retry to upload the failed chunk every 1 second
                                     return;
                                 }
-                                scope.$apply(function() {
-                                    scope.retries = 0;
-                                });
-                                scope.uploadAborted();
+                                scope.$apply(scope.uploadAborted());
                             }
                         });
                     }
@@ -105,4 +114,5 @@
     };
 
     angular.module('fg-gui').directive('vnfImageUploader', vnfImageUploader);
+
 })();

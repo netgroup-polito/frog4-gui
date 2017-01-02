@@ -31,7 +31,13 @@
 
                         var reader = new FileReader();
                         reader.onload = function (e) {
-                            deferred.resolve(JSON.parse(e.target.result));
+                            try {
+                                deferred.resolve(JSON.parse(e.target.result));
+                            } catch (err) {
+                                element.value = "";
+                                ngModel.$setViewValue(null);
+                                deferred.reject(err);
+                            }
                         };
                         reader.onerror = function (e) {
                             deferred.reject(e);
