@@ -1,0 +1,42 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="loadRepoCtrl.cancel()" aria-hidden="true">×</button>
+    <h4 class="modal-title" id="titleJson">Open graph from the repository</h4>
+</div>
+<form class="form-horizontal" role="form" name="formLoadServer" novalidate>
+    <div class="modal-body">
+            <pre id="file_content_download" ng-if="loadRepoCtrl.showGraph" style="max-height: 300px">
+                {{ loadRepoCtrl.selectedGraph["forwarding-graph"] |json }}
+            </pre>
+
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="graphList">Select Graph:</label>
+            <div class="col-sm-9">
+                <select class="form-control" id="graphList"
+                        name="graph"
+                        required
+                        ng-disabled="loadRepoCtrl.availableGraphs.length == 0"
+                        ng-model="loadRepoCtrl.selectedGraph"
+                        ng-options="graph['forwarding-graph'].id + ' - ' + graph['forwarding-graph'].name for graph in loadRepoCtrl.availableGraphs">
+                </select>
+            </div>
+            <div class="col-sm-1">
+                <button type="button" class="btn btn-primary"
+                        ng-click="loadRepoCtrl.reload()"><i class="fa fa-refresh"></i></button>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary"
+                ng-click="loadRepoCtrl.preview()"
+                ng-disabled="loadRepoCtrl.availableGraphs.length == 0">Preview
+        </button>
+        <button type="submit" class="btn btn-primary"
+                ng-click="loadRepoCtrl.load()"
+                ng-disabled="loadRepoCtrl.availableGraphs.length == 0">Open
+        </button>
+
+    </div>
+</form>

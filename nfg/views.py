@@ -51,7 +51,9 @@ userm = UserManager(parser.get('orchestrator', 'address'),
                     parser.get('orchestrator', 'port'))
 dbm = DBManager("db.sqlite3")
 graphm = NFFGManager(parser.get('orchestrator', 'address'),
-                     parser.get('orchestrator', 'port'))
+                     parser.get('orchestrator', 'port'),
+                     parser.get('vnf-template', 'address'),
+                     parser.get('vnf-template', 'port'))
 
 templatem = TemplateManager(parser.get('vnf-template', 'address'),
                             parser.get('vnf-template', 'port'))
@@ -861,6 +863,67 @@ def api_delete_vnf(request, vnf_id):
                 return HttpResponse(status=result["status"])
             else:
                 return HttpResponse(status=result["status"])
+        else:
+            return HttpResponse(status=401)
+    else:
+        return HttpResponse(status=501)
+
+
+def api_get_available_graphs_from_repo(request):
+    if request.method == "GET":
+        if "token" in request.session:
+            try:
+                result = graphm.get_graphs_from_repo()
+            except:
+                return HttpResponse(status=503)
+            json_data_string = json.dumps(result)
+            return HttpResponse("%s" % json_data_string, status=result["status"], content_type="application/json")
+        else:
+            return HttpResponse(status=401)
+    else:
+        return HttpResponse(status=501)
+
+
+def api_get_graph_from_repo(request, graph_id):
+    if request.method == "GET":
+        if "token" in request.session:
+            try:
+                result = graphm.get_graph_from_repo(graph_id)
+            except:
+                return HttpResponse(status=503)
+            json_data_string = json.dumps(result)
+            return HttpResponse("%s" % json_data_string, status=result["status"], content_type="application/json")
+        else:
+            return HttpResponse(status=401)
+    else:
+        return HttpResponse(status=501)
+
+
+def api_put_graph_on_repo(request):
+    if request.method == "PUT":
+        if "token" in request.session:
+            new_graph = json.loads(request.body)
+            try:
+                result = graphm.put_graph_on_repo(new_graph["forwarding-graph"]["id"], new_graph)
+            except:
+                return HttpResponse(status=503)
+            serialized_obj = json.dumps(result)
+            return HttpResponse("%s" % serialized_obj, status=result["status"], content_type="application/json")
+        else:
+            return HttpResponse(status=401)
+    else:
+        return HttpResponse(status=501)
+
+
+def api_delete_graph_from_repo(request, graph_id):
+    if request.method == "DELETE":
+        if "token" in request.session:
+            try:
+                result = graphm.delete_graph_from_repo(graph_id)
+            except:
+                return HttpResponse(status=503)
+            serialized_obj = json.dumps(result)
+            return HttpResponse("%s" % serialized_obj, status=result["status"], content_type="application/json")
         else:
             return HttpResponse(status=401)
     else:

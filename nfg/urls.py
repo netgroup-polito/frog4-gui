@@ -44,9 +44,14 @@ urlpatterns = [
     url(r'^api/v1/graphs_api/delete_graph/(?P<graph_id>\w)$', views.api_delete_graph, name='delete_graph'),
     url(r'^api/v1/graphs_api/get_vnf_templates/$', views.api_get_vnf_templates, name='get_vnf_templates'),
 
-    url(r'^api/v2/datastore_api/get_vnf_list/$', views.api_get_vnf_list, name='get_vnf_templates'),
+    url(r'^api/v2/datastore_api/get_vnf_list/$', views.api_get_vnf_list, name='get_vnf_list'),
     url(r'^api/v2/datastore_api/put_vnf_template/$', views.api_put_vnf_template, name='put_vnf_template'),
     url(r'^api/v2/datastore_api/put_vnf_template/(?P<vnf_id>[^/]+)/$', views.api_update_vnf_template, name='update_vnf_template'),
     url(r'^api/v2/datastore_api/delete_vnf/(?P<vnf_id>[^/]+)/$', views.api_delete_vnf, name='delete_vnf'),
-    url(r'^api/v2/datastore_api/get_datastore_address/$', views.api_get_datastore_address, name='get_datastore_address')
+    url(r'^api/v2/datastore_api/get_datastore_address/$', views.api_get_datastore_address, name='get_datastore_address'),
+
+    url(r'^api/v2/datastore_api/get_available_graphs/$', views.api_get_available_graphs_from_repo, name='get_available_graphs_from_repo'),
+    url(r'^api/v2/datastore_api/get_graph/(?P<graph_id>[^/]+)/$', views.api_get_graph_from_repo, name='get_graph_from_repo'),
+    url(r'^api/v2/datastore_api/put_graph/$', views.api_put_graph_on_repo, name='put_graph_on_repo'),
+    url(r'^api/v2/datastore_api/delete_graph/(?P<graph_id>[^/]+)/$', views.api_delete_graph_from_repo, name='delete_graph_from_repo')
 ]

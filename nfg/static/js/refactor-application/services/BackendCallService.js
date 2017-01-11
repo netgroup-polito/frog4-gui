@@ -216,6 +216,60 @@
             return deferred.promise;
         };
 
+        var _getAvailableGraphsFromRepo = function() {
+            var deferred = $q.defer();
+            $http.get("api/v2/datastore_api/get_available_graphs/")
+                .success(function (result) {
+                    deferred.resolve(result);
+                })
+                .error(function (err) {
+                    deferred.reject(err);
+                });
+            return deferred.promise;
+        };
+
+        var _getGraphFromRepo = function(graph_id) {
+            var deferred = $q.defer();
+            $http.get("api/v2/datastore_api/get_graph/" + graph_id + "/")
+                .success(function (result) {
+                    deferred.resolve(result);
+                })
+                .error(function (err) {
+                    deferred.reject(err);
+                });
+            return deferred.promise;
+        };
+
+        var _putGraphOnRepo = function(json_graph) {
+            var deferred = $q.defer();
+            $http.put("api/v2/datastore_api/put_graph/",
+                json_graph,
+                {
+                    headers: {
+                        'Content-type': 'application/json'
+                    }
+                })
+                .success(function (result) {
+                    deferred.resolve(result);
+                })
+                .error(function (err) {
+                    deferred.reject(err);
+                });
+            return deferred.promise;
+        };
+
+        var _deleteGraphFromRepo = function(graph_id) {
+            var deferred = $q.defer();
+            $http.delete("api/v2/datastore_api/delete_graph/" + graph_id + "/")
+                .success(function (result) {
+                    deferred.resolve(result);
+                })
+                .error(function (err) {
+                    deferred.reject(err);
+                });
+            return deferred.promise;
+        };
+
         return {
             getAvailableGraphs: _getAvailableGraphs,
             getJSONSchema: _getJSONSchema,
@@ -230,7 +284,11 @@
             putVNFTemplate: _putVNFTemplate,
             updateVNFTemplate: _updateVNFTemplate,
             deleteVNF: _deleteVNF,
-            getRepoAddress: _getRepoAddress
+            getRepoAddress: _getRepoAddress,
+            getAvailableGraphsFromRepo: _getAvailableGraphsFromRepo,
+            getGraphFromRepo: _getGraphFromRepo,
+            putGraphOnRepo: _putGraphOnRepo,
+            deleteGraphFromRepo: _deleteGraphFromRepo
         };
     };
 
