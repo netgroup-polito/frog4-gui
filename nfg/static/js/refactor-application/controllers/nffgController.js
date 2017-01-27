@@ -411,7 +411,7 @@
         };
 
         ctrl.getTemplates = function () {
-            return BackendCallService.getTemplates();
+            return BackendCallService.getVNFList();
         };
 
         ctrl.getFRTableConfig = function () {

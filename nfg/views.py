@@ -774,6 +774,7 @@ def api_get_fr_table_config(request):
         return HttpResponse(status=501)
 
 
+#TODO: sobstitute with datastore
 def api_get_vnf_templates(request):
     if request.method == "GET":
         if "token" in request.session:
@@ -805,7 +806,7 @@ def api_get_vnf_list(request):
     if request.method == "GET":
         if "token" in request.session:
             try:
-                result = templatem.get_templates_v2()
+                result = templatem.get_templates()
             except:
                 return HttpResponse(status=503)
             json_data_string = json.dumps(result)
