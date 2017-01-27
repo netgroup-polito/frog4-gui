@@ -74,7 +74,7 @@
                         role="menu" aria-labelledby="simple-btn-keyboard-nav">
                         <li class="unselectable" role="menuitem" ng-click="NFFGCtrl.loadFromLocalFS()">
                             <a>
-                                <i class="glyphicon glyphicon-folder-open fa-lg" style="margin-right:5px"></i>
+                                <i class="fa fa-folder-open fa-lg" style="margin-right:5px"></i>
                                 Load from Local File
                             </a>
                         </li>
@@ -128,13 +128,13 @@
                         role="menu" aria-labelledby="simple-btn-keyboard-nav">
                         <li class="unselectable" role="menuitem" ng-click="NFFGCtrl.saveOnLocalFS()">
                             <a>
-                                <i class="glyphicon glyphicon-folder-open fa-lg" style="margin-right:5px"></i>
+                                <i class="fa fa-folder-open fa-lg" style="margin-right:5px"></i>
                                 Save on Local File
                             </a>
                         </li>
                         <li class="unselectable" role="menuitem" ng-click="NFFGCtrl.saveOnRepository()">
                             <a>
-                                <i class="glyphicon glyphicon-cloud-download fa-lg" style="margin-right:5px"></i>
+                                <i class="fa fa-cloud-download fa-lg" style="margin-right:5px"></i>
                                 Save on Graph Repository
                             </a>
                         </li>
@@ -180,6 +180,10 @@
             <p class="fgLabel" ng-show="NFFGCtrl.fg" ng-click="NFFGCtrl.updateFGInfo();">
                 <b ng-if="!NFFGCtrl.fg.name ">ID: {{ NFFGCtrl.fg.id }}</b>
                 <b ng-if="NFFGCtrl.fg.name ">{{ NFFGCtrl.fg.name }} (ID: {{ NFFGCtrl.fg.id }})</b>
+                <i ng-if="NFFGCtrl.graphOrigin == AppConstant.graphOrigin.LOCAL" class="glyphicon glyphicon-folder-open fa-lg"></i>
+                <i ng-if="NFFGCtrl.graphOrigin == AppConstant.graphOrigin.UN" class="fa fa-server fa-lg"></i>
+                <i ng-if="NFFGCtrl.graphOrigin == AppConstant.graphOrigin.REPOSITORY" class="fa fa-cloud fa-lg"></i>
+
             </p>
             <p class="labelRight" ng-hide="NFFGCtrl.fg">
                 <b>Load a graph to show its information</b>
