@@ -11,7 +11,7 @@ class TemplateManager:
 
     def get_template(self, template_id):
         headers = {'Content-type': 'application/json'}
-        path = 'v1/VNF/' + template_id + '/?format=json'
+        path = 'v2/nf_template/' + template_id + '/?format=json'
         response = requests.get(
             self.un_protocol + '://' + self.un_host + ':' + self.un_port + '/' + self.base_path + path,
             headers=headers)
@@ -22,40 +22,28 @@ class TemplateManager:
         else:  # todo: gestione errori comuni
             return {"status": response.status_code, "error": "Unknown Error"}
 
-    def get_templates_legacy(self):
-        headers = {'Content-type': 'application/json'}
-        path = 'v1/VNF/all/?format=json'
-        response = requests.get(
-            self.un_protocol + '://' + self.un_host + ':' + self.un_port + '/' + self.base_path + path,
-            headers=headers)
-        if response.status_code == 200:
-            # t=json.loads(response.content)["list"]
-            return {"status": response.status_code,
-                    "template": json.loads(response.content)["list"]}
-        else:  # todo: gestione errori comuni
-            return {"status": response.status_code, "error": "Unknown Error"}
+# TODO: delete with old gui
+#     def get_templates_legacy(self):
+#         headers = {'Content-type': 'application/json'}
+#         path = 'v1/VNF/all/?format=json'
+#         response = requests.get(
+#             self.un_protocol + '://' + self.un_host + ':' + self.un_port + '/' + self.base_path + path,
+#             headers=headers)
+#         if response.status_code == 200:
+#             # t=json.loads(response.content)["list"]
+#             return {"status": response.status_code,
+#                     "template": json.loads(response.content)["list"]}
+#         else:  # todo: gestione errori comuni
+#             return {"status": response.status_code, "error": "Unknown Error"}
 
     def get_templates(self):
-        headers = {'Content-type': 'application/json'}
-        path = 'v1/VNF/all/?format=json'
-        response = requests.get(
-            self.un_protocol + '://' + self.un_host + ':' + self.un_port + '/' + self.base_path + path,
-            headers=headers)
-        if response.status_code == 200:
-            # t=json.loads(response.content)["list"]
-            return {"status": response.status_code,
-                    "templates": json.loads(response.content)["list"]}
-        else:  # todo: gestione errori comuni
-            return {"status": response.status_code, "error": "Unknown Error"}
-
-    # Added by Luigi
-    def get_templates_v2(self):
         headers = {'Content-type': 'application/json'}
         path = 'v2/nf_template/?format=json'
         response = requests.get(
             self.un_protocol + '://' + self.un_host + ':' + self.un_port + '/' + self.base_path + path,
             headers=headers)
         if response.status_code == 200:
+            # t=json.loads(response.content)["list"]
             return {"status": response.status_code,
                     "templates": json.loads(response.content)["list"]}
         else:  # todo: gestione errori comuni

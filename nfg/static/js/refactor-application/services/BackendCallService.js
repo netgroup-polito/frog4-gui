@@ -36,6 +36,7 @@
             return deferred.promise;
         };
 
+        //TODO Delete
         var _getTemplates = function () {
             var deferred = $q.defer();
             $http.get("api/v1/graphs_api/get_vnf_templates/")
@@ -273,7 +274,7 @@
         return {
             getAvailableGraphs: _getAvailableGraphs,
             getJSONSchema: _getJSONSchema,
-            getTemplates: _getTemplates,
+            //getTemplates: _getTemplates,
             getFRTableConfig: _getFRTableConfig,
             putGraph: _putGraph,
             deleteGraph: _deleteGraph,

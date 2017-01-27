@@ -42,7 +42,7 @@ urlpatterns = [
     url(r'^api/v1/graphs_api/get_fr_table_config', views.api_get_fr_table_config, name='get_fr_table_config'),
     url(r'^api/v1/graphs_api/put_graph/$', views.api_put_graph, name='put_graph'),
     url(r'^api/v1/graphs_api/delete_graph/(?P<graph_id>[^/]+)$', views.api_delete_graph, name='delete_graph'),
-    url(r'^api/v1/graphs_api/get_vnf_templates/$', views.api_get_vnf_templates, name='get_vnf_templates'),
+    #url(r'^api/v1/graphs_api/get_vnf_templates/$', views.api_get_vnf_templates, name='get_vnf_templates'),
 
     url(r'^api/v2/datastore_api/get_vnf_list/$', views.api_get_vnf_list, name='get_vnf_list'),
     url(r'^api/v2/datastore_api/put_vnf_template/$', views.api_put_vnf_template, name='put_vnf_template'),
