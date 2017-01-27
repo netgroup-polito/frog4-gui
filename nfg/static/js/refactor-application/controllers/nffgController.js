@@ -396,7 +396,7 @@
         };
 
         ctrl.newVNF = function () {
-            BackendCallService.getTemplates().then(function (result) {
+            BackendCallService.getVNFList().then(function (result) {
 
                 var epModal = FgModalService.newVNFModal(ctrl.fg, ctrl.fgPos, ctrl.schema, result.templates);
 
