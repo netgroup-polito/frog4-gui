@@ -172,6 +172,53 @@
         };
 
         /**
+         * Function to show the dialog used to load a graph from the repository
+         */
+        ctrl.loadFromRepository = function () {
+            //the new modal description
+            var loadFromRepositoryModal = $uibModal.open({
+                animation: false,
+                templateUrl: '/static/pages/refactor/modals/loadFromRepository.html',
+                controller: 'LoadFromRepositoryController',
+                controllerAs: 'loadRepoCtrl',
+                size: 'lg'
+            });
+            // function to get the result of the dialog
+            loadFromRepositoryModal.result.then(function (fg) {
+                 if (!fg["forwarding-graph"]["end-points"])
+                     fg["forwarding-graph"]["end-points"] = [];
+                 if (!fg["forwarding-graph"]["VNFs"])
+                     fg["forwarding-graph"]["VNFs"] = [];
+                 if (!fg["forwarding-graph"]["big-switch"])
+                     fg["forwarding-graph"]["big-switch"] = {"flow-rules": []};
+                 if (fg["forwarding-graph"]["big-switch"] && !fg["forwarding-graph"]["big-switch"]["flow-rules"])
+                     fg["forwarding-graph"]["big-switch"]["flow-rules"] = [];
+
+                 resetGraph();
+                 // Initialize the graph position object (missing the possibility to load the position too)
+                 ctrl.fgPos = initializePosition(fg["forwarding-graph"]);
+                 // loading the graph (always load the graph later to prevent error)
+                 ctrl.fg = fg["forwarding-graph"];
+                 ctrl.graphOrigin = AppConstant.graphOrigin.REPOSITORY;
+
+                 $rootScope.$broadcast("selectElement", null);
+            });
+        };
+
+        /**
+         * Function to save a graph on repository
+         */
+        ctrl.saveOnRepository = function () {
+            BackendCallService.putGraphOnRepo(ExporterService.exportForwardingGraph(ctrl.fg, ctrl.fgPos))
+                .then(function () {
+                    $dialogs.notify('Save on Graph Repository', 'The graph "' + ctrl.fg.name + '" with ID ' + ctrl.fg.id + ' has been successfully saved');
+                }, function () {
+                    console.log("Something went wrong");
+                    $dialogs.error('Save on Graph Repository', 'Error - see the repository log');
+                });
+        };
+
+        /**
          * Function to deploy a graph
          */
         ctrl.deploy = function () {
@@ -193,34 +240,42 @@
         ctrl.delete = function () {
             var confirm = $dialogs.confirm('Please Confirm', 'You are about to delete the graph with id: ' + ctrl.fg.id + ' from the ' + (ctrl.graphOrigin == AppConstant.graphOrigin.UN ? 'Orchestrator' : 'Repository') + '. Continue?');
             confirm.result.then(function () {
-                BackendCallService.deleteGraph(ctrl.fg.id)
-                    .then(function (result) {
-                        if (result.success != 'undefined')
-                            $dialogs.notify('Delete', 'The graph has been successfully deleted');
-                        else {
-                            if (ctrl.graphOrigin == AppConstant.graphOrigin.UN)
+                if (ctrl.graphOrigin == AppConstant.graphOrigin.UN) {
+                    BackendCallService.deleteGraph(ctrl.fg.id)
+                        .then(function (result) {
+                            if (result.success != 'undefined') {
+                                ctrl.graphOrigin = AppConstant.graphOrigin.LOCAL;
+                                $dialogs.notify('Delete', 'The graph has been successfully deleted');
+                            }
+                            else
+                                $dialogs.error('Delete', 'Error - see the orchestrator log');
+                        }, function (error) {
+                            console.log("Something went wrong");
+                            if (error.status != "404")
                                 $dialogs.error('Delete', 'Error - see the orchestrator log');
                             else
-                                $dialogs.error('Delete', 'Error - see the repository log');
-                        }
-                    }, function (error) {
-                        console.log("Something went wrong");
-                        if (error.status != "404")
-                            if (ctrl.graphOrigin == AppConstant.graphOrigin.UN)
-                                $dialogs.error('Delete', 'Error - see the orchestrator log');
-                            else
-                                $dialogs.error('Delete', 'Error - see the repository log');
-                        else {
-                            if (ctrl.graphOrigin == AppConstant.graphOrigin.UN)
                                 $dialogs.error('Delete', 'Error - the graph does not exist on the orchestrator');
+                        });
+                } else {
+                    BackendCallService.deleteGraphFromRepo(ctrl.fg.id)
+                        .then(function (result) {
+                            if (result.success != 'undefined') {
+                                ctrl.graphOrigin = AppConstant.graphOrigin.LOCAL;
+                                $dialogs.notify('Delete', 'The graph has been successfully deleted');
+                            }
+                            else
+                                dialogs.error('Delete', 'Error - see the repository log');
+                        }, function (error) {
+                            console.log("Something went wrong");
+                            if (error.status != "404")
+                                $dialogs.error('Delete', 'Error - see the repository log');
                             else
                                 $dialogs.error('Delete', 'Error - the graph does not exist in the Repository');
-                        }
-                    });
+                        });
+                }
+
             });
-
-
-        }
+        };
 
         /**
          * Function to save a current graph on local file
@@ -341,7 +396,7 @@
         };
 
         ctrl.newVNF = function () {
-            BackendCallService.getTemplates().then(function (result) {
+            BackendCallService.getVNFList().then(function (result) {
 
                 var epModal = FgModalService.newVNFModal(ctrl.fg, ctrl.fgPos, ctrl.schema, result.templates);
 
@@ -411,7 +466,7 @@
         };
 
         ctrl.getTemplates = function () {
-            return BackendCallService.getTemplates();
+            return BackendCallService.getVNFList();
         };
 
         ctrl.getFRTableConfig = function () {

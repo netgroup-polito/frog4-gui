@@ -62,15 +62,60 @@
                     <i class="fa fa-table fa-lg"></i>
                 </button>
 
+                <div class="menu btn-group" uib-dropdown keyboard-nav>
+                    <button id="simple-btn-keyboard-nav" type="button"
+                            class="btn btn-default btn-lg"
+                            uib-dropdown-toggle>
+                        <span style="padding-right: 5px;" class="glyphicon glyphicon-floppy-open"></span>
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu"
+                        uib-dropdown-menu
+                        role="menu" aria-labelledby="simple-btn-keyboard-nav">
+                        <li class="unselectable" role="menuitem" ng-click="NFFGCtrl.loadFromLocalFS()">
+                            <a>
+                                <i class="fa fa-folder-open fa-lg" style="margin-right:5px"></i>
+                                Load from Local File
+                            </a>
+                        </li>
+                        <li class="unselectable" role="menuitem" ng-click="NFFGCtrl.loadFromServer()">
+                            <a>
+                                <i class="fa fa-server fa-lg" style="margin-right:5px"></i>
+                                Load from Controlled Domain
+                            </a>
+                        </li>
+                        <li class="unselectable" role="menuitem" ng-click="NFFGCtrl.loadFromRepository()">
+                            <a>
+                                <i class="fa fa-cloud-upload fa-lg" style="margin-right:5px"></i>
+                                Load from Graph Repository
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Open From Client Button -->
+                <!-- <button type="button" class="menu btn btn-default btn-lg"
+                        ng-click="NFFGCtrl.loadFromLocalFS()"
+                        title="Open from Client">
+                    <span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span>
+                </button> -->
+
+                <!-- Open From Server Button -->
+                <!-- <button type="button" class="menu btn btn-default btn-lg"
+                        ng-click="NFFGCtrl.loadFromServer()"
+                        title="Open from Server">
+                    <i class="fa fa-server fa-lg"></i>
+                </button> -->
+
                 <!-- Save Button -->
-                <button type="button" class="menu btn btn-default btn-lg"
+                <!-- <button type="button" class="menu btn btn-default btn-lg"
                         ng-disabled="!NFFGCtrl.fg"
                         ng-click="NFFGCtrl.saveOnLocalFS()"
                         title="Save">
                     <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>
-                </button>
+                </button> -->
 
-                <div class="menu btn-group hide" uib-dropdown keyboard-nav>
+                <div class="menu btn-group" uib-dropdown keyboard-nav>
                     <button id="simple-btn-keyboard-nav" type="button"
                             class="btn btn-default btn-lg"
                             ng-disabled="!NFFGCtrl.fg"
@@ -83,58 +128,18 @@
                         role="menu" aria-labelledby="simple-btn-keyboard-nav">
                         <li class="unselectable" role="menuitem" ng-click="NFFGCtrl.saveOnLocalFS()">
                             <a>
-                                <i class="glyphicon glyphicon-folder-open fa-lg" style="margin-right:5px"></i>
-                                Save on Local
+                                <i class="fa fa-folder-open fa-lg" style="margin-right:5px"></i>
+                                Save on Local File
                             </a>
                         </li>
-                        <!--<li role="menuitem" ng-click="NFFGCtrl.saveOnRepository()"><span class="glyphicon glyphicon-cloud-download"></span> Save on Repository</li>-->
+                        <li class="unselectable" role="menuitem" ng-click="NFFGCtrl.saveOnRepository()">
+                            <a>
+                                <i class="fa fa-cloud-download fa-lg" style="margin-right:5px"></i>
+                                Save on Graph Repository
+                            </a>
+                        </li>
                     </ul>
                 </div>
-
-                <div class="menu btn-group hide" uib-dropdown keyboard-nav>
-                    <button id="simple-btn-keyboard-nav" type="button"
-                            class="btn btn-default btn-lg"
-                            uib-dropdown-toggle>
-                        <span style="padding-right: 5px;" class="glyphicon glyphicon-floppy-open"></span>
-                        <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu"
-                        uib-dropdown-menu
-                        role="menu" aria-labelledby="simple-btn-keyboard-nav">
-                        <li class="unselectable" role="menuitem" ng-click="NFFGCtrl.loadFromLocalFS()">
-                            <a>
-                                <i class="glyphicon glyphicon-folder-open fa-lg" style="margin-right:5px"></i>
-                                Load from Local
-                            </a>
-                        </li>
-                        <li class="unselectable" role="menuitem" ng-click="NFFGCtrl.loadFromServer()">
-                            <a>
-                                <i class="fa fa-server fa-lg" style="margin-right:5px"></i>
-                                Load from UN
-                            </a>
-                        </li>
-                        <!--<li class="unselectable" role="menuitem" ng-click="NFFGCtrl.loadFromRepository()">
-                            <a>
-                                <i class="fa fa-cloud-upload fa-lg" style="margin-right:5px"></i>
-                                Load from Repository
-                            </a>
-                        </li>-->
-                    </ul>
-                </div>
-
-                <!-- Open From Client Button -->
-                <button type="button" class="menu btn btn-default btn-lg"
-                        ng-click="NFFGCtrl.loadFromLocalFS()"
-                        title="Open from Client">
-                    <span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span>
-                </button>
-
-                <!-- Open From Server Button -->
-                <button type="button" class="menu btn btn-default btn-lg"
-                        ng-click="NFFGCtrl.loadFromServer()"
-                        title="Open from Server">
-                    <i class="fa fa-server fa-lg"></i>
-                </button>
 
                 <!-- Preview Button -->
                 <!--<button type="button" class="menu btn btn-default btn-lg"
@@ -175,6 +180,10 @@
             <p class="fgLabel" ng-show="NFFGCtrl.fg" ng-click="NFFGCtrl.updateFGInfo();">
                 <b ng-if="!NFFGCtrl.fg.name ">ID: {{ NFFGCtrl.fg.id }}</b>
                 <b ng-if="NFFGCtrl.fg.name ">{{ NFFGCtrl.fg.name }} (ID: {{ NFFGCtrl.fg.id }})</b>
+                <i ng-if="NFFGCtrl.graphOrigin == AppConstant.graphOrigin.LOCAL" class="glyphicon glyphicon-folder-open fa-lg"></i>
+                <i ng-if="NFFGCtrl.graphOrigin == AppConstant.graphOrigin.UN" class="fa fa-server fa-lg"></i>
+                <i ng-if="NFFGCtrl.graphOrigin == AppConstant.graphOrigin.REPOSITORY" class="fa fa-cloud fa-lg"></i>
+
             </p>
             <p class="labelRight" ng-hide="NFFGCtrl.fg">
                 <b>Load a graph to show its information</b>

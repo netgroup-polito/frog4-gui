@@ -36,6 +36,7 @@
 			chunks = Math.ceil(file.size / chunk_size),
 			current_chunk = 0,
 			spark = new SparkMD5.ArrayBuffer();
+
 			function onload(e) {
 				spark.append(e.target.result);  // append chunk
 				current_chunk++;
@@ -44,17 +45,16 @@
 				} else {
 					ctrl.md5 = spark.end();
 				}
-			};
+			}
 			function read_next_chunk() {
 				var reader = new FileReader();
 				reader.onload = onload;
 				var start = current_chunk * chunk_size,
 				end = Math.min(start + chunk_size, file.size);
 				reader.readAsArrayBuffer(slice.call(file, start, end));
-			};
+			}
 			read_next_chunk();
 		};
-
         /**
          * function used to close the modal, without doing anything
          */

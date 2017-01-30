@@ -53,25 +53,61 @@
                     <span class="fa" ng-class="LinkCtrl.matchShown?'fa-caret-right':'fa-caret-down'"></span>
                 </a>
             </label>
-            <div class="col-sm-10">
-
+            <div class="col-sm-10" uib-collapse="LinkCtrl.matchShown">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Type</th>
+                        <th>Value</th>
+                        <th>
+                            <button class="btn btn-default btn-circle"
+                                    type="button"
+                                    ng-click="LinkCtrl.addMatch()">
+                                <span class="fa fa-plus"></span>
+                            </button>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="used in LinkCtrl.LKMatchUsed">
+                        <td>
+                            <select class="form-control"
+                                    required
+                                    name="{{ $index }}matchType"
+                                    ng-options="elem for elem in LinkCtrl.getAvailableMatch(used.name)"
+                                    ng-model="used.name"
+                                    ng-change="LinkCtrl.matchChanged($index,used.name)">
+                            </select>
+                        </td>
+                        <td ng-switch="used.type">
+                            <input type="number" class="form-control"
+                                   ng-switch-when="number"
+                                   name="{{ $index }}matchValue"
+                                   ng-model="LinkCtrl.fgElem['match'][used.name]"
+                                   ng-required="used.name != ''">
+                            <input type="checkbox" class="form-control"
+                                   ng-switch-when="boolean"
+                                   name="{{ $index }}matchValue"
+                                   ng-model="LinkCtrl.fgElem['match'][used.name]"
+                                   ng-required="used.name != ''">
+                            <input type="text" class="form-control"
+                                   ng-switch-default=""
+                                   name="{{ $index }}matchValue"
+                                   ng-model="LinkCtrl.fgElem['match'][used.name]"
+                                   ng-required="used.name != ''">
+                        </td>
+                        <td>
+                            <button class="btn btn-default btn-circle"
+                                    type="button"
+                                    ng-click="LinkCtrl.removeMatch($index)">
+                                <span class="fa fa-minus"></span>
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
-
-        <div class="match" uib-collapse="LinkCtrl.matchShown">
-            <div class="form-group"
-                 ng-repeat="(key,value) in LinkCtrl.LKMatch.properties">
-                <label class="control-label col-sm-2" for="lkMatch{{ key.capitalizeFirstLetter() }}">{{ key }}</label>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control"
-                           name="{{ key }}"
-                           id="lkMatch{{ key.capitalizeFirstLetter() }}"
-                           ng-model="LinkCtrl.fgElem['match'][key]"
-                           ng-required="LinkCtrl.LKMatch.required && LinkCtrl.LKMatch.required.indexOf(key) != -1">
-                </div>
-            </div>
-        </div>
-
 
         <div class="form-group">
             <label class="control-label col-sm-2  complexFRFields">
@@ -79,25 +115,59 @@
                     <span class="fa" ng-class="LinkCtrl.actionShown?'fa-caret-right':'fa-caret-down'"></span>
                 </a>
             </label>
-            <div class="col-sm-10">
+            <div class="col-sm-10" uib-collapse="LinkCtrl.actionShown">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Type</th>
+                        <th>Value</th>
+                        <th>
+                            <button class="btn btn-default btn-circle"
+                                    type="button"
+                                    ng-click="LinkCtrl.addAction()">
+                                <span class="fa fa-plus"></span>
+                            </button>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="action in LinkCtrl.fgElem['actions']">
+                        <td>
+                            <select class="form-control"
+                                    required
+                                    name="{{ $index }}ActionType"
+                                    ng-options="key as key.capitalizeFirstLetter() for (key,value) in LinkCtrl.LKAction.properties"
+                                    ng-model="LinkCtrl.LKActionHelper[$index]">
+                            </select>
+                        </td>
+                        <td ng-switch="LinkCtrl.LKAction.properties[LinkCtrl.LKActionHelper[$index]].type">
+                            <input type="number" class="form-control"
+                                   ng-switch-when="number"
+                                   name="{{ $index }}ActionValue"
+                                   ng-model="action[LinkCtrl.LKActionHelper[$index]]"
+                                   required>
+                            <input type="checkbox" class="form-control"
+                                   ng-switch-when="boolean"
+                                   name="{{ $index }}ActionValue"
+                                   ng-model="action[LinkCtrl.LKActionHelper[$index]]"
+                                   required>
+                            <input type="text" class="form-control"
+                                   ng-switch-default=""
+                                   name="{{ $index }}ActionValue"
+                                   ng-model="action[LinkCtrl.LKActionHelper[$index]]"
+                                   required>
+                        </td>
+                        <td>
+                            <button class="btn btn-default btn-circle"
+                                    type="button"
+                                    ng-click="LinkCtrl.removeAction($index)">
+                                <span class="fa fa-minus"></span>
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
             </div>
-        </div>
-
-
-        <div class="action" uib-collapse="LinkCtrl.actionShown">
-            <div class="form-group"
-                 ng-repeat="(key,value) in LinkCtrl.LKAction.properties">
-                <label class="control-label col-sm-2" for="lkAction{{ key.capitalizeFirstLetter() }}">{{ key }}</label>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control"
-                           name="{{ key }}"
-                           id="lkAction{{ key.capitalizeFirstLetter() }}"
-                           ng-model="LinkCtrl.fgElem['actions'][0][key]"
-                           ng-required="LinkCtrl.LKAction.required && LinkCtrl.LKAction.required.indexOf(key) != -1">
-                </div>
-            </div>
-
-
         </div>
     </div>
 
