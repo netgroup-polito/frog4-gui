@@ -33,9 +33,9 @@
             }
         }
 
-        function _configVNF(scope) {
+        function _configVNF(scope,ngModel) {
             return function (elem) {
-                return fgModalService.configVNFModal(elem, "davide", scope.onYangModelRequest, scope.onStateRequest);
+                return fgModalService.configVNFModal(elem, ngModel.$modelValue.id, "tenantId", scope.onYangModelRequest, scope.onStateRequest);
             }
         }
 

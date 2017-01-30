@@ -4,10 +4,9 @@ from . import views
 
 urlpatterns = [
     url(r'^$', views.refactor, name='refactor'),
-
-    url(r'^api/v1/config_api/get_vnf_model/(?P<vnf_type>dhcp_cfg|nat_cfg|firewall_cfg)$', views.status_get_vnf_model, name='status_get_vnf_model'),
-    url(r'^api/v1/config_api/get_vnf_state/(?P<mac_address>([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2}))/user/(?P<username>.*)$', views.configure_get_vnf_state, name='configure_get_vnf_state'),
-    url(r'^api/v1/config_api/put_vnf_state/(?P<mac_address>([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2}))/user/(?P<username>.*)$', views.configure_put_vnf_updated_state, name='configure_put_vnf_updated_state'),
+    url(r'^api/v1/config_api/get_vnf_model/(?P<tenant_id>[^/]+)/(?P<graph_id>[^/]+)/(?P<vnf_identifier>[^/]+)$', views.status_get_vnf_model, name='status_get_vnf_model'),
+    url(r'^api/v1/config_api/get_vnf_state/(?P<tenant_id>[^/]+)/(?P<graph_id>[^/]+)/(?P<vnf_identifier>[^/]+)$', views.configure_get_vnf_state, name='configure_get_vnf_state'),
+    url(r'^api/v1/config_api/put_vnf_state/(?P<tenant_id>[^/]+)/(?P<graph_id>[^/]+)/(?P<vnf_identifier>[^/]+)$', views.configure_put_vnf_updated_state, name='configure_put_vnf_updated_state'),
 
     url(r'^login/$', views.login, name='login'),
     url(r'^logout/$', views.logout, name='logout'),
@@ -36,8 +35,8 @@ urlpatterns = [
     url(r'^api/v1/users_api/add_group/$', views.api_add_group, name='add_group'),
     url(r'^api/v1/users_api/delete_group/$', views.api_delete_group, name='delete_group'),
 
-    #url(r'^api/v1/graphs_api/get_available_graphs/$', views.api_get_available_graphs, name='get_available_graphs'),
-    url(r'^api/v1/graphs_api/get_available_graphs/$', views.api_get_available_graphs_debug, name='get_available_graphs'),
+    url(r'^api/v1/graphs_api/get_available_graphs/$', views.api_get_available_graphs, name='get_available_graphs'),
+    #url(r'^api/v1/graphs_api/get_available_graphs/$', views.api_get_available_graphs_debug, name='get_available_graphs'),
     url(r'^api/v1/graphs_api/get_json_schema/$', views.api_get_json_schema, name='get_json_schema'),
     url(r'^api/v1/graphs_api/get_fr_table_config', views.api_get_fr_table_config, name='get_fr_table_config'),
     url(r'^api/v1/graphs_api/put_graph/$', views.api_put_graph, name='put_graph'),

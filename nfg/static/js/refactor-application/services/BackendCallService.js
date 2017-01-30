@@ -80,7 +80,7 @@
 
         var _deleteGraph = function (graph_id) {
             var deferred = $q.defer();
-            $http.delete("/api/v1/graphs_api/delete_graph/"+graph_id,
+            $http.delete("/api/v1/graphs_api/delete_graph/" + graph_id,
                 {
                     headers: {
                         'Content-type': 'application/json'
@@ -95,16 +95,11 @@
             return deferred.promise;
         };
 
-        var _getVNFModel = function (vnfType) {
+        var _getVNFModel = function (graphId, vnfIdentifier, tenantId, templateUri) {
             var deferred = $q.defer();
-            var url;
-            if (vnfType == "dhcp") {
-                url = "api/v1/config_api/get_vnf_model/dhcp_cfg";
-            } else if (vnfType == "nat") {
-                url = "api/v1/config_api/get_vnf_model/nat_cfg";
-            } else if (vnfType == "firewall") {
-                url = "api/v1/config_api/get_vnf_model/firewall_cfg";
-            }
+            var url = "api/v1/config_api/get_vnf_model/" + tenantId + "/" + graphId + "/" + vnfIdentifier;
+            if(typeof templateUri !== 'undefined' && templateUri != "")
+                url += "?templateuri=" + templateUri;
             $http.get(url) //get the yang model here
                 .success(function (result) {
                     deferred.resolve(result);
@@ -115,9 +110,9 @@
             return deferred.promise;
         };
 
-        var _getVNFState = function (vnfMac, username) {
+        var _getVNFState = function (graphId, vnfIdentifier, tenantId) {
             //some input controller put here
-            var url = "api/v1/config_api/get_vnf_state/" + vnfMac + "/user/" + username;
+            var url = "api/v1/config_api/get_vnf_state/" + tenantId + "/" + graphId + "/" + vnfIdentifier;
             var deferred = $q.defer();
             $http.get(url) //get the state here
                 .success(function (result) {
@@ -129,9 +124,9 @@
             return deferred.promise;
         };
 
-        var _putStateVNF = function (vnfMac, username, updatedStateVNF) {
+        var _putStateVNF = function (graphId, vnfIdentifier, tenantId, updatedStateVNF) {
             var deferred = $q.defer();
-            var url = "api/v1/config_api/put_vnf_state/" + vnfMac + "/user/" + username;
+            var url = "api/v1/config_api/put_vnf_state/" + tenantId + "/" + graphId + "/" + vnfIdentifier;
             $http.put(url, updatedStateVNF) //send data to the server here
                 .then(
                     function (data) {

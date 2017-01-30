@@ -31,20 +31,23 @@
     /**
      * Modal controller in order to configure the VNF
      * @param $uibModalInstance
-     * @param type
-     * @param mac
-     * @param username
+     * @param vnf
+     * @param graphId
+     * @param tenantId
      * @param modelFunc
      * @param stateFunc
      */
-    var vnfConfigModalController = function ($uibModalInstance, vnf, username, modelFunc, stateFunc) {
+    var vnfConfigModalController = function ($uibModalInstance, vnf, graphId,  tenantId, modelFunc, stateFunc) {
 
         var ctrl = this;
         ctrl.isArray = angular.isArray;
         var oldState;
 
-        modelFunc(vnf.id).then(function (resultModel) {
-            stateFunc(vnf.ports[0].mac, username).then(function (resultState) {
+        //TODO: substitute with vnf identifier according with francesco
+        modelFunc(graphId, vnf.ports[0].mac, tenantId, vnf.vnf_template)
+            .then(function (resultModel) {
+            stateFunc(graphId, vnf.ports[0].mac, tenantId)
+                .then(function (resultState) {
                 oldState = clone(resultState.state);
                 ctrl.state = resultState.state;
                 ctrl.model = resultModel.model;
@@ -80,7 +83,7 @@
 
         ctrl.ok = function () {
 
-            //passare l'oggetto con stato attuale, mac address e username
+            //passare l'oggetto con stato attuale, mac address e tenantId
             if (angular.equals(oldState, ctrl.state)) {
                 $uibModalInstance.dismiss('equal states');
             } else {
@@ -93,8 +96,9 @@
                 }
                 var res = {
                     newState: ctrl.state,
-                    macAdd: vnf.ports[0].mac,
-                    username: username
+                    graphId: graphId,
+                    vnfIdentifier: vnf.ports[0].mac,//TODO: sobstitute with vnf identifier according with francesco
+                    tenantId: tenantId
                 };
                 $uibModalInstance.close(res);
             }
@@ -107,7 +111,7 @@
             ctrl.state = JSON.parse($fileContent);
         };
     };
-    vnfConfigModalController.$inject = ['$uibModalInstance', 'vnf', 'username', 'modelFunc', 'stateFunc'];
+    vnfConfigModalController.$inject = ['$uibModalInstance', 'vnf', 'graphId',  'tenantId', 'modelFunc', 'stateFunc'];
     //vnfConfigModalController.$inject = ['$uibModalInstance', 'model', 'state'];
     angular.module('d3').controller('ConfigVNFModalController', vnfConfigModalController);
 })();

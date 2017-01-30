@@ -37,7 +37,8 @@ from nfg.nffg_manager import NFFGManager
 from nfg.template_manager import TemplateManager
 from nfg.image_manager import ImageManager
 from user_library.user_manager import UserManager
-from nfg.model_state_vnf_manager import ModelStateVNFManager
+from nfg.vnf_configuration_manager import VNFConfigurationManager
+from nfg.yang_model_manager import YANGModelManager
 
 # reading config
 parser = SafeConfigParser()
@@ -59,9 +60,13 @@ templatem = TemplateManager(parser.get('vnf-template', 'address'),
 imagem = ImageManager(parser.get('vnf-template', 'address'),
                       parser.get('vnf-template', 'port'))
 
-modelm = ModelStateVNFManager(parser.get('vnf-config', 'address'),
-                              parser.get('vnf-config', 'port'))
+modelm = VNFConfigurationManager(parser.get('vnf-config', 'address'),
+                          parser.get('vnf-config', 'port'))
 
+yangm= YANGModelManager(parser.get('orchestrator', 'address'),
+                        parser.get('orchestrator', 'port'),
+                        parser.get('vnf-template', 'address'),
+                        parser.get('vnf-template', 'port'))
 
 # index: It's a principal view, load gui if you are logged else redirect you at /login/.
 
@@ -868,15 +873,13 @@ def api_delete_vnf(request, vnf_id):
 
 
 # added by riccardo
-def status_get_vnf_model(request, vnf_type):
-    print request
-    print vnf_type
+def status_get_vnf_model(request, tenant_id, graph_id, vnf_identifier):
     # here a control on the input value should be done, even if the control is already done by the regex
     if request.method == "GET":
         if "token" in request.session:
             try:
-                result = modelm.get_vnf_model(vnf_type)
-            except:
+                result = yangm.get_vnf_model(tenant_id, graph_id, vnf_identifier, request.GET['templateuri'], request.session['token'])
+            except Exception as e:
                 return HttpResponse(status=503)
             json_data_string = json.dumps(result)
             return HttpResponse("%s" % json_data_string, status=result["status"], content_type="application/json")
@@ -886,13 +889,11 @@ def status_get_vnf_model(request, vnf_type):
         return HttpResponse(status=501)
 
 
-def configure_get_vnf_state(request, mac_address, username):
-    print mac_address
-    print username
+def configure_get_vnf_state(request, tenant_id, graph_id, vnf_identifier):
     if request.method == "GET":
         if "token" in request.session:
             try:
-                result = modelm.get_vnf_state(mac_address, username)
+                result = modelm.get_vnf_state(tenant_id, graph_id, vnf_identifier)
             except:
                 return HttpResponse(status=503)
             json_data_string = json.dumps(result)
@@ -903,12 +904,12 @@ def configure_get_vnf_state(request, mac_address, username):
         return HttpResponse(status=501)
 
 
-def configure_put_vnf_updated_state(request, mac_address, username):
+def configure_put_vnf_updated_state(request, tenant_id, graph_id, vnf_identifier):
     if request.method == "PUT":
         if "token" in request.session:
             updated_state = request.body
             try:
-                result = modelm.put_vnf_updated_state(mac_address, username, updated_state, request.session["token"])
+                result = modelm.put_vnf_updated_state(tenant_id, graph_id, vnf_identifier, updated_state, request.session["token"])
             except:
                 return HttpResponse(status=503)
             serialized_obj = json.dumps(result)
