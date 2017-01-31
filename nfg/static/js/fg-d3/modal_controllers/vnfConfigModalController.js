@@ -87,13 +87,28 @@
             if (angular.equals(oldState, ctrl.state)) {
                 $uibModalInstance.dismiss('equal states');
             } else {
-                //mettere il controllo sullo stato vuoto
-                //to fix
+                //here I remove empty fields from the JSON object
+                function removeEmptyFields(node){
+                    for(var element in node){
+                        if(node[element] == ""){
+                            delete node[element];
+                        }
+                        else if( !(typeof node[element] === "string" ||
+                                   typeof node[element] === "number" ||
+                                   typeof node[element] === "boolean" ||
+                                   node[element] == undefined) ){
+                            removeEmptyFields(node[element]);
+                        }
+                    }
+                }
+                //here I check if the state is empty -> to fix
                 for (var prop in ctrl.state) {
                     if (prop == ":") {
                         delete ctrl.state[prop];
                     }
+                    removeEmptyFields(ctrl.state[prop]);
                 }
+
                 var res = {
                     newState: ctrl.state,
                     graphId: graphId,
