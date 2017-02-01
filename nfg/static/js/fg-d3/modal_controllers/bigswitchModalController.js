@@ -40,16 +40,18 @@
             for (var i = 0; i < splitted.length; i++) {
                 if ($.isArray(value)) {
                     var count = 0;
-
-                    for (var j = 0; j < value.length; j++) {
-                        if (value[j][splitted[i]]) {
+                    var allValues = value;
+                    for (var j = 0; j < allValues.length; j++) {
+                        if (allValues[j][splitted[i]]) {
                             if (count < 1)
-                                value = value[j][splitted[i]];
+                                value = allValues[j][splitted[i]];
+                            else
+                                value += "<br/>" + allValues[j][splitted[i]];
                             count++;
                         }
                     }
                     if (count > 1) {
-                        value = 'Multiple Values';
+                        //value = 'Multiple Values';
                         break;
                     } else if (count == 0) {
                         value = '-';
@@ -78,8 +80,8 @@
             var modal = editFlowRulesModal(rule, schema);
             modal.result.then(function (result) {
                 var elem = result.elem;
-                for(var i = 0; i < ctrl.flowRules.length; i++){
-                    if(ctrl.flowRules[i].id == elem.id){
+                for (var i = 0; i < ctrl.flowRules.length; i++) {
+                    if (ctrl.flowRules[i].id == elem.id) {
                         ctrl.flowRules[i] = elem;
                         break;
                     }
@@ -89,10 +91,10 @@
 
         ctrl.removeRule = function (rule) {
 
-            var confirm = dialogs.confirm("Remove flow-rule","Are you sure you want to remove this flow-rule?");
+            var confirm = dialogs.confirm("Remove flow-rule", "Are you sure you want to remove this flow-rule?");
             confirm.result.then(function (result) {
-                for(var i = 0; i < ctrl.flowRules.length; i++){
-                    if(ctrl.flowRules[i].id == rule.id){
+                for (var i = 0; i < ctrl.flowRules.length; i++) {
+                    if (ctrl.flowRules[i].id == rule.id) {
                         ctrl.flowRules.splice(i, 1);
                         break;
                     }
@@ -114,7 +116,7 @@
             $uibModalInstance.close({rules: ctrl.flowRules});
         };
     };
-    bigSwitchModalController.$inject = ['$uibModalInstance','dialogs', 'fg', 'fgPos', 'schema', 'config', 'editFlowRulesModal'];
+    bigSwitchModalController.$inject = ['$uibModalInstance', 'dialogs', 'fg', 'fgPos', 'schema', 'config', 'editFlowRulesModal'];
     angular.module('d3').controller('BigSwitchModalController', bigSwitchModalController);
 
 })();

@@ -21,17 +21,17 @@
             </thead>
             <tbody>
             <tr ng-repeat="rule in BSViewCtrl.flowRules" ng-if="BSViewCtrl.config">
-                <td ng-repeat="elem in BSViewCtrl.config">{{ BSViewCtrl.getValue(rule,elem) }}</td>
+                <td ng-repeat="elem in BSViewCtrl.config" ng-bind-html="BSViewCtrl.getValue(rule,elem)"></td>
                 <td>
                     <button type="button" class="btn btn-info" ng-click="BSViewCtrl.editRule(rule)">Edit</button>
                     <button type="button" class="btn btn-danger" ng-click="BSViewCtrl.removeRule(rule)">Delete</button>
                 </td>
             </tr>
             <tr ng-repeat="rule in BSViewCtrl.flowRules" ng-if="!BSViewCtrl.config"><!--Fallback-->
-                <td>{{ BSViewCtrl.getValue(rule,'id') }}</td>
-                <td>{{ BSViewCtrl.getValue(rule,'description') }}</td>
-                <td>{{ BSViewCtrl.getValue(rule,'match:port_in') }}</td>
-                <td>{{ BSViewCtrl.getValue(rule,'action:output_to_port') }}</td>
+                <td ng-bind-html="BSViewCtrl.getValue(rule,'id')"></td>
+                <td ng-bind-html="BSViewCtrl.getValue(rule,'description')"></td>
+                <td ng-bind-html="BSViewCtrl.getValue(rule,'match:port_in')"></td>
+                <td ng-bind-html="BSViewCtrl.getValue(rule,'actions:output_to_port')"></td>
                 <td>
                     <button type="button" class="btn btn-info" ng-click="BSViewCtrl.editRule(rule)">Edit</button>
                     <button type="button" class="btn btn-danger" ng-click="BSViewCtrl.removeRule(rule)">Delete</button>

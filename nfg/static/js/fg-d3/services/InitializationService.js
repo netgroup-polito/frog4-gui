@@ -129,40 +129,43 @@
                 var orig = rule[fgConst.lkOrigLev1][fgConst.lkOrigLev2];
                 // id of the destination of the link
                 //[actions][0][output_to_port]
-                var dest = rule[fgConst.lkDestLev1][fgConst.lkDestLev2][fgConst.lkDestLev3];
+                for (var i = 0; i < rule[fgConst.lkDestLev1].length; i++) {
+                    var dest = rule[fgConst.lkDestLev1][i][fgConst.lkDestLev3];
 
-
-                if (flow_rules_link[orig]) { // if it exist a rules starting from the same origin
-                    if (!flow_rules_link[orig][dest]) { // if it does not exist this rules add it else do nothing
-                        flow_rules_link[orig][dest] = {
-                            origin: orig,
-                            destination: dest,
-                            isFullDuplex: false,
-                            rules: ["flow-rule:" + rule.id]
-                        };
-                    }
-                } else { //if it does not exist
-                    if (flow_rules_link[dest]) { //check if it exist rule from the destination
-                        if (flow_rules_link[dest][orig]) { //if it exist check if exist the opposite of this rule
-                            flow_rules_link[dest][orig].isFullDuplex = true;
-                            flow_rules_link[dest][orig].rules.push("flow-rule:" + rule.id);
-                        } else { // if not add the rule orig -> dest
-                            flow_rules_link[orig] = {};
-                            flow_rules_link[orig][dest] = {
-                                origin: orig,
-                                destination: dest,
-                                isFullDuplex: false,
-                                rules: ["flow-rule:" + rule.id]
-                            };
+                    if(dest) {
+                        if (flow_rules_link[orig]) { // if it exist a rules starting from the same origin
+                            if (!flow_rules_link[orig][dest]) { // if it does not exist this rules add it else do nothing
+                                flow_rules_link[orig][dest] = {
+                                    origin: orig,
+                                    destination: dest,
+                                    isFullDuplex: false,
+                                    rules: ["flow-rule:" + rule.id]
+                                };
+                            }
+                        } else { //if it does not exist
+                            if (flow_rules_link[dest]) { //check if it exist rule from the destination
+                                if (flow_rules_link[dest][orig]) { //if it exist check if exist the opposite of this rule
+                                    flow_rules_link[dest][orig].isFullDuplex = true;
+                                    flow_rules_link[dest][orig].rules.push("flow-rule:" + rule.id);
+                                } else { // if not add the rule orig -> dest
+                                    flow_rules_link[orig] = {};
+                                    flow_rules_link[orig][dest] = {
+                                        origin: orig,
+                                        destination: dest,
+                                        isFullDuplex: false,
+                                        rules: ["flow-rule:" + rule.id]
+                                    };
+                                }
+                            } else { //if no rule exist for the destination create a new rule orig -> dest
+                                flow_rules_link[orig] = {};
+                                flow_rules_link[orig][dest] = {
+                                    origin: orig,
+                                    destination: dest,
+                                    isFullDuplex: false,
+                                    rules: ["flow-rule:" + rule.id]
+                                };
+                            }
                         }
-                    } else { //if no rule exist for the destination create a new rule orig -> dest
-                        flow_rules_link[orig] = {};
-                        flow_rules_link[orig][dest] = {
-                            origin: orig,
-                            destination: dest,
-                            isFullDuplex: false,
-                            rules: ["flow-rule:" + rule.id]
-                        };
                     }
                 }
 

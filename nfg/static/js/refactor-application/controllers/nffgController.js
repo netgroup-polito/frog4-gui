@@ -185,23 +185,23 @@
             });
             // function to get the result of the dialog
             loadFromRepositoryModal.result.then(function (fg) {
-                 if (!fg["forwarding-graph"]["end-points"])
-                     fg["forwarding-graph"]["end-points"] = [];
-                 if (!fg["forwarding-graph"]["VNFs"])
-                     fg["forwarding-graph"]["VNFs"] = [];
-                 if (!fg["forwarding-graph"]["big-switch"])
-                     fg["forwarding-graph"]["big-switch"] = {"flow-rules": []};
-                 if (fg["forwarding-graph"]["big-switch"] && !fg["forwarding-graph"]["big-switch"]["flow-rules"])
-                     fg["forwarding-graph"]["big-switch"]["flow-rules"] = [];
+                if (!fg["forwarding-graph"]["end-points"])
+                    fg["forwarding-graph"]["end-points"] = [];
+                if (!fg["forwarding-graph"]["VNFs"])
+                    fg["forwarding-graph"]["VNFs"] = [];
+                if (!fg["forwarding-graph"]["big-switch"])
+                    fg["forwarding-graph"]["big-switch"] = {"flow-rules": []};
+                if (fg["forwarding-graph"]["big-switch"] && !fg["forwarding-graph"]["big-switch"]["flow-rules"])
+                    fg["forwarding-graph"]["big-switch"]["flow-rules"] = [];
 
-                 resetGraph();
-                 // Initialize the graph position object (missing the possibility to load the position too)
-                 ctrl.fgPos = initializePosition(fg["forwarding-graph"]);
-                 // loading the graph (always load the graph later to prevent error)
-                 ctrl.fg = fg["forwarding-graph"];
-                 ctrl.graphOrigin = AppConstant.graphOrigin.REPOSITORY;
+                resetGraph();
+                // Initialize the graph position object (missing the possibility to load the position too)
+                ctrl.fgPos = initializePosition(fg["forwarding-graph"]);
+                // loading the graph (always load the graph later to prevent error)
+                ctrl.fg = fg["forwarding-graph"];
+                ctrl.graphOrigin = AppConstant.graphOrigin.REPOSITORY;
 
-                 $rootScope.$broadcast("selectElement", null);
+                $rootScope.$broadcast("selectElement", null);
             });
         };
 
@@ -348,7 +348,7 @@
             //istanzio un grafico vuoto
             ctrl.fg = {
                 "id": Math.floor((Math.random() * 1000000) + 1).toString(),
-                "name":"New Forwarding Graph",
+                "name": "New Forwarding Graph",
                 "VNFs": [],
                 "end-points": [],
                 "big-switch": {
@@ -441,8 +441,12 @@
             var existing = false;
             for (var i = 0; i < ctrl.fg["big-switch"]["flow-rules"].length; i++) {
                 var rules = ctrl.fg["big-switch"]["flow-rules"][i];
-                if (rules["match"]["port_in"] == orig.full_id && rules["actions"][0]["output_to_port"] == dest.full_id)
-                    existing = true;
+                if (rules["match"]["port_in"] == orig.full_id) {
+                    for(var j = 0; j < rules["actions"].length; j++) {
+                        if (rules["actions"][i]["output_to_port"] == dest.full_id)
+                            existing = true;
+                    }
+                }
             }
             if (existing) {
                 $dialogs.notify('Flow Rules', 'The flow-rule you are trying to add already exists.');
