@@ -477,12 +477,12 @@
             return BackendCallService.getFRTableConfig();
         };
 
-        ctrl.getVNFModel = function (vnfType) {
-            return BackendCallService.getVNFModel(vnfType);
+        ctrl.getVNFModel = function (graphId, vnfIdentifier, tenantId, templateUri) {
+            return BackendCallService.getVNFModel(graphId, vnfIdentifier, tenantId, templateUri);
         };
 
-        ctrl.getVNFState = function (vnfMac, username) {
-            return BackendCallService.getVNFState(vnfMac, username);
+        ctrl.getVNFState = function (graphId, vnfIdentifier, tenantId) {
+            return BackendCallService.getVNFState(graphId, vnfIdentifier, tenantId);
         };
 
         ctrl.deleteSelected = function () {
@@ -534,10 +534,8 @@
 
         $rootScope.$on("vnfConfig", function (event, res) {
             //if I'm here, means that the state has been modified, so I can put the file into the server
-            console.log("event", event);
-            console.log("res", res);
 
-            BackendCallService.putStateVNF(res.macAdd, res.username, res.newState).then(function (resultPut) {
+            BackendCallService.putStateVNF(res.graphId, res.vnfIdentifier, res.tenantId, res.newState).then(function (resultPut) {
                 console.log("resultPut", resultPut);
                 //swal({title: "Changes saved!", timer: 1000, showConfirmButton: false });
             }, function (error) {

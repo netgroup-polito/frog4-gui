@@ -218,28 +218,7 @@
             });
         };
 
-        /*
-        var _configVNFModal = function (model, state) {
-            return $uibModal.open({
-                animation: false,
-                templateUrl: '/static/js/fg-d3/modal_view/vnfConfigModalView.html',
-                controller: 'ConfigVNFModalController',
-                controllerAs: 'ConfigVNFCtrl',
-                size: 'lg',
-                resolve: {
-                    model: function () {
-                        return clone(model);
-                    },
-                    state: function () {
-                        return clone(state);
-                    }
-                }
-            });
-        };
-        */
-
-
-        var _configVNFModal = function (vnf, username, vnfModelFunction, vnfStateFunction) {
+        var _configVNFModal = function (vnf, graphId, tenantId, vnfModelFunction, vnfStateFunction) {
             return $uibModal.open({
                 animation: false,
                 templateUrl: '/static/js/fg-d3/modal_view/vnfConfigModalView.html',
@@ -250,8 +229,11 @@
                     vnf: function () {
                         return clone(vnf);
                     },
-                    username: function () {
-                        return clone(username);
+                    graphId: function () {
+                        return clone(graphId);
+                    },
+                    tenantId: function () {
+                        return clone(tenantId);
                     },
                     modelFunc: function () {
                         return clone(vnfModelFunction);

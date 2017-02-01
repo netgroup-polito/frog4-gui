@@ -31,20 +31,23 @@
     /**
      * Modal controller in order to configure the VNF
      * @param $uibModalInstance
-     * @param type
-     * @param mac
-     * @param username
+     * @param vnf
+     * @param graphId
+     * @param tenantId
      * @param modelFunc
      * @param stateFunc
      */
-    var vnfConfigModalController = function ($uibModalInstance, vnf, username, modelFunc, stateFunc) {
+    var vnfConfigModalController = function ($uibModalInstance, vnf, graphId,  tenantId, modelFunc, stateFunc) {
 
         var ctrl = this;
         ctrl.isArray = angular.isArray;
         var oldState;
 
-        modelFunc(vnf.id).then(function (resultModel) {
-            stateFunc(vnf.ports[0].mac, username).then(function (resultState) {
+        //TODO: substitute with vnf identifier according with francesco
+        modelFunc(graphId, vnf.ports[0].mac, tenantId, vnf.vnf_template)
+            .then(function (resultModel) {
+            stateFunc(graphId, vnf.ports[0].mac, tenantId)
+                .then(function (resultState) {
                 oldState = clone(resultState.state);
                 ctrl.state = resultState.state;
                 ctrl.model = resultModel.model;
@@ -80,21 +83,37 @@
 
         ctrl.ok = function () {
 
-            //passare l'oggetto con stato attuale, mac address e username
+            //passare l'oggetto con stato attuale, mac address e tenantId
             if (angular.equals(oldState, ctrl.state)) {
                 $uibModalInstance.dismiss('equal states');
             } else {
-                //mettere il controllo sullo stato vuoto
-                //to fix
+                //here I remove empty fields from the JSON object
+                function removeEmptyFields(node){
+                    for(var element in node){
+                        if(node[element] == ""){
+                            delete node[element];
+                        }
+                        else if( !(typeof node[element] === "string" ||
+                                   typeof node[element] === "number" ||
+                                   typeof node[element] === "boolean" ||
+                                   node[element] == undefined) ){
+                            removeEmptyFields(node[element]);
+                        }
+                    }
+                }
+                //here I check if the state is empty -> to fix
                 for (var prop in ctrl.state) {
                     if (prop == ":") {
                         delete ctrl.state[prop];
                     }
+                    removeEmptyFields(ctrl.state[prop]);
                 }
+
                 var res = {
                     newState: ctrl.state,
-                    macAdd: vnf.ports[0].mac,
-                    username: username
+                    graphId: graphId,
+                    vnfIdentifier: vnf.ports[0].mac,//TODO: sobstitute with vnf identifier according with francesco
+                    tenantId: tenantId
                 };
                 $uibModalInstance.close(res);
             }
@@ -107,7 +126,7 @@
             ctrl.state = JSON.parse($fileContent);
         };
     };
-    vnfConfigModalController.$inject = ['$uibModalInstance', 'vnf', 'username', 'modelFunc', 'stateFunc'];
+    vnfConfigModalController.$inject = ['$uibModalInstance', 'vnf', 'graphId',  'tenantId', 'modelFunc', 'stateFunc'];
     //vnfConfigModalController.$inject = ['$uibModalInstance', 'model', 'state'];
     angular.module('d3').controller('ConfigVNFModalController', vnfConfigModalController);
 })();

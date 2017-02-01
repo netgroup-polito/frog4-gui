@@ -4,10 +4,9 @@ from . import views
 
 urlpatterns = [
     url(r'^$', views.refactor, name='refactor'),
-
-    url(r'^api/v1/config_api/get_vnf_model/(?P<vnf_type>dhcp_cfg|nat_cfg|firewall_cfg)$', views.status_get_vnf_model, name='status_get_vnf_model'),
-    url(r'^api/v1/config_api/get_vnf_state/(?P<mac_address>([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2}))/user/(?P<username>.*)$', views.configure_get_vnf_state, name='configure_get_vnf_state'),
-    url(r'^api/v1/config_api/put_vnf_state/(?P<mac_address>([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2}))/user/(?P<username>.*)$', views.configure_put_vnf_updated_state, name='configure_put_vnf_updated_state'),
+    url(r'^api/v1/config_api/get_vnf_model/(?P<tenant_id>[^/]+)/(?P<graph_id>[^/]+)/(?P<vnf_identifier>[^/]+)$', views.status_get_vnf_model, name='status_get_vnf_model'),
+    url(r'^api/v1/config_api/get_vnf_state/(?P<tenant_id>[^/]+)/(?P<graph_id>[^/]+)/(?P<vnf_identifier>[^/]+)$', views.configure_get_vnf_state, name='configure_get_vnf_state'),
+    url(r'^api/v1/config_api/put_vnf_state/(?P<tenant_id>[^/]+)/(?P<graph_id>[^/]+)/(?P<vnf_identifier>[^/]+)$', views.configure_put_vnf_updated_state, name='configure_put_vnf_updated_state'),
 
     url(r'^login/$', views.login, name='login'),
     url(r'^logout/$', views.logout, name='logout'),

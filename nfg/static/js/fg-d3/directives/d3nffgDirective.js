@@ -421,7 +421,7 @@
                     // initialize update functionality for flow rules
                     var bigSwitch = fgUpdateService.updateBS($scope);
 
-                    var vnfConfig = fgUpdateService.configVNF($scope);
+                    var vnfConfig = fgUpdateService.configVNF($scope,ngModel);
                     ctrl.graph.update = {
                         epUpdate: epUpdate,
                         vnfUpdate: vnfUpdate,
