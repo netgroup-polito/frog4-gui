@@ -26,7 +26,7 @@
         ctrl.update = function (vnf) {
             var editModal = $uibModal.open({
                 animation: false,
-                templateUrl: '/static/pages/refactor/modals/editVNFModal.html',
+                templateUrl: '/static/pages/modals/editVNFModal.html',
                 controller: 'EditVNFController',
                 controllerAs: 'EditVNFCtrl',
                 size: 'lg',
@@ -47,7 +47,7 @@
         ctrl.add = function () {
             var addModal = $uibModal.open({
                 animation: false,
-                templateUrl: '/static/pages/refactor/modals/newVNFModal.html',
+                templateUrl: '/static/pages/modals/newVNFModal.html',
                 controller: 'NewVNFController',
                 controllerAs: 'NewVNFCtrl',
                 size: 'lg',

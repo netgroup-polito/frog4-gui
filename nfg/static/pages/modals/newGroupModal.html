@@ -14,7 +14,7 @@
                            required
                            ng-model="NewGroupCtrl.newGroup.name">
                     <div class="message"
-                         ng-show="formNewGroup.name.$touched || formNewGroup.$submitted"
+                         ng-show="(formNewGroup.name.$touched || formNewGroup.$submitted )&& formNewGroup.name.$invalid"
                          ng-messages="formNewGroup.name.$error">
                         <div ng-message="required">The field is required!</div>
                     </div>

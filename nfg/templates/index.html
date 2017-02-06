@@ -1,71 +1,111 @@
 {% load staticfiles %}
 <!DOCTYPE html>
 <html lang="en">
+<!--<base href="/">-->
 <head>
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <meta charset="utf-8">
-
-    <title>{{ guiName }} - NF-FG</title>
-    <!--link rel="icon" href="{% static "img/logo_poli.ico" %}" /-->
-    <meta name="generator" content="Bootply"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta charset="UTF-8">
+    <title>{{ guiName }} - NF-FG Refactor</title>
     <link rel="icon" href="{% static "img/favicon.ico" %}">
-    <link rel="stylesheet" href="{% static "css/bootstrap.css" %}">
-    <link rel="stylesheet" href="{% static "css/bootstrap-toggle.min.css" %}">
-    <link rel="stylesheet" href="{% static "css/font-awesome.css" %}">
-    <script type="text/javascript" src="{% static "js/libs/jquery/jquery.min.js" %}"></script>
-    <script type="text/javascript" src="{% static "js/libs/bootstrap/bootstrap.min.js" %}"></script>
-    <script type="text/javascript" src="{% static "js/libs/bootstrap/bootstrap-toggle.min.js" %}"></script>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'css/dialogs.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/graphElement.css' %}">
+    <link rel="stylesheet" href="{% static 'css/font-awesome.css' %}">
+    <link rel="stylesheet" href="{% static 'css/refactor/refactor.css' %}">
+    <link rel="stylesheet" href="{% static 'css/hotkeys.min.css' %}">
 
-    <script type="text/javascript" src="{% static "js/libs/d3/d3.v3.min.js" %}"></script>
+    <!-- Javascipt Library -->
+    <script type="text/javascript" src="{% static 'js/libs/jquery/jquery.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/libs/jquery/jquery.ui.widget.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/libs/jquery/jquery.iframe-transport.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/libs/jquery/jquery.fileupload.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/libs/spark-md5.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/libs/d3/d3.v4.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/libs/d3/d3-selection.v1.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/libs/d3/d3-selection-multi.v1.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/libs/bootstrap/bootstrap.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/libs/bootstrap/bootstrap-filestyle.min.js' %}"></script>
 
+    <!-- Javascript Extensions -->
+    <script type="text/javascript" src="{% static 'js/extensionUtils.js' %}"></script>
 
-    <!--[if lt IE 9]>
-			<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
-		<![endif]-->
+    <!-- Angular Library -->
+    <script type="text/javascript" src="{% static 'js/libs/angular/angular.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/libs/angular/angular-messages.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/libs/angular/angular-mocks.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/libs/angular/angular-route.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/libs/angular/angular-sanitize.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/libs/bootstrap/ui-bootstrap-tpls-1.3.3.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/libs/dialogs.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/libs/hotkeys.min.js' %}"></script>
 
-    <link rel="stylesheet" href="{% static "css/style.css" %}">
-    <link rel="stylesheet" href="{% static "css/graphElement.css" %}">
+    <!-- Angular JS application -->
+    <script type="text/javascript" src="{% static 'js/application/app.js' %}"></script>
 
-    <script type="text/javascript" src="{% static "js/scripts.js" %}"></script>
-    <script type="text/javascript" src="{% static "js/main.js" %}"></script>
-    <script type="text/javascript" src="{% static "js/libs/underscore-min.js" %}"></script>
-    <script type="text/javascript" src="{% static "js/gui/drag.js" %}"></script>
-    <script type="text/javascript" src="{% static "js/gui/drawElements.js" %}"></script>
-    <script type="text/javascript" src="{% static "js/gui/utils.js" %}"></script>
-    <script type="text/javascript" src="{% static "js/gui/defElements.js" %}"></script>
-    <script type="text/javascript" src="{% static "js/gui/drawMenuElements.js" %}"></script>
-    <script type="text/javascript" src="{% static "js/gui/fillElementInfo.js" %}"></script>
-    <script type="text/javascript" src="{% static "js/gui/utilsFormEP.js" %}"></script>
-    <script type="text/javascript" src="{% static "js/gui/utilsFormVNF.js" %}"></script>
-    <script type="text/javascript" src="{% static "js/gui/deleteElements.js" %}"></script>
-    <script type="text/javascript" src="{% static "js/gui/drawInfoElements.js" %}"></script>
-    <script type="text/javascript" src="{% static "js/gui/selectElements.js" %}"></script>
-    <script type="text/javascript" src="{% static "js/gui/editFormVNF.js" %}"></script>
+    <!-- Angular Module fg-d3-->
+    <script type="text/javascript" src="{% static 'js/fg-d3/moduleInit.js' %}"></script>
+    <!-- Angular Service -->
+    <script type="text/javascript" src="{% static 'js/fg-d3/services/InitializationService.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/fg-d3/services/ExporterService.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/fg-d3/services/ManipulationService.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/fg-d3/services/d3Service.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/fg-d3/services/fgDrawService.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/fg-d3/services/fgDragService.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/fg-d3/services/fgModalService.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/fg-d3/services/fgLinkService.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/fg-d3/services/fgUpdateService.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/fg-d3/services/recursionHelperService.js' %}"></script>
+    <!-- Angular Controller -->
+    <script type="text/javascript" src="{% static 'js/fg-d3/modal_controllers/endpointModalController.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/fg-d3/modal_controllers/vnfModalController.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/fg-d3/modal_controllers/linkModalController.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/fg-d3/modal_controllers/bigswitchModalController.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/fg-d3/modal_controllers/vnfConfigModalController.js' %}"></script>
+    <!-- Angular Directive -->
+    <script type="text/javascript" src="{% static 'js/fg-d3/directives/d3nffgDirective.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/fg-d3/directives/objectVisualizationDirective.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/fg-d3/directives/containerDirective.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/fg-d3/directives/listDirective.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/fg-d3/directives/leafDirective.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/fg-d3/directives/loadConfigVNFDirective.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/fg-d3/directives/dynamicAttributesDirective.js' %}"></script>
+    <!-- Angular Constants -->
+    <script type="text/javascript" src="{% static 'js/fg-d3/constants.js' %} "></script>
+    <script type="text/javascript" src="{% static 'js/fg-d3/filters.js' %} "></script>
 
-    <script type="text/javascript" src="{% static "js/gui/linkCreations.js" %}"></script>
-    <script type="text/javascript" src="{% static "js/gui/showView.js" %}"></script>
-    <script type="text/javascript" src="{% static "js/gui/keysBindings.js" %}"></script>
-
-    <script type="text/javascript" src="{% static "js/gui/utilsFormUpload.js" %}"></script>
-    <script type="text/javascript" src="{% static "js/gui/utilsFormDownload.js" %}"></script>
-    <script type="text/javascript" src="{% static "js/gui/utilsFormPreview.js" %}"></script>
-    <script type="text/javascript" src="{% static "js/gui/utilsFormFlowRule.js" %}"></script>
-    <script type="text/javascript" src="{% static "js/gui/utilsFormChangeIDFG.js" %}"></script>
-    <script type="text/javascript" src="{% static "js/gui/utilsDeploy.js" %}"></script>
-
-    <script type="text/javascript" src="{% static "js/gui/init.js" %}"></script>
-    <script type="text/javascript" src="{% static "js/gui/serializer.js" %}"></script>
-
-
-    <!-- librerie esterne -->
-
-    <script type="text/javascript" src="{% static "js/libs/bootstrap/bootstrap-filestyle.min.js" %}"></script>
-
+    <!-- Angular Module fg-gui-->
+    <!-- Angular Service -->
+    <script type="text/javascript" src="{% static 'js/application/services/BackendCallService.js' %}"></script>
+    <!-- Angular Controller -->
+    <script type="text/javascript" src="{% static 'js/application/controllers/mainController.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/application/controllers/userListController.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/application/controllers/newUserController.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/application/controllers/groupListController.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/application/controllers/newGroupController.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/application/controllers/nffgController.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/application/controllers/guiInfoController.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/application/controllers/updateFGInfoController.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/application/controllers/loadFromServerController.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/application/controllers/loadFromRepositoryController.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/application/controllers/loadFromLocalFSController.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/application/controllers/saveOnLocalFSController.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/application/controllers/vnfRepoController.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/application/controllers/newVNFController.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/application/controllers/editVNFController.js' %}"></script>
+    <!-- Angular Directive -->
+    <script type="text/javascript" src="{% static 'js/application/directives/validatingDirectives.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/application/directives/fileUploadDirective.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/application/directives/vnfImageUploadDirective.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/application/directives/toJsonDirective.js' %}"></script>
+    <!-- Angular Constants -->
+    <script type="text/javascript" src="{% static 'js/application/constants.js' %} "></script>
+    <!-- Angular Route ( view - controller description ) -->
+    <script type="text/javascript" src="{% static 'js/application/routeProvider.js' %}"></script>
+    <!-- Angular Application Bootstrap -->
+    <script type="text/javascript" src="{% static 'js/application/appBootstrap.js' %}"></script>
 </head>
-<body>
-
-
+<body ng-controller="MainController as MainCtrl">
 <!-- header -->
 <div id="top-nav" class="navbar navbar-inverse navbar-static-top">
     <div class="container-fluid">
@@ -75,612 +115,37 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="">{{ guiName }}</a>
+            <a class="navbar-brand" href="#/">{{ guiName }}</a>
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
-
                 <li class="dropdown">
                     <a class="dropdown-toggle" role="button" data-toggle="dropdown">
                         <i class="glyphicon glyphicon-user"></i>
-                        Users & Groups
+                        User & Group
                         <span class="caret"></span>
                     </a>
 
                     <ul id="g-account-menu" class="dropdown-menu" role="menu">
-                        <li><a href="/users/#/">Users</a></li>
-                        <li><a href="/users/#/groups">Groups</a></li>
+                        <li><a href="#/users">User</a></li>
+                        <li><a href="#/groups">Group</a></li>
                     </ul>
                 </li>
                 <li>
-                    <a href="/info"><i class="glyphicon glyphicon-info-sign"></i> Info</a>
+                    <a href="#vnf-repository"><i class="glyphicon glyphicon-upload"></i> NF Repository</a>
+                </li>
+                <li>
+                    <a ng-click="MainCtrl.showInfo()"><i class="glyphicon glyphicon-info-sign"></i> Info</a>
                 <li>
                 <li><a>Welcome {{ username }}</a></li>
                 <li><a href="/logout/"><i class="glyphicon glyphicon-lock"></i> Logout</a></li>
             </ul>
         </div>
     </div>
-    <!-- /container -->
 </div>
 <!-- /Header -->
-
-<!-- Main -->
-<div class="container-fluid">
-    <div class="row">
-
-        <div class="col-sm-3">
-            <!-- Left column -->
-            <br>
-
-            <div class="info"></div>
-
-
-        </div>
-        <!-- /col-3 -->
-        <div class="col-sm-9">
-            <div class="row">
-                <div class="col-md-12">
-
-                    <!-- The icons used in this menubar you can find at: http://fortawesome.github.io/Font-Awesome/icons/ -->
-
-                    <div id="menubar">
-                        <div class="btn-group" role="group" aria-label="...">
-
-                            <!-- Empty Document -->
-                            <button type="button" class="menu btn btn-default btn-lg" onclick="newForwardingGraph();"
-                                    title="New Document"><span class="glyphicon glyphicon-file"
-                                                               aria-hidden="true"></span></button>
-
-                            <!-- Edit Button -->
-                            <button type="button" class="menu btn btn-default btn-lg" onclick="showMenuDraw();"
-                                    title="Draw Menu"><span class="glyphicon glyphicon-pencil"
-                                                            aria-hidden="true"></span></button>
-
-
-                            <!-- Big Switch Button -->
-                            <button type="button" class="menu btn btn-default btn-lg" onclick="switchView()"
-                                    title="Toggle Simple/Big Switch view" id="BSViewToogle"><i
-                                    class="fa fa-square-o fa-lg"></i>
-                            </button>
-
-
-                            <li class="dropdown menu btn btn-default btn-lg" title="Save graph">
-                                <a style="padding-left: 0px; color: #333;" data-toggle="dropdown" href="#"
-                                   class="dropdown-toggle" role="button" aria-haspopup="true"
-                                   aria-expanded="false">
-                                    <span style="padding-right: 5px;"
-                                          class="glyphicon glyphicon-floppy-save"></span>
-                                    <span style="" class="caret"></span>
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li><a onclick="saveGraphLocal()">Save Local</a></li>
-                                    <li><a onclick="saveGraphRemote()">Save Remote</a></li>
-                                </ul>
-                            </li>
-
-
-                            <li class="dropdown menu btn btn-default btn-lg" title="Load graph">
-                                <a style="padding-left: 0px; color: #333;" data-toggle="dropdown" href="#"
-                                   class="dropdown-toggle" role="button" aria-haspopup="true"
-                                   aria-expanded="false">
-                                    <span style="padding-right: 5px;"
-                                          class="glyphicon glyphicon-floppy-open"></span>
-                                    <span style="" class="caret"></span>
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li><a onclick="loadGraphLocal()">Open Local</a></li>
-                                    <li><a onclick="loadGraphRemote()">Open Remote</a></li>
-                                </ul>
-                            </li>
-
-                            <!-- Save Button -->
-                            <button type="button" class="menu btn btn-default btn-lg" onclick="showSaveForm();"
-                                    title="Save"><span class="glyphicon glyphicon-floppy-disk"
-                                                       aria-hidden="true"></span></button>
-
-                            <!-- Open From Client Button -->
-                            <button type="button" class="menu btn btn-default btn-lg" onclick="showUploadFG();"
-                                    title="Open from Client"><span class="glyphicon glyphicon-folder-open"
-                                                                   aria-hidden="true"></span></button>
-
-                            <!-- Open From Server Button -->
-                            <button type="button" class="menu btn btn-default btn-lg" onclick="showDownloadFG();"
-                                    title="Open from Server"><i class="fa fa-server fa-lg"></i>
-                            </button>
-
-                            <!-- Preview Button -->
-                            <button type="button" class="menu btn btn-default btn-lg" onclick="showPreviewFG();"
-                                    title="Preview"><i class="fa fa-code fa-lg"></i>
-                            </button>
-
-                            <!-- Deploy(Test) Button -->
-                            <button type="button" class="menu btn btn-default btn-lg" onclick="deploy();"
-                                    title="Deploy(Test)"><i class="fa fa-paper-plane"></i>
-
-                            </button>
-
-                            <!-- New EP Button -->
-                            <button type="button" class="menu btn btn-success btn-lg drawButton"
-                                    onclick="onClickDrawEP();" style="display:none" title="End-Point"><i
-                                    class="fa fa-circle fa-lg"></i>
-                            </button>
-
-                            <!-- New VNF Button -->
-                            <button type="button" class="menu btn btn-lg btn-success drawButton"
-                                    onclick="onClickDrawVNF();" style="display:none" title="Virtual Network Function"><i
-                                    class="fa fa-square fa-lg"></i>
-                            </button>
-
-                            <!-- Create Link Button -->
-                            <button type="button" class="menu btn btn-lg btn-success drawButton"
-                                    onclick="onClickDrawLink();" style="display:none" title="Create Link"
-                                    id="newLinkButton"><i class="fa fa-arrows-h fa-lg"></i>
-                            </button>
-
-
-                           <input id="my-checkbox"  data-toggle="toggle" type="checkbox" data-height="45">
-
-
-                        </div>
-                    </div>
-                    <div id="draw_menu">
-
-
-                    </div>
-
-                </div>
-                <div class="col-md-12">
-                    <div id="my_canvas">
-
-                        <p id="fg_id" onclick="showModelChangeIDFG();"></p>
-
-                        <!--<div class="col-sm-6">
-                            <img src="{% static "img/frog2.jpg" %}" />
-                        </div>
-                        <div class="col-sm-6">
-                            <br><br><br><br><br><br>
-                            <h3><b>Clicca qui per iniziare a creare un nuovo grafo.</b></h3>
-                        </div>-->
-                    </div>
-                </div>
-
-            </div>
-
-        </div>
-        <!--/col-span-9-->
-    </div>
+<div class="container-fluid" ng-view>
 
 </div>
-
-
-<!-- Modal Form FlowRules -->
-
-<!-- Modal Warning View -->
-
-<div class="modal" id="ModalWarning">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h4 class="modal-title" id="titleWarning2"><span class="glyphicon glyphicon-alert"></span> Warning </h4>
-            </div>
-            <div class="modal-body">
-                <p><!--b>Warning:</b> <span id="MSGContent"-->This graph can only be shown in the Big Switch view
-                    because at least a splitting exists in the flowrules.</p>
-            </div>
-
-            <div class="modal-footer">
-                <a href="#" data-dismiss="modal" class="btn btn-primary">OK</a>
-            </div>
-
-        </div>
-        <!-- /.modal-content -->
-    </div>
-    <!-- /.modal-dalog -->
-</div>
-
-<!-- Modal Error View -->
-
-<div class="modal" id="ModalMsgServer">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h4 class="modal-title" id="titleWarning"></h4>
-            </div>
-            <div class="modal-body">
-                <p id="msg"></p>
-            </div>
-
-            <div class="modal-footer">
-                <a href="#" data-dismiss="modal"  class="btn btn-primary">OK</a>
-            </div>
-
-        </div>
-        <!-- /.modal-content -->
-    </div>
-    <!-- /.modal-dalog -->
-</div>
-
-<!-- Modal Previw -->
-
-<div class="modal" id="PreviewFG">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h4 class="modal-title" id="titleJson">Preview Json </h4>
-            </div>
-            <form class="form-horizontal" role="form" action="#" id="formUpload" method="post"
-                  enctype="multipart/form-data" accept-charset="utf-8" name="formUpload">
-                <div class="modal-body">
-                    <!--<div id="file_content_preview">
-                        <p>par</p>
-                    </div>-->
-                    <textarea id="file_content_preview" class="form-control" rows="18" id="comment"></textarea>
-                </div>
-
-                <div class="modal-footer">
-                    <!--<a href="#" id="Upload" onclick="copyOnClipboard();"  class="btn btn-primary" >Save</a>-->
-
-                </div>
-            </form>
-
-        </div>
-        <!-- /.modal-content -->
-    </div>
-    <!-- /.modal-dalog -->
-</div>
-
-
-<!-- Modal Upload -->
-
-<div class="modal" id="UploadFG">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h4 class="modal-title" id="titleJsonLoad"></h4>
-            </div>
-            <form class="form-horizontal" role="form" action="#" id="formUpload" method="post"
-                  enctype="multipart/form-data" accept-charset="utf-8" name="formUpload">
-                <div class="modal-body">
-                    <div id="file_content_upload">
-
-                    </div>
-                    <input id="inputFile" type="file" name="myfile" class="filestyle" data-buttonName="btn-primary" required>
-                </div>
-
-                <div class="modal-footer">
-                    <a href="#" id="Preview" onclick="PreviewFileUpload();" class="btn btn-primary">Preview</a>
-                    <a href="#" id="Upload"  onclick="DownloadLocalFile();" class="btn btn-primary"
-                       data-dismiss="modal">Open</a>
-
-                </div>
-            </form>
-
-        </div>
-        <!-- /.modal-content -->
-    </div>
-    <!-- /.modal-dalog -->
-</div>
-
-<!-- Modal for saving-->
-
-<div class="modal" id="SaveFG">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
-                        onclick="setKeysWindowListener()">×
-                </button>
-                <h4 class="modal-title" id="saveTitle"></h4>
-            </div>
-            <form class="form-horizontal" role="form" action="#" id="formSave" method="post"
-                  enctype="multipart/form-data" accept-charset="utf-8" name="formUpload">
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label class="control-label col-sm-2" for="nameFile">Name file</label>
-                        <div class="col-sm-10">
-                            <input type="text" name="idEP" class="form-control " id="nameFile" placeholder="" value="">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="modal-footer">
-                    <a href="#" id="EraseWithoutSaving" onclick="eraseAll();" class="btn btn-primary">Erase without
-                        saving</a>
-                    <a href="#" id="SaveForm" class="btn btn-primary">Save</a>
-
-                </div>
-            </form>
-
-        </div>
-        <!-- /.modal-content -->
-    </div>
-    <!-- /.modal-dalog -->
-</div>
-
-
-<!-- Modal for Chancing FgId -->
-
-<div class="modal" id="ChangeFGID">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
-                        onclick="setKeysWindowListener()">×
-                </button>
-                <h4 class="modal-title">Change graph summary</h4>
-            </div>
-            <form class="form-horizontal" role="form" action="#" id="formSave" method="post"
-                  enctype="multipart/form-data" accept-charset="utf-8" name="formUpload">
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label class="control-label col-sm-2" for="nameFile">ID:</label>
-                        <div class="col-sm-10">
-                            <input type="text" name="idEP" class="form-control " id="newIDFG" placeholder="" value="">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-sm-2" for="nameFile">Name:</label>
-                        <div class="col-sm-10">
-                            <input type="text" name="idEP" class="form-control " id="nameFG" placeholder="" value="">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-sm-2" for="nameFile">Description:</label>
-                        <div class="col-sm-10">
-                            <input type="text" name="idEP" class="form-control " id="descriptionFG" placeholder=""
-                                   value="">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="modal-footer">
-                    <a href="#" id="Change" onclick="changeIDFG();" class="btn btn-primary">Save</a>
-                    <!--a href="#" id="newID" onclick="ajaxLastIdRequest();"  class="btn btn-primary">New ID</a-->
-
-                </div>
-            </form>
-
-        </div>
-        <!-- /.modal-content -->
-    </div>
-    <!-- /.modal-dalog -->
-</div>
-
-<!-- Model Download -->
-
-<div class="modal" id="DownloadFG">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h4 class="modal-title" id="titleJsonLoadRemote"></h4>
-            </div>
-            <form class="form-horizontal" role="form" action="#" id="formDownload" method="post"
-                  enctype="multipart/form-data" accept-charset="utf-8" name="formUpload">
-                <div class="modal-body">
-                    <div id="file_content_download">
-
-                    </div>
-
-                    <div class="form-group">
-                        <label class="control-label col-sm-2" for="type">Select File:</label>
-                        <div class="col-sm-10">
-                            <select class="form-control" name="type" id="selfileDownload">
-                            </select>
-                        </div>
-                    </div>
-
-                </div>
-
-                <div class="modal-footer">
-                    <a href="#" id="Preview" onclick="PreviewFileDownload();" class="btn btn-primary">Preview</a>
-                    <a href="#" id="DownloadClick" class="btn btn-primary">Open</a>
-
-                </div>
-            </form>
-
-        </div>
-        <!-- /.modal-content -->
-    </div>
-    <!-- /.modal-dalog -->
-</div>
-
-
-<!-- Model FormEP -->
-
-<div class="modal" id="FormEP">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
-                        onclick="setKeysWindowListener()">×
-                </button>
-                <h4 class="modal-title">Info End Point</h4>
-            </div>
-
-            <div class="modal-body">
-                <form class="form-horizontal" role="form" id="formEndPoint">
-
-
-                    <div class="form-group ">
-                        <label class="control-label col-sm-2" for="name">Name EP:</label>
-                        <div class="col-sm-10">
-                            <input type="text" name="nameEP" class="form-control " id="nameEP" placeholder="">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="control-label col-sm-2" for="type">Icon:</label>
-                        <div class="col-sm-10">
-                            <select class="form-control" name="type" id="selIconEP">
-                                <option selected>default</option>
-                                <option>host</option>
-                                <option>internet</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="control-label col-sm-2" for="idEndPoint">ID EndPoint</label>
-                        <div class="col-sm-10">
-                            <input type="text" name="idEP" class="form-control " id="idEndPoint" placeholder="" disabled
-                                   value="">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="control-label col-sm-2" for="type">Type:</label>
-                        <div class="col-sm-10">
-
-
-                            <div id="selectEPItems"></div>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="control-label col-sm-2" for="name">Remote EP id:</label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" name="remoteEPid" id="remoteEPid" placeholder="">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="control-label col-sm-2" for="title" id="titleInterface">title</label>
-                        <div class="col-sm-10">
-                        </div>
-                    </div>
-
-                    <div id="epInfo"></div>
-
-
-                </form>
-            </div>
-            <div class="modal-footer">
-                <!--<a href="#" data-dismiss="modal" class="btn">Close</a>-->
-
-                <!--data-dismiss="modal"-->
-                <a href="#" id="saveEP" onclick="drawNewEP()" class="btn btn-primary">Add EndPoint</a>
-            </div>
-
-        </div>
-        <!-- /.modal-content -->
-    </div>
-    <!-- /.modal-dalog -->
-</div>
-
-<!-- Model Form VNF -->
-
-<div class="modal" id="FormNF">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
-                        onclick="setKeysWindowListener()">×
-                </button>
-                <h4 class="modal-title">Network Function properties</h4>
-            </div>
-            <form class="form-horizontal" role="form" id="formVNF">
-                <div class="modal-body">
-                    <div class="form-group ">
-                        <label class="control-label col-sm-2" for="name">Name VNF:</label>
-                        <div class="col-sm-10">
-                            <input type="text" name="nameVNF" class="form-control " id="nameVNF" placeholder="">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-sm-2" for="idVNF">ID VNF:</label>
-                        <div class="col-sm-10">
-                            <input type="text" name="idVNF" class="form-control " id="idVNF" placeholder="" disabled>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="control-label col-sm-2" for="vnf-template">VNF Template:</label>
-                        <div class="col-sm-10">
-                            <div id="selectMenu"></div>
-
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="control-label col-sm-2" for="title" id="titleInfo"><a onclick="showInfoVNF()">VNF
-                            Info:</a></label>
-                        <div class="col-sm-10">
-                        </div>
-                    </div>
-
-                    <div id="infoTemplate">
-
-
-                    </div>
-
-                    <div id="infoPort">
-
-
-                    </div>
-                </div>
-
-            </form>
-
-
-            <div class="modal-footer">
-                <a href="#" id="saveVNF" onclick="drawNewNF();" class="btn btn-primary">Add VNF</a>
-            </div>
-
-        </div>
-        <!-- /.modal-content -->
-
-
-    </div>
-    <!-- /.modal-dalog -->
-</div>
-
-<!-- /.modal -->
-<!-- script references -->
-
-
-<script>
-    function showMenuDraw() {
-
-        if ($('.drawButton').is(':visible')) {
-            $(".drawButton").hide();
-        } else {
-            $(".drawButton").show();
-        }
-
-    }
-    function showPannelBody() {
-        $('.pannel-body').show();
-    }
-
-
-    drawFormEP();
-
-    function showBoxPort(id) {
-        $('#box' + id).slideToggle("slow");
-    }
-
-    hideMatch();
-    hideAction();
-
-    selOptionLink();
-
-</script>
-
-<div class="big_switch_modal">
-
-</div>
-
-
 </body>
-
 </html>
-        
-
-
-
-

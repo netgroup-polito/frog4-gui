@@ -113,7 +113,7 @@
             // the new modal description
             var updateInfoModal = $uibModal.open({
                 animation: false,
-                templateUrl: '/static/pages/refactor/modals/updateFGInfo.html',
+                templateUrl: '/static/pages/modals/updateFGInfo.html',
                 controller: 'UpdateFGInfoController',
                 controllerAs: 'UpdateFGInfoCtrl',
                 size: 'lg',
@@ -143,7 +143,7 @@
             //the new modal description
             var loadFromServerModal = $uibModal.open({
                 animation: false,
-                templateUrl: '/static/pages/refactor/modals/loadFromServer.html',
+                templateUrl: '/static/pages/modals/loadFromServer.html',
                 controller: 'LoadFromServerController',
                 controllerAs: 'loadServerCtrl',
                 size: 'lg'
@@ -178,7 +178,7 @@
             //the new modal description
             var loadFromRepositoryModal = $uibModal.open({
                 animation: false,
-                templateUrl: '/static/pages/refactor/modals/loadFromRepository.html',
+                templateUrl: '/static/pages/modals/loadFromRepository.html',
                 controller: 'LoadFromRepositoryController',
                 controllerAs: 'loadRepoCtrl',
                 size: 'lg'
@@ -284,7 +284,7 @@
             //the new modal description
             var saveOnLocalModal = $uibModal.open({
                 animation: false,
-                templateUrl: '/static/pages/refactor/modals/saveOnLocalFS.html',
+                templateUrl: '/static/pages/modals/saveOnLocalFS.html',
                 controller: 'SaveOnLocalController',
                 controllerAs: 'saveClientCtrl',
                 size: 'md',
@@ -311,7 +311,7 @@
             //the new modal description
             var loadFromLocalModal = $uibModal.open({
                 animation: false,
-                templateUrl: '/static/pages/refactor/modals/loadFromLocalFS.html',
+                templateUrl: '/static/pages/modals/loadFromLocalFS.html',
                 controller: 'LoadFromLocalController',
                 controllerAs: 'loadClientCtrl',
                 size: 'lg'

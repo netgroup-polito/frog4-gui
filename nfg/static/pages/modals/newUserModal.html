@@ -16,7 +16,7 @@
                            required
                            ng-model="NewUserCtrl.newUser.username">
                     <div class="message"
-                         ng-show="formNewUser.username.$touched || formNewUser.$submitted"
+                         ng-show="(formNewUser.username.$touched || formNewUser.$submitted )&& formNewUser.username.$invalid"
                          ng-messages="formNewUser.username.$error">
                         <div ng-message="required">The field is required!</div>
                     </div>
@@ -31,7 +31,7 @@
                            required
                            ng-model="NewUserCtrl.newUser.password">
                     <div class="message"
-                         ng-show="formNewUser.password.$touched || formNewUser.$submitted"
+                         ng-show="(formNewUser.password.$touched || formNewUser.$submitted )&& formNewUser.password.$invalid"
                          ng-messages="formNewUser.password.$error">
                         <div ng-message="required">The field is required!</div>
                     </div>
@@ -47,7 +47,7 @@
                            ng-model="NewUserCtrl.newUser.confirmPassword"
                            compare-to="NewUserCtrl.newUser.password">
                     <div class="message"
-                         ng-show="formNewUser.confirmPassword.$touched || formNewUser.$submitted"
+                         ng-show="(formNewUser.confirmPassword.$touched || formNewUser.$submitted )&& formNewUser.confirmPassword.$invalid"
                          ng-messages="formNewUser.confirmPassword.$error">
                         <div ng-message="required">The field is required!</div>
                         <div ng-message="compareTo">These passwords don't match!</div>
@@ -63,7 +63,7 @@
                             ng-options="item.name as item.name for item in NewUserCtrl.availableGroups"
                             ng-model="NewUserCtrl.newUser.group"></select>
                     <div class="message"
-                         ng-show="formNewUser.group.$touched || formNewUser.$submitted"
+                         ng-show="(formNewUser.group.$touched || formNewUser.$submitted )&& formNewUser.group.$invalid"
                          ng-messages="formNewUser.group.$error">
                         <div ng-message="required">You have to choose one!</div>
                     </div>
