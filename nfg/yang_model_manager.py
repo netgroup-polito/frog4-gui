@@ -33,9 +33,11 @@ class YANGModelManager:
                 self.un_protocol + '://' + self.un_host + ':' + self.un_port + '/' + self.base_path + 'template/' + graph_id + '/' + vnf_identifier)
             if response.status_code != 200:
                 return {"status": response.status_code, "error": "Unknown Error"}
-            template_uri = response.text #templateUrl
+            #TODO test if the template uri of this 'if' branch is built correctly
+            template_path = json.load(response.content)['templateUrl']
+            template_uri = self.datastore_protocol + '://' + self.datastore_address + ':' + self.datastore_port + '/v2/nf_template' + template_path + '/'
         else:
-            template_uri = self.datastore_protocol + '://' + self.datastore_host + ':' + self.datastore_port + '/v2/nf_template/' + template_uri
+            template_uri = self.datastore_protocol + '://' + self.datastore_host + ':' + self.datastore_port + '/v2/nf_template/' + template_uri + '/'
         headers = {'Content-type': 'application/json', 'X-Auth-Token': token}
         response = requests.get(
             template_uri,
