@@ -37,7 +37,7 @@ class NFFGManager:
         data_json = json.dumps(nffg)
         headers = {'Content-type': 'application/json', 'X-Auth-Token': token}
         response = requests.put(
-            self.un_protocol + '://' + self.un_host + ':' + self.un_port + '/' + self.base_path + 'NF-FG/' + graph_id,
+            self.un_protocol + '://' + self.un_host + ':' + self.un_port + '/' + self.base_path + 'NF-FG/',
             data=data_json,
             headers=headers)
         if response.status_code == 201:
