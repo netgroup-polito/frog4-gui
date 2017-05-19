@@ -92,29 +92,6 @@
                         </li>
                     </ul>
                 </div>
-
-                <!-- Open From Client Button -->
-                <!-- <button type="button" class="menu btn btn-default btn-lg"
-                        ng-click="NFFGCtrl.loadFromLocalFS()"
-                        title="Open from Client">
-                    <span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span>
-                </button> -->
-
-                <!-- Open From Server Button -->
-                <!-- <button type="button" class="menu btn btn-default btn-lg"
-                        ng-click="NFFGCtrl.loadFromServer()"
-                        title="Open from Server">
-                    <i class="fa fa-server fa-lg"></i>
-                </button> -->
-
-                <!-- Save Button -->
-                <!-- <button type="button" class="menu btn btn-default btn-lg"
-                        ng-disabled="!NFFGCtrl.fg"
-                        ng-click="NFFGCtrl.saveOnLocalFS()"
-                        title="Save">
-                    <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>
-                </button> -->
-
                 <div class="menu btn-group" uib-dropdown keyboard-nav>
                     <button id="simple-btn-keyboard-nav" type="button"
                             class="btn btn-default btn-lg"
@@ -178,8 +155,8 @@
         <div id="my_canvas">
 
             <p class="fgLabel" ng-show="NFFGCtrl.fg" ng-click="NFFGCtrl.updateFGInfo();">
-                <b ng-if="!NFFGCtrl.fg.name ">ID: {{ NFFGCtrl.fg.id }}</b>
-                <b ng-if="NFFGCtrl.fg.name ">{{ NFFGCtrl.fg.name }} (ID: {{ NFFGCtrl.fg.id }})</b>
+                <b ng-if="NFFGCtrl.fg.name "> {{ NFFGCtrl.fg.name }} </b>
+                <b ng-if="NFFGCtrl.fg.id "> (ID: {{ NFFGCtrl.fg.id }}) </b>
                 <i ng-if="NFFGCtrl.graphOrigin == AppConstant.graphOrigin.LOCAL" class="glyphicon glyphicon-folder-open fa-lg"></i>
                 <i ng-if="NFFGCtrl.graphOrigin == AppConstant.graphOrigin.UN" class="fa fa-server fa-lg"></i>
                 <i ng-if="NFFGCtrl.graphOrigin == AppConstant.graphOrigin.REPOSITORY" class="fa fa-cloud fa-lg"></i>

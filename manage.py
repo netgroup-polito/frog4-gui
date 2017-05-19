@@ -18,7 +18,7 @@ if __name__ == "__main__":
                 confFile = sys.argv[i]
                 break
             else:
-                print "Wrong params usage --d [conf-file]"
+                print ("Wrong params usage --d [conf-file]")
                 sys.exit(1)
         i += 1
 

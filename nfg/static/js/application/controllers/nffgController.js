@@ -347,7 +347,7 @@
             ctrl.fgPos = null;
             //istanzio un grafico vuoto
             ctrl.fg = {
-                "id": Math.floor((Math.random() * 1000000) + 1).toString(),
+                "id": null,
                 "name": "New Forwarding Graph",
                 "VNFs": [],
                 "end-points": [],
