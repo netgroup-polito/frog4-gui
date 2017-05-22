@@ -33,7 +33,7 @@ class NFFGManager:
         else:  # todo: gestione errori comuni
             return {"status": response.status_code, "error": "Unknown Error"}
 
-    def put_user_graph(self, graph_id, nffg, token):
+    def put_user_graph(self, nffg, token):
         data_json = json.dumps(nffg)
         headers = {'Content-type': 'application/json', 'X-Auth-Token': token}
         response = requests.put(

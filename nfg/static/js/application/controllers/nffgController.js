@@ -47,7 +47,7 @@
         BackendCallService.getJSONSchema().then(function (result) {
             ctrl.schema = result;
         }, function () {
-            console.log("Something went wrong:", error);
+            console.log("Something went wrong :", error);
             //TODO: mostrare errore
         });
 
@@ -347,7 +347,6 @@
             ctrl.fgPos = null;
             //istanzio un grafico vuoto
             ctrl.fg = {
-                "id": null,
                 "name": "New Forwarding Graph",
                 "VNFs": [],
                 "end-points": [],
