@@ -26,12 +26,14 @@
          */
         ctrl.load = function () {
             if (ctrl.selectedGraph)
+                delete ctrl.selectedGraph['forwarding-graph']['id'];
                 $uibModalInstance.close(ctrl.selectedGraph);
         };
         /**
          * Function to enable the preview mode
          */
         ctrl.preview = function () {
+            delete ctrl.selectedGraph['forwarding-graph']['id'];
             ctrl.showGraph = true;
         };
     };

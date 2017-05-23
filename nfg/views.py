@@ -434,7 +434,7 @@ def api_put_graph_on_repo(request):
         if "token" in request.session:
             new_graph = json.loads(request.body)
             try:
-                result = graphm.put_graph_on_repo(new_graph["forwarding-graph"]["id"], new_graph)
+                result = graphm.put_graph_on_repo(new_graph)
             except:
                 return HttpResponse(status=503)
             serialized_obj = json.dumps(result)

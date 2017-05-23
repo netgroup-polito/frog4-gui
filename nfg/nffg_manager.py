@@ -1,6 +1,7 @@
 import json
 import requests
-
+import random
+import string
 
 class NFFGManager:
     def __init__(self, host, port, ds_host, ds_port):
@@ -77,7 +78,8 @@ class NFFGManager:
         else:  # todo: gestione errori comuni
             return {"status": response.status_code, "error": "Unknown Error"}
 
-    def put_graph_on_repo(self, graph_id, nffg):
+    def put_graph_on_repo(self, nffg):
+        graph_id = ''.join(random.SystemRandom().choice(string.digits) for _ in range(8))
         data_json = json.dumps(nffg)
         headers = {'Content-type': 'application/json'}
         response = requests.put(

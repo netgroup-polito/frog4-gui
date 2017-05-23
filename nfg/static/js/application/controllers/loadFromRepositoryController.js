@@ -34,6 +34,7 @@
                 ctrl.availableGraphs = result["graphs"];
                 if (ctrl.availableGraphs.length > 0)
                     ctrl.selectedGraph = ctrl.availableGraphs[0];
+                    delete ctrl.selectedGraph['forwarding-graph']['id'];
             });
         };
         /**
@@ -53,6 +54,7 @@
          * Function to enable the preview mode
          */
         ctrl.preview = function () {
+            delete ctrl.selectedGraph['forwarding-graph']['id'];
             ctrl.showGraph = true;
         };
     };

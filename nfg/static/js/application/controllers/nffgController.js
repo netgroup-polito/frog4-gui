@@ -165,8 +165,8 @@
                 ctrl.fgPos = initializePosition(fg["forwarding-graph"]);
                 // loading the graph (always load the graph later to prevent error)
                 ctrl.fg = fg["forwarding-graph"];
-                ctrl.graphOrigin = AppConstant.graphOrigin.UN;
 
+                ctrl.graphOrigin = AppConstant.graphOrigin.UN;
                 $rootScope.$broadcast("selectElement", null);
             });
         };
@@ -185,6 +185,8 @@
             });
             // function to get the result of the dialog
             loadFromRepositoryModal.result.then(function (fg) {
+                if (fg["forwarding-graph"]["id"])
+                    delete fg["forwarding-graph"]["id"];
                 if (!fg["forwarding-graph"]["end-points"])
                     fg["forwarding-graph"]["end-points"] = [];
                 if (!fg["forwarding-graph"]["VNFs"])
@@ -211,7 +213,7 @@
         ctrl.saveOnRepository = function () {
             BackendCallService.putGraphOnRepo(ExporterService.exportForwardingGraph(ctrl.fg, ctrl.fgPos))
                 .then(function () {
-                    $dialogs.notify('Save on Graph Repository', 'The graph "' + ctrl.fg.name + '" with ID ' + ctrl.fg.id + ' has been successfully saved');
+                    $dialogs.notify('Save on Graph Repository', 'The graph "' + ctrl.fg.name + ' has been successfully saved');
                 }, function () {
                     console.log("Something went wrong");
                     $dialogs.error('Save on Graph Repository', 'Error - see the repository log');
@@ -319,6 +321,8 @@
             // function to get the result of the dialog
             loadFromLocalModal.result.then(function (fg) {
                 // check if all component exist ( should not be needed )
+                if (fg["forwarding-graph"]["id"])
+                    delete fg["forwarding-graph"]["id"];
                 if (!fg["forwarding-graph"]["end-points"])
                     fg["forwarding-graph"]["end-points"] = [];
                 if (!fg["forwarding-graph"]["VNFs"])
