@@ -226,9 +226,10 @@
         ctrl.deploy = function () {
             BackendCallService.putGraph(ExporterService.exportForwardingGraph(ctrl.fg, ctrl.fgPos))
                 .then(function (result) {
-                    if (result.success != 'undefined')
+                    if (result.success != 'undefined') {
+                        ctrl.fg.id = result.graph_id;
                         $dialogs.notify('Deploy', 'The graph has been successfully deployed');
-                    else
+                    } else
                         $dialogs.error('Deploy', 'Error - see the orchestrator log');
                 }, function () {
                     console.log("Something went wrong");
@@ -405,7 +406,7 @@
 
                 epModal.result.then(function (res) {
                     //
-                    console.log(JSON.stringify(res));
+                    //console.log(JSON.stringify(res));
                     //copiare la pos e copiare l'EP
                     ctrl.fgPos["VNFs"][res.pos.id] = res.pos;
 

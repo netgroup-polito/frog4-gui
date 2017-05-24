@@ -267,8 +267,6 @@ def api_put_graph(request):
 
             new_graph = json.loads(request.body)
             try:
-                #result = graphm.put_user_graph(new_graph["forwarding-graph"]["id"], new_graph,
-                                               #request.session["token"])
                 result = graphm.put_user_graph(new_graph, request.session["token"])
             except:
                 return HttpResponse(status=503)
