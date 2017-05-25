@@ -23,6 +23,7 @@ urlpatterns = [
     url(r'^api/v1/graphs_api/get_json_schema/$', views.api_get_json_schema, name='get_json_schema'),
     url(r'^api/v1/graphs_api/get_fr_table_config', views.api_get_fr_table_config, name='get_fr_table_config'),
     url(r'^api/v1/graphs_api/put_graph/$', views.api_put_graph, name='put_graph'),
+    url(r'^api/v1/graphs_api/put_graph/(?P<graph_id>[^/]+)$', views.api_put_graph, name='put_graph'),
     url(r'^api/v1/graphs_api/delete_graph/(?P<graph_id>[^/]+)$', views.api_delete_graph, name='delete_graph'),
     #url(r'^api/v1/graphs_api/get_vnf_templates/$', views.api_get_vnf_templates, name='get_vnf_templates'),
 
