@@ -35,13 +35,11 @@ class NFFGManager:
             return {"status": response.status_code, "error": "Unknown Error"}
 
     def put_user_graph(self, nffg, token, graph_id=None):
-        put_graph_path = None
+        put_graph_path = self.un_protocol + '://' + self.un_host + ':' + self.un_port + '/' + self.base_path \
+                         + 'NF-FG/'
         if graph_id is not None:
             put_graph_path = self.un_protocol + '://' + self.un_host + ':' + self.un_port + '/' + self.base_path \
                              + 'NF-FG/' + graph_id
-        else:
-            put_graph_path = self.un_protocol + '://' + self.un_host + ':' + self.un_port + '/' + self.base_path \
-                             + 'NF-FG/'
         data_json = json.dumps(nffg)
         headers = {'Content-type': 'application/json', 'X-Auth-Token': token}
         response = requests.put(

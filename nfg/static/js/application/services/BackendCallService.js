@@ -62,17 +62,12 @@
         };
 
         var _putGraph = function (json_graph) {
-            var put_graph_path = '';
-            if (typeof json_graph['forwarding-graph']['id'] === 'undefined'){
-                put_graph_path = "/api/v1/graphs_api/put_graph/";
-
-            } else {
+            var put_graph_path = '/api/v1/graphs_api/put_graph/';
+            if (typeof json_graph['forwarding-graph']['id'] !== 'undefined'){
                 var graph_id = json_graph['forwarding-graph']['id'];
                 put_graph_path = "/api/v1/graphs_api/put_graph/" + graph_id;
                 delete json_graph['forwarding-graph']['id'];
-
             }
-
             var deferred = $q.defer();
             $http.put(put_graph_path , json_graph,
                 {
