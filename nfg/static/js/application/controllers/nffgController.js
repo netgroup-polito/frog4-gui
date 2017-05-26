@@ -76,6 +76,8 @@
         //control variable used to change visibility for the grid
         ctrl.isGridShown = false;
 
+        // used for graph id
+        ctrl.fg_ids = null;
 
         //the forwarding graph loaded
         ctrl.fg = null;
@@ -197,6 +199,10 @@
                     fg["forwarding-graph"]["big-switch"]["flow-rules"] = [];
 
                 resetGraph();
+
+                ctrl.fg_ids  = {
+                    "graph_id_datastore": fg['nf_fgraph_id']
+                    };
                 // Initialize the graph position object (missing the possibility to load the position too)
                 ctrl.fgPos = initializePosition(fg["forwarding-graph"]);
                 // loading the graph (always load the graph later to prevent error)
@@ -241,7 +247,7 @@
          * Function to delete a graph from it's original location
          */
         ctrl.delete = function () {
-            var confirm = $dialogs.confirm('Please Confirm', 'You are about to delete the graph with id: ' + ctrl.fg.id + ' from the ' + (ctrl.graphOrigin == AppConstant.graphOrigin.UN ? 'Orchestrator' : 'Repository') + '. Continue?');
+            var confirm = $dialogs.confirm('Please Confirm', 'You are about to delete the graph'+ (ctrl.graphOrigin == AppConstant.graphOrigin.UN ? ' with id: ' + ctrl.fg.id : '') + ' from the ' + (ctrl.graphOrigin == AppConstant.graphOrigin.UN ? 'Orchestrator' : 'Repository') + '. Continue?');
             confirm.result.then(function () {
                 if (ctrl.graphOrigin == AppConstant.graphOrigin.UN) {
                     BackendCallService.deleteGraph(ctrl.fg.id)
@@ -260,7 +266,7 @@
                                 $dialogs.error('Delete', 'Error - the graph does not exist on the orchestrator');
                         });
                 } else {
-                    BackendCallService.deleteGraphFromRepo(ctrl.fg.id)
+                    BackendCallService.deleteGraphFromRepo(ctrl.fg_ids)
                         .then(function (result) {
                             if (result.success != 'undefined') {
                                 ctrl.graphOrigin = AppConstant.graphOrigin.LOCAL;
@@ -350,6 +356,7 @@
             $rootScope.$broadcast("linkCreationChanged", ctrl.isLinkCreation);
             ctrl.fg = null;
             ctrl.fgPos = null;
+            ctrl.fg_ids = null;
             //istanzio un grafico vuoto
             ctrl.fg = {
                 "name": "New Forwarding Graph",

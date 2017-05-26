@@ -261,7 +261,7 @@
 
         var _deleteGraphFromRepo = function(graph_id) {
             var deferred = $q.defer();
-            $http.delete("api/v2/datastore_api/delete_graph/" + graph_id + "/")
+            $http.delete("api/v2/datastore_api/delete_graph/" + graph_id['graph_id_datastore'] + "/")
                 .success(function (result) {
                     deferred.resolve(result);
                 })
