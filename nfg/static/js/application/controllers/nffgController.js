@@ -217,9 +217,9 @@
          * Function to save a graph on repository
          */
         ctrl.saveOnRepository = function () {
-            BackendCallService.putGraphOnRepo(ExporterService.exportForwardingGraph(ctrl.fg, ctrl.fgPos))
+            BackendCallService.putGraphOnRepo(ExporterService.exportForwardingGraph(ctrl.fg, ctrl.fgPos),
+                ctrl.fg_ids.graph_id_datastore)
                 .then(function (result) {
-                    console.log(result);
                     if (result.success != 'undefined') {
                         ctrl.fg_ids.graph_id_datastore = result.graph_id_datastore;
                         $dialogs.notify('Save on Graph Repository', 'The graph "' + ctrl.fg.name +

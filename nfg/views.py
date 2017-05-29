@@ -504,3 +504,18 @@ def configure_put_vnf_updated_state(request, tenant_id, graph_id, vnf_identifier
             return HttpResponse(status=401)
     else:
         return HttpResponse(status=501)
+
+def api_update_graph_on_repo(request, graph_id):
+    if request.method == "PUT":
+        if "token" in request.session:
+            new_graph = json.loads(request.body)
+            try:
+                result = graphm.update_graph_on_repo(new_graph, graph_id)
+            except:
+                return HttpResponse(status=503)
+            serialized_obj = json.dumps(result)
+            return HttpResponse("%s" % serialized_obj, status=result["status"], content_type="application/json")
+        else:
+            return HttpResponse(status=401)
+    else:
+        return HttpResponse(status=501)

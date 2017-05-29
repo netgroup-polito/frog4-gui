@@ -36,5 +36,6 @@ urlpatterns = [
     url(r'^api/v2/datastore_api/get_available_graphs/$', views.api_get_available_graphs_from_repo, name='get_available_graphs_from_repo'),
     url(r'^api/v2/datastore_api/get_graph/(?P<graph_id>[^/]+)/$', views.api_get_graph_from_repo, name='get_graph_from_repo'),
     url(r'^api/v2/datastore_api/put_graph/$', views.api_put_graph_on_repo, name='put_graph_on_repo'),
+    url(r'^api/v2/datastore_api/put_graph/(?P<graph_id>[^/]+)/$', views.api_update_graph_on_repo, name='update_graph_on_repo'),
     url(r'^api/v2/datastore_api/delete_graph/(?P<graph_id>[^/]+)/$', views.api_delete_graph_from_repo, name='delete_graph_from_repo')
 ]

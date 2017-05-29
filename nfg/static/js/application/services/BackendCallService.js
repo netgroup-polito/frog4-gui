@@ -241,9 +241,13 @@
             return deferred.promise;
         };
 
-        var _putGraphOnRepo = function(json_graph) {
+        var _putGraphOnRepo = function(json_graph, graph_id) {
+            var put_graph_path = 'api/v2/datastore_api/put_graph/';
+            if (graph_id !== null){
+                put_graph_path = "api/v2/datastore_api/put_graph/" + graph_id + "/";
+            }
             var deferred = $q.defer();
-            $http.put("api/v2/datastore_api/put_graph/",
+            $http.put(put_graph_path,
                 json_graph,
                 {
                     headers: {
