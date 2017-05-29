@@ -84,15 +84,14 @@ class NFFGManager:
             return {"status": response.status_code, "error": "Unknown Error"}
 
     def put_graph_on_repo(self, nffg):
-        graph_id = ''.join(random.SystemRandom().choice(string.digits) for _ in range(8))
         data_json = json.dumps(nffg)
         headers = {'Content-type': 'application/json'}
         response = requests.put(
-            self.un_protocol + '://' + self.ds_host + ':' + self.ds_port + '/v2/nffg/' + graph_id + '/',
+            self.un_protocol + '://' + self.ds_host + ':' + self.ds_port + '/v2/nffg/',
             data=data_json,
             headers=headers)
         if response.status_code == 200:
-            return {"status": response.status_code}
+            return {"status": response.status_code, "graph_id_datastore": response.content}
         else:  # todo: gestione errori comuni
             return {"status": response.status_code, "error": "Unknown Error"}
 

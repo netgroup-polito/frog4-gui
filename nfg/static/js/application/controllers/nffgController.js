@@ -201,8 +201,8 @@
                 resetGraph();
 
                 ctrl.fg_ids  = {
-                    "graph_id_datastore": fg['nf_fgraph_id']
-                    };
+                        "graph_id_datastore": fg['nf_fgraph_id']
+                };
                 // Initialize the graph position object (missing the possibility to load the position too)
                 ctrl.fgPos = initializePosition(fg["forwarding-graph"]);
                 // loading the graph (always load the graph later to prevent error)
@@ -218,8 +218,14 @@
          */
         ctrl.saveOnRepository = function () {
             BackendCallService.putGraphOnRepo(ExporterService.exportForwardingGraph(ctrl.fg, ctrl.fgPos))
-                .then(function () {
-                    $dialogs.notify('Save on Graph Repository', 'The graph "' + ctrl.fg.name + ' has been successfully saved');
+                .then(function (result) {
+                    console.log(result);
+                    if (result.success != 'undefined') {
+                        ctrl.fg_ids.graph_id_datastore = result.graph_id_datastore;
+                        $dialogs.notify('Save on Graph Repository', 'The graph "' + ctrl.fg.name +
+                            ' has been successfully saved');
+                    } else
+                        $dialogs.error('Save on Graph Repository', 'Error - see the repository log');
                 }, function () {
                     console.log("Something went wrong");
                     $dialogs.error('Save on Graph Repository', 'Error - see the repository log');
@@ -374,6 +380,11 @@
                     "interfaces": {}
                 }
             };
+
+            ctrl.fg_ids  = {
+                "graph_id_datastore": null
+            };
+
             ctrl.graphOrigin = AppConstant.graphOrigin.LOCAL;
             $rootScope.$broadcast("changedGraph");
         };
