@@ -19,7 +19,6 @@ This document presents how to install the Virtualized Network Services GUI.
 ## Set up the SQL database
 
 ```sh
-        $ cd [fg-gui]
         $ python manage.py migrate
 ```
 ## Configuration file
