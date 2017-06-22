@@ -20,7 +20,7 @@ This document presents how to install the Virtualized Network Services GUI.
         $ sudo pip install jsonschema json-schema-validator requests
 ```
 
-* Required NFFG_library 
+* Required libraries to manage the NF-FG and the NF templates
 
 ```sh
         $ cd [fg-gui]
