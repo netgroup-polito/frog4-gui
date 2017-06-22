@@ -2,35 +2,22 @@
 
 This document presents how to install the Virtualized Network Services GUI.
 
-* Required Python 2.7 and `pip`
+## Install dependencies 
 
 ```sh
         $ sudo apt-get install python2.7 python-pip
-```
-
-* Required Django Framwork
-
-```sh
         $ sudo pip install Django
+        sudo pip install jsonschema json-schema-validator requests
 ```
 
-* Required Jsonschema and Json-schema-validator 2.3.1
+## Clone the code
 
-```sh
-        $ sudo pip install jsonschema json-schema-validator requests
-```
-
-* Required libraries to manage the NF-FG and the NF templates
-
-```sh
-        $ cd [fg-gui]
+```sh     
+        $ git clone https://github.com/netgroup-polito/fg-gui.git
+        $ cd fg-gui
         $ git submodule update --init --recursive
 ```
-
-* Required JS library,CSS,Font: you can find them in ./nfg/static
-
-
-* Create DataBase for Django.
+## Set up the SQL database
 
 ```sh
         $ cd [fg-gui]
