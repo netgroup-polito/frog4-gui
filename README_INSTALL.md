@@ -6,8 +6,7 @@ This document presents how to install the Virtualized Network Services GUI.
 
 ```sh
         $ sudo apt-get install python2.7 python-pip
-        $ sudo pip install Django
-        sudo pip install jsonschema json-schema-validator requests
+        $ sudo pip install Django jsonschema json-schema-validator requests
 ```
 
 ## Clone the code
