@@ -43,10 +43,9 @@
         ctrl.isArray = angular.isArray;
         var oldState;
 
-        //TODO: substitute with vnf identifier according with francesco
-        modelFunc(graphId, vnf.ports[0].mac, tenantId, vnf.vnf_template)
+        modelFunc(graphId, vnf.id, tenantId, vnf.vnf_template)
             .then(function (resultModel) {
-            stateFunc(graphId, vnf.ports[0].mac, tenantId)
+            stateFunc(graphId, vnf.id, tenantId)
                 .then(function (resultState) {
                 oldState = clone(resultState.state);
                 ctrl.state = resultState.state;
@@ -112,7 +111,7 @@
                 var res = {
                     newState: ctrl.state,
                     graphId: graphId,
-                    vnfIdentifier: vnf.ports[0].mac,//TODO: sobstitute with vnf identifier according with francesco
+                    vnfIdentifier: vnf.id
                     tenantId: tenantId
                 };
                 $uibModalInstance.close(res);
