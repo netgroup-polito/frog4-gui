@@ -7,6 +7,7 @@
             restrict: "E",
             scope: {
 				level: "=",
+                rootObject: "=",
                 containerObject: "=",
                 containerStateObject: "=",
                 augmentObject: "="

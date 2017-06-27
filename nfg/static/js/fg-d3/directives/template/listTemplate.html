@@ -3,9 +3,9 @@
 <div ng-repeat="el in listStateObject"> <!--listObject è una lista di oggetti-->
     <h4 class="col-sm-3">{{listModel['@name'] | vnfCompName:listModel.description}}[{{$index}}]</h4>
 
-    <leaf class="col-sm-12" ng-repeat="le in listModel.leaf" leaf-object="le" state-object="el"></leaf>
+    <leaf class="col-sm-12" ng-repeat="le in listModel.leaf" root-object="rootObject" leaf-object="le" state-object="el"></leaf>
 
-    <leaf ng-if="handleAugment(augmentObject, el)" class="col-sm-12" leaf-object="augmentObject.leaf" state-object="el"></leaf>
+    <leaf ng-if="handleAugment(augmentObject, el)" class="col-sm-12" root-object="rootObject" leaf-object="augmentObject.leaf" state-object="el"></leaf>
 </div>
 
 <div ng-if="listStateObject.length == 0">
