@@ -69,6 +69,10 @@
 		    </span>
 		</span>
 
+        <span ng-switch-when="leafref">
+            <leafref root-object="rootObject" leafref-string="leafObject.type['@name']['path']['@value']" state-string="stateObject[leafObject['@name']]" </leafref>
+		</span>
+
 		<span ng-switch-default>
 			'{{leafObject.type['@name']}}' not yet implemented.
 		</span>

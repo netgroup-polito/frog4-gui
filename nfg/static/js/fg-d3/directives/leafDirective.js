@@ -6,6 +6,7 @@
         return {
             restrict: "E",
             scope: {
+                rootObject: "=",
                 leafObject: "=",
                 stateObject: "="
             },
