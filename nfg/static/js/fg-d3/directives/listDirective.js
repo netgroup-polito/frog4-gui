@@ -6,6 +6,7 @@
         return {
             restrict: "E",
             scope: {
+                rootObject: "=",
                 listStateObject: "=",
                 listModel: "=",
                 augmentObject: "="

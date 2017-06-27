@@ -6,6 +6,7 @@
         return {
             restrict: "E",
             scope: {
+                rootObject: "=",
                 leafObject: "=",
                 stateObject: "="
             },
@@ -35,6 +36,9 @@
                         }
                     }
                 }
+
+                //List initialization for type boolean, booleanValues[0] (false) is set as default value
+                scope.booleanValues = [{ "value": false, "text": "false" }, { "value": true, "text": "true" }];
             }
         };
     };
