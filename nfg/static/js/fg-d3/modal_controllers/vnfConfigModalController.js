@@ -89,7 +89,8 @@
                 //here I remove empty fields from the JSON object
                 function removeEmptyFields(node){
                     for(var element in node){
-                        if(node[element] == ""){
+                        //since in JavaScript "" == false returns true, I have to check if node[element] is a type boolean in order to avoid to delete false set fields
+                        if(typeof node[element] != "boolean" && node[element] == ""){
                             delete node[element];
                         }
                         else if( !(typeof node[element] === "string" ||
