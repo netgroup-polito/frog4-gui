@@ -111,7 +111,7 @@
                 var res = {
                     newState: ctrl.state,
                     graphId: graphId,
-                    vnfIdentifier: vnf.id
+                    vnfIdentifier: vnf.id,
                     tenantId: tenantId
                 };
                 $uibModalInstance.close(res);
