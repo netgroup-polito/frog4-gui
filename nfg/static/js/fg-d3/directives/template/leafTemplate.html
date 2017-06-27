@@ -70,7 +70,7 @@
 		</span>
 
         <span ng-switch-when="leafref">
-            <leafref root-object="rootObject" leafref-string="leafObject.type['@name']['path']['@value']" state-string="stateObject[leafObject['@name']]" </leafref>
+            <leafref root-object="rootObject" leafref-string="leafObject.type.path['@value']" state-string="stateObject[leafObject['@name']]" </leafref>
 		</span>
 
 		<span ng-switch-default>

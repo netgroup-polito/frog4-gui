@@ -1,6 +1,17 @@
-<!--select ng-options="optionList" ng-model="stateString">
+<!--select class="form-control" ng-model="stateString" ng-options="item for item in optionList">
 
 </select-->
-<div>
-<span>ciao</span>
-</div>
+<span ng-if="leafObject.hasOwnProperty('description')">
+
+				<input dyn-attr="attrs"
+					   class="form-control"
+					   ng-model="stateString"
+					   type="text"/>
+
+			</span>
+		    <span ng-if="!leafObject.hasOwnProperty('description')">
+
+				<input class="form-control"
+					   ng-model="stateString"
+					   type="text"/>
+			</span>

@@ -20,7 +20,7 @@
                 /**
                  * Check the different fields in description statement
                  */
-                scope.optionList = []
+                scope.optionList = ["ciao", "due", "ola"];
                 //ng-options="en['@name'] as en['@name'] for en in loptions"
             }
         };
