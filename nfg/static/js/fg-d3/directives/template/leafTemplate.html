@@ -69,6 +69,14 @@
 		    </span>
 		</span>
 
+        <span ng-switch-when="boolean">
+            <select class="form-control"
+					ng-model="stateObject[leafObject['@name']]"
+					ng-options="item.value as item.text for item in booleanValues"
+                    ng-init="stateObject[leafObject['@name']] = stateObject[leafObject['@name']] || booleanValues[0].value">
+			</select>
+		</span>
+
         <span ng-switch-when="leafref">
             <leafref root-object="rootObject" leafref-string="leafObject.type.path['@value']" state-string="stateObject[leafObject['@name']]" </leafref>
 		</span>
