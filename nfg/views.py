@@ -54,8 +54,7 @@ templatem = TemplateManager(parser.get('vnf-template', 'address'),
 imagem = ImageManager(parser.get('vnf-template', 'address'),
                       parser.get('vnf-template', 'port'))
 
-modelm = VNFConfigurationManager(parser.get('vnf-config', 'address'),
-                          parser.get('vnf-config', 'port'))
+modelm = VNFConfigurationManager(parser.get('vnf-config', 'config_orch_endpoint'))
 
 yangm= YANGModelManager(parser.get('orchestrator', 'address'),
                         parser.get('orchestrator', 'port'),
