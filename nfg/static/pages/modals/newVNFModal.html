@@ -4,7 +4,7 @@
                 type="button" class="close" ng-click="NewVNFCtrl.cancel()" aria-hidden="true">×</button>
         <button ng-if="NewVNFCtrl.uploadStep && !NewVNFCtrl.uploading"
                 type="button" class="close" ng-click="NewVNFCtrl.close()" aria-hidden="true">×</button>
-        <h4 class="modal-title">Add new NF</h4>
+        <h4 class="modal-title">Add new network function</h4>
     </div>
 
     <div ng-show="!NewVNFCtrl.uploadStep">
@@ -18,7 +18,7 @@
                                filereader ng-model="NewVNFCtrl.selectedTemplate" required>
                         <div class="message"
                              ng-show="formAddVNF.templateFile.$touched || formAddVNF.$submitted">
-                            <div ng-show="formAddVNF.templateFile.$error.required">The NF Template is required!</div>
+                            <div ng-show="formAddVNF.templateFile.$error.required">Missing the template of the network function.</div>
                         </div>
                     </div>
                     <div class="col-sm-2">
@@ -45,7 +45,7 @@
                     <label class="control-label col-sm-2" for="imageFile">Select Image:</label>
                     <div class="checkbox col-sm-10">
                         <label><input type="checkbox" value="" ng-model="NewVNFCtrl.remote_image"
-                                      ng-click="NewVNFCtrl.toggle_upload_status()">NF image will be uploaded in another data store</label>
+                                      ng-click="NewVNFCtrl.toggle_upload_status()">The network function image will be uploaded in another data store</label>
                     </div>
                 </div>
 
