@@ -43,10 +43,9 @@
         ctrl.isArray = angular.isArray;
         var oldState;
 
-        //TODO: substitute with vnf identifier according with francesco
-        modelFunc(graphId, vnf.ports[0].mac, tenantId, vnf.vnf_template)
+        modelFunc(graphId, vnf.id, tenantId, vnf.vnf_template)
             .then(function (resultModel) {
-            stateFunc(graphId, vnf.ports[0].mac, tenantId)
+            stateFunc(graphId, vnf.id, tenantId)
                 .then(function (resultState) {
                 oldState = clone(resultState.state);
                 ctrl.state = resultState.state;
@@ -90,7 +89,8 @@
                 //here I remove empty fields from the JSON object
                 function removeEmptyFields(node){
                     for(var element in node){
-                        if(node[element] == ""){
+                        //since in JavaScript "" == false returns true, I have to check if node[element] is a type boolean in order to avoid to delete false set fields
+                        if(typeof node[element] != "boolean" && node[element] == ""){
                             delete node[element];
                         }
                         else if( !(typeof node[element] === "string" ||
@@ -112,7 +112,7 @@
                 var res = {
                     newState: ctrl.state,
                     graphId: graphId,
-                    vnfIdentifier: vnf.ports[0].mac,//TODO: sobstitute with vnf identifier according with francesco
+                    vnfIdentifier: vnf.id,
                     tenantId: tenantId
                 };
                 $uibModalInstance.close(res);

@@ -1,4 +1,4 @@
-# How to start the Virtualized Network Services GUI
+# How to start the FROGv4 GUI
 
 To run the application with the default settings:
 ```sh

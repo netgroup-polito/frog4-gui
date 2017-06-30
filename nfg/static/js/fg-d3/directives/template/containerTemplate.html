@@ -5,6 +5,7 @@
     <div ng-if="checkArray(containerObject)">
         <container ng-repeat="el in containerObject"
                    level="level+1"
+                   root-object="rootObject"
                    container-object="el"
                    container-state-object="containerStateObject[el['@name']]">
 
@@ -25,6 +26,7 @@
 
                 <span ng-if="checkArray(containerObject.container)">
                     <container level="level+1"
+                               root-object="rootObject"
                                container-object="containerObject.container"
                                container-state-object="containerStateObject">
 
@@ -33,6 +35,7 @@
 
                 <span ng-if="!checkArray(containerObject.container)">
                     <container level="level+1"
+                               root-object="rootObject"
                                container-object="containerObject.container"
                                container-state-object="containerStateObject[containerObject.container['@name']]">
 
@@ -43,6 +46,7 @@
 
             <span ng-if="containerObject.hasOwnProperty('list')">
                 <list list-model="containerObject.list"
+                      root-object="rootObject"
                       list-state-object="containerStateObject[containerObject.list['@name']]"
                       augment-object="augmentObject[containerObject.list['@name']]">
 
@@ -52,6 +56,7 @@
             <span ng-if="containerObject.hasOwnProperty('leaf')">
                 <leaf class="col-sm-12"
                       ng-repeat="le in containerObject.leaf"
+                      root-object="rootObject"
                       leaf-object="le"
                       state-object="containerStateObject">
 
