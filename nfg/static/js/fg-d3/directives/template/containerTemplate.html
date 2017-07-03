@@ -1,6 +1,6 @@
 <!--<pre>{{containerObject}}</pre><br>
 <pre>{{containerStateObject}}</pre><hr>-->
-<uib-accordion>
+<div>
 
     <div ng-if="checkArray(containerObject)">
         <container ng-repeat="el in containerObject"
@@ -13,16 +13,16 @@
     </div>
 
     <div ng-if="!checkArray(containerObject)">
+        <uib-accordion>
+            <div uib-accordion-group ng-style="style" class="panel-default" is-open="panel.open" is-disabled="false" ng-click="open = !panel.open">
 
-        <div uib-accordion-group ng-style="style" class="panel-default" is-open="panel.open" is-disabled="false" ng-click="open = !panel.open">
+                <uib-accordion-heading>
+                    {{containerObject['@name'] | vnfCompName:containerObject.description}}
 
-            <uib-accordion-heading>
-                {{containerObject['@name'] | vnfCompName:containerObject.description}}
+                    <i class="pull-right glyphicon" ng-class="{'glyphicon glyphicon-minus': panel.open, 'glyphicon glyphicon-plus': !panel.open}"></i>
+                </uib-accordion-heading>
 
-                <i class="pull-right glyphicon" ng-class="{'glyphicon glyphicon-minus': panel.open, 'glyphicon glyphicon-plus': !panel.open}"></i>
-            </uib-accordion-heading>
-
-            <span ng-if="containerObject.hasOwnProperty('container')">
+                <span ng-if="containerObject.hasOwnProperty('container')">
 
                 <span ng-if="checkArray(containerObject.container)">
                     <container level="level+1"
@@ -44,16 +44,17 @@
 
             </span>
 
-            <span ng-if="containerObject.hasOwnProperty('list')">
+                <span ng-if="containerObject.hasOwnProperty('list')">
                 <list list-model="containerObject.list"
                       root-object="rootObject"
                       list-state-object="containerStateObject[containerObject.list['@name']]"
+                      level="level+1"
                       augment-object="augmentObject[containerObject.list['@name']]">
 
                 </list>
             </span>
 
-            <span ng-if="containerObject.hasOwnProperty('leaf')">
+                <span ng-if="containerObject.hasOwnProperty('leaf')">
                 <leaf class="col-sm-12"
                       ng-repeat="le in containerObject.leaf"
                       root-object="rootObject"
@@ -63,8 +64,8 @@
                 </leaf>
             </span>
 
-        </div>
+            </div>
 
+        </uib-accordion>
     </div>
-
-</uib-accordion>
+</div>
