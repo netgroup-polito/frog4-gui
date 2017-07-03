@@ -92,7 +92,8 @@ class NFFGManager:
             data=data_json,
             headers=headers)
         if response.status_code == 200:
-            return {"status": response.status_code, "graph_id_datastore": response.content}
+            nffg_uuid = json.loads(response.content)["nffg-uuid"]
+            return {"status": response.status_code, "graph_id_datastore": nffg_uuid}
         else:  # todo: gestione errori comuni
             return {"status": response.status_code, "error": "Unknown Error"}
 
