@@ -36,7 +36,7 @@
                     return pos[d.id].full_id; //id of the element
                 })
                 .attr("class", function (d) {
-                    return "end-points" + ( graph.selectedElement == pos[d.id].full_id ? " end-points-selected" : "" );
+                    return "end-points" + ( graph.selectedElement === pos[d.id].full_id ? " end-points-selected" : "" );
                 })// "end-points" class is the one used for selection in the first step of this function
                 .attr("title", function (d) {
                     //return d.name;  //title of the element, used to display tips
@@ -45,19 +45,19 @@
                 .style("fill", function (d) {
                     switch (pos[d.id].icon) {
                         case "host":
-                            if (graph.selectedElement == pos[d.id].full_id)
+                            if (graph.selectedElement === pos[d.id].full_id)
                                 return "url(#host-icon-selected)";
                             else
                                 return "url(#host-icon)";
                         case "internet":
-                            if (graph.selectedElement == pos[d.id].full_id)
+                            if (graph.selectedElement === pos[d.id].full_id)
                                 return "url(#internet-icon-selected)";
                             else
                                 return "url(#internet-icon)";
                     }
                 })
                 .attr("cx", function (d, i) {   // x position of the center of the element
-                    if (typeof pos[d.id].x == "number")//if position exist
+                    if (typeof pos[d.id].x === "number")//if position exist
                         return pos[d.id].x;
                     else
                     //is calculated disposing ina  circle and normalizing to the center of the graph
@@ -65,7 +65,7 @@
 
                 })
                 .attr("cy", function (d, i) {   // y position of the center of the element
-                    if (typeof pos[d.id].y == "number")//if position exist
+                    if (typeof pos[d.id].y === "number")//if position exist
                         return pos[d.id].y;
                     else
                     //is calculated disposing ina  circle and normalizing to the center of the graph
@@ -378,10 +378,10 @@
                     return pos[d.id].full_id;    //id of the element
                 })
                 .attr("class", function (d) {
-                    return "vnf" + (  graph.selectedElement == pos[d.id].full_id ? " vnf-selected" : "" );
+                    return "vnf" + (  graph.selectedElement === pos[d.id].full_id ? " vnf-selected" : "" );
                 })
                 .attr("transform", function (d, i) {
-                    if (typeof pos[d.id].x != "number") {//if is not a number use calculate it
+                    if (typeof pos[d.id].x !== "number") {//if is not a number use calculate it
                         var limitx = graph.svg.node().getBoundingClientRect().width / 2
                             - graphConstant.vnfWidth / 2;
                         //limit is the size of the circle in which we distribute the item
@@ -390,7 +390,7 @@
                         //position is then normalized and saved (center moved to middle of graph
                         pos[d.id].x = parseInt(xCenter + limitx);
                     }
-                    if (typeof pos[d.id].y != "number") {//if is not a number use calculate it
+                    if (typeof pos[d.id].y !== "number") {//if is not a number use calculate it
                         var limity = graph.svg.node().getBoundingClientRect().height / 2
                             - graphConstant.vnfHeigth / 2;
                         //limit is the size of the circle in which we distribute the item
@@ -462,14 +462,14 @@
                 .attr("cx", function (d, i) {   // x position of the center of the element
                     var portPos = pos[d.parent].ports[d.port.id];
                     portPos.parent_vnf_x = pos[d.parent].x;
-                    if (typeof portPos.x != "number") {//if x position has not been calculated yet
+                    if (typeof portPos.x !== "number") {//if x position has not been calculated yet
                         //the algorithm distribute the interface equally across one side
                         var totVNFPorts = 0;
                         var me = 0;
                         ports.forEach(function (port) {
-                            if (port.parent == d.parent)
+                            if (port.parent === d.parent)
                                 totVNFPorts++;
-                            if (d.full_id == port.full_id)
+                            if (d.full_id === port.full_id)
                                 me = totVNFPorts - 1;
                         });
                         portPos.x = parseInt(graphConstant.vnfWidth / totVNFPorts * (me + 0.5));
@@ -479,7 +479,7 @@
                 .attr("cy", function (d) {   // y position of the center of the element
                     var portPos = pos[d.parent].ports[d.port.id];
                     portPos.parent_vnf_y = pos[d.parent].y;
-                    if (typeof portPos.y != "number")//if position has not been calculated yet
+                    if (typeof portPos.y !== "number")//if position has not been calculated yet
                     //it's positioned in the long side near the center
                         portPos.y = parseInt(portPos.parent_vnf_y < graph.svg.node().getBoundingClientRect().height / 2 ? graphConstant.vnfHeigth : 0);
                     return parseInt(portPos.y + portPos.parent_vnf_y);
@@ -569,13 +569,13 @@
                 })//class bigSwitchView is used to change the display mode
                 .merge(bigswitchElement)// from now on operation on new and existing element of the list
                 .attr("x", function () { // x position of the big switch
-                    if (typeof pos.x == "number") //if the position is already defined use it
+                    if (typeof pos.x === "number") //if the position is already defined use it
                         return pos.x;
                     else // otherwise put it into the middle
                         return pos.x = graph.svg.node().getBoundingClientRect().width / 2 - graphConstant.bigSwitchWidth / 2;
                 })
                 .attr("y", function () { // y position of the big switch
-                    if (typeof pos.y == "number") //if the position is already defined use it
+                    if (typeof pos.y === "number") //if the position is already defined use it
                         return pos.y;
                     else // otherwise put it into the middle
                         return pos.y = graph.svg.node().getBoundingClientRect().height / 2 - graphConstant.bigSwitchHeight / 2;
@@ -608,7 +608,7 @@
                 .attr("class", "bs-interface interface bigSwitchView")// class bigSwitchView is used to identify the element displayed only in complex view
                 .merge(bigswitchInterfaceElement)// from now on operation on new and existing element of the list
                 .attr("cx", function (d) {//x position of the circle
-                    if (typeof d.x != "number") //if the position is not defined calculate it
+                    if (typeof d.x !== "number") //if the position is not defined calculate it
                         if (d.parent_vnf_id) // if is vnf interface
                             d.x = _getPos(vnfPos[d.parent_vnf_id], pos, vnfPos[d.parent_vnf_id].ports[d.parent_vnf_port]).x;
                         else
@@ -616,7 +616,7 @@
                     return parseInt(pos.x + d.x);
                 })
                 .attr("cy", function (d) {//y position of the circle
-                    if (typeof d.y != "number") //if the position is not defined calculate it
+                    if (typeof d.y !== "number") //if the position is not defined calculate it
                         if (d.parent_vnf_id)//if is vnf interface
                             d.y = _getPos(vnfPos[d.parent_vnf_id], pos, vnfPos[d.parent_vnf_id].ports[d.parent_vnf_port]).y;
                         else
