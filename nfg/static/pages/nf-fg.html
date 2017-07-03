@@ -63,7 +63,7 @@
                 </button>
 
                 <div class="menu btn-group" uib-dropdown keyboard-nav>
-                    <button id="simple-btn-keyboard-nav" type="button"
+                    <button id="load-btn-keyboard-nav" type="button"
                             class="btn btn-default btn-lg"
                             uib-dropdown-toggle>
                         <span style="padding-right: 5px;" class="glyphicon glyphicon-floppy-open"></span>
@@ -71,7 +71,7 @@
                     </button>
                     <ul class="dropdown-menu"
                         uib-dropdown-menu
-                        role="menu" aria-labelledby="simple-btn-keyboard-nav">
+                        role="menu" aria-labelledby="load-btn-keyboard-nav">
                         <li class="unselectable" role="menuitem" ng-click="NFFGCtrl.loadFromLocalFS()">
                             <a>
                                 <i class="fa fa-folder-open fa-lg" style="margin-right:5px"></i>
@@ -116,7 +116,7 @@
                 </button> -->
 
                 <div class="menu btn-group" uib-dropdown keyboard-nav>
-                    <button id="simple-btn-keyboard-nav" type="button"
+                    <button id="save-btn-keyboard-nav" type="button"
                             class="btn btn-default btn-lg"
                             ng-disabled="!NFFGCtrl.fg"
                             uib-dropdown-toggle>
@@ -125,7 +125,7 @@
                     </button>
                     <ul class="dropdown-menu"
                         uib-dropdown-menu
-                        role="menu" aria-labelledby="simple-btn-keyboard-nav">
+                        role="menu" aria-labelledby="save-btn-keyboard-nav">
                         <li class="unselectable" role="menuitem" ng-click="NFFGCtrl.saveOnLocalFS()">
                             <a>
                                 <i class="fa fa-folder-open fa-lg" style="margin-right:5px"></i>

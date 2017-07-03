@@ -1,17 +1,56 @@
 <!--<pre>{{listModel}}</pre><br>
 <pre>{{listStateObject}}</pre><br>-->
 <div ng-repeat="el in listStateObject"> <!--listObject è una lista di oggetti-->
-    <h4 class="col-sm-3">{{listModel['@name'] | vnfCompName:listModel.description}}[{{$index}}]</h4>
+    <uib-accordion>
+        <div uib-accordion-group ng-style="style" class="panel-default" is-open="panel[$index].open" is-disabled="false" ng-click="open = !panel[$index].open">
+            <uib-accordion-heading>
+                {{listModel['@name'] | vnfCompName:listModel.description}}[{{$index}}]
+                <i class="pull-right glyphicon" ng-class="{'glyphicon glyphicon-minus': panel[$index].open, 'glyphicon glyphicon-plus': !panel[$index].open}"></i>
+            </uib-accordion-heading>
+            <div class="row">
+                <leaf class="col-sm-12" ng-repeat="le in listModel.leaf" root-object="rootObject" leaf-object="le" state-object="el"></leaf>
+            </div>
+            <div ng-if="listModel.hasOwnProperty('list')">
+                <list list-model="listModel.list"
+                      root-object="rootObject"
+                      list-state-object="listStateObject[listModel.list['@name']]"
+                      level="level+1"
+                      augment-object="augmentObject[listModel.list['@name']]">
 
-    <leaf class="col-sm-12" ng-repeat="le in listModel.leaf" root-object="rootObject" leaf-object="le" state-object="el"></leaf>
+                </list>
+            </div>
+            <div ng-if="listModel.hasOwnProperty('container')">
 
-    <leaf ng-if="handleAugment(augmentObject, el)" class="col-sm-12" root-object="rootObject" leaf-object="augmentObject.leaf" state-object="el"></leaf>
+                <span ng-if="checkArray(listModel.container)">
+                    <container level="level+1"
+                               root-object="rootObject"
+                               container-object="listModel.container"
+                               container-state-object="containerStateObject">
+
+                    </container>
+                </span>
+
+                <span ng-if="!checkArray(listModel.container)">
+                    <container level="level+1"
+                               root-object="rootObject"
+                               container-object="listModel.container"
+                               container-state-object="listStateObject[listModel.container['@name']]">
+
+                    </container>
+                </span>
+
+            </div>
+
+            <leaf ng-if="handleAugment(augmentObject, el)" class="col-sm-12" root-object="rootObject" leaf-object="augmentObject.leaf" state-object="el"></leaf>
+        </div>
+    </uib-accordion>
 </div>
 
 <div ng-if="listStateObject.length == 0">
 
     <h4 class="col-sm-3">{{listModel['@name'] | vnfCompName:listModel.description}}</h4>
     <!--<div class="alert alert-info">No available items in this list</div>-->
-    <br><p class="text-warning">No available items in this list.</p>
+    <br>
+    <p class="text-warning">No available items in this list.</p>
     <!--<leaf ng-repeat="le in listModel.leaf" leaf-object="le" state-object="listStateObject"></leaf>-->
 </div>
