@@ -116,37 +116,42 @@
                     // must stay on the border of the vnf
                     // the algorithm may be improved
                     // get the new x and y for the port
-                    var x = parseInt(d3.event.x - getPosition()[d.parent].x);
-                    var y = parseInt(d3.event.y - getPosition()[d.parent].y);
+                    var x = parseInt(d3.event.x);
+                    var y = parseInt(d3.event.y);
                     // if outside boundary reset to nearest side
                     if (x < 0)
                         x = 0;
-                    if (x > graphConstant.vnfWidth)
+                    else if (x > graphConstant.vnfWidth)
                         x = graphConstant.vnfWidth;
                     if (y < 0)
                         y = 0;
-                    if (y > graphConstant.vnfHeigth)
+                    else if (y > graphConstant.vnfHeigth)
                         y = graphConstant.vnfHeigth;
-                    // calculate the delta movement
-                    var deltaX = Math.abs(prevDragX - x);
-                    var deltaY = Math.abs(prevDragY - y);
+
+
+                    var maxX = ((1 - graphConstant.vnfXTollerance) * graphConstant.vnfWidth),
+                        minX = (graphConstant.vnfXTollerance * graphConstant.vnfWidth),
+                        maxY = ((1 - graphConstant.vnfXTollerance) * graphConstant.vnfHeigth),
+                        minY = (graphConstant.vnfYTollerance * graphConstant.vnfHeigth);
+
+                    if (x >= minX && x <= maxX && y >= minY && y <= maxY) {
+                        x = prevDragX;
+                        y = prevDragY;
+                    } else {
+                        if (!(x == 0 || y == 0 || x == graphConstant.vnfWidth || y == graphConstant.vnfHeigth)) {
+                            if (y > maxY)
+                                y = graphConstant.vnfHeigth;
+                            else if (y < minY)
+                                y = 0;
+                            if (x > maxX)
+                                x = graphConstant.vnfWidth;
+                            else if (x < minX)
+                                x = 0;
+                        }
+                    }
                     // updating previous value
                     prevDragX = x;
                     prevDragY = y;
-
-                    if (deltaX > deltaY) { // if moving more along the x
-                        if (y > graphConstant.vnfHeigth / 2) { // check if y is above the half
-                            y = graphConstant.vnfHeigth;
-                        } else { // if moving more along the y
-                            y = 0;
-                        }
-                    } else {
-                        if (x > graphConstant.vnfWidth / 2) {// check if x is above the half
-                            x = graphConstant.vnfWidth;
-                        } else {
-                            x = 0;
-                        }
-                    }
                     // updating position
                     getPosition()[d.parent].ports[d.port.id].x = x;
                     getPosition()[d.parent].ports[d.port.id].y = y;
@@ -174,7 +179,6 @@
                 .on("start", function (d) {
                     d3.event.sourceEvent.stopPropagation();
                     // at start of a drag reset the value to current position
-
                     prevDragX = d.x;
                     prevDragY = d.y;
                 })
@@ -182,37 +186,43 @@
                     // must stay on the border of the big-switch
                     // the algorithm may be improved
                     // get the new x and y for the interface
-                    var x = parseInt(d3.event.x /*- getPosition().x*/);
-                    var y = parseInt(d3.event.y /*- getPosition().y*/);
+                    var x = parseInt(d3.event.x);
+                    var y = parseInt(d3.event.y);
                     // if outside boundary reset to nearest side
                     if (x < 0)
                         x = 0;
-                    if (x > graphConstant.bigSwitchWidth)
+                    else if (x > graphConstant.bigSwitchWidth)
                         x = graphConstant.bigSwitchWidth;
                     if (y < 0)
                         y = 0;
-                    if (y > graphConstant.bigSwitchHeight)
+                    else if (y > graphConstant.bigSwitchHeight)
                         y = graphConstant.bigSwitchHeight;
-                    // calculate the delta movement
-                    var deltaX = Math.abs(prevDragX - x);
-                    var deltaY = Math.abs(prevDragY - y);
+
+
+                    var maxX = ((1 - graphConstant.bigSwitchXTollerance) * graphConstant.bigSwitchWidth),
+                        minX = (graphConstant.bigSwitchXTollerance * graphConstant.bigSwitchWidth),
+                        maxY = ((1 - graphConstant.bigSwitchYTollerance) * graphConstant.bigSwitchHeight),
+                        minY = (graphConstant.bigSwitchYTollerance * graphConstant.bigSwitchHeight);
+
+                    if (x >= minX && x <= maxX && y >= minY && y <= maxY) {
+                        x = prevDragX;
+                        y = prevDragY;
+                    } else {
+                        if (!(x == 0 || y == 0 || x == graphConstant.bigSwitchWidth || y == graphConstant.bigSwitchHeight)) {
+                            if (y > maxY)
+                                y = graphConstant.bigSwitchHeight;
+                            else if (y < minY)
+                                y = 0;
+                            if (x > maxX)
+                                x = graphConstant.bigSwitchWidth;
+                            else if (x < minX)
+                                x = 0;
+                        }
+                    }
                     // updating previous value
                     prevDragX = x;
                     prevDragY = y;
 
-                    if (deltaX > deltaY) {//if moving more along the x
-                        if (y > graphConstant.bigSwitchHeight / 2) {// check if y is above the half
-                            y = graphConstant.bigSwitchHeight;
-                        } else {
-                            y = 0;
-                        }
-                    } else { // if moving more along the y
-                        if (x > graphConstant.bigSwitchWidth / 2) {// check if x is above the half
-                            x = graphConstant.bigSwitchWidth;
-                        } else {
-                            x = 0;
-                        }
-                    }
                     // updating position
                     getPosition().interfaces[d.full_id].x = x;
                     getPosition().interfaces[d.full_id].y = y;
@@ -234,7 +244,7 @@
         function _dragGraph(getPosition, callback) {
             var drag = d3Service.addDragBehavior()
                 .on("drag", function () {
-                    callback(getPosition().translate(d3.event.dx,d3.event.dy));
+                    callback(getPosition().translate(d3.event.dx, d3.event.dy));
                 })
                 .on("start", function () {
                     arguments[2][0].classList.add("grabbing");

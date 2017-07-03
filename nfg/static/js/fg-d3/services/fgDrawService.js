@@ -128,6 +128,7 @@
          * @param pos The portion of the position structure for the vnfs fgPos["VNFs"]
          * @param graph The graph container of the directive
          * @private
+         * @deprecated
          */
         function _oldbuildVNFs(vnfs, pos, graph) {
             var alfa = 2 * Math.PI / vnfs.length;
@@ -311,6 +312,20 @@
          */
         function _buildVNFs(vnfs, pos, graph) {
             var alfa = 2 * Math.PI / vnfs.length;
+
+            var ports = {};
+
+            vnfs.forEach(function (vnf) {
+                ports[vnf.id] = [];
+                vnf.ports.forEach(function (port) {
+                    ports[vnf.id].push({
+                        port: port,
+                        parent: vnf.id,
+                        full_id: pos[vnf.id].ports[port.id].full_id
+                    });
+                });
+            });
+
             //selection of all vnfs in the graph and association with vnf of the json
             var vnfElements = graph.vnfs.selectAll(".vnf")
                 .data(vnfs, function (d) {
@@ -338,41 +353,58 @@
                     d3.event.stopPropagation();
                     $rootScope.$broadcast("selectElement", pos[d.id].full_id);
                 })
+                .each(function (d, i) {
+                    var sel = d3.select(this);
+                    sel
+                        .append("use")
+                        .attr("xlink:href", "#VNF");
+                    sel
+                        .append("text")
+                        .attr("class", "vnf-text unselectable")
+                        .attr("id", function (d) {
+                            return "text_" + pos[d.id].full_id; //id of the element
+                        })
+                        .attr("x", function (d) {   // x position of the element
+                            return parseInt(graphConstant.vnfWidth / 2)
+                        })
+                        .attr("y", function (d) {   // y position of the element
+                            return parseInt(graphConstant.vnfHeigth / 2 + 4)
+                        });
+                    sel
+                        .append("text")
+                        .attr("class", "fa vnf-gear unselectable")
+                        .attr("x", graphConstant.vnfWidth)
+                        .attr("y", 20)
+                        .text("")
+                        .on("click", function (d) {
+                            d3.event.stopPropagation();
+
+                            var modal = graph.update.vnfConfig(d);
+                            //find a way to get back the old state
+                            modal.result.then(function (res) {
+                                $rootScope.$broadcast("vnfConfig", res);
+                            });
+
+                        });
+
+                    var portElements = sel.selectAll(".vnf-interface")
+                        .data(ports[d.id], function (port) {
+                            //this function is used to identify each item
+                            return port.full_id;
+                        });
+                    portElements
+                        .enter()
+                        .append("circle")
+                        .attr("r", graphConstant.ifRadius)  //radius of the circle element
+                        .attr("class", "interface vnf-interface");// "vnf-interface" is the class used for selection
+
+
+                })
                 .call(graph.drag.vnfDrag);//adding drag functionality
-            groups
-                .append("use")
-                .attr("xlink:href", "#VNF");
-            groups
-                .append("text")
-                .attr("class", "vnf-text unselectable")
-                .attr("id", function (d) {
-                    return "text_" + pos[d.id].full_id; //id of the element
-                })
-                .attr("x", function (d) {   // x position of the element
-                    return parseInt(graphConstant.vnfWidth / 2)
-                })
-                .attr("y", function (d) {   // y position of the element
-                    return parseInt(graphConstant.vnfHeigth / 2 + 4)
-                });
-            groups
-                .append("text")
-                .attr("class", "fa vnf-gear unselectable")
-                .attr("x", graphConstant.vnfWidth)
-                .attr("y", 20)
-                .text("")
-                .on("click", function (d) {
-                    d3.event.stopPropagation();
 
-                    var modal = graph.update.vnfConfig(d);
-                    //find a way to get back the old state
-                    modal.result.then(function (res) {
-                        $rootScope.$broadcast("vnfConfig", res);
-                    });
-
-                });
 
             //operation on element updating and new
-            groups = groups
+            groups
                 .merge(vnfElements)
                 .attr("id", function (d) {
                     return pos[d.id].full_id;    //id of the element
@@ -400,109 +432,95 @@
                         pos[d.id].y = parseInt(yCenter + limity);
                     }
                     return "translate(" + pos[d.id].x + ',' + pos[d.id].y + ")";
-                });
-            groups
-                .select(".vnf-gear")
-                .attr("visibility", function (d) {
-                    if (d.ports[0].trusted) {
-                        return "visible";
-                    } else {
-                        return "hidden";
-                    }
-                    //todo: mostrare ingranaggio solo se trusted e mac address
-                    //return "visible"; //hidden
-                });
-            groups
-                .select(".vnf-text")
-                .text(function (d) {
-                    //text inside the vnf ( is a separate element that follow the vnf
-                    var text;
-                    if (!d.name) {
-                        text = "Unnamed VNF";
-                    } else if (d.name.length >= 18) {
-                        text = d.name.slice(0, 18);
-                    } else {
-                        text = d.name;
-                    }
-                    return text;
-                });
+                })
+                .each(function (d, i) {
+                    var sel = d3.select(this);
+                    sel
+                        .select(".vnf-gear")
+                        .attr("visibility", function (data) {
+                            if (data.ports[0].trusted) {
+                                return "visible";
+                            } else {
+                                return "hidden";
+                            }
+                            //todo: mostrare ingranaggio solo se trusted e mac address
+                            //return "visible"; //hidden
+                        });
+                    sel
+                        .select(".vnf-text")
+                        .text(function (data) {
+                            //text inside the vnf ( is a separate element that follow the vnf
+                            var text;
+                            if (!data.name) {
+                                text = "Unnamed VNF";
+                            } else if (data.name.length >= 18) {
+                                text = data.name.slice(0, 18);
+                            } else {
+                                text = data.name;
+                            }
+                            return text;
+                        });
 
+                    var portElements = sel.selectAll(".vnf-interface")
+                        .data(ports[d.id], function (port) {
+                            //this function is used to identify each item
+                            return port.full_id;
+                        });
+                    portElements// from now on operation on new and existing
+                        .attr("id", function (data) {
+                            return data.full_id; //id of the element
+                        })
+                        .attr("title", function (data) {
+                            return data.full_id;  //title of the element, used to display tips
+                        })
+                        .attr("cx", function (data, i) {   // x position of the center of the element
+                            var portPos = pos[data.parent].ports[data.port.id];
+                            portPos.parent_vnf_x = pos[data.parent].x;
+                            if (typeof portPos.x != "number") {//if x position has not been calculated yet
+                                //the algorithm distribute the interface equally across one side
+                                var totVNFPorts = 0;
+                                var me = 0;
+                                ports[d.id].forEach(function (port) {
+                                    if (port.parent == data.parent)
+                                        totVNFPorts++;
+                                    if (data.full_id == port.full_id)
+                                        me = totVNFPorts - 1;
+                                });
+                                portPos.x = parseInt(graphConstant.vnfWidth / totVNFPorts * (me + 0.5));
+                            }
+                            return parseInt(portPos.x);
+                        })
+                        .attr("cy", function (data) {   // y position of the center of the element
+                            var portPos = pos[data.parent].ports[data.port.id];
+                            portPos.parent_vnf_y = pos[data.parent].y;
+                            if (typeof portPos.y != "number")//if position has not been calculated yet
+                            //it's positioned in the long side near the center
+                                portPos.y = parseInt(portPos.parent_vnf_y < graph.svg.node().getBoundingClientRect().height / 2 ? graphConstant.vnfHeigth : 0);
+                            return parseInt(portPos.y);
+                        })
+                        .attr("parent_NF_position_x", function (data) {
+                            return pos[data.parent].x; // x position of the parent vnf probably to be deleted
+                        })
+                        .attr("parent_NF_position_y", function (data) {
+                            return pos[data.parent].y; // y position of the parent vnf probably to be deleted
+                        })
+                        .attr("parent", function (data) {
+                            return pos[data.parent].full_id;    // id of the parent vnf
+                        })
+                        .on("click", function (data) {
+                            d3.event.stopPropagation();
+                            var elem = clone(pos[data.parent].ports[data.port.id]);
+                            elem.x += pos[data.parent].x;
+                            elem.y += pos[data.parent].y;
+                            graph.link.vnfPortLink(elem);
+                        })
+                        .call(graph.drag.vnfPortDrag); //adding drag functionality
+
+                    //operation on element going out of the collection
+                    portElements.exit().remove();
+                });
             //operation on element going out of the collection
             vnfElements.exit().remove();
-
-            var ports = [];
-
-            vnfs.forEach(function (vnf) {
-                vnf.ports.forEach(function (port) {
-                    ports.push({
-                        port: port,
-                        parent: vnf.id,
-                        full_id: pos[vnf.id].ports[port.id].full_id
-                    });
-                });
-            });
-
-            var portElements = graph.interfaces.selectAll(".vnf-interface")
-                .data(ports, function (d) {
-                    //this function is used to identify each item
-                    return d.full_id;
-                });
-            portElements
-                .enter()
-                .append("circle")
-                .attr("r", graphConstant.ifRadius)  //radius of the circle element
-                .attr("class", "interface vnf-interface") // "vnf-interface" is the class used for selection
-                .merge(portElements)// from now on operation on new and existing
-                .attr("id", function (d) {
-                    return d.full_id; //id of the element
-                })
-                .attr("title", function (d) {
-                    return d.full_id;  //title of the element, used to display tips
-                })
-                .attr("cx", function (d, i) {   // x position of the center of the element
-                    var portPos = pos[d.parent].ports[d.port.id];
-                    portPos.parent_vnf_x = pos[d.parent].x;
-                    if (typeof portPos.x !== "number") {//if x position has not been calculated yet
-                        //the algorithm distribute the interface equally across one side
-                        var totVNFPorts = 0;
-                        var me = 0;
-                        ports.forEach(function (port) {
-                            if (port.parent === d.parent)
-                                totVNFPorts++;
-                            if (d.full_id === port.full_id)
-                                me = totVNFPorts - 1;
-                        });
-                        portPos.x = parseInt(graphConstant.vnfWidth / totVNFPorts * (me + 0.5));
-                    }
-                    return parseInt(portPos.x + portPos.parent_vnf_x);
-                })
-                .attr("cy", function (d) {   // y position of the center of the element
-                    var portPos = pos[d.parent].ports[d.port.id];
-                    portPos.parent_vnf_y = pos[d.parent].y;
-                    if (typeof portPos.y !== "number")//if position has not been calculated yet
-                    //it's positioned in the long side near the center
-                        portPos.y = parseInt(portPos.parent_vnf_y < graph.svg.node().getBoundingClientRect().height / 2 ? graphConstant.vnfHeigth : 0);
-                    return parseInt(portPos.y + portPos.parent_vnf_y);
-                })
-                .attr("parent_NF_position_x", function (d) {
-                    return pos[d.parent].x; // x position of the parent vnf probably to be deleted
-                })
-                .attr("parent_NF_position_y", function (d) {
-                    return pos[d.parent].y; // y position of the parent vnf probably to be deleted
-                })
-                .attr("parent", function (d) {
-                    return pos[d.parent].full_id;    // id of the parent vnf
-                })
-                .on("click", function (d) {
-                    d3.event.stopPropagation();
-                    var elem = clone(pos[d.parent].ports[d.port.id]);
-                    elem.x += pos[d.parent].x;
-                    elem.y += pos[d.parent].y;
-                    graph.link.vnfPortLink(elem);
-                })
-                .call(graph.drag.vnfPortDrag); //adding drag functionality
-            //operation on element going out of the collection
-            portElements.exit().remove()
         }
 
         /***
@@ -561,24 +579,74 @@
             // the first time is executed it's drawn
             bigswitchElement
                 .enter()
-                .append("use")
-                .style("stroke-dasharray", ("8, 4"))
-                .attr("xlink:href", "#BIG_SWITCH") // use bigswitch definition as template
+                .append("g")
                 .attr("class", function () {
                     return "big-switch bigSwitchView" + ( false ? "big-switch-selected" : "" );
-                })//class bigSwitchView is used to change the display mode
-                .merge(bigswitchElement)// from now on operation on new and existing element of the list
-                .attr("x", function () { // x position of the big switch
-                    if (typeof pos.x === "number") //if the position is already defined use it
-                        return pos.x;
-                    else // otherwise put it into the middle
-                        return pos.x = graph.svg.node().getBoundingClientRect().width / 2 - graphConstant.bigSwitchWidth / 2;
                 })
-                .attr("y", function () { // y position of the big switch
-                    if (typeof pos.y === "number") //if the position is already defined use it
-                        return pos.y;
-                    else // otherwise put it into the middle
-                        return pos.y = graph.svg.node().getBoundingClientRect().height / 2 - graphConstant.bigSwitchHeight / 2;
+                .each(function (bs) {
+                    var sel = d3.select(this);
+                    sel.append("use")
+                        .style("stroke-dasharray", ("8, 4"))
+                        .attr("xlink:href", "#BIG_SWITCH"); // use bigswitch definition as template
+                    //class bigSwitchView is used to change the display mode
+                })
+                .merge(bigswitchElement)// from now on operation on new and existing element of the list
+                .attr("transform", function (d, i) {
+                    if (typeof pos.x !== "number") {//if is not a number use calculate it
+                        pos.x = graph.svg.node().getBoundingClientRect().width / 2 - graphConstant.bigSwitchWidth / 2;
+                    }
+                    if (typeof pos.y !== "number") {//if is not a number use calculate it
+                        pos.y = graph.svg.node().getBoundingClientRect().height / 2 - graphConstant.bigSwitchHeight / 2;
+                    }
+                    return "translate(" + pos.x + ',' + pos.y + ")";
+                })
+                .each(function (bs) {
+
+                    var sel = d3.select(this);
+
+                    //the d3 library needs an array, so the position are extracted from the object
+                    var interfaces = [];
+                    angular.forEach(pos.interfaces, function (int) {
+                        interfaces.push(int);
+                    });
+
+                    var bigswitchInterfaceElement = sel.selectAll(".bs-interface")
+                        .data(interfaces, function (d) {
+                            //this function is used to identify each item
+                            return d.full_id;
+                        });
+                    bigswitchInterfaceElement.enter()
+                        .append("circle")
+                        .attr("id", "big-switch")
+                        .attr("r", graphConstant.ifRadius)//radius of the circle
+                        .attr("class", "bs-interface interface bigSwitchView")// class bigSwitchView is used to identify the element displayed only in complex view
+                        .merge(bigswitchInterfaceElement)// from now on operation on new and existing element of the list
+                        .attr("cx", function (d) {//x position of the circle
+                            if (typeof d.x !== "number") //if the position is not defined calculate it
+                                if (d.parent_vnf_id) // if is vnf interface
+                                    d.x = _getPos(vnfPos[d.parent_vnf_id], pos, vnfPos[d.parent_vnf_id].ports[d.parent_vnf_port]).x;
+                                else
+                                    d.x = _getPos(epPos[d.parent_ep_id], pos).x;
+                            return parseInt(d.x);
+                        })
+                        .attr("cy", function (d) {//y position of the circle
+                            if (typeof d.y !== "number") //if the position is not defined calculate it
+                                if (d.parent_vnf_id)//if is vnf interface
+                                    d.y = _getPos(vnfPos[d.parent_vnf_id], pos, vnfPos[d.parent_vnf_id].ports[d.parent_vnf_port]).y;
+                                else
+                                    d.y = _getPos(epPos[d.parent_ep_id], pos).y;
+                            return parseInt(d.y);
+                        })
+                        .on("click", function (d) {
+                            d3.event.stopPropagation();
+                            var elem = clone(pos.interfaces[d.full_id]);
+                            //elem.x += pos.x;
+                            //elem.y += pos.y;
+                            graph.link.bsInterfaceLink(elem);
+                        })
+                        .call(graph.drag.bigSwitchInterfaceDrag)
+                    /*.on("click",select_node);*/
+                    bigswitchInterfaceElement.exit().remove();
                 })
                 .call(graph.drag.bigSwitchDrag)
                 .on("contextmenu", function (d) {
@@ -590,49 +658,6 @@
                     });
                 });
 
-            //the d3 library needs an array, so the position are extracted from the object
-            var interfaces = [];
-            angular.forEach(pos.interfaces, function (int) {
-                interfaces.push(int);
-            });
-
-            var bigswitchInterfaceElement = graph.interfaces.selectAll(".bs-interface")
-                .data(interfaces, function (d) {
-                    //this function is used to identify each item
-                    return d.full_id;
-                });
-            bigswitchInterfaceElement.enter()
-                .append("circle")
-                .attr("id", "big-switch")
-                .attr("r", graphConstant.ifRadius)//radius of the circle
-                .attr("class", "bs-interface interface bigSwitchView")// class bigSwitchView is used to identify the element displayed only in complex view
-                .merge(bigswitchInterfaceElement)// from now on operation on new and existing element of the list
-                .attr("cx", function (d) {//x position of the circle
-                    if (typeof d.x !== "number") //if the position is not defined calculate it
-                        if (d.parent_vnf_id) // if is vnf interface
-                            d.x = _getPos(vnfPos[d.parent_vnf_id], pos, vnfPos[d.parent_vnf_id].ports[d.parent_vnf_port]).x;
-                        else
-                            d.x = _getPos(epPos[d.parent_ep_id], pos).x;
-                    return parseInt(pos.x + d.x);
-                })
-                .attr("cy", function (d) {//y position of the circle
-                    if (typeof d.y !== "number") //if the position is not defined calculate it
-                        if (d.parent_vnf_id)//if is vnf interface
-                            d.y = _getPos(vnfPos[d.parent_vnf_id], pos, vnfPos[d.parent_vnf_id].ports[d.parent_vnf_port]).y;
-                        else
-                            d.y = _getPos(epPos[d.parent_ep_id], pos).y;
-                    return parseInt(pos.y + d.y);
-                })
-                .on("click", function (d) {
-                    d3.event.stopPropagation();
-                    var elem = clone(pos.interfaces[d.full_id]);
-                    elem.x += pos.x;
-                    elem.y += pos.y;
-                    graph.link.bsInterfaceLink(elem);
-                })
-                .call(graph.drag.bigSwitchInterfaceDrag)
-            /*.on("click",select_node);*/
-            bigswitchInterfaceElement.exit().remove();
         }
 
         /**
@@ -689,7 +714,7 @@
                 .attr("stroke", "black")
                 .merge(links) // from now on operation on new and existing element of the list
                 .attr("class", function (d) {
-                    return "link line normalView" + (  graph.selectedElement == d.rules ? " link-selected" : "" );
+                    return "link line normalView" + (  graph.selectedElement === d.rules ? " link-selected" : "" );
                 })// class normalView is used to identify the element displayed only in standard view
                 .attr("id", function (d) {
                     return "fr-" + d.origin + ";" + d.destination;    //id of the element
@@ -697,7 +722,7 @@
                 .attr("title", function (d) {
                     //return "Source: " + d.origin + " Destination: " + d.destination;  //title of the element, used to display tips
                     //title of the element, used to display tips
-                    if (d.isFullDuplex == true) {
+                    if (d.isFullDuplex === true) {
                         /* Bidirectional link */
                         return d.origin + "<br><i class='fa fa-exchange'></i><br>" + d.destination;
                     } else {
@@ -727,7 +752,7 @@
                     return d.isFullDuplex;
                 })
                 .attr("marker-end", function (d) {//the end marker, arrow if half duplex (big if end into endpoint)
-                    return d.isFullDuplex === true ? "default" : (d.destination.indexOf("endpoint") == -1 ? (  graph.selectedElement == d.rules ? "url(#InterfaceArrowSelected)" : "url(#InterfaceArrow)" ) : (  graph.selectedElement == d.rules ? "url(#EndpointArrowSelected)" : "url(#EndpointArrow)" ));
+                    return d.isFullDuplex === true ? "default" : (d.destination.indexOf("endpoint") === -1 ? (  graph.selectedElement === d.rules ? "url(#InterfaceArrowSelected)" : "url(#InterfaceArrow)" ) : (  graph.selectedElement === d.rules ? "url(#EndpointArrowSelected)" : "url(#EndpointArrow)" ));
                 })
                 .on("click", function (d) {
                     d3.event.stopPropagation();
@@ -804,14 +829,14 @@
                 .attr("stroke", "black")
                 .merge(internalLinks)// from now on operation on new and existing element of the list
                 .attr("class", function (d) {
-                    return "internalLink line bigSwitchView" + (  graph.selectedElement == d.rules ? " link-selected" : "" );
+                    return "internalLink line bigSwitchView" + (  graph.selectedElement === d.rules ? " link-selected" : "" );
                 })// class bigSwitchView is used to identify the element displayed only in complex view
                 .attr("id", function (d) {
                     return "fr-int-" + d.origin + ";" + d.destination; ///id of the element
                 })
                 .attr("title", function (d) {
                     //title of the element, used to display tips
-                    if (d.isFullDuplex == true) {
+                    if (d.isFullDuplex === true) {
                         /* Bidirectional link */
                         return d.origin + "<br><i class='fa fa-exchange'></i><br>" + d.destination;
                     } else {
@@ -841,7 +866,7 @@
                     return d.isFullDuplex;
                 })
                 .attr("marker-end", function (d) {
-                    return d.isFullDuplex === true ? "default" : (  graph.selectedElement == d.rules ? "url(#InterfaceArrowSelected)" : "url(#InterfaceArrow)" ); //marker is arrow if half duplex
+                    return d.isFullDuplex === true ? "default" : (  graph.selectedElement === d.rules ? "url(#InterfaceArrowSelected)" : "url(#InterfaceArrow)" ); //marker is arrow if half duplex
                 })
                 .on("click", function (d) {
                     d3.event.stopPropagation();

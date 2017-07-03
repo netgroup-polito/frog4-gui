@@ -12,8 +12,12 @@
         graphWidth: "100%",
         vnfWidth: 150,
         vnfHeigth: 60,
+        vnfXTollerance: 0.2,
+        vnfYTollerance: 0.2,
         bigSwitchWidth: 200,
         bigSwitchHeight: 130,
+        bigSwitchXTollerance: 0.2,
+        bigSwitchYTollerance: 0.2,
         epRadius:22,
         ifRadius:8
 

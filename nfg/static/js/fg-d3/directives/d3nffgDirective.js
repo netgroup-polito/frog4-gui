@@ -104,12 +104,12 @@
 
                     // define a section of the graph with object definition
                     var definitions_section = d3Service.addSection(container, "definitions_section");
+                    // define a section of the graph containing all the connection
+                    var connection_section = d3Service.addSection(container, "connection_section");
                     // define a section of the graph containing the big switch
                     var bigSwitch_section = d3Service.addSection(container, "bigSwitch_section");
                     // define a section of the graph containing all the VNF
                     var VNF_section = d3Service.addSection(container, "VNF_section");
-                    // define a section of the graph containing all the connection
-                    var connection_section = d3Service.addSection(container, "connection_section");
                     // define a section of the graph containing all interface and EndPoint
                     var interface_section = d3Service.addSection(container, "interface_section");
 
