@@ -6,20 +6,20 @@
         return {
             restrict: "E",
             scope: {
-				level: "=",
+                level: "=",
                 rootObject: "=",
                 containerObject: "=",
                 containerStateObject: "=",
                 augmentObject: "="
             },
             templateUrl: '/static/js/fg-d3/directives/template/containerTemplate.html',
-            controller: function($scope){
+            controller: function ($scope) {
 
                 $scope.panel = {
                     open: true
                 };
                 $scope.style = {
-                	"background-color":"rgba(0, 191, 255, " + (0.03 + (0.06 * $scope.level )) + ")"
+                    "background-color": "rgba(0, 191, 255, " + (0.03 + (0.06 * $scope.level )) + ")"
                 }
             },
             compile: function (element) {
@@ -33,6 +33,7 @@
                         scope.containerStateObject = {};
                     }
                 }
+
                 return RecursionHelper.compile(element, link);
             }
         };
