@@ -24,6 +24,7 @@
             ctrl.availableGraphs = result["graphs"];
             if (ctrl.availableGraphs.length > 0)
                 ctrl.selectedGraph = ctrl.availableGraphs[0];
+                delete ctrl.selectedGraph['forwarding-graph']['id'];
         });
 
         /**

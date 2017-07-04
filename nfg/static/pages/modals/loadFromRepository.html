@@ -16,7 +16,7 @@
                         required
                         ng-disabled="loadRepoCtrl.availableGraphs.length == 0"
                         ng-model="loadRepoCtrl.selectedGraph"
-                        ng-options="graph['forwarding-graph'].name for graph in loadRepoCtrl.availableGraphs">
+                        ng-options="graph['nf_fgraph_id'] + ' - ' + graph['forwarding-graph'].name for graph in loadRepoCtrl.availableGraphs">
                 </select>
             </div>
             <div class="col-sm-1">

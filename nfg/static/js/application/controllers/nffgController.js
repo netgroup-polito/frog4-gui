@@ -222,8 +222,8 @@
                 .then(function (result) {
                     if (result.success != 'undefined') {
                         ctrl.fg_ids.graph_id_datastore = result.graph_id_datastore;
-                        $dialogs.notify('Save on Graph Repository', 'The graph "' + ctrl.fg.name +
-                            ' has been successfully saved');
+                        $dialogs.notify('Save on Graph Repository', 'The graph "'+ ctrl.fg.name +
+                            '" has been successfully saved');
                     } else
                         $dialogs.error('Save on Graph Repository', 'Error - see the repository log');
                 }, function () {
@@ -382,7 +382,8 @@
             };
 
             ctrl.fg_ids  = {
-                "graph_id_datastore": null
+                "graph_id_datastore": null,
+                "graph_id_orch": null
             };
 
             ctrl.graphOrigin = AppConstant.graphOrigin.LOCAL;
