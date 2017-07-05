@@ -61,10 +61,9 @@
             return deferred.promise;
         };
 
-        var _putGraph = function (json_graph) {
+        var _putGraph = function (json_graph, graph_id) {
             var put_graph_path = '/api/v1/graphs_api/put_graph/';
-            if (typeof json_graph['forwarding-graph']['id'] !== 'undefined'){
-                var graph_id = json_graph['forwarding-graph']['id'];
+             if (graph_id !== null){
                 put_graph_path = "/api/v1/graphs_api/put_graph/" + graph_id;
                 delete json_graph['forwarding-graph']['id'];
             }

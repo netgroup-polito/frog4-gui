@@ -19,7 +19,9 @@
      * @param ManipulationService
      * @constructor
      */
-    var NFFGController = function ($rootScope, $scope, BackendCallService, $uibModal, $dialogs, AppConstant, graphConstant, fgConst, InitializationService, FgModalService, ExporterService, ManipulationService) {
+    var NFFGController = function ($rootScope, $scope, BackendCallService, $uibModal, $dialogs, AppConstant,
+                                   graphConstant, fgConst, InitializationService, FgModalService, ExporterService,
+                                   ManipulationService) {
         var ctrl = this;
         $scope.AppConstant = AppConstant;
 
@@ -123,7 +125,7 @@
                     // the info passed to the controller of the modal
                     info: function () {
                         return {
-                            id: ctrl.fg.id,
+                            id: ctrl.fg_ids.nffg_uuid,
                             description: ctrl.fg.description,
                             name: ctrl.fg.name
                         }
@@ -132,7 +134,7 @@
             });
             // function to get the result of the dialog
             updateInfoModal.result.then(function (res) {
-                ctrl.fg.id = res.id;
+                ctrl.fg_ids.nffg_uuid = res.id;
                 ctrl.fg.description = res.description;
                 ctrl.fg.name = res.name;
             });
@@ -163,6 +165,11 @@
                     fg["forwarding-graph"]["big-switch"]["flow-rules"] = [];
 
                 resetGraph();
+
+                ctrl.fg_ids  = {
+                    "nffg_uuid": fg['nffg-uuid']
+                };
+
                 // Initialize the graph position object (missing the possibility to load the position too)
                 ctrl.fgPos = initializePosition(fg["forwarding-graph"]);
                 // loading the graph (always load the graph later to prevent error)
@@ -174,7 +181,7 @@
         };
 
         /**
-         * Function to show the dialog used to load a graph from the repository
+         * Function to show the dialog used to load a graph from the Datastore
          */
         ctrl.loadFromRepository = function () {
             //the new modal description
@@ -201,7 +208,7 @@
                 resetGraph();
 
                 ctrl.fg_ids  = {
-                        "graph_id_datastore": fg['nf_fgraph_id']
+                        "graph_id_datastore": fg['nffg-uuid']
                 };
                 // Initialize the graph position object (missing the possibility to load the position too)
                 ctrl.fgPos = initializePosition(fg["forwarding-graph"]);
@@ -214,7 +221,7 @@
         };
 
         /**
-         * Function to save a graph on repository
+         * Function to save a graph on Datastore
          */
         ctrl.saveOnRepository = function () {
             BackendCallService.putGraphOnRepo(ExporterService.exportForwardingGraph(ctrl.fg, ctrl.fgPos),
@@ -225,10 +232,10 @@
                         $dialogs.notify('Save on Graph Repository', 'The graph "'+ ctrl.fg.name +
                             '" has been successfully saved');
                     } else
-                        $dialogs.error('Save on Graph Repository', 'Error - see the repository log');
+                        $dialogs.error('Save on Graph Repository', 'Error - see the datastore log');
                 }, function () {
                     console.log("Something went wrong");
-                    $dialogs.error('Save on Graph Repository', 'Error - see the repository log');
+                    $dialogs.error('Save on Graph Repository', 'Error - see the datastore log');
                 });
         };
 
@@ -236,10 +243,11 @@
          * Function to deploy a graph
          */
         ctrl.deploy = function () {
-            BackendCallService.putGraph(ExporterService.exportForwardingGraph(ctrl.fg, ctrl.fgPos))
+            BackendCallService.putGraph(ExporterService.exportForwardingGraph(ctrl.fg, ctrl.fgPos),
+                ctrl.fg_ids.nffg_uuid)
                 .then(function (result) {
                     if (result.success != 'undefined') {
-                        ctrl.fg.id = result.graph_id;
+                        ctrl.fg_ids.nffg_uuid = result.graph_id;
                         $dialogs.notify('Deploy', 'The graph has been successfully deployed');
                     } else
                         $dialogs.error('Deploy', 'Error - see the orchestrator log');
@@ -253,10 +261,13 @@
          * Function to delete a graph from it's original location
          */
         ctrl.delete = function () {
-            var confirm = $dialogs.confirm('Please Confirm', 'You are about to delete the graph'+ (ctrl.graphOrigin == AppConstant.graphOrigin.UN ? ' with id: ' + ctrl.fg.id : '') + ' from the ' + (ctrl.graphOrigin == AppConstant.graphOrigin.UN ? 'Orchestrator' : 'Repository') + '. Continue?');
+            var confirm = $dialogs.confirm('Please Confirm', 'You are about to delete the graph'+
+                (ctrl.graphOrigin == AppConstant.graphOrigin.UN ? ' with id: ' + ctrl.fg_ids.nffg_uuid : '') +
+                ' from the ' + (ctrl.graphOrigin == AppConstant.graphOrigin.UN ? 'Orchestrator' : 'Datastore') +
+                '. Continue?');
             confirm.result.then(function () {
                 if (ctrl.graphOrigin == AppConstant.graphOrigin.UN) {
-                    BackendCallService.deleteGraph(ctrl.fg.id)
+                    BackendCallService.deleteGraph(ctrl.fg_ids.nffg_uuid)
                         .then(function (result) {
                             if (result.success != 'undefined') {
                                 ctrl.graphOrigin = AppConstant.graphOrigin.LOCAL;
@@ -279,13 +290,13 @@
                                 $dialogs.notify('Delete', 'The graph has been successfully deleted');
                             }
                             else
-                                dialogs.error('Delete', 'Error - see the repository log');
+                                dialogs.error('Delete', 'Error - see the Datastore log');
                         }, function (error) {
                             console.log("Something went wrong");
                             if (error.status != "404")
-                                $dialogs.error('Delete', 'Error - see the repository log');
+                                $dialogs.error('Delete', 'Error - see the Datastore log');
                             else
-                                $dialogs.error('Delete', 'Error - the graph does not exist in the Repository');
+                                $dialogs.error('Delete', 'Error - the graph does not exist in the Datastore');
                         });
                 }
 
@@ -383,7 +394,7 @@
 
             ctrl.fg_ids  = {
                 "graph_id_datastore": null,
-                "graph_id_orch": null
+                "nffg_uuid": null
             };
 
             ctrl.graphOrigin = AppConstant.graphOrigin.LOCAL;
@@ -392,7 +403,8 @@
 
         ctrl.newForwardingGraph = function () {
             if (ctrl.fg) {
-                var confirm = $dialogs.confirm('Please Confirm', 'Any unsaved changes to the current graph will be lost. Continue?');
+                var confirm = $dialogs.confirm('Please Confirm', 'Any unsaved changes to the current graph will be ' +
+                    'lost. Continue?');
                 confirm.result.then(function () {
                     resetGraph();
                 });
@@ -516,7 +528,8 @@
                 if (Array.isArray(toRemove)) {
                     //It's a flow rule or a set of
                     if (toRemove.length > 1) {
-                        dialog = $dialogs.confirm("Delete link", "This link is made by multiple flow-rules. If you delete it you will delete all the flowr-rules. Are you sure you want to delete it?");
+                        dialog = $dialogs.confirm("Delete link", "This link is made by multiple flow-rules. If you " +
+                            "delete it you will delete all the flowr-rules. Are you sure you want to delete it?");
                     } else {
                         dialog = $dialogs.confirm("Delete element", "Are you sure you want to delete this element?");
                     }
@@ -641,7 +654,9 @@
         });
     };
 
-    NFFGController.$inject = ['$rootScope', '$scope', 'BackendCallService', '$uibModal', 'dialogs', 'AppConstant', 'graphConstant', 'forwardingGraphConstant', 'InitializationService', "FgModalService", "ExporterService", "ManipulationService"];
+    NFFGController.$inject = ['$rootScope', '$scope', 'BackendCallService', '$uibModal', 'dialogs', 'AppConstant',
+        'graphConstant', 'forwardingGraphConstant', 'InitializationService', "FgModalService", "ExporterService",
+        "ManipulationService"];
     angular.module('fg-gui').controller('NFFGController', NFFGController);
 
 })();

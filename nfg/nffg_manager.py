@@ -80,7 +80,7 @@ class NFFGManager:
             headers=headers)
         if response.status_code == 200:
             return {"status": response.status_code,
-                    "graphs": json.loads(response.content)["list"]}
+                    "graphs": json.loads(response.content)["NF-FG"]}
         else:  # todo: gestione errori comuni
             return {"status": response.status_code, "error": "Unknown Error"}
 

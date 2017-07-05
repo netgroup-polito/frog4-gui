@@ -463,7 +463,8 @@ def status_get_vnf_model(request, tenant_id, graph_id, vnf_identifier):
     if request.method == "GET":
         if "token" in request.session:
             try:
-                result = yangm.get_vnf_model(tenant_id, graph_id, vnf_identifier, request.GET['templateuri'], request.session['token'])
+                result = yangm.get_vnf_model(tenant_id, graph_id, vnf_identifier, request.GET['templateuri'],
+                                             request.session['token'])
             except Exception as e:
                 return HttpResponse(status=503)
             json_data_string = json.dumps(result)
@@ -494,7 +495,8 @@ def configure_put_vnf_updated_state(request, tenant_id, graph_id, vnf_identifier
         if "token" in request.session:
             updated_state = request.body
             try:
-                result = modelm.put_vnf_updated_state(tenant_id, graph_id, vnf_identifier, updated_state, request.session["token"])
+                result = modelm.put_vnf_updated_state(tenant_id, graph_id, vnf_identifier, updated_state,
+                                                      request.session["token"])
             except:
                 return HttpResponse(status=503)
             serialized_obj = json.dumps(result)

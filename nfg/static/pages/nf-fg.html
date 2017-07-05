@@ -156,7 +156,7 @@
 
             <p class="fgLabel" ng-show="NFFGCtrl.fg" ng-click="NFFGCtrl.updateFGInfo();">
                 <b ng-if="NFFGCtrl.fg.name "> {{ NFFGCtrl.fg.name }} </b>
-                <b ng-if="NFFGCtrl.fg.id "> (ID: {{ NFFGCtrl.fg.id }}) </b>
+                <b ng-if="NFFGCtrl.fg_ids.nffg_uuid "> (ID: {{ NFFGCtrl.fg_ids.nffg_uuid }}) </b>
                 <i ng-if="NFFGCtrl.graphOrigin == AppConstant.graphOrigin.LOCAL" class="glyphicon glyphicon-folder-open fa-lg"></i>
                 <i ng-if="NFFGCtrl.graphOrigin == AppConstant.graphOrigin.UN" class="fa fa-server fa-lg"></i>
                 <i ng-if="NFFGCtrl.graphOrigin == AppConstant.graphOrigin.REPOSITORY" class="fa fa-cloud fa-lg"></i>

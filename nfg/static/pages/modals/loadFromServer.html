@@ -16,7 +16,8 @@
                         required
                         ng-disabled="loadServerCtrl.availableGraphs.length == 0"
                         ng-model="loadServerCtrl.selectedGraph"
-                        ng-options="graph['forwarding-graph'].id + ' - ' + graph['forwarding-graph'].name for graph in loadServerCtrl.availableGraphs">
+                        ng-options="graph['nffg-uuid'] + '  --  ' + graph['forwarding-graph'].name for graph in
+                        loadServerCtrl.availableGraphs">
                 </select>
             </div>
             <div class="col-sm-1">
