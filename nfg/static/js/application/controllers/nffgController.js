@@ -167,7 +167,8 @@
                 resetGraph();
 
                 ctrl.fg_ids  = {
-                    "nffg_uuid": fg['nffg-uuid']
+                    "nffg_uuid": fg['nffg-uuid'],
+                    "graph_id_datastore": null
                 };
 
                 // Initialize the graph position object (missing the possibility to load the position too)
@@ -206,10 +207,11 @@
                     fg["forwarding-graph"]["big-switch"]["flow-rules"] = [];
 
                 resetGraph();
-
                 ctrl.fg_ids  = {
-                        "graph_id_datastore": fg['nffg-uuid']
+                    "graph_id_datastore": fg['nffg-uuid'],
+                    "nffg_uuid": null
                 };
+
                 // Initialize the graph position object (missing the possibility to load the position too)
                 ctrl.fgPos = initializePosition(fg["forwarding-graph"]);
                 // loading the graph (always load the graph later to prevent error)
