@@ -2,14 +2,22 @@
 
     <button class="close" type="button" aria-hidden="true" ng-click="ConfigVNFCtrl.cancel()">×</button>
 
-    <h3 class="modal-title" id="modal-title">{{ ConfigVNFCtrl.model.description.text }}</h3>
+
+    <h3 class="modal-title" id="modal-title-404" ng-if="!ConfigVNFCtrl.model">{{ ConfigVNFCtrl.vnf.name }}</h3>
+    <h3 class="modal-title" id="modal-title" ng-if="ConfigVNFCtrl.model">{{ ConfigVNFCtrl.model.description.text }}</h3>
 </div>
 <div class="modal-body" id="modal-body">
-    <form class="form-horizontal">
+    <div class="row" ng-if="!ConfigVNFCtrl.model">
+        <div class="col-sm-12 text-center">
+            This VNF is not configurable
+        </div>
+    </div>
+    <form class="form-horizontal" ng-if="ConfigVNFCtrl.model">
 			<span ng-if="ConfigVNFCtrl.isArray(ConfigVNFCtrl.model.container)">
 				<container ng-repeat="el in ConfigVNFCtrl.model.container"
                            level="0"
                            container-object="el"
+                           root-object="ConfigVNFCtrl.state"
                            container-state-object="ConfigVNFCtrl.state[ConfigVNFCtrl.model['@name'] + ':' + el['@name']]"
                            augment-object="ConfigVNFCtrl.augment[el['@name']]">
 
@@ -18,6 +26,7 @@
         <span ng-if="!ConfigVNFCtrl.isArray(ConfigVNFCtrl.model.container)">
 				<container container-object="ConfigVNFCtrl.model.container"
                            level="0"
+                           root-object="ConfigVNFCtrl.state"
                            container-state-object="ConfigVNFCtrl.state[ConfigVNFCtrl.model['@name'] + ':' + ConfigVNFCtrl.model.container['@name']]"
                            augment-object="ConfigVNFCtrl.augment[model.container['@name']]">
                 </container>
@@ -25,8 +34,13 @@
     </form>
 </div>
 <div class="modal-footer">
-    <button class="btn btn-primary" type="button" ng-click="ConfigVNFCtrl.ok()">OK</button>
-    <label class="btn btn-default btn-file">
-        Browse <input type="file" on-read-file="ConfigVNFCtrl.showContent($fileContent)" style="display: none;">
-    </label>
+    <div ng-if="ConfigVNFCtrl.model">
+        <button class="btn btn-primary" type="button" ng-click="ConfigVNFCtrl.ok()">OK</button>
+        <label class="btn btn-default btn-file">
+            Browse <input type="file" on-read-file="ConfigVNFCtrl.showContent($fileContent)" style="display: none;">
+        </label>
+    </div>
+    <div ng-if="!ConfigVNFCtrl.model">
+        <button class="btn btn-primary" type="button" ng-click="ConfigVNFCtrl.cancel()">Cancel</button>
+    </div>
 </div>

@@ -37,48 +37,51 @@
      * @param modelFunc
      * @param stateFunc
      */
-    var vnfConfigModalController = function ($uibModalInstance, vnf, graphId,  tenantId, modelFunc, stateFunc) {
+    var vnfConfigModalController = function ($uibModalInstance, vnf, graphId, tenantId, modelFunc, stateFunc) {
 
         var ctrl = this;
         ctrl.isArray = angular.isArray;
+        ctrl.vnf = vnf;
         var oldState;
 
         modelFunc(graphId, vnf.id, tenantId, vnf.vnf_template)
             .then(function (resultModel) {
-            stateFunc(graphId, vnf.id, tenantId)
-                .then(function (resultState) {
-                oldState = clone(resultState.state);
-                ctrl.state = resultState.state;
-                ctrl.model = resultModel.model;
+                stateFunc(graphId, vnf.id, tenantId)
+                    .then(function (resultState) {
+                        oldState = clone(resultState.state);
+                        ctrl.state = resultState.state;
+                        ctrl.model = resultModel.model;
 
-                if (resultModel.model.augment) {
-                    ctrl.augment = parseAugment(resultModel.model.augment);
-                    console.log("augment", ctrl.augment);
-                }
+                        if (resultModel.model.augment) {
+                            ctrl.augment = parseAugment(resultModel.model.augment);
+                            console.log("augment", ctrl.augment);
+                        }
 
+                    }, function (error) {
+                        console.log(error);
+                        ctrl.model = resultModel.model;
+                        ctrl.state =  {};
+
+                        //gestisco qui le ifEntry dell'interfaces
+                        var nameContainer = ctrl.model['@name'] + ':interfaces';
+                        ctrl.state[nameContainer] = {};
+                        ctrl.state[nameContainer]['ifEntry'] = [];
+                        for (var i = 0; i < vnf.ports.length; i++) {
+                            var obj = {};
+                            obj['name'] = vnf.ports[i].name;
+                            obj['id'] = vnf.ports[i].id;
+                            ctrl.state[nameContainer]['ifEntry'].push(obj);
+                        }
+
+                        if (resultModel.model.augment) {
+                            ctrl.augment = parseAugment(resultModel.model.augment);
+                            console.log("augment", ctrl.augment);
+                        }
+
+                    });
             }, function (error) {
                 console.log(error);
-                ctrl.model = resultModel.model;
-
-                //gestisco qui le ifEntry dell'interfaces
-                var nameContainer = ctrl.model['@name'] + ':interfaces';
-                ctrl.state[nameContainer] = {};
-                ctrl.state[nameContainer]['ifEntry'] = [];
-                for (var i = 0; i < vnf.ports.length; i++) {
-                    var obj = {};
-                    obj['name'] = 'eth' + i;
-                    ctrl.state[nameContainer]['ifEntry'].push(obj);
-                }
-
-                if (resultModel.model.augment) {
-                    ctrl.augment = parseAugment(resultModel.model.augment);
-                    console.log("augment", ctrl.augment);
-                }
-
             });
-        }, function (error) {
-           console.log(error);
-        });
 
         ctrl.ok = function () {
 
@@ -87,20 +90,21 @@
                 $uibModalInstance.dismiss('equal states');
             } else {
                 //here I remove empty fields from the JSON object
-                function removeEmptyFields(node){
-                    for(var element in node){
+                var removeEmptyFields = function(node) {
+                    for (var element in node) {
                         //since in JavaScript "" == false returns true, I have to check if node[element] is a type boolean in order to avoid to delete false set fields
-                        if(typeof node[element] != "boolean" && node[element] == ""){
+                        if (typeof node[element] != "boolean" && node[element] == "") {
                             delete node[element];
                         }
-                        else if( !(typeof node[element] === "string" ||
-                                   typeof node[element] === "number" ||
-                                   typeof node[element] === "boolean" ||
-                                   node[element] == undefined) ){
+                        else if (!(typeof node[element] === "string" ||
+                            typeof node[element] === "number" ||
+                            typeof node[element] === "boolean" ||
+                            node[element] == undefined)) {
                             removeEmptyFields(node[element]);
                         }
                     }
                 }
+
                 //here I check if the state is empty -> to fix
                 for (var prop in ctrl.state) {
                     if (prop == ":") {
@@ -122,11 +126,11 @@
             $uibModalInstance.dismiss('cancel');
         };
 
-        ctrl.showContent = function($fileContent){
+        ctrl.showContent = function ($fileContent) {
             ctrl.state = JSON.parse($fileContent);
         };
     };
-    vnfConfigModalController.$inject = ['$uibModalInstance', 'vnf', 'graphId',  'tenantId', 'modelFunc', 'stateFunc'];
+    vnfConfigModalController.$inject = ['$uibModalInstance', 'vnf', 'graphId', 'tenantId', 'modelFunc', 'stateFunc'];
     //vnfConfigModalController.$inject = ['$uibModalInstance', 'model', 'state'];
     angular.module('d3').controller('ConfigVNFModalController', vnfConfigModalController);
 })();
