@@ -23,13 +23,22 @@
                 </list>
             </div>
             <div ng-if="listModel.hasOwnProperty('container')">
+		        <span ng-if="checkArray(listModel.container)">
+                    <container level="level+1"
+                               root-object="rootObject"
+                               container-object="listModel.container"
+                               container-state-object="el">
 
-                <container level="level+1"
-                           root-object="rootObject"
-                           container-object="listModel.container"
-                           container-state-object="el">
+                    </container>
+                </span>
+		        <span ng-if="!checkArray(listModel.container)">
+                    <container level="level+1"
+                               root-object="rootObject"
+                               container-object="listModel.container"
+                               container-state-object="el[listModel.container['@name']]">
 
-                </container>
+                    </container>
+                </span>
 
             </div>
 
