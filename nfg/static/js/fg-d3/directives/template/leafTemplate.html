@@ -47,19 +47,20 @@
 			</span>
 		    <span ng-if="!leafObject.hasOwnProperty('description')">
 
-				<input class="form-control" ng-model="stateObject[leafObject['@name']]" type="text"/>
+				<input class="form-control"
+                       ng-model="stateObject[leafObject['@name']]"
+                       type="text"/>
 			</span>
 		</span>
 
 
-
-		<span ng-switch-when="inet:ipv4-address">
-
-			<input dyn-attr="attrs"
-				   class="form-control"
-				   ng-model="stateObject[leafObject['@name']]"
-				   type="text"/>
-
+        <span ng-switch-when="inet:ipv4-address">
+            <span ng-if="leafObject.hasOwnProperty('description')">
+                <input dyn-attr="attrs"
+                       class="form-control"
+                        ng-model="stateObject[leafObject['@name']]"
+                        type="text"/>
+            </span>
 
 		    <span ng-if="!leafObject.hasOwnProperty('description')">
 
@@ -78,13 +79,16 @@
 		</span>
 
         <span ng-switch-when="leafref">
-            <leafref root-object="rootObject" leafref-string="leafObject.type.path['@value']" state-string="stateObject[leafObject['@name']]" </leafref>
+            <leafref root-object="rootObject"
+                     leafref-string="leafObject.type.path['@value']"
+                     state-string="stateObject[leafObject['@name']]"
+            </leafref>
 		</span>
 
-		<span ng-switch-default>
+        <span ng-switch-default>
 			'{{leafObject.type['@name']}}' not yet implemented.
 		</span>
 
 
-	</div>
+    </div>
 </div>

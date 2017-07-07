@@ -55,6 +55,8 @@
             </span>
 
                 <span ng-if="containerObject.hasOwnProperty('leaf')">
+                    <pre>leaf-object: {{containerObject.leaf | json}}</pre><br>
+                    <pre>state-object: {{containerStateObject | json}}</pre><br>
                 <leaf class="col-sm-12"
                       ng-repeat="le in containerObject.leaf"
                       root-object="rootObject"

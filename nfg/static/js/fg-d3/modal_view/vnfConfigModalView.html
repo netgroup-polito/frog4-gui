@@ -10,6 +10,7 @@
 				<container ng-repeat="el in ConfigVNFCtrl.model.container"
                            level="0"
                            container-object="el"
+                           root-object="ConfigVNFCtrl.state"
                            container-state-object="ConfigVNFCtrl.state[ConfigVNFCtrl.model['@name'] + ':' + el['@name']]"
                            augment-object="ConfigVNFCtrl.augment[el['@name']]">
 
@@ -18,6 +19,7 @@
         <span ng-if="!ConfigVNFCtrl.isArray(ConfigVNFCtrl.model.container)">
 				<container container-object="ConfigVNFCtrl.model.container"
                            level="0"
+                           root-object="ConfigVNFCtrl.state"
                            container-state-object="ConfigVNFCtrl.state[ConfigVNFCtrl.model['@name'] + ':' + ConfigVNFCtrl.model.container['@name']]"
                            augment-object="ConfigVNFCtrl.augment[model.container['@name']]">
                 </container>

@@ -36,7 +36,10 @@
                         delete state[augm.leaf['@name']];
                         return false;
                     }
-                }
+                };
+                $scope.checkarray = function (val) {
+                    return angular.isarray(val);
+                };
             },
             link: function (scope, element, attrs, ngModel) {
                 if (!scope.listStateObject) {
