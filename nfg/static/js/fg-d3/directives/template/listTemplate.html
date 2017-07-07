@@ -2,18 +2,21 @@
 <pre>{{listStateObject}}</pre><br>-->
 <div ng-repeat="el in listStateObject"> <!--listObject è una lista di oggetti-->
     <uib-accordion>
-        <div uib-accordion-group ng-style="style" class="panel-default" is-open="panel[$index].open" is-disabled="false" ng-click="open = !panel[$index].open">
+        <div uib-accordion-group ng-style="style" class="panel-default" is-open="panel[$index].open" is-disabled="false"
+             ng-click="open = !panel[$index].open">
             <uib-accordion-heading>
                 {{listModel['@name'] | vnfCompName:listModel.description}}[{{$index}}]
-                <i class="pull-right glyphicon" ng-class="{'glyphicon glyphicon-minus': panel[$index].open, 'glyphicon glyphicon-plus': !panel[$index].open}"></i>
+                <i class="pull-right glyphicon"
+                   ng-class="{'glyphicon glyphicon-minus': panel[$index].open, 'glyphicon glyphicon-plus': !panel[$index].open}"></i>
             </uib-accordion-heading>
             <div class="row">
-                <leaf class="col-sm-12" ng-repeat="le in listModel.leaf" root-object="rootObject" leaf-object="le" state-object="el"></leaf>
+                <leaf class="col-sm-12" ng-repeat="le in listModel.leaf" root-object="rootObject" leaf-object="le"
+                      state-object="el"></leaf>
             </div>
             <div ng-if="listModel.hasOwnProperty('list')">
                 <list list-model="listModel.list"
                       root-object="rootObject"
-                      list-state-object="listStateObject[listModel.list['@name']]"
+                      list-state-object="el[listModel.list['@name']]"
                       level="level+1"
                       augment-object="augmentObject[listModel.list['@name']]">
 
@@ -21,27 +24,17 @@
             </div>
             <div ng-if="listModel.hasOwnProperty('container')">
 
-                <span ng-if="checkArray(listModel.container)">
-                    <container level="level+1"
-                               root-object="rootObject"
-                               container-object="listModel.container"
-                               container-state-object="el">
+                <container level="level+1"
+                           root-object="rootObject"
+                           container-object="listModel.container"
+                           container-state-object="el">
 
-                    </container>
-                </span>
-
-                <span ng-if="!checkArray(listModel.container)">
-                    <container level="level+1"
-                               root-object="rootObject"
-                               container-object="listModel.container"
-                               container-state-object="listStateObject[listModel.container['@name']]">
-
-                    </container>
-                </span>
+                </container>
 
             </div>
 
-            <leaf ng-if="handleAugment(augmentObject, el)" class="col-sm-12" root-object="rootObject" leaf-object="augmentObject.leaf" state-object="el"></leaf>
+            <leaf ng-if="handleAugment(augmentObject, el)" class="col-sm-12" root-object="rootObject"
+                  leaf-object="augmentObject.leaf" state-object="el"></leaf>
         </div>
     </uib-accordion>
 </div>

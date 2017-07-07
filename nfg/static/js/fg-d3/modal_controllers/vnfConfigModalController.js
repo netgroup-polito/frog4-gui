@@ -68,7 +68,8 @@
                         ctrl.state[nameContainer]['ifEntry'] = [];
                         for (var i = 0; i < vnf.ports.length; i++) {
                             var obj = {};
-                            obj['name'] = 'eth' + i;
+                            obj['name'] = vnf.ports[i].name;
+                            obj['id'] = vnf.ports[i].id;
                             ctrl.state[nameContainer]['ifEntry'].push(obj);
                         }
 

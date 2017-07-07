@@ -38,7 +38,7 @@
                     }
                 };
                 $scope.checkarray = function (val) {
-                    return angular.isarray(val);
+                    return angular.isArray(val);
                 };
             },
             link: function (scope, element, attrs, ngModel) {
