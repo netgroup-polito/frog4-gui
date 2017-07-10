@@ -21,7 +21,6 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 
-from DBManager import DBManager
 from nffg_library.nffg import NF_FG
 from nffg_library.validator import ValidateNF_FG
 from authentication_manager import AuthenticationManager
@@ -42,7 +41,6 @@ auth = AuthenticationManager(parser.get('orchestrator', 'address'),
                              parser.get('orchestrator', 'port'))
 userm = UserManager(parser.get('orchestrator', 'address'),
                     parser.get('orchestrator', 'port'))
-dbm = DBManager("db.sqlite3")
 graphm = NFFGManager(parser.get('orchestrator', 'address'),
                      parser.get('orchestrator', 'port'),
                      parser.get('vnf-template', 'address'),
@@ -244,18 +242,6 @@ def api_get_available_graphs(request):
             return HttpResponse("%s" % json_data_string, status=result["status"], content_type="application/json")
         else:
             return HttpResponse(status=401)
-    else:
-        return HttpResponse(status=501)
-
-
-def api_get_available_graphs_debug(request):
-    if request.method == "GET":
-
-        result = dbm.get_fgs()
-
-        json_data_string = json.dumps(result)
-
-        return HttpResponse("%s" % json_data_string, status=200, content_type="application/json")
     else:
         return HttpResponse(status=501)
 
