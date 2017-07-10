@@ -7,7 +7,7 @@
     <h3 class="modal-title" id="modal-title" ng-if="ConfigVNFCtrl.model">{{ ConfigVNFCtrl.model.description.text }}</h3>
 </div>
 <div class="modal-body" id="modal-body">
-    <div class="row" ng-if="!ConfigVNFCtrl.model">
+    <div class="row" ng-if="!ConfigVNFCtrl.isConfigurable">
         <div class="col-sm-12 text-center">
             This VNF is not configurable
         </div>

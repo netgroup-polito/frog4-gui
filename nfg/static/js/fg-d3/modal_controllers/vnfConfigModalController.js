@@ -42,6 +42,7 @@
         var ctrl = this;
         ctrl.isArray = angular.isArray;
         ctrl.vnf = vnf;
+        ctrl.isConfigurable = true;
         var oldState;
 
         modelFunc(graphId, vnf.id, tenantId, vnf.vnf_template)
@@ -80,6 +81,7 @@
 
                     });
             }, function (error) {
+                ctrl.isConfigurable = false;
                 console.log(error);
             });
 
