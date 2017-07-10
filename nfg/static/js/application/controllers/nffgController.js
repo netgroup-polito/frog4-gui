@@ -46,7 +46,7 @@
 
         BackendCallService.getJSONSchema().then(function (result) {
             ctrl.schema = result;
-        }, function () {
+        }, function (error) {
             console.log("Something went wrong:", error);
             //TODO: mostrare errore
         });

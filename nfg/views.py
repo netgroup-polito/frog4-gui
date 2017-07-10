@@ -453,6 +453,7 @@ def status_get_vnf_model(request, tenant_id, graph_id, vnf_identifier):
             try:
                 result = yangm.get_vnf_model(tenant_id, graph_id, vnf_identifier, request.GET['templateuri'], request.session['token'])
             except Exception as e:
+                logging.error("get_vnf_model exception:" + e.message)
                 return HttpResponse(status=503)
             json_data_string = json.dumps(result)
             return HttpResponse("%s" % json_data_string, status=result["status"], content_type="application/json")

@@ -148,7 +148,7 @@
                     return pos[d.id].full_id;    //id of the element
                 })
                 .attr("x", function (d, i) {    // x position of the element
-                    if (typeof pos[d.id].x == "number")//if exist as number use the existing position
+                    if (typeof pos[d.id].x === "number")//if exist as number use the existing position
                         return pos[d.id].x;
                     else { //else calculate it
                         var limit = graph.svg.node().getBoundingClientRect().width / 2
@@ -162,7 +162,7 @@
 
                 })
                 .attr("y", function (d, i) {    // y position of the element
-                    if (typeof pos[d.id].y == "number")
+                    if (typeof pos[d.id].y === "number")
                         return pos[d.id].y;//if exist as number use the existing position
                     else { //else calculate it
                         var limit = graph.svg.node().getBoundingClientRect().height / 2
@@ -435,17 +435,17 @@
                 })
                 .each(function (d, i) {
                     var sel = d3.select(this);
-                    sel
+                    /*sel
                         .select(".vnf-gear")
-                        .attr("visibility", function (data) {
-                            if (data.ports[0].trusted) {
+                        .attr("visibility", function (d) {
+                            if (d.ports[0].trusted) {
                                 return "visible";
                             } else {
                                 return "hidden";
                             }
                             //todo: mostrare ingranaggio solo se trusted e mac address
-                            //return "visible"; //hidden
-                        });
+                            return "visible"; //hidden
+                        });*/
                     sel
                         .select(".vnf-text")
                         .text(function (data) {
@@ -476,14 +476,14 @@
                         .attr("cx", function (data, i) {   // x position of the center of the element
                             var portPos = pos[data.parent].ports[data.port.id];
                             portPos.parent_vnf_x = pos[data.parent].x;
-                            if (typeof portPos.x != "number") {//if x position has not been calculated yet
+                            if (typeof portPos.x !== "number") {//if x position has not been calculated yet
                                 //the algorithm distribute the interface equally across one side
                                 var totVNFPorts = 0;
                                 var me = 0;
                                 ports[d.id].forEach(function (port) {
-                                    if (port.parent == data.parent)
+                                    if (port.parent === data.parent)
                                         totVNFPorts++;
-                                    if (data.full_id == port.full_id)
+                                    if (data.full_id === port.full_id)
                                         me = totVNFPorts - 1;
                                 });
                                 portPos.x = parseInt(graphConstant.vnfWidth / totVNFPorts * (me + 0.5));
@@ -493,7 +493,7 @@
                         .attr("cy", function (data) {   // y position of the center of the element
                             var portPos = pos[data.parent].ports[data.port.id];
                             portPos.parent_vnf_y = pos[data.parent].y;
-                            if (typeof portPos.y != "number")//if position has not been calculated yet
+                            if (typeof portPos.y !== "number")//if position has not been calculated yet
                             //it's positioned in the long side near the center
                                 portPos.y = parseInt(portPos.parent_vnf_y < graph.svg.node().getBoundingClientRect().height / 2 ? graphConstant.vnfHeigth : 0);
                             return parseInt(portPos.y);
