@@ -45,13 +45,16 @@ class YANGModelManager:
         if response.status_code == 200:
             template = Template()
             try:
+                print("Template received: " + response.text)
                 validator = ValidateTemplate()
                 validator.validate(json.loads(response.text))
                 template.parseDict(response.json())
-            except TemplateValidationError:
-                return {"status": 500, "error": "Template validation failed"}
+            except TemplateValidationError as err:
+                return {"status": 500, "error": "Template validation failed: " + err.message}
 
             yang_model_uri = template.uri_yang #the GUI needs the YIN of the model, so I have to modify the string retrieved from the template
+            if(yang_model_uri is None):
+                return {"status": 404, "error": "yang model uri field not find in template"}
             split = yang_model_uri.split("yang/")
             yin_uri = split[0] + "yang/yin/" + split[1]
 

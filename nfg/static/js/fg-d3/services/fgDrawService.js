@@ -401,7 +401,7 @@
                     }
                     return "translate(" + pos[d.id].x + ',' + pos[d.id].y + ")";
                 });
-            groups
+            /*groups
                 .select(".vnf-gear")
                 .attr("visibility", function (d) {
                     if (d.ports[0].trusted) {
@@ -410,8 +410,8 @@
                         return "hidden";
                     }
                     //todo: mostrare ingranaggio solo se trusted e mac address
-                    //return "visible"; //hidden
-                });
+                    return "visible"; //hidden
+                });*/
             groups
                 .select(".vnf-text")
                 .text(function (d) {

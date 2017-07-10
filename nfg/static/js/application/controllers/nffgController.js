@@ -48,11 +48,10 @@
 
         BackendCallService.getJSONSchema().then(function (result) {
             ctrl.schema = result;
-        }, function () {
-            console.log("Something went wrong :", error);
+        }, function (error) {
+            console.log("Something went wrong:", error);
             //TODO: mostrare errore
         });
-
 
         /**
          * Initialize the position object for the graph

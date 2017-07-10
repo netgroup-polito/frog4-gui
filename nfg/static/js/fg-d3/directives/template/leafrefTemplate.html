@@ -1,17 +1,30 @@
-<!--select class="form-control" ng-model="stateString" ng-options="item for item in optionList">
+<select class="form-control" ng-model="stateString" ng-options="item for item in optionList">
+</select>
+<!--span ng-if="leafObject.hasOwnProperty('description')">
 
-</select-->
-<span ng-if="leafObject.hasOwnProperty('description')">
+    <input dyn-attr="attrs"
+           class="form-control"
+           ng-model="stateString"
+           type="text"/>
 
-				<input dyn-attr="attrs"
-					   class="form-control"
-					   ng-model="stateString"
-					   type="text"/>
+</span>
+<span ng-if="!leafObject.hasOwnProperty('description')">
 
-			</span>
-		    <span ng-if="!leafObject.hasOwnProperty('description')">
+    <input class="form-control"
+           ng-model="stateString"
+           type="text"/>
+</span-->
 
-				<input class="form-control"
-					   ng-model="stateString"
-					   type="text"/>
-			</span>
+<!--<span ng-if="leafObject.hasOwnProperty('description')">
+    <select dyn-attr="attrs"
+        class="form-control"
+        ng-model="stateString"
+        ng-options="field.name for field.name in optionList.interfaces.ifEntry"/>
+
+</span>
+<span ng-if="!leafObject.hasOwnProperty('description')">
+    <select class="form-control"
+            ng-model="stateString"
+            ng-options="iface.nome for iface in optionList.interfaces.ifEntry"/>
+
+</span>-->
