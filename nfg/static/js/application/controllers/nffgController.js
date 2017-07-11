@@ -238,7 +238,7 @@
          * Function to delete a graph from it's original location
          */
         ctrl.delete = function () {
-            var confirm = $dialogs.confirm('Please Confirm', 'You are about to delete the graph with id: ' + ctrl.fg.id + ' from the ' + (ctrl.graphOrigin == AppConstant.graphOrigin.UN ? 'Orchestrator' : 'Repository') + '. Continue?');
+            var confirm = $dialogs.confirm('Please Confirm', 'You are about to delete the graph with id: \'' + ctrl.fg.id + '\' from the ' + (ctrl.graphOrigin == AppConstant.graphOrigin.UN ? 'controlled domain' : 'Repository') + '. Continue?');
             confirm.result.then(function () {
                 if (ctrl.graphOrigin == AppConstant.graphOrigin.UN) {
                     BackendCallService.deleteGraph(ctrl.fg.id)
