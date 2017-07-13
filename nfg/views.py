@@ -260,13 +260,28 @@ def api_get_available_graphs_debug(request):
         return HttpResponse(status=501)
 
 
-def api_put_graph(request, graph_id=None):
-    if request.method == "PUT":
+def api_post_graph(request):
+    if request.method == "POST":
         if "token" in request.session:
-
             new_graph = json.loads(request.body)
             try:
-                result = graphm.put_user_graph(new_graph, request.session["token"], graph_id)
+                result = graphm.post_user_graph(new_graph, request.session["token"])
+            except:
+                return HttpResponse(status=503)
+            serialized_obj = json.dumps(result)
+            return HttpResponse("%s" % serialized_obj, status=result["status"], content_type="application/json")
+        else:
+            return HttpResponse(status=401)
+    else:
+        return HttpResponse(status=501)
+
+
+def api_put_graph(request, graph_id):
+    if request.method == "PUT":
+        if "token" in request.session:
+            update_graph = json.loads(request.body)
+            try:
+                result = graphm.put_user_graph(update_graph, request.session["token"], graph_id)
             except:
                 return HttpResponse(status=503)
             serialized_obj = json.dumps(result)

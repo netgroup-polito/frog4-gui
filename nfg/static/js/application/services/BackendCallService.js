@@ -61,14 +61,28 @@
             return deferred.promise;
         };
 
-        var _putGraph = function (json_graph, graph_id) {
-            var put_graph_path = '/api/v1/graphs_api/put_graph/';
-             if (graph_id !== null){
-                put_graph_path = "/api/v1/graphs_api/put_graph/" + graph_id;
-                delete json_graph['forwarding-graph']['id'];
-            }
+        var _postGraph = function (json_graph) {
+            delete json_graph['forwarding-graph']['id'];
             var deferred = $q.defer();
-            $http.put(put_graph_path , json_graph,
+            $http.post('/api/v1/graphs_api/post_graph/', json_graph,
+                {
+                    headers: {
+                        'Content-type': 'application/json'
+                    }
+                })
+                .success(function (result) {
+                    deferred.resolve(result);
+                })
+                .error(function (err) {
+                    deferred.reject(err);
+                });
+            return deferred.promise;
+        };
+
+        var _putGraph = function (json_graph, graph_id) {
+            delete json_graph['forwarding-graph']['id'];
+            var deferred = $q.defer();
+            $http.put( "/api/v1/graphs_api/put_graph/" + graph_id , json_graph,
                 {
                     headers: {
                         'Content-type': 'application/json'
@@ -376,6 +390,7 @@
             //getTemplates: _getTemplates,
             getFRTableConfig: _getFRTableConfig,
             putGraph: _putGraph,
+            postGraph: _postGraph,
             deleteGraph: _deleteGraph,
             getVNFModel: _getVNFModel,
             getVNFState: _getVNFState,

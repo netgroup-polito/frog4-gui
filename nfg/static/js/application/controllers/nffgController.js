@@ -244,18 +244,32 @@
          * Function to deploy a graph
          */
         ctrl.deploy = function () {
-            BackendCallService.putGraph(ExporterService.exportForwardingGraph(ctrl.fg, ctrl.fgPos),
-                ctrl.fg_ids.nffg_uuid)
-                .then(function (result) {
-                    if (result.success != 'undefined') {
-                        ctrl.fg_ids.nffg_uuid = result.graph_id;
-                        $dialogs.notify('Deploy', 'The graph has been successfully deployed');
-                    } else
-                        $dialogs.error('Deploy', 'Error - see the orchestrator log');
-                }, function () {
-                    console.log("Something went wrong");
-                    $dialogs.error('Deploy', 'Error - see the orchestrator log');
-                });
+            if (ctrl.fg_ids.nffg_uuid === null) {
+                BackendCallService.postGraph(ExporterService.exportForwardingGraph(ctrl.fg, ctrl.fgPos))
+                    .then(function (result) {
+                        if (result.success != 'undefined') {
+                            ctrl.fg_ids.nffg_uuid = result.graph_id;
+                            $dialogs.notify('Deploy', 'The graph has been successfully deployed');
+                        } else
+                            $dialogs.error('Deploy', 'Error - see the controlled domain log');
+                    }, function () {
+                        console.log("Something went wrong");
+                        $dialogs.error('Deploy', 'Error - see the controlled domain log');
+                    });
+            } else {
+                BackendCallService.putGraph(ExporterService.exportForwardingGraph(ctrl.fg, ctrl.fgPos),
+                    ctrl.fg_ids.nffg_uuid)
+                    .then(function (result) {
+                        if (result.success != 'undefined') {
+                            ctrl.fg_ids.nffg_uuid = result.graph_id;
+                            $dialogs.notify('Deploy', 'The graph has been successfully updated');
+                        } else
+                            $dialogs.error('Deploy', 'Error - see the controlled domain log');
+                    }, function () {
+                        console.log("Something went wrong");
+                        $dialogs.error('Deploy', 'Error - see the controlled domain log');
+                    });
+            }
         };
 
         /**
@@ -275,13 +289,13 @@
                                 $dialogs.notify('Delete', 'The graph has been successfully deleted');
                             }
                             else
-                                $dialogs.error('Delete', 'Error - see the orchestrator log');
+                                $dialogs.error('Delete', 'Error - see the controlled domain log');
                         }, function (error) {
                             console.log("Something went wrong");
                             if (error.status != "404")
-                                $dialogs.error('Delete', 'Error - see the orchestrator log');
+                                $dialogs.error('Delete', 'Error - see the controlled domain log');
                             else
-                                $dialogs.error('Delete', 'Error - the graph does not exist on the orchestrator');
+                                $dialogs.error('Delete', 'Error - the graph does not exist on the controlled domain');
                         });
                 } else {
                     BackendCallService.deleteGraphFromRepo(ctrl.fg_ids)
