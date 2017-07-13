@@ -263,8 +263,8 @@
          */
         ctrl.delete = function () {
             var confirm = $dialogs.confirm('Please Confirm', 'You are about to delete the graph'+
-                (ctrl.graphOrigin == AppConstant.graphOrigin.UN ? ' with id: ' + ctrl.fg_ids.nffg_uuid : '') +
-                ' from the ' + (ctrl.graphOrigin == AppConstant.graphOrigin.UN ? 'Orchestrator' : 'Datastore') +
+                (ctrl.graphOrigin == AppConstant.graphOrigin.UN ? ' with id: \'' + ctrl.fg_ids.nffg_uuid : '') +
+                '\' from the ' + (ctrl.graphOrigin == AppConstant.graphOrigin.UN ? 'controlled domain' : 'Datastore') +
                 '. Continue?');
             confirm.result.then(function () {
                 if (ctrl.graphOrigin == AppConstant.graphOrigin.UN) {
