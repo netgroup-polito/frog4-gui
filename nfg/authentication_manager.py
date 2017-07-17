@@ -9,23 +9,17 @@ import json
 
 
 class AuthenticationManager:
-    def __init__(self, host, port):
-        self.un_protocol = 'http'
-        self.un_host = host
-        self.un_port = port
-        self.path = ''
+    def __init__(self, orchestrator_endpoint):
+        self.orchestrator_endpoint = orchestrator_endpoint[:-6]
 
     def login(self, username, password):
-        # todo: chiamata a servizio
-
         data = {"username": username, "password": password}
         data_json = json.dumps(data)
         headers = {'Content-type': 'application/json'}
         response = requests.post(
-            self.un_protocol + '://' + self.un_host + ':' + self.un_port + '/' + self.path + 'login',
+            self.orchestrator_endpoint + 'login',
             data=data_json,
             headers=headers)
-
         if response.status_code == 200:
             if response.headers['content-type'] == 'application/token':
                 return {"status": response.status_code, "token": response.content}

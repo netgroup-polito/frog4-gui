@@ -12,10 +12,9 @@ class VNFConfigurationManager:
         get_status_url = self.base_url + '/' + tenant_id + '/' + graph_id + '/' + vnf_id + '/'
         response = requests.get(get_status_url, headers=headers)
         if response.status_code == 200:
-            # t=json.loads(response.content)["list"]
             return {"status": response.status_code,
                     "state": json.loads(response.content)}
-        else:  # todo: gestione errori comuni
+        else:
             return {"status": response.status_code, "error": json.loads(response.content)}
 
     def put_vnf_updated_state(self, tenant_id, graph_id, vnf_id, data, token):
@@ -25,5 +24,5 @@ class VNFConfigurationManager:
         print(response)
         if response.status_code == 200:
             return {"status": response.status_code}
-        else:  # todo: gestione errori comuni
+        else:
             return {"status": response.status_code, "error": json.loads(response.content)}

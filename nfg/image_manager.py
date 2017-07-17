@@ -1,23 +1,16 @@
 import requests
 
-
 class ImageManager:
-    def __init__(self, host, port):
-        self.un_protocol = 'http'
-        self.un_host = host
-        self.un_port = port
-        self.base_path = ''
-
+    def __init__(self,vnf_template_endpoint):
+        self.vnf_template_endpoint = vnf_template_endpoint[:-12]
     def get_datastore_address(self):
-        return {"status": 200,
-                "url": self.un_protocol + '://' + self.un_host + ':' + self.un_port + '/' + self.base_path}
+        base_url = self.vnf_template_endpoint
+        return {"status": 200, "url": base_url[:-3]}
 
     def delete_image(self, vnf_id):
-        path = 'v2/nf_image/' + vnf_id
-        response = requests.delete(
-            self.un_protocol + '://' + self.un_host + ':' + self.un_port + '/' + self.base_path + path)
+        path = self.vnf_template_endpoint + 'nf_image/' + vnf_id
+        response = requests.delete( path)
         if response.status_code == 200:
             return {"status": response.status_code}
-        else:  # todo: gestione errori comuni
+        else:
             return {"status": response.status_code, "error": "Unknown Error"}
-

@@ -38,28 +38,24 @@ parser.read(os.environ["FG-GUI_CONF"])
 
 logging.basicConfig(filename=parser.get('logging', 'filename'), format='%(asctime)s %(levelname)s:%(message)s',
                     level=parser.get('logging', 'level'))
-auth = AuthenticationManager(parser.get('orchestrator', 'address'),
-                             parser.get('orchestrator', 'port'))
-userm = UserManager(parser.get('orchestrator', 'address'),
-                    parser.get('orchestrator', 'port'))
+
+auth = AuthenticationManager(parser.get('orchestrator', 'orchestrator_endpoint'))
+
+userm = UserManager( parser.get('orchestrator', 'orchestrator_endpoint'))
+
 dbm = DBManager("db.sqlite3")
-graphm = NFFGManager(parser.get('orchestrator', 'address'),
-                     parser.get('orchestrator', 'port'),
-                     parser.get('vnf-template', 'address'),
-                     parser.get('vnf-template', 'port'))
 
-templatem = TemplateManager(parser.get('vnf-template', 'address'),
-                            parser.get('vnf-template', 'port'))
+graphm = NFFGManager(parser.get('orchestrator', 'orchestrator_endpoint'),
+                     parser.get('graph-repository', 'graph_repository_endpoint'))
 
-imagem = ImageManager(parser.get('vnf-template', 'address'),
-                      parser.get('vnf-template', 'port'))
+templatem = TemplateManager(parser.get('vnf-template', 'vnf_template_endpoint'))
+
+imagem = ImageManager(parser.get('vnf-template', 'vnf_template_endpoint'))
 
 modelm = VNFConfigurationManager(parser.get('vnf-config', 'config_orch_endpoint'))
 
-yangm= YANGModelManager(parser.get('orchestrator', 'address'),
-                        parser.get('orchestrator', 'port'),
-                        parser.get('vnf-template', 'address'),
-                        parser.get('vnf-template', 'port'))
+yangm= YANGModelManager(parser.get('orchestrator', 'orchestrator_endpoint'),
+                        parser.get('vnf-template', 'vnf_template_endpoint'))
 
 
 # index: It's a principal view, load gui if you are logged else redirect you at /login/.

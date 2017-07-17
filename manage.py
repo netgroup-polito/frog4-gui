@@ -36,9 +36,8 @@ if __name__ == "__main__":
 
     params = [sys.argv[0], sys.argv[1]]
     if sys.argv[1] == "runserver":
-        addr = parser.get('fg-gui', 'address')
-        port = parser.get('fg-gui', 'port')
-        params.append(addr + ":" + str(port))
+        gui_endpoint = parser.get('fg-gui', 'gui_endpoint')
+        params.append(gui_endpoint)
 
     logging.info('Running FG-GUI with version %s', version)
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "django_setting.settings")

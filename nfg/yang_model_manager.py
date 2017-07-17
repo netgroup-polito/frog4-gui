@@ -6,14 +6,9 @@ from nfg.vnf_template_library.validator import ValidateTemplate
 
 
 class YANGModelManager:
-    def __init__(self, un_host, un_port, datastore_host, datastore_port):
-        self.un_protocol = 'http'
-        self.un_host = un_host
-        self.un_port = un_port
-        self.datastore_protocol = 'http'
-        self.datastore_host = datastore_host
-        self.datastore_port = datastore_port
-        self.base_path = ''
+    def __init__(self, orchestrator_endpoint, vnf_template_endpoint):
+        self.orchestrator_endpoint = orchestrator_endpoint[:-6]
+        self.graph_repository_endpoint = vnf_template_endpoint
 
     def get_vnf_model(self, tenant_id, graph_id, vnf_identifier, template_uri, token):
         # here a control on the input parameter should be done
@@ -26,18 +21,18 @@ class YANGModelManager:
             # t=json.loads(response.content)["list"]
         #    return {"status": response.status_code,
         #            "model": json.loads(response.content)}
-        # else:  # todo: gestione errori comuni
+        # else:
         #    return {"status": response.status_code, "error": "Unknown Error"}
         if template_uri is None:
             response = requests.get(
-                self.un_protocol + '://' + self.un_host + ':' + self.un_port + '/' + self.base_path + 'template/' + graph_id + '/' + vnf_identifier)
+                self.orchestrator_endpoint + 'template/' + graph_id + '/' + vnf_identifier)
             if response.status_code != 200:
                 return {"status": response.status_code, "error": "Unknown Error"}
             #TODO test if the template uri of this 'if' branch is built correctly
             template_path = json.load(response.content)['templateUrl']
-            template_uri = self.datastore_protocol + '://' + self.datastore_address + ':' + self.datastore_port + '/v2/nf_template' + template_path + '/'
+            template_uri =  self.graph_repository_endpoint + template_path + '/'
         else:
-            template_uri = self.datastore_protocol + '://' + self.datastore_host + ':' + self.datastore_port + '/v2/nf_template/' + template_uri + '/'
+            template_uri = self.graph_repository_endpoint + template_uri + '/'
         headers = {'Content-type': 'application/json', 'X-Auth-Token': token}
         response = requests.get(
             template_uri,
@@ -64,5 +59,5 @@ class YANGModelManager:
             return {"status": response.status_code,
                     "model": json.loads(response.content)}
 
-        else:  # todo: gestione errori comuni
+        else:
             return {"status": response.status_code, "error": "Unknown Error"}

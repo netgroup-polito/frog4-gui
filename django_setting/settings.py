@@ -120,4 +120,4 @@ STATIC_URL = '/static/'
 
 STATICFILES_DIRS = (('static', os.path.join(BASE_DIR + '/nfg', 'static')), os.path.join(BASE_DIR + '/nfg', 'static'))
 
-SESSION_COOKIE_NAME = 'sessionid' + parser.get('fg-gui', 'port')
+SESSION_COOKIE_NAME = 'sessionid' + parser.get('fg-gui', 'gui_endpoint')[8:]
