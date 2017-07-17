@@ -4,7 +4,7 @@ This software module provides a way to control any FROGv4 domain orchestrator.
 
 Its main features are:
 * Create a network service (often called **service graphs**), starting from elementary building blocks (network functions, links).
-* View and modify existing services, either stored in the datastore (hence, not yet deployed) or actually deployed in the controlle domain;
+* View and modify existing services, either stored in the datastore (hence, not yet deployed) or already deployed in the controlled domain;
 * Load and save the service description to an external file;
 * Interact with each network function and change its configuration
 * Manage users and group of the attached domain.
