@@ -43,8 +43,6 @@ auth = AuthenticationManager(parser.get('orchestrator', 'orchestrator_endpoint')
 
 userm = UserManager( parser.get('orchestrator', 'orchestrator_endpoint'))
 
-dbm = DBManager("db.sqlite3")
-
 graphm = NFFGManager(parser.get('orchestrator', 'orchestrator_endpoint'),
                      parser.get('graph-repository', 'graph_repository_endpoint'))
 
@@ -240,18 +238,6 @@ def api_get_available_graphs(request):
             return HttpResponse("%s" % json_data_string, status=result["status"], content_type="application/json")
         else:
             return HttpResponse(status=401)
-    else:
-        return HttpResponse(status=501)
-
-
-def api_get_available_graphs_debug(request):
-    if request.method == "GET":
-
-        result = dbm.get_fgs()
-
-        json_data_string = json.dumps(result)
-
-        return HttpResponse("%s" % json_data_string, status=200, content_type="application/json")
     else:
         return HttpResponse(status=501)
 

@@ -19,7 +19,6 @@ urlpatterns = [
     url(r'^api/v1/users_api/delete_group/$', views.api_delete_group, name='delete_group'),
 
     url(r'^api/v1/graphs_api/get_available_graphs/$', views.api_get_available_graphs, name='get_available_graphs'),
-    #url(r'^api/v1/graphs_api/get_available_graphs/$', views.api_get_available_graphs_debug, name='get_available_graphs'),
     url(r'^api/v1/graphs_api/get_json_schema/$', views.api_get_json_schema, name='get_json_schema'),
     url(r'^api/v1/graphs_api/get_fr_table_config', views.api_get_fr_table_config, name='get_fr_table_config'),
     url(r'^api/v1/graphs_api/post_graph/$', views.api_post_graph, name='post_graph'),
