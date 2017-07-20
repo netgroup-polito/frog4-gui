@@ -261,7 +261,7 @@
                     ctrl.fg_ids.nffg_uuid)
                     .then(function (result) {
                         if (result.success != 'undefined') {
-                            ctrl.fg_ids.nffg_uuid = result.graph_id;
+                            //ctrl.fg_ids.nffg_uuid = result.graph_id;
                             $dialogs.notify('Deploy', 'The graph has been successfully updated');
                         } else
                             $dialogs.error('Deploy', 'Error - see the controlled domain log');

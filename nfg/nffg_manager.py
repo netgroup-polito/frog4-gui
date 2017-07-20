@@ -51,9 +51,8 @@ class NFFGManager:
             self.orchestrator_endpoint + graph_id,
             data=data_json,
             headers=headers)
-        if response.status_code == 201:
-            nffg_uuid =  json.loads(response.content)["nffg-uuid"]
-            return {"status": response.status_code, "graph_id": nffg_uuid}
+        if response.status_code == 202:
+            return {"status": response.status_code}
         else:
             return {"status": response.status_code, "error": "Unknown Error"}
 
