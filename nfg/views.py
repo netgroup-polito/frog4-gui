@@ -21,7 +21,6 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 
-from DBManager import DBManager
 from nffg_library.nffg import NF_FG
 from nffg_library.validator import ValidateNF_FG
 from authentication_manager import AuthenticationManager
