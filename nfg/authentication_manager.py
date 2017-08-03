@@ -21,10 +21,7 @@ class AuthenticationManager:
             data=data_json,
             headers=headers)
         if response.status_code == 200:
-            if response.headers['content-type'] == 'application/token':
-                return {"status": response.status_code, "token": response.content}
-            else:
-                return {"status": response.status_code, "error": "No Token in the Response"}
+            return {"status": response.status_code, "token": response.content}
         else:
             if response.status_code == 403:
                 return {"status": response.status_code, "error": "User Already Logged"}
